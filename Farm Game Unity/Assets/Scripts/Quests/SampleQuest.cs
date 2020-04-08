@@ -15,7 +15,7 @@ public class SampleQuest : Quest
         Goals = new List<Goal>();
         for (int i = 0; i < itemId.Length; i++)
         {
-           Goals.Add(new CollectionGoal(this, itemId[i], false, InventoryController.Instance.GetAmount(itemId[i], "Item"), itemAmount[i]));
+           Goals.Add(new CollectionGoal(this, itemId[i], false, InventoryController.Instance.GetAmount(itemId[i]), itemAmount[i]));
         }
         Completed = false;
         Goals.ForEach(g => g.Init());

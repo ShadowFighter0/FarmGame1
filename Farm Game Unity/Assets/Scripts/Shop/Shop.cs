@@ -134,7 +134,7 @@ public class Shop : MonoBehaviour
     {
         int numSeeds = 0;
         int numItems = 0;
-        if (InventoryController.Instance.GetAmount("Money", "Item") > price)
+        if (InventoryController.Instance.GetAmount("Money") > price)
         {
             foreach(ShopItem s in cart)
             {

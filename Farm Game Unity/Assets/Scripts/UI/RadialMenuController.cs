@@ -47,7 +47,7 @@ public class RadialMenuController : MonoBehaviour
         parent.gameObject.SetActive(true);
         for (int i = 0; i < numChilds; i++)
         {
-            if (InventoryController.Instance.GetAmount(SeedPlanter.instance.seeds[i].itemName, "Seed") > 0)
+            if (InventoryController.Instance.GetAmount(SeedPlanter.instance.seeds[i].itemName) > 0)
             {
                 icons[i].SetActive(true);
                 iconRects[i].localPosition = activePos[i];

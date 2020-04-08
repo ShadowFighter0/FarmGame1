@@ -411,7 +411,7 @@ public class InventoryController : MonoBehaviour
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public List<int> SearchItem(string name)  //Todo return an array of ints with all positions
+    private List<int> SearchItem(string name)  //Todo return an array of ints with all positions
     {
         List<int> positions = new List<int>();
         for (int i = 0; i < items.Length; i++)
@@ -428,7 +428,7 @@ public class InventoryController : MonoBehaviour
         else
             return null;
     }
-    public int SearchSeed(string name)
+    private int SearchSeed(string name)
     {
         for (int i = 0; i < seeds.Length; i++)
         {
