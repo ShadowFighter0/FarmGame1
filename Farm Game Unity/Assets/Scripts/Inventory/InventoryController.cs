@@ -57,7 +57,6 @@ public class InventoryController : MonoBehaviour
     #endregion
 
     
-
     #region Pages
     private int currentPage = 0;
     private int oldPage = 0;
@@ -155,48 +154,67 @@ public class InventoryController : MonoBehaviour
     #region AddItem/Seed/Material
     public void AddItem(Item newItem)
     {
-        //Todo not Stack till Mathf.infinite
-        InventoryItem item = null;
         //Seed
         if(newItem.GetType() == typeof(Seed))
         {
-            item = AddNewSeed(newItem);
+            AddNewSeed(newItem);
         }
         else if(newItem.GetType() == typeof(Material))
         {
-            //Ernesto tonto tonto puto tonto 
+            //item = AddMaterial(); 
         }
         else
         {
-            item = AddNewItem(newItem);
+            AddNewItem(newItem);
         }
 
         //item
-        GameEvents.Instance.ItemCollected(item.name, item.GetInventoryAmount());
-        feed.Suscribe(item.name, item.image, newItem.amount);
+        GameEvents.Instance.ItemCollected(newItem.name, GetAmount(newItem.name));
+        feed.Suscribe(newItem.name, newItem.image, newItem.amount);
     }
-    private InventoryItem AddNewItem(Item newItem)
+    private void AddNewItem(Item newItem)
     {
-        int pos = SearchItem(newItem.itemName);
+        List<int> positions = SearchItem(newItem.itemName);
         InventoryItem item = null;
+        int amount = newItem.amount;
+        bool newInventoryItem = true;
 
-        if (pos >= 0)
-            item = items[pos];
-
-        if (item != null && (item.inventoryAmount + newItem.amount < cantStackMax))
+        if (positions.Count >= 0)
         {
-                item.AddAmount(newItem.amount);
+            for (int i = 0; i < positions.Count && amount > 0; i++)
+            {
+                item = items[positions[i]];
+                if (item.GetInventoryAmount() + amount <= cantStackMax)
+                {
+                    item.AddAmount(amount);
+                    amount = 0 ;
+                }
+                else
+                {
+                    int cantAdd = cantStackMax - item.GetInventoryAmount();
+                    amount -= cantAdd;
+                    item.AddAmount(cantAdd);
+                }
+            }
+
+            if (amount != 0)
+            {
+                newInventoryItem = true;
+            }
         }
-        else if (numItems < items.Length)
+        if ((positions.Count == 0 || newInventoryItem) && numItems < items.Length)
         {
-            items[numItems] = new InventoryItem(newItem.itemName, newItem.image);
-            item = items[numItems];
-            item.AddAmount(newItem.amount);
+            item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image);
+
+            if (newInventoryItem)
+                item.AddAmount(amount);
+            else
+                item.AddAmount(newItem.amount);
+
             numItems++;
         }
-        return item;
     }
-    private InventoryItem AddNewSeed(Item newItem)
+    private void AddNewSeed(Item newItem)
     {
         int pos = SearchSeed(newItem.itemName);
         InventoryItem seed = null;
@@ -215,7 +233,11 @@ public class InventoryController : MonoBehaviour
             seed.AddAmount(newItem.amount);
             numSeeds++;
         }
-        return seed;
+    }
+
+    public void AddMaterial(GameObject obj)
+    {
+        //TODO
     }
     #endregion
 
@@ -287,45 +309,43 @@ public class InventoryController : MonoBehaviour
     #endregion
 
     #region Public Functions && General Functions
-    public void AddMaterial(GameObject obj)
-    {
-        feed.Suscribe(obj.tag, obj.GetComponent<Image>().sprite, obj.GetComponent<Item>().amount); //pop that show player what you have obtain
 
-        Item it = obj.GetComponent<Item>();
-        switch (it.itemName) //TODO change this 
-        {
-            case "Wood":
-                // pos = 0;
-                break;
-            case "Stone":
-                // pos = 1;
-                break;
-            default:
-                // pos = 2;
-                break;
-        }
-
-        //materiales[pos] += it.amount;
-    }
-
+    /// <summary>
+    /// Please check first if there's enoguht amount of the item witch GetAmount() 
+    /// </summary>
+    /// <param name="cant">Amount to substract.</param>
+    /// <param name="id">Name of item</param>
     public void SubstractAmountItem(int cant, string id)
     {
-        int pos = SearchItem(id);
-        if(pos >= 0)
-        {
-            InventoryItem item = items[pos];
-            item.SubstractAmount(cant);
-            GameEvents.Instance.ItemCollected(item.name, item.GetInventoryAmount());
+        List<int> positions = SearchItem(id);
+        int cantidadPorRestar = cant;
 
-            if (item.inventoryAmount <= 0)
+        for (int i = 0; i < positions.Count && cantidadPorRestar > 0; i++)
+        {
+            InventoryItem item = items[positions[i]];
+            
+            if (item.GetInventoryAmount() >= cantidadPorRestar)
             {
-                items[pos] = null;
-                ReOrderItem();
+                item.SubstractAmount(cantidadPorRestar);
+                cantidadPorRestar -= item.GetInventoryAmount();
+
+                if (item.GetInventoryAmount() == 0)
+                {
+                    items[positions[i]] = null;
+                }
+            }
+            else
+            {
+                item.SubstractAmount(item.GetInventoryAmount());
+                cantidadPorRestar -= item.GetInventoryAmount();
+                items[positions[i]] = null;
             }
         }
-        
+
+        ReOrderItem();
     }
-    public void SubstractAmountSeed(int cant, string id) //De cual, hay muchos bro? 
+
+    public void SubstractAmountSeed(int cant, string id)
     {
         int pos = SearchSeed(id);
         if (pos >= 0)
@@ -354,23 +374,20 @@ public class InventoryController : MonoBehaviour
     }
 
     // Return the current amount in inventory of an item
-    public int GetAmount(string name, string type)
+    public int GetAmount(string name)
     {
-        if(type.Equals("Item")) // total cant
+        List<int> positions = SearchItem(name);
+        if (positions.Count > 0)
         {
-            int pos = SearchItem(name);
-            if (pos >= 0)
+            int cant = 0;
+            for (int i = 0;i<positions.Count;i++)
             {
-                InventoryItem item = items[pos];
-                return item.GetInventoryAmount();
+                InventoryItem item = items[positions[i]];
+                cant += item.GetInventoryAmount();
             }
-            else
-            {
-                Debug.Log("no esta en el inventario compa");
-                return 0;
-            }      
+            return cant;
         }
-        else if(type.Equals("Seed"))
+        else 
         {
             int pos = SearchSeed(name);
             if (pos >= 0)
@@ -384,24 +401,32 @@ public class InventoryController : MonoBehaviour
                 return 0;
             }
         }
-        return 0;
     }
     #endregion
 
     #region Search Functions
 
-    //Search for an Item (return pos in array or -1 if there's no in inventory)
-    public int SearchItem(string name)  //Todo return an array of ints with all positions
+    /// <summary>
+    /// Search for an Item (return pos in array or -1 if there's no in inventory)
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public List<int> SearchItem(string name)  //Todo return an array of ints with all positions
     {
+        List<int> positions = new List<int>();
         for (int i = 0; i < items.Length; i++)
         {
             if(items[i] != null)
             {
                 if (name.Equals(items[i].name))
-                    return i;
+                    positions.Add(i);
             }
         }
-        return -1;
+
+        if (positions.Count > 0)
+            return positions;
+        else
+            return null;
     }
     public int SearchSeed(string name)
     {
