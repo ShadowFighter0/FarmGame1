@@ -12,15 +12,19 @@ public class MailBoxController : MonoBehaviour
     public Transform questFolder;
     public int offset = 70;
 
+    public Mail[] mail;
+
     private void Start()
     {
         AddContent(QuestFileInfo.Instance.GetQuest());
+        AddContent(mail[0]);
         AddContent(QuestFileInfo.Instance.GetQuest());
+        AddContent(mail[1]);
         AddContent(QuestFileInfo.Instance.GetQuest());
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerNear && quests.Count > 0)
+        if (Input.GetKeyDown(KeyCode.E) && playerNear)
         {
             ShowMails();
             PlayerFollow.instance.SetMovement(false);
@@ -43,13 +47,13 @@ public class MailBoxController : MonoBehaviour
     {
         Vector2 pos = Vector2.zero;
         int index = 0;
+        int n = quests.Count + mails.Count;
         foreach (Transform child in questFolder)
         {
-            if(index >= quests.Count + mails.Count)
+            if (index >= n)
             {
                 return;
             }
-
             child.gameObject.SetActive(true);
             if (quests.Count > 0)
             {
@@ -57,13 +61,14 @@ public class MailBoxController : MonoBehaviour
             }
             else if (mails.Count > 0)
             {
-
+                child.gameObject.GetComponent<MailBoxPanel>().Assign(mails.Dequeue());
             }
-            
+
             child.gameObject.GetComponent<RectTransform>().localPosition = pos;
 
-            pos += Vector2.right * offset;
+            pos -= Vector2.right * offset;
             index++;
+            
         }
     }
 

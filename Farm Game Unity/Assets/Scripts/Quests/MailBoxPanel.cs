@@ -8,12 +8,17 @@ using UnityEngine.Events;
 public class MailBoxPanel : MonoBehaviour
 {
     private QuestInfo quest;
+    private Mail mail;
 
-    public void AddQuest()
+    public void AddContent()
     {
         if(quest != null)
         {
             QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward));
+        }
+        if(mail != null)
+        {
+            InventoryController.Instance.AddItem(mail.rewardItem);
         }
         gameObject.SetActive(false);
     }
@@ -34,6 +39,7 @@ public class MailBoxPanel : MonoBehaviour
     }
     public void Assign(Mail m)
     {
+        mail = m;
         transform.GetChild(0).GetComponent<Text>().text = m.message;
     }
 }

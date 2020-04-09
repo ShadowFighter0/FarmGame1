@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,15 +8,15 @@ public class PlayerFollow : MonoBehaviour
     public Transform player;
     public Transform editTarget;
     
-    private float inputSensitivity = 150.0f;
+    private const float inputSensitivity = 150.0f;
 
     Vector3 rotation;
-    private float clampAngle = 80.0f;
+    private const float clampAngle = 80.0f;
 
     private bool canMove = true;
 
-    public float springK = 10.0f;
-    public float damping = 5.0f;
+    public const float springK = 10.0f;
+    public const float damping = 5.0f;
     private Vector3 idealPos;
     private Vector3 cameraVel = new Vector3(0.0f, 0.0f, 0.0f);
     private float distance;
@@ -84,7 +85,14 @@ public class PlayerFollow : MonoBehaviour
         else
         {
             distance = maxDistance;
-            idealPos = player.position;
+            if(rotation.sqrMagnitude > Mathf.Epsilon)
+            {
+                idealPos = player.position + player.right * 0.3f + player.up * 1.1f;
+            }
+            else
+            {
+                idealPos = player.position + transform.right * 0.3f + transform.up * 1.1f;
+            }
         }
 
         Vector3 offset = idealPos - pos;

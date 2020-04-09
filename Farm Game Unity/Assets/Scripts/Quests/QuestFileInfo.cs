@@ -11,12 +11,8 @@ public class QuestFileInfo : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-    private void Start()
-    {
         FillQueue();
     }
-
     private void FillQueue()
     {
         for (int i = 0; i < questsInfos.Length; i++)

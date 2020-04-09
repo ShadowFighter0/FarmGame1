@@ -12,6 +12,7 @@ public class CameraCollision : MonoBehaviour
 
 	public float dis_ray;
 	private RaycastHit hit;
+	public Transform player;
 	void Awake()
 	{
 		dollyDir = transform.localPosition.normalized;
@@ -21,8 +22,6 @@ public class CameraCollision : MonoBehaviour
 	void Update()
 	{
 		Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxDistance);
-		
-
 		if(InputManager.instance.editing)
 		{
 			distance = minDistance;
