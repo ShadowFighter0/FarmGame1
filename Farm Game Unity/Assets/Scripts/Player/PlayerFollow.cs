@@ -15,14 +15,19 @@ public class PlayerFollow : MonoBehaviour
 
     private bool canMove = true;
 
-    public const float springK = 10.0f;
-    public const float damping = 5.0f;
+    public float springK = 10.0f;
+    public float damping = 5.0f;
     private Vector3 idealPos;
     private Vector3 cameraVel = new Vector3(0.0f, 0.0f, 0.0f);
     private float distance;
     public float maxDistance;
 
     public static PlayerFollow instance;
+    private bool onDialogue;
+    private Vector3 target;
+
+    public Vector3 shopRotation;
+
     private void Awake()
     {
         instance = this;
@@ -46,26 +51,32 @@ public class PlayerFollow : MonoBehaviour
     void Update()
     {
         float dt = Time.deltaTime;
-        if(canMove)
-        {
-            Rotation(dt);
-        }
+        Rotation(dt);
 
         CameraUpdater(dt);
     }
 
     private void Rotation(float dt)
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        Quaternion localRotation; 
+        if(!onDialogue)
+        {
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = Input.GetAxis("Mouse Y");
 
-        rotation.y += mouseX * inputSensitivity * dt;
-        rotation.x -= mouseY * inputSensitivity * dt;
+            rotation.y += mouseX * inputSensitivity * dt;
+            rotation.x -= mouseY * inputSensitivity * dt;
 
-        rotation.x = Mathf.Clamp(rotation.x, -clampAngle, clampAngle);
-
-        Quaternion localRotation = Quaternion.Euler(rotation);
-        transform.rotation = localRotation;
+            rotation.x = Mathf.Clamp(rotation.x, -clampAngle, clampAngle);
+            localRotation = Quaternion.Euler(rotation);
+            transform.rotation = localRotation;
+        }
+        else
+        {
+            Debug.Log("sadasdasd");
+            localRotation = Quaternion.Euler(shopRotation);
+            transform.rotation = Quaternion.Lerp(transform.rotation, localRotation, 10 * dt);
+        }
     }
 
     void CameraUpdater(float dt)
@@ -73,6 +84,9 @@ public class PlayerFollow : MonoBehaviour
         Vector3 pos = SmoothFollow(dt);
         transform.position = pos;
     }
+
+    public void ChangeTarget(Vector3 t) { target = t; }
+    public void SetOnDialogue(bool b) { onDialogue = b; }
 
     private Vector3 SmoothFollow(float dt)
     {
@@ -85,13 +99,13 @@ public class PlayerFollow : MonoBehaviour
         else
         {
             distance = maxDistance;
-            if(rotation.sqrMagnitude > Mathf.Epsilon)
+            if (!onDialogue)
             {
                 idealPos = player.position + player.right * 0.3f + player.up * 1.1f;
             }
             else
             {
-                idealPos = player.position + transform.right * 0.3f + transform.up * 1.1f;
+                idealPos = target;
             }
         }
 

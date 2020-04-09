@@ -7420,34 +7420,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5583571893157986269, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893157986269, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: maxDistance
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893157986269, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: minDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893157986269, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 419015422}
-    - target: {fileID: 5583571893157986271, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893157986271, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
         type: 3}
       propertyPath: player
@@ -7460,43 +7435,13 @@ PrefabInstance:
       objectReference: {fileID: 1323756420}
     - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
         type: 3}
-      propertyPath: inputSensitivity
-      value: 300
+      propertyPath: shopRotation.y
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
         type: 3}
-      propertyPath: maxSensivility
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: springK
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: dampling
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: damping
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: yOffset
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5583571893220606474, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
-        type: 3}
-      propertyPath: xOffset
-      value: 0.3
+      propertyPath: shopRotation.x
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5583571893220606475, guid: a9dd2267d4bad0c4fb79b3fe0ad554dc,
         type: 3}
@@ -17949,6 +17894,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02a07531ce289f84986ef2f3a09b0b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1740146416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740146413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8559c0922996a304a9d7c5abcf79e88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1741802330

@@ -62,6 +62,8 @@ public class NpcController : MonoBehaviour
     {
         talkStarted = true;
         DialogueSystem.instance.SetNPC(this);
+        PlayerFollow.instance.ChangeTarget(transform.position + Vector3.up * 1.2f);
+        PlayerFollow.instance.SetOnDialogue(true);
         if(npc.type.Equals("Citizen"))
         {
             string s = "Need help?\n";
@@ -111,7 +113,7 @@ public class NpcController : MonoBehaviour
     private void EndDialogue()
     {
         DialogueSystem.instance.FinishDialogue();
-
+        PlayerFollow.instance.SetOnDialogue(false);
         talkStarted = false;
     }
     /// <summary>

@@ -55,7 +55,6 @@ public class DialogueSystem : MonoBehaviour
         LeanTween.moveLocalY(gameObject, rect.localPosition.y + 450, 0.5f).setEaseOutSine();
         firstDialogue = true;
         MovementController.instance.SetMovement(false);
-        PlayerFollow.instance.SetMovement(false);
 
         SetName(name);
         SetDialogue(dialogue);
@@ -82,7 +81,6 @@ public class DialogueSystem : MonoBehaviour
         SetNPC(null);
 
         MovementController.instance.SetMovement(true);
-        PlayerFollow.instance.SetMovement(true);
     }
     public void UpdateDialogue(string sentence, string[] op)
     {
