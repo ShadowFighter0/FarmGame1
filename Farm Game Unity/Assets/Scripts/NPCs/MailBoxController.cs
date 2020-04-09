@@ -6,24 +6,21 @@ using UnityEngine.UI;
 public class MailBoxController : MonoBehaviour
 {
     private bool playerNear;
-    private List<Mail> mails = new List<Mail>();
 
-    public GameObject[] UIMails;
+    private Queue<QuestInfo> quests = new Queue<QuestInfo>();
+    private Queue<Mail> mails = new Queue<Mail>();
+    public Transform questFolder;
     public int offset = 70;
-    public Mail[] mail;
-    public void AddMail(Mail m)
-    {
-        mails.Add(m);
-    }
+
     private void Start()
     {
-        AddMail(mail[0]);
-        AddMail(mail[1]);
-        AddMail(mail[2]);
+        AddContent(QuestFileInfo.Instance.GetQuest());
+        AddContent(QuestFileInfo.Instance.GetQuest());
+        AddContent(QuestFileInfo.Instance.GetQuest());
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerNear && mails.Count > 0)
+        if (Input.GetKeyDown(KeyCode.E) && playerNear && quests.Count > 0)
         {
             ShowMails();
             PlayerFollow.instance.SetMovement(false);
@@ -34,26 +31,8 @@ public class MailBoxController : MonoBehaviour
         }
     }
 
-    public void TakeMail(int i)
-    {
-        Quest q = mails[i].quest;
-        if (q != null)
-        {
-            QuestController.Instance.AddQuest(q);
-        }
-        Item item = mails[i].rewardItem;
-        if(item != null)
-        {
-            InventoryController.Instance.AddItem(item);
-        }
-        mails.RemoveAt(i);
-        if(mails.Count == 0)
-        {
-            PlayerFollow.instance.SetMovement(true);
-        }
-        ShowMails();
-    }
-
+    public void AddContent(QuestInfo q) { quests.Enqueue(q); }
+    public void AddContent(Mail m) { mails.Enqueue(m); }
     public void FocusPage(Transform t)
     {
         t.SetSiblingIndex(mails.Count);
@@ -62,16 +41,29 @@ public class MailBoxController : MonoBehaviour
 
     private void ShowMails()
     {
-        int i = mails.Count - 1;
         Vector2 pos = Vector2.zero;
-        foreach (Mail m in mails)
+        int index = 0;
+        foreach (Transform child in questFolder)
         {
-            UIMails[i].SetActive(true);
-            UIMails[i].GetComponentInChildren<Text>().text = m.message;
+            if(index >= quests.Count + mails.Count)
+            {
+                return;
+            }
 
-            UIMails[i].GetComponent<RectTransform>().localPosition = pos;
+            child.gameObject.SetActive(true);
+            if (quests.Count > 0)
+            {
+                child.gameObject.GetComponent<MailBoxPanel>().Assign(quests.Dequeue());
+            }
+            else if (mails.Count > 0)
+            {
+
+            }
+            
+            child.gameObject.GetComponent<RectTransform>().localPosition = pos;
+
             pos += Vector2.right * offset;
-            i--;
+            index++;
         }
     }
 

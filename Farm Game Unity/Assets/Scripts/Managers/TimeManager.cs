@@ -48,7 +48,6 @@ public class TimeManager : MonoBehaviour
 
         //all mamagers here
         HoleManager.instance.NewDay();
-        QuestGenerator.instance.NewDay();
         MovementController.instance.SetMovement(true);
         PlayerFollow.instance.SetMovement(true);
 

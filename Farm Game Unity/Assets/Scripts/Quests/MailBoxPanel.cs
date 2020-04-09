@@ -5,16 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
-public class QuestPanel : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+public class MailBoxPanel : MonoBehaviour
 {
     private QuestInfo quest;
-    [SerializeField] private GameObject infoPanel = null;
-    private Text text;
-
-    private void Start()
-    {
-        text = infoPanel.transform.GetChild(0).GetComponent<Text>();
-    }
 
     public void AddQuest()
     {
@@ -22,6 +15,7 @@ public class QuestPanel : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
         {
             QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward));
         }
+        gameObject.SetActive(false);
     }
     public string QuestInfo()
     {
@@ -33,23 +27,13 @@ public class QuestPanel : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
         return info;
     }
 
-    public void AssignQuest(QuestInfo q) { quest = q; }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        AddQuest();
-        gameObject.SetActive(false);
-        infoPanel.SetActive(false);
+    public void Assign(QuestInfo q) 
+    { 
+        quest = q;
+        transform.GetChild(0).GetComponent<Text>().text = QuestInfo();
     }
-
-    public void OnPointerEnter(PointerEventData eventData)
+    public void Assign(Mail m)
     {
-        infoPanel.SetActive(true);
-        text.text = QuestInfo();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        infoPanel.SetActive(false);
+        transform.GetChild(0).GetComponent<Text>().text = m.message;
     }
 }
