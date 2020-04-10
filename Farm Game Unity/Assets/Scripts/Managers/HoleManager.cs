@@ -9,6 +9,10 @@ public class HoleManager : MonoBehaviour
     {
         instance = this;
     }
+    private void Start()
+    {
+        GameEvents.Instance.OnNewDay += NewDay;
+    }
     public void NewDay()
     {
         foreach(Transform t in transform)

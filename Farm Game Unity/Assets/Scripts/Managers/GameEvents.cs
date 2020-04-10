@@ -12,12 +12,15 @@ public class GameEvents : MonoBehaviour
 		Instance = this;
 	}
 
-	public event Action<string, int> onItemCollected;
+	public event Action<string, int> OnItemCollected;
 	public void ItemCollected(string s, int am)
 	{
-		if(onItemCollected != null)
-		{
-			onItemCollected(s, am);
-		}
+		OnItemCollected?.Invoke(s, am);
+	}
+
+	public event Action OnNewDay;
+	public void NewDay()
+	{
+		OnNewDay?.Invoke();
 	}
 }

@@ -16,6 +16,8 @@ public class MailBoxController : MonoBehaviour
 
     private bool done = true;
 
+    private int activePanels = 0;
+
     private void Start()
     {
         AddContent(QuestFileInfo.Instance.GetQuest());
@@ -32,15 +34,23 @@ public class MailBoxController : MonoBehaviour
             InputManager.instance.ChangeState(InputManager.States.OnUI);
             done = false;
         }
-        if((Input.GetKeyDown(KeyCode.Escape) || mails.Count + quests.Count == 0) && !done)
+        if((Input.GetKeyDown(KeyCode.Escape) || activePanels == 0) && !done)
         {
             done = true;
             InputManager.instance.ChangeState(InputManager.States.Idle);
         }
     }
 
-    public void AddContent(QuestInfo q) { quests.Enqueue(q); }
-    public void AddContent(Mail m) { mails.Enqueue(m); }
+    public void AddContent(QuestInfo q) 
+    {
+        activePanels++;
+        quests.Enqueue(q); 
+    }
+    public void AddContent(Mail m) 
+    {
+        activePanels++;
+        mails.Enqueue(m); 
+    }
     public void FocusPage(Transform t)
     {
         t.SetSiblingIndex(mails.Count);

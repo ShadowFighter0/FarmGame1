@@ -123,7 +123,6 @@ public class InputManager : MonoBehaviour
                 PlayerFollow.instance.SetMovement(false);
                 break;
         }
-        Debug.Log(state);
     }
 
     private static void ShowCursorBlockMovement()
@@ -135,7 +134,8 @@ public class InputManager : MonoBehaviour
     }
 
     public void ChangeState(States s) 
-    { 
+    {
+        Debug.Log("Called: " + s);
         state = s;
         UpdateStates();
     }

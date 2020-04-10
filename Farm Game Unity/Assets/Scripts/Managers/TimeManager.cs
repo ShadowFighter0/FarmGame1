@@ -46,8 +46,8 @@ public class TimeManager : MonoBehaviour
     {
         day++;
         //CAMBIAR ESTO Y UTILIZAR UN EVENTO NEW DAY
+        GameEvents.Instance.NewDay();
         //all mamagers here
-        HoleManager.instance.NewDay();
         InputManager.instance.ChangeState(InputManager.States.Idle);
         loading = false;
     }

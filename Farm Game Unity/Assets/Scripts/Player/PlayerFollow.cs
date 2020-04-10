@@ -99,13 +99,13 @@ public class PlayerFollow : MonoBehaviour
         else
         {
             distance = maxDistance;
-            if (InputManager.state != InputManager.States.OnUI)
+            if (InputManager.state == InputManager.States.Dialoguing)
             {
-                idealPos = player.position + player.right * 0.3f + player.up * 1.1f;
+                idealPos = target;
             }
             else
             {
-                idealPos = target;
+                idealPos = player.position + player.right * 0.3f + player.up * 1.1f;
             }
         }
 
