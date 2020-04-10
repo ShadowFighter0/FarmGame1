@@ -12,7 +12,7 @@ public class NpcController : MonoBehaviour
     public string type;
 
     public string[] mercaderSentences;
-    private KeyCode[] keyCodes = new KeyCode[] {KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5};
+    private readonly KeyCode[] keyCodes = new KeyCode[] {KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5};
 
     private void Start()
     {
@@ -63,7 +63,7 @@ public class NpcController : MonoBehaviour
         talkStarted = true;
         DialogueSystem.instance.SetNPC(this);
         PlayerFollow.instance.ChangeTarget(transform.position + Vector3.up * 1.2f);
-        PlayerFollow.instance.SetOnDialogue(true);
+        InputManager.state = InputManager.States.OnUI;
         if(npc.type.Equals("Citizen"))
         {
             string s = "Need help?\n";
@@ -113,8 +113,8 @@ public class NpcController : MonoBehaviour
     private void EndDialogue()
     {
         DialogueSystem.instance.FinishDialogue();
-        PlayerFollow.instance.SetOnDialogue(false);
         talkStarted = false;
+        InputManager.state = InputManager.States.Idle;
     }
     /// <summary>
     /// Converts the number or button pressed to an action

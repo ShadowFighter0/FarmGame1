@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
     public bool editing;
-    private KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
+    private readonly KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     private int activeTool;
     public Transform tools;
@@ -16,15 +17,25 @@ public class InputManager : MonoBehaviour
     private bool radialMenuActive = false;
 
     public static InputManager instance;
+
+    public enum States
+    {
+        Idle,
+        Running,
+        Working,
+        OnUI,
+        Sleeping
+    };
+    public static States state = States.Idle;
     private void Awake()
     {
         instance = this;
+        UpdateStates();
     }
 
     private void Update()
     {
-        int scroll = (int)Input.mouseScrollDelta.y;
-        if (Input.anyKey || scroll != 0)
+        if (Input.anyKey && state != States.OnUI && state != States.Sleeping)
         {
             if (Input.GetMouseButtonDown(1))
             {
@@ -32,7 +43,7 @@ public class InputManager : MonoBehaviour
                 indicator.SetActive(editing);
             }
 
-            if(Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 editing = false;
                 indicator.SetActive(editing);
@@ -41,7 +52,7 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 radialMenuActive = !radialMenuActive;
-                if(!radialMenuActive)
+                if (!radialMenuActive)
                 {
                     RadialMenuController.instance.Close();
                 }
@@ -50,6 +61,10 @@ public class InputManager : MonoBehaviour
                     RadialMenuController.instance.Open();
                 }
             }
+        }
+        int scroll = (int)Input.mouseScrollDelta.y;
+        if (scroll != 0 && state != States.OnUI && state != States.Sleeping)
+        {
             if (radialMenuActive)
             {
                 ChangeSeed(scroll);
@@ -61,6 +76,39 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    private static void UpdateStates()
+    {
+        switch (state)
+        {
+            case States.Idle:
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                MovementController.instance.SetMovement(true);
+                PlayerFollow.instance.SetMovement(true);
+                break;
+            case States.Working:
+                break;
+            case States.Running:
+
+                break;
+            case States.OnUI:
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                MovementController.instance.SetMovement(false);
+                PlayerFollow.instance.SetMovement(false);
+                break;
+            case States.Sleeping:
+                MovementController.instance.SetMovement(false);
+                PlayerFollow.instance.SetMovement(false);
+                break;
+        }
+    }
+
+    public static void ChangeState(States s) 
+    { 
+        state = s;
+        UpdateStates();
+    }
     private void ChangeSeed(int scroll)
     {
         int numSeeds = SeedPlanter.instance.GetSeedsLenght() - 1;

@@ -23,7 +23,6 @@ public class PlayerFollow : MonoBehaviour
     public float maxDistance;
 
     public static PlayerFollow instance;
-    private bool onDialogue;
     private Vector3 target;
 
     public Vector3 shopRotation;
@@ -44,39 +43,41 @@ public class PlayerFollow : MonoBehaviour
             player = m.transform;
         }
         idealPos = player.position;
-
-        SetMovement(true);
     }
 
     void Update()
     {
         float dt = Time.deltaTime;
-        Rotation(dt);
 
+        if (canMove)
+        {
+            Rotation(dt);
+        }
+        /*if(InputManager.state == InputManager.States.OnUI)
+        {
+            DialogueCamPosition(dt);
+        }*/
         CameraUpdater(dt);
+    }
+
+    private void DialogueCamPosition(float dt)
+    {
+        Quaternion localRotation = Quaternion.Euler(shopRotation);
+        transform.rotation = Quaternion.Lerp(transform.rotation, localRotation, 10 * dt);
     }
 
     private void Rotation(float dt)
     {
-        Quaternion localRotation; 
-        if(!onDialogue)
-        {
-            float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
+        Quaternion localRotation;
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
 
-            rotation.y += mouseX * inputSensitivity * dt;
-            rotation.x -= mouseY * inputSensitivity * dt;
+        rotation.y += mouseX * inputSensitivity * dt;
+        rotation.x -= mouseY * inputSensitivity * dt;
 
-            rotation.x = Mathf.Clamp(rotation.x, -clampAngle, clampAngle);
-            localRotation = Quaternion.Euler(rotation);
-            transform.rotation = localRotation;
-        }
-        else
-        {
-            Debug.Log("sadasdasd");
-            localRotation = Quaternion.Euler(shopRotation);
-            transform.rotation = Quaternion.Lerp(transform.rotation, localRotation, 10 * dt);
-        }
+        rotation.x = Mathf.Clamp(rotation.x, -clampAngle, clampAngle);
+        localRotation = Quaternion.Euler(rotation);
+        transform.rotation = localRotation;
     }
 
     void CameraUpdater(float dt)
@@ -86,7 +87,6 @@ public class PlayerFollow : MonoBehaviour
     }
 
     public void ChangeTarget(Vector3 t) { target = t; }
-    public void SetOnDialogue(bool b) { onDialogue = b; }
 
     private Vector3 SmoothFollow(float dt)
     {
@@ -99,7 +99,7 @@ public class PlayerFollow : MonoBehaviour
         else
         {
             distance = maxDistance;
-            if (!onDialogue)
+            if (InputManager.state != InputManager.States.OnUI)
             {
                 idealPos = player.position + player.right * 0.3f + player.up * 1.1f;
             }
@@ -129,18 +129,5 @@ public class PlayerFollow : MonoBehaviour
         return pos;
     }
 
-    public void SetMovement(bool b)
-    {
-        canMove = b;
-        if (!canMove)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-    }
+    public void SetMovement(bool b) { canMove = b; }
 }

@@ -35,23 +35,20 @@ public class TimeManager : MonoBehaviour
     {
         if(!loading)
         {
-            MovementController.instance.SetMovement(false);
-            PlayerFollow.instance.SetMovement(false);
+            InputManager.ChangeState(InputManager.States.Sleeping);
             loading = true;
             StartCoroutine(Fade());
         }
     }
 
-    private void ChangeDay() // save stuff here
+    // save stuff here
+    private void ChangeDay()
     {
         day++;
-
+        //CAMBIAR ESTO Y UTILIZAR UN EVENTO NEW DAY
         //all mamagers here
         HoleManager.instance.NewDay();
-        MovementController.instance.SetMovement(true);
-        PlayerFollow.instance.SetMovement(true);
-
-        Debug.Log("Day: " + day);
+        InputManager.ChangeState(InputManager.States.Idle);
         loading = false;
     }
 

@@ -4,41 +4,39 @@ using UnityEngine;
 
 public class CameraCollision : MonoBehaviour 
 {
-	public float minDistance = 1.0f;
-	public float maxDistance = 4.0f;
+	public float minCamDistance = 1.0f;
+	public float maxCamDistance = 4.0f;
 	public float smooth = 10.0f;
 	private Vector3 dollyDir;
-	private float distance;
+	private float camDistance;
 
 	public float dis_ray;
 	private RaycastHit hit;
 	public Transform player;
 
-	public static CameraCollision instance;
 	void Awake()
 	{
-		instance = this;
 		dollyDir = transform.localPosition.normalized;
-		distance = transform.localPosition.magnitude;
+		camDistance = transform.localPosition.magnitude;
 	}
 	void Update()
 	{
-		Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxDistance);
+		Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxCamDistance);
 		if (InputManager.instance.editing)
 		{
-			distance = minDistance;
+			camDistance = minCamDistance;
 		}
 		else
 		{
 			if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit))
 			{
-				distance = Mathf.Clamp((hit.distance * dis_ray), minDistance, maxDistance);
+				camDistance = Mathf.Clamp((hit.distance * dis_ray), minCamDistance, maxCamDistance);
 			}
 			else
 			{
-				distance = maxDistance;
+				camDistance = maxCamDistance;
 			}
 		}
-		transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * smooth);
+		transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * camDistance, Time.deltaTime * smooth);
 	}
 }

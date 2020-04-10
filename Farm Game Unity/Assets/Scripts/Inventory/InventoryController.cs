@@ -117,12 +117,12 @@ public class InventoryController : MonoBehaviour
             {
                 ChangeGui();
                 Time.timeScale = 0;
-                PlayerFollow.instance.SetMovement(false);
+                InputManager.ChangeState(InputManager.States.OnUI);
             }
             else
             {
                 Time.timeScale = 1;
-                PlayerFollow.instance.SetMovement(true);
+                InputManager.ChangeState(InputManager.States.Idle);
             }
         }
     }

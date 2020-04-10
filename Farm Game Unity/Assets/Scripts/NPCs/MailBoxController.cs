@@ -14,6 +14,8 @@ public class MailBoxController : MonoBehaviour
 
     public Mail[] mail;
 
+    private bool done = true;
+
     private void Start()
     {
         AddContent(QuestFileInfo.Instance.GetQuest());
@@ -24,14 +26,16 @@ public class MailBoxController : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerNear)
+        if (Input.GetKeyDown(KeyCode.E) && playerNear && done)
         {
             ShowMails();
-            PlayerFollow.instance.SetMovement(false);
+            InputManager.ChangeState(InputManager.States.OnUI);
+            done = false;
         }
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if((Input.GetKeyDown(KeyCode.Escape) || mails.Count + quests.Count == 0) && !done)
         {
-            PlayerFollow.instance.SetMovement(true);
+            done = true;
+            InputManager.ChangeState(InputManager.States.Idle);
         }
     }
 
