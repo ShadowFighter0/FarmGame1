@@ -13,7 +13,7 @@ public class WateringCan : MonoBehaviour
     }
     void Update()
     {
-        if (InputManager.instance.editing)
+        if (InputManager.state == InputManager.States.Working)
         {
             if (Input.GetMouseButtonDown(0))
             {

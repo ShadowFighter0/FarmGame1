@@ -35,7 +35,7 @@ public class SeedPlanter : MonoBehaviour
     }
     void Update()
     {
-        if (InputManager.instance.editing)
+        if (InputManager.state == InputManager.States.Working)
         {
             CheckTarget();
         }

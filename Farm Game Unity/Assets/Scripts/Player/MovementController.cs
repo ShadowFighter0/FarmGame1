@@ -58,7 +58,7 @@ public class MovementController : MonoBehaviour
             anim.SetBool("running", false);
         }
         
-        if (InputManager.instance.editing)
+        if (InputManager.state == InputManager.States.Working)
         {
             EditMovement(dt, moveInputs);
         }

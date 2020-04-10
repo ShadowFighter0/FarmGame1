@@ -110,19 +110,19 @@ public class InventoryController : MonoBehaviour
     #region Menu && Visual
     private void OpenCloseMenu()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))  //open Menu
+        if (Input.GetKeyDown(KeyCode.I))  //open Menu
         {
             book.SetActive(!book.activeSelf);
             if (book.activeSelf)
             {
                 ChangeGui();
                 Time.timeScale = 0;
-                InputManager.ChangeState(InputManager.States.OnUI);
+                InputManager.instance.ChangeState(InputManager.States.OnUI);
             }
             else
             {
                 Time.timeScale = 1;
-                InputManager.ChangeState(InputManager.States.Idle);
+                InputManager.instance.ChangeState(InputManager.States.Idle);
             }
         }
     }

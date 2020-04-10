@@ -6,7 +6,7 @@ public class PlantsCollector : MonoBehaviour
 {
     void Update()
     {
-        if (InputManager.instance.editing)
+        if (InputManager.state == InputManager.States.Working)
         {
             GameObject go = RayCastController.instance.GetTarget();
             if (Input.GetKeyDown(KeyCode.E) && go.CompareTag("Hole"))

@@ -29,13 +29,13 @@ public class MailBoxController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && playerNear && done)
         {
             ShowMails();
-            InputManager.ChangeState(InputManager.States.OnUI);
+            InputManager.instance.ChangeState(InputManager.States.OnUI);
             done = false;
         }
         if((Input.GetKeyDown(KeyCode.Escape) || mails.Count + quests.Count == 0) && !done)
         {
             done = true;
-            InputManager.ChangeState(InputManager.States.Idle);
+            InputManager.instance.ChangeState(InputManager.States.Idle);
         }
     }
 

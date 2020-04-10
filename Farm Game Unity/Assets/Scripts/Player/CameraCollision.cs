@@ -22,7 +22,7 @@ public class CameraCollision : MonoBehaviour
 	void Update()
 	{
 		Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxCamDistance);
-		if (InputManager.instance.editing)
+		if (InputManager.state == InputManager.States.Working)
 		{
 			camDistance = minCamDistance;
 		}

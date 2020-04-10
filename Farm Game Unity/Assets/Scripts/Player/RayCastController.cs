@@ -20,7 +20,7 @@ public class RayCastController : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.instance.editing)
+        if (InputManager.state == InputManager.States.Working)
         {
             ray = cam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))

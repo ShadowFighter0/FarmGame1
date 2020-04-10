@@ -35,7 +35,7 @@ public class TimeManager : MonoBehaviour
     {
         if(!loading)
         {
-            InputManager.ChangeState(InputManager.States.Sleeping);
+            InputManager.instance.ChangeState(InputManager.States.Sleeping);
             loading = true;
             StartCoroutine(Fade());
         }
@@ -48,7 +48,7 @@ public class TimeManager : MonoBehaviour
         //CAMBIAR ESTO Y UTILIZAR UN EVENTO NEW DAY
         //all mamagers here
         HoleManager.instance.NewDay();
-        InputManager.ChangeState(InputManager.States.Idle);
+        InputManager.instance.ChangeState(InputManager.States.Idle);
         loading = false;
     }
 

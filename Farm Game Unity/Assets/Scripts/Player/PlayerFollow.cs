@@ -91,7 +91,7 @@ public class PlayerFollow : MonoBehaviour
     private Vector3 SmoothFollow(float dt)
     {
         Vector3 pos = transform.position;
-        if (InputManager.instance.editing)
+        if (InputManager.state == InputManager.States.Working)
         {
             idealPos = editTarget.position;
             distance = 0;

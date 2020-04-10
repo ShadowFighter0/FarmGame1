@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public bool editing;
     private readonly KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     private int activeTool;
@@ -14,69 +13,87 @@ public class InputManager : MonoBehaviour
     public GameObject indicator;
     public GameObject radialMenu;
 
-    private bool radialMenuActive = false;
-
     public static InputManager instance;
 
     public enum States
     {
         Idle,
-        Running,
+        SelectingSeed,
         Working,
         OnUI,
+        Dialoguing,
         Sleeping
     };
     public static States state = States.Idle;
     private void Awake()
     {
         instance = this;
+        
+    }
+    private void Start()
+    {
         UpdateStates();
     }
 
     private void Update()
     {
-        if (Input.anyKey && state != States.OnUI && state != States.Sleeping)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                editing = !editing;
-                indicator.SetActive(editing);
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                editing = false;
-                indicator.SetActive(editing);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                radialMenuActive = !radialMenuActive;
-                if (!radialMenuActive)
-                {
-                    RadialMenuController.instance.Close();
-                }
-                else
-                {
-                    RadialMenuController.instance.Open();
-                }
-            }
-        }
         int scroll = (int)Input.mouseScrollDelta.y;
-        if (scroll != 0 && state != States.OnUI && state != States.Sleeping)
+        switch (state)
         {
-            if (radialMenuActive)
-            {
-                ChangeSeed(scroll);
-            }
-            else
-            {
-                ChangeTool(scroll);
-            }
+            case States.Idle:
+                if ((Input.anyKey || scroll != 0))
+                {
+                    if (Input.GetKeyDown(KeyCode.Q))
+                    {
+                        ChangeState(States.SelectingSeed);
+                        RadialMenuController.instance.Open();
+                    }
+                    if(Input.GetKeyDown(KeyCode.Tab))
+                    {
+                        ChangeState(States.Working);
+                    }
+                }
+                break;
+            case States.Working:
+                if ((Input.anyKey || scroll != 0))
+                {
+                    ChangeTool(scroll);
+                    if (Input.GetKeyDown(KeyCode.Tab))
+                    {
+                        ChangeState(States.Idle);
+                    }
+                    if (Input.GetKeyDown(KeyCode.LeftShift))
+                    {
+                        ChangeState(States.Idle);
+                    }
+                }
+                break;
+            case States.SelectingSeed:
+                if ((Input.anyKey || scroll != 0))
+                {
+                    if (Input.GetKeyDown(KeyCode.Q))
+                    {
+                        ChangeState(States.Idle);
+                        RadialMenuController.instance.Close();
+                    }
+                    ChangeSeed(scroll);
+                }
+                    
+                break;
+            case States.OnUI:
+
+                break;
+            case States.Dialoguing:
+
+                break;
+            case States.Sleeping:
+
+                break;
         }
+
     }
 
-    private static void UpdateStates()
+    private void UpdateStates()
     {
         switch (state)
         {
@@ -85,26 +102,39 @@ public class InputManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 MovementController.instance.SetMovement(true);
                 PlayerFollow.instance.SetMovement(true);
+                indicator.SetActive(false);
                 break;
             case States.Working:
+                indicator.SetActive(true);
                 break;
-            case States.Running:
-
-                break;
-            case States.OnUI:
+            case States.SelectingSeed:
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
-                MovementController.instance.SetMovement(false);
                 PlayerFollow.instance.SetMovement(false);
+                break;
+            case States.OnUI:
+                ShowCursorBlockMovement();
+                break;
+            case States.Dialoguing:
+                ShowCursorBlockMovement();
                 break;
             case States.Sleeping:
                 MovementController.instance.SetMovement(false);
                 PlayerFollow.instance.SetMovement(false);
                 break;
         }
+        Debug.Log(state);
     }
 
-    public static void ChangeState(States s) 
+    private static void ShowCursorBlockMovement()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        MovementController.instance.SetMovement(false);
+        PlayerFollow.instance.SetMovement(false);
+    }
+
+    public void ChangeState(States s) 
     { 
         state = s;
         UpdateStates();
