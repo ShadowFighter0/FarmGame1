@@ -28,7 +28,7 @@ public class NpcController : MonoBehaviour
 
             if (playerNear && can)
             {
-                if (Input.GetKeyDown(KeyCode.E) && !talkStarted)
+                if (Input.GetKeyDown(InputManager.instance.Interact) && !talkStarted)
                 {
                     StartDialogue();
                 }

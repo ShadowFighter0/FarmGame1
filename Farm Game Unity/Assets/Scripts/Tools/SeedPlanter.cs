@@ -51,7 +51,7 @@ public class SeedPlanter : MonoBehaviour
                 ActionTextController.instance.ChangePosition(go.transform.position);
                 ActionTextController.instance.ChangeText("Press E to plant: " + seeds[index].food.itemName);
 
-                if (Input.GetKeyDown(KeyCode.E) && InventoryController.Instance.GetAmount(seeds[index].itemName) > 0)
+                if (Input.GetKeyDown(InputManager.instance.Click) && InventoryController.Instance.GetAmount(seeds[index].itemName) > 0)
                 {
                     Plant(go);
                 }

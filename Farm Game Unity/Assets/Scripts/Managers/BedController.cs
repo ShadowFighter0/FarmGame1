@@ -14,7 +14,7 @@ public class BedController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerIn)
+        if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn)
         {
             //playerScript.MovementActive(false);
             timeScript.NewDay();

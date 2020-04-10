@@ -41,13 +41,10 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    // save stuff here
     private void ChangeDay()
     {
         day++;
-        //CAMBIAR ESTO Y UTILIZAR UN EVENTO NEW DAY
         GameEvents.Instance.NewDay();
-        //all mamagers here
         InputManager.instance.ChangeState(InputManager.States.Idle);
         loading = false;
     }

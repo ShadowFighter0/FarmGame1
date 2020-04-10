@@ -7,6 +7,13 @@ public class InputManager : MonoBehaviour
 {
     private readonly KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
+    public KeyCode Interact;
+    public KeyCode Work;
+    public KeyCode RadialMenu;
+    public KeyCode Inventory;
+    public KeyCode Run;
+    public KeyCode Click;
+
     private int activeTool;
     public Transform tools;
 
@@ -43,12 +50,12 @@ public class InputManager : MonoBehaviour
             case States.Idle:
                 if ((Input.anyKey || scroll != 0))
                 {
-                    if (Input.GetKeyDown(KeyCode.Q))
+                    if (Input.GetKeyDown(RadialMenu))
                     {
                         ChangeState(States.SelectingSeed);
                         RadialMenuController.instance.Open();
                     }
-                    if(Input.GetKeyDown(KeyCode.Tab))
+                    if(Input.GetKeyDown(Work))
                     {
                         ChangeState(States.Working);
                     }
@@ -58,11 +65,11 @@ public class InputManager : MonoBehaviour
                 if ((Input.anyKey || scroll != 0))
                 {
                     ChangeTool(scroll);
-                    if (Input.GetKeyDown(KeyCode.Tab))
+                    if (Input.GetKeyDown(Work))
                     {
                         ChangeState(States.Idle);
                     }
-                    if (Input.GetKeyDown(KeyCode.LeftShift))
+                    if (Input.GetKeyDown(Run))
                     {
                         ChangeState(States.Idle);
                     }
@@ -71,7 +78,7 @@ public class InputManager : MonoBehaviour
             case States.SelectingSeed:
                 if ((Input.anyKey || scroll != 0))
                 {
-                    if (Input.GetKeyDown(KeyCode.Q))
+                    if (Input.GetKeyDown(RadialMenu))
                     {
                         ChangeState(States.Idle);
                         RadialMenuController.instance.Close();
@@ -135,7 +142,7 @@ public class InputManager : MonoBehaviour
 
     public void ChangeState(States s) 
     {
-        Debug.Log("Called: " + s);
+        Debug.Log("State: " + s);
         state = s;
         UpdateStates();
     }

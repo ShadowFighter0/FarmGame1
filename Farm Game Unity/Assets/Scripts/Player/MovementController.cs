@@ -139,12 +139,12 @@ public class MovementController : MonoBehaviour
 
     private void ChangeSpeed()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(InputManager.instance.Run))
         {
             anim.SetBool("running", true);
             maxSpeed = runSpeed;
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(InputManager.instance.Run))
         {
             anim.SetBool("running", false);
             maxSpeed = walkSpeed;

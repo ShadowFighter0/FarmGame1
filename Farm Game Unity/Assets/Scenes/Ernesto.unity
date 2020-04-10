@@ -23927,6 +23927,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
         type: 3}
+      propertyPath: keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
+        type: 3}
       propertyPath: indicator
       value: 
       objectReference: {fileID: 1050097633}
@@ -23935,6 +23940,36 @@ PrefabInstance:
       propertyPath: radialMenu
       value: 
       objectReference: {fileID: 5710054236262745422}
+    - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
+        type: 3}
+      propertyPath: Interact
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
+        type: 3}
+      propertyPath: Work
+      value: 324
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
+        type: 3}
+      propertyPath: RadialMenu
+      value: 113
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
+        type: 3}
+      propertyPath: Inventory
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
+        type: 3}
+      propertyPath: Click
+      value: 323
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033970076779638539, guid: dedebe0eb7b5593479b8f841100d4fb5,
+        type: 3}
+      propertyPath: Run
+      value: 304
+      objectReference: {fileID: 0}
     - target: {fileID: 4033970076782070326, guid: dedebe0eb7b5593479b8f841100d4fb5,
         type: 3}
       propertyPath: cam

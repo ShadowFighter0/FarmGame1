@@ -28,7 +28,7 @@ public class MailBoxController : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerNear && done)
+        if (Input.GetKeyDown(InputManager.instance.Interact) && playerNear && done)
         {
             ShowMails();
             InputManager.instance.ChangeState(InputManager.States.OnUI);

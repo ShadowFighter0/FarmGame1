@@ -21,7 +21,7 @@ public class HoeController : MonoBehaviour
                 SetColor(go);
             }
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetKeyDown(InputManager.instance.Click))
             {
                 Dig(go);
             }

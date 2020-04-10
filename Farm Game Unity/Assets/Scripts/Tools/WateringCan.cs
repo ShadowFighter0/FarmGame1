@@ -15,11 +15,11 @@ public class WateringCan : MonoBehaviour
     {
         if (InputManager.state == InputManager.States.Working)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(InputManager.instance.Click))
             {
                 waterParticles.Play();
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetKeyUp(InputManager.instance.Click))
             {
                 waterParticles.Stop();
             }
