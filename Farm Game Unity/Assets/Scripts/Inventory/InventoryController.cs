@@ -110,7 +110,7 @@ public class InventoryController : MonoBehaviour
     #region Menu && Visual
     private void OpenCloseMenu()
     {
-        if (Input.GetKeyDown(KeyCode.I))  //open Menu
+        if (Input.GetKeyDown(InputManager.instance.Inventory))  //open Menu
         {
             book.SetActive(!book.activeSelf);
             if (book.activeSelf)

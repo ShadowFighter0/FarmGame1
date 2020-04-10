@@ -7,11 +7,15 @@ public class TimeManager : MonoBehaviour
 {
     private int day = 1;
 
-    [SerializeField] Image img = null;
-    [SerializeField] float time = 3;
+    public Image img;
+    public float time = 3;
     private Color fadeIn;
     private Color fadeOut;
     private bool loading;
+    private bool playerIn;
+
+    public GameObject popUp;
+
     private void Start()
     {
         fadeIn = new Color32(0, 0, 0, 0);
@@ -29,6 +33,23 @@ public class TimeManager : MonoBehaviour
         {
             img.color = Color.Lerp(img.color, fadeIn, dt * time);
         }
+
+        if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state != InputManager.States.OnUI)
+        {
+            OpenPopUp();
+        }
+    }
+
+    private void OpenPopUp()
+    {
+        popUp.SetActive(true);
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
+    }
+
+    public void ClosePopUp()
+    {
+        popUp.SetActive(false);
+        InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
     public void NewDay()
@@ -55,4 +76,17 @@ public class TimeManager : MonoBehaviour
         ChangeDay();
     }
     public int GetDay() { return day; }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerIn = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        playerIn = false;
+    }
 }

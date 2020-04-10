@@ -9,10 +9,10 @@ public class PlantsCollector : MonoBehaviour
         if (InputManager.state == InputManager.States.Working)
         {
             GameObject go = RayCastController.instance.GetTarget();
-            if (Input.GetKeyDown(InputManager.instance.Click) && go.CompareTag("Hole"))
+            if (Input.GetKeyDown(InputManager.instance.Interact) && go.CompareTag("Hole"))
             {
                 PlantLife script = go.transform.GetComponentInChildren<PlantLife>();
-                if (script.GetGrownUp())
+                if (script != null && script.GetGrownUp())
                 {
                     script.AddInventory();
                     Destroy(go.transform.GetChild(0).gameObject);
