@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoeController : MonoBehaviour
+public class Hoe : MonoBehaviour
 {
     public GameObject indicator;
     [SerializeField] GameObject hole = null;
@@ -32,7 +32,10 @@ public class HoeController : MonoBehaviour
     {
         if (go.CompareTag("Ground"))
         {
-            Instantiate(hole, indicator.transform.position, Quaternion.identity).transform.SetParent(holeManager.transform);
+            Vector3 pos = indicator.transform.position;
+            GameObject hole = ObjectPooler.Instance.SpawnFromPool("Holes", pos, Quaternion.identity);
+            hole.transform.SetParent(holeManager.transform);
+            //Instantiate(hole, indicator.transform.position, Quaternion.identity).transform.SetParent(holeManager.transform);
         }
     }
 

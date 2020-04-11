@@ -48,7 +48,7 @@ public class InputManager : MonoBehaviour
         switch (state)
         {
             case States.Idle:
-                if ((Input.anyKey || scroll != 0))
+                if (Input.anyKey)
                 {
                     if (Input.GetKeyDown(RadialMenu))
                     {
@@ -65,11 +65,7 @@ public class InputManager : MonoBehaviour
                 if ((Input.anyKey || scroll != 0))
                 {
                     ChangeTool(scroll);
-                    if (Input.GetKeyDown(Work))
-                    {
-                        ChangeState(States.Idle);
-                    }
-                    if (Input.GetKeyDown(Run))
+                    if (Input.GetKeyDown(Work) || Input.GetKeyDown(Run))
                     {
                         ChangeState(States.Idle);
                     }

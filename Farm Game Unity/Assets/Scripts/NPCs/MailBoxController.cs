@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,11 +21,42 @@ public class MailBoxController : MonoBehaviour
 
     private void Start()
     {
+        GameEvents.Instance.OnNewDay += NewDay;
         AddContent(QuestFileInfo.Instance.GetQuest());
         AddContent(mail[0]);
         AddContent(QuestFileInfo.Instance.GetQuest());
         AddContent(mail[1]);
         AddContent(QuestFileInfo.Instance.GetQuest());
+    }
+
+    private void NewDay()
+    {
+        
+    }
+
+    public void FocusPage(Transform page)
+    {
+        int central = page.GetSiblingIndex();
+        int numActiveMails = GetActiveMails() - 1;
+
+        page.SetSiblingIndex(numActiveMails);
+    }
+
+    private int GetActiveMails()
+    {
+        int n = 0;
+        foreach (Transform child in questFolder)
+        {
+            if(child.gameObject.activeSelf)
+            {
+                n++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return n;
     }
     private void Update()
     {
@@ -50,11 +82,6 @@ public class MailBoxController : MonoBehaviour
     {
         activePanels++;
         mails.Enqueue(m); 
-    }
-    public void FocusPage(Transform t)
-    {
-        t.SetSiblingIndex(mails.Count);
-        ShowMails();
     }
 
     private void ShowMails()
@@ -82,7 +109,6 @@ public class MailBoxController : MonoBehaviour
 
             pos -= Vector2.right * offset;
             index++;
-            
         }
     }
 

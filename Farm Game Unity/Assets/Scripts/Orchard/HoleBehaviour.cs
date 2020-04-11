@@ -55,7 +55,7 @@ public class HoleBehaviour : MonoBehaviour, INewDay
 
         if (!wet)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
         water = 0;
     }

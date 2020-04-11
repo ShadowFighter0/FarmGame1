@@ -43,7 +43,6 @@ public class RadialMenuController : MonoBehaviour
     }
     public void Open()
     {
-        PlayerFollow.instance.SetMovement(false);
         parent.gameObject.SetActive(true);
         for (int i = 0; i < numChilds; i++)
         {
@@ -56,22 +55,15 @@ public class RadialMenuController : MonoBehaviour
     }
     public void Close()
     {
-        PlayerFollow.instance.SetMovement(true);
+        InputManager.instance.ChangeState(InputManager.States.Idle);
         parent.gameObject.SetActive(false);
         for (int i = 0; i < numChilds; i++)
         {
             icons[i].SetActive(false);
         }
-        //StartCoroutine(Disable(exitButton));
     }
     public void ChangeText(string s)
     {
         text.text = s;
-    }
-
-    private IEnumerator Disable(GameObject go)
-    {
-        yield return new WaitForSeconds(time);
-        go.SetActive(false);
     }
 }

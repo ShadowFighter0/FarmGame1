@@ -48,15 +48,15 @@ public class PlayerFollow : MonoBehaviour
     void Update()
     {
         float dt = Time.deltaTime;
-
-        if (canMove)
+        
+        if (InputManager.state == InputManager.States.Dialoguing)
+        {
+            DialogueCamPosition(dt);
+        }
+        else if (canMove)
         {
             Rotation(dt);
         }
-        /*if(InputManager.state == InputManager.States.OnUI)
-        {
-            DialogueCamPosition(dt);
-        }*/
         CameraUpdater(dt);
     }
 
