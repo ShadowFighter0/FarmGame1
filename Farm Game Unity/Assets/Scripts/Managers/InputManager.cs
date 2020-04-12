@@ -31,7 +31,7 @@ public class InputManager : MonoBehaviour
         Dialoguing,
         Sleeping
     };
-    public static States state = States.OnUI;
+    public static States state = States.Idle;
     private void Awake()
     {
         instance = this;

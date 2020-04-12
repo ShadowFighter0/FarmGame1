@@ -23,4 +23,10 @@ public class GameEvents : MonoBehaviour
 	{
 		OnNewDay?.Invoke();
 	}
+
+	public event Action OnSaveInitiated;
+	public void SaveInitiated()
+	{
+		OnSaveInitiated?.Invoke();
+	}
 }

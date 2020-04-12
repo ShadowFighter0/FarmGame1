@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/Seed")]
+[System.Serializable]
 public class Seed : Item
 {
     public GameObject plantType;

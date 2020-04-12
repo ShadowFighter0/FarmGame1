@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private int day = 1;
 
@@ -38,6 +38,20 @@ public class TimeManager : MonoBehaviour
         {
             OpenPopUp();
         }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            int i = 200;
+            SaveLoad.Save(i, "Number");
+        }
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            SaveAll();
+        }
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            DeleteProgress();
+        }
     }
 
     private void OpenPopUp()
@@ -60,6 +74,15 @@ public class TimeManager : MonoBehaviour
             loading = true;
             StartCoroutine(Fade());
         }
+    }
+
+    public void SaveAll()
+    {
+        GameEvents.Instance.SaveInitiated();
+    }
+    public void DeleteProgress()
+    {
+        SaveLoad.SeriouslyDeleteAllSaveFiles();
     }
 
     private void ChangeDay()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class InventoryItem
 {
     public string name;
@@ -99,12 +100,19 @@ public class InventoryController : MonoBehaviour
     {
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
+        GameEvents.Instance.OnSaveInitiated += Save;
     }
 
     private void Update()
     {
         //TODO change panel of menu
         OpenCloseMenu();
+    }
+
+    private void Save()
+    {
+        SaveLoad.Save(items, "InventoryItems");
+        SaveLoad.Save(seeds, "InventorySeeds");
     }
 
     #region Menu && Visual
