@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CarrotSeed
   m_EditorClassIdentifier: 
   itemName: CarrotSeed
-  image: {fileID: 21300000, guid: 6592b916f86b19e428db6f6847c7b6dd, type: 3}
+  imagePath: CarrotSeed
   amount: 3
   price: 1
   plantType: {fileID: 9097774220911649678, guid: 3b884f3b89b4efc4ab658d40f66b8e88,

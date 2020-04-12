@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class Item : ScriptableObject
 {
     public string itemName;
-    public Sprite image;
+    public string imagePath;
 
-    public int amount=0;
+    public int amount = 0;
 
     public int price = 0;
 

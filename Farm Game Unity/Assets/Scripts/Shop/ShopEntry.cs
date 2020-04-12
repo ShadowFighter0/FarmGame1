@@ -24,7 +24,8 @@ public class ShopEntry : MonoBehaviour
 
     public void Fill(ShopItem s)
     {
-        image.sprite = s.item.image;
+        Sprite sprite = Resources.Load<Sprite>("Sprites/" + s.item.imagePath);
+        image.sprite = sprite;
         nameText.text = s.item.name;
         price.text = s.item.price.ToString();
         stockText.text = s.stock.ToString();

@@ -7,18 +7,18 @@ using UnityEngine.UI;
 public class InventoryItem
 {
     public string name;
-    public Sprite image;
+    public string image;
 
     public bool isActivate = true;
 
     public int inventoryAmount = 0 ;
 
-    public InventoryItem(string name, Sprite image)
+    public InventoryItem(string name, string image)
     {
         this.name = name;
         this.image = image;
     }
-    public InventoryItem(string name, Sprite image, bool active)
+    public InventoryItem(string name, string image, bool active)
     {
         this.name = name;
         this.image = image;
@@ -88,11 +88,13 @@ public class InventoryController : MonoBehaviour
         //Start seeds and materials
         for(int i = 0; i < seedsItems.Length; i++)
         {
-            seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].image, false);
+            Sprite sprite = Resources.Load<Sprite>("Sprites/" + seedsItems[i].imagePath);
+            seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].imagePath, false);
         }
         for (int i = 0; i < materialsItems.Length; i++)
         {
-            materials[i] = new InventoryItem(materialsItems[i].name, materialsItems[i].image, false);
+            Sprite sprite = Resources.Load<Sprite>("Sprites/" + materialsItems[i].imagePath);
+            materials[i] = new InventoryItem(materialsItems[i].name, materialsItems[i].imagePath, false);
         }
     }
 
@@ -100,7 +102,23 @@ public class InventoryController : MonoBehaviour
     {
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
-        //GameEvents.Instance.OnSaveInitiated += Save;
+        GameEvents.Instance.OnSaveInitiated += Save;
+        if(SaveLoad.SaveExists("InventorySeeds"))
+        {
+            InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventorySeeds");
+            for (int i = 0; i < savedItems.Length; i++)
+            {
+                seeds[i] = savedItems[i];
+            }
+        }
+        if(SaveLoad.SaveExists("InventoryItems"))
+        {
+            InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventoryItems");
+            for (int i = 0; i < savedItems.Length; i++)
+            {
+                items[i] = savedItems[i];
+            }
+        }
     }
 
     private void Update()
@@ -206,7 +224,8 @@ public class InventoryController : MonoBehaviour
 
         //item
         GameEvents.Instance.ItemCollected(newItem.name, GetAmount(newItem.name));
-        feed.Suscribe(newItem.name, newItem.image, newItem.amount);
+        Sprite sprite = Resources.Load<Sprite>("Sprites/" + newItem.imagePath);
+        feed.Suscribe(newItem.name, sprite, newItem.amount);
     }
     private void AddNewItem(Item newItem)
     {
@@ -240,7 +259,7 @@ public class InventoryController : MonoBehaviour
         }
         if ((positions == null || newInventoryItem) && numItems < items.Length)
         {
-            item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image);
+            item = items[numItems] = new InventoryItem(newItem.itemName, newItem.imagePath);
 
             if (newInventoryItem)
                 item.AddAmount(amount);

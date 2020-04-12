@@ -20,7 +20,8 @@ public class InventoryEntry : MonoBehaviour
     }
     public void Fill(InventoryItem it)
     {
-        image.sprite = it.image;
+        Sprite sprite = Resources.Load<Sprite>("Sprites/" + it.image);
+        image.sprite = sprite;
         nameText.text = it.name;
         amount.text = it.inventoryAmount.ToString();
     }
