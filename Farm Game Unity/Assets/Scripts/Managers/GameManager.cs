@@ -2,36 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     private int day = 1;
 
-    public Image img;
+    public Image fade;
     public float time = 3;
-    private Color fadeIn;
-    private Color fadeOut;
+    private Color fadeIn = new Color32(0, 0, 0, 0);
+    private Color fadeOut = new Color32(0, 0, 0, 255);
+
     private bool loading;
     private bool playerIn;
+    private bool gamePaused = false;
 
-    public GameObject popUp;
+    private DateTime lastTimeSaved;
 
-    private void Start()
-    {
-        fadeIn = new Color32(0, 0, 0, 0);
-        fadeOut = new Color32(0, 0, 0, 255);
-    }
+    public GameObject exitPopUp;
+    public GameObject saveText;
+    public GameObject pauseMenu;
+    public GameObject mainMenu;
+    public Text lastSavedText;
 
     private void Update()
     {
         float dt = Time.deltaTime;
         if(loading)
         {
-            img.color = Color.Lerp(img.color, fadeOut, dt * time);
+            fade.color = Color.Lerp(fade.color, fadeOut, dt * time);
         }
         else
         {
-            img.color = Color.Lerp(img.color, fadeIn, dt * time);
+            fade.color = Color.Lerp(fade.color, fadeIn, dt * time);
         }
 
         if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state != InputManager.States.OnUI)
@@ -39,26 +43,79 @@ public class GameManager : MonoBehaviour
             OpenPopUp();
         }
 
-        if(Input.GetKeyDown(KeyCode.Z))
+        if(Input.GetKeyDown(KeyCode.F5))
         {
             SaveAll();
         }
-        if(Input.GetKeyDown(KeyCode.X))
+        if(Input.GetKeyDown(KeyCode.F8))
+        {
+            Load();
+        }
+        if (Input.GetKeyDown(KeyCode.F12))
         {
             DeleteProgress();
         }
+
+        if(Input.GetKeyDown(KeyCode.P) && !mainMenu.activeSelf)
+        {
+            PauseGame();
+        }
+
+        int hour = lastTimeSaved.Hour;
+        int min = lastTimeSaved.Minute;
+        int sec = lastTimeSaved.Second;
+        if (pauseMenu.activeSelf && hour != 0 && min != 0 && sec != 0)
+        {
+            UpdateSaveText(DateTime.Now);
+        }
+
+    }
+    #region Pause menu
+    public void PauseGame()
+    {
+        bool paused = pauseMenu.activeSelf;
+        paused = !paused;
+        gamePaused = paused;
+        pauseMenu.SetActive(gamePaused);
+        if (gamePaused)
+        {
+            //Time.timeScale = 0;
+            InputManager.instance.ChangeState(InputManager.States.OnUI);
+        }
+        else
+        {
+            //Time.timeScale = 1;
+            InputManager.instance.ChangeState(InputManager.States.Idle);
+        }
+    }
+    public void ShowOptions()
+    {
+
+    }
+    public void ShowExitPopup()
+    {
+        
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+    public void Load()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    private void UpdateSaveText(DateTime time)
+    {
+        int difference = time.Minute - lastTimeSaved.Minute;
+        string t = lastTimeSaved.Hour + ":" + lastTimeSaved.Minute + ":" + lastTimeSaved.Second;
+        lastSavedText.text = "(Last save at " + t + ". " + difference + " minutes ago)";
+    }
+    #endregion
     private void OpenPopUp()
     {
-        popUp.SetActive(true);
+        exitPopUp.SetActive(true);
         InputManager.instance.ChangeState(InputManager.States.OnUI);
-    }
-
-    public void ClosePopUp()
-    {
-        popUp.SetActive(false);
-        InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
     public void NewDay()
@@ -74,10 +131,21 @@ public class GameManager : MonoBehaviour
     public void SaveAll()
     {
         GameEvents.Instance.SaveInitiated();
+        saveText.SetActive(true);
+        DateTime time = DateTime.Now;
+        lastTimeSaved = time;
+        if (pauseMenu.activeSelf)
+        {
+            UpdateSaveText(time);
+        }
+        
+        Debug.Log("Last save: " + time.ToString());
+        StartCoroutine(DisableSaveText());
     }
+
     public void DeleteProgress()
     {
-        SaveLoad.SeriouslyDeleteAllSaveFiles();
+        SaveLoad.DeleteAllData();
     }
 
     private void ChangeDay()
@@ -85,10 +153,14 @@ public class GameManager : MonoBehaviour
         day++;
         GameEvents.Instance.NewDay();
         InputManager.instance.ChangeState(InputManager.States.Idle);
-        SaveAll();
         loading = false;
+        SaveAll();
     }
-
+    IEnumerator DisableSaveText()
+    {
+        yield return new WaitForSeconds(3);
+        saveText.SetActive(false);
+    }
     IEnumerator Fade()
     {
         yield return new WaitForSeconds(time);
@@ -96,7 +168,7 @@ public class GameManager : MonoBehaviour
     }
     public int GetDay() { return day; }
 
-
+    #region Trigger with player
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -106,6 +178,10 @@ public class GameManager : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        playerIn = false;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerIn = false;
+        }
     }
+    #endregion
 }
