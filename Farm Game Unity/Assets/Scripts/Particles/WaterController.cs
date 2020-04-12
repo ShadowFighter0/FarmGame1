@@ -9,7 +9,7 @@ public class WaterController : MonoBehaviour
         if(other.CompareTag("Hole"))
         {
             float rand = Random.Range(1f, 5f);
-            other.GetComponent<HoleBehaviour>().AddWater(20);
+            other.GetComponent<HoleController>().AddWater(20);
         }
     }
 }

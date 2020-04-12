@@ -39,11 +39,6 @@ public class GameManager : MonoBehaviour
             OpenPopUp();
         }
 
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            int i = 200;
-            SaveLoad.Save(i, "Number");
-        }
         if(Input.GetKeyDown(KeyCode.Z))
         {
             SaveAll();
@@ -90,6 +85,7 @@ public class GameManager : MonoBehaviour
         day++;
         GameEvents.Instance.NewDay();
         InputManager.instance.ChangeState(InputManager.States.Idle);
+        SaveAll();
         loading = false;
     }
 

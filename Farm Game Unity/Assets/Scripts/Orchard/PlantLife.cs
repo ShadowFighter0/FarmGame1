@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlantLife : MonoBehaviour
 {
     private int index = 0;
-    private HoleBehaviour holeScript;
+    private HoleController holeScript;
 
     private Seed seed;
     private int growthTime;
@@ -17,7 +17,7 @@ public class PlantLife : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Plants");
         growthTime = seed.growthTime;
         ChangeModel();
-        holeScript = gameObject.GetComponentInParent<HoleBehaviour>();
+        holeScript = gameObject.GetComponentInParent<HoleController>();
         currentGrowthTime = growthTime;
     }
 

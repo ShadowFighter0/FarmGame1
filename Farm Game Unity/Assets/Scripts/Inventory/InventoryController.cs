@@ -100,7 +100,7 @@ public class InventoryController : MonoBehaviour
     {
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
-        GameEvents.Instance.OnSaveInitiated += Save;
+        //GameEvents.Instance.OnSaveInitiated += Save;
     }
 
     private void Update()

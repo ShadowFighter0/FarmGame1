@@ -13,16 +13,12 @@ public class ObjectPooler : MonoBehaviour
     }
 
     public static ObjectPooler Instance;
+    public List<Pool> pools;
+    public Dictionary<string, Queue<GameObject>> poolDictionary;
 
     private void Awake()
     {
         Instance = this;
-    }
-
-    public List<Pool> pools;
-    public Dictionary<string, Queue<GameObject>> poolDictionary;
-    void Start()
-    {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
         foreach (Pool pool in pools)

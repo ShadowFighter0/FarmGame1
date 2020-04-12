@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoleBehaviour : MonoBehaviour, INewDay
+public class HoleController : MonoBehaviour
 {
     private MeshRenderer rend;
     private Color wetColor;
@@ -16,21 +16,12 @@ public class HoleBehaviour : MonoBehaviour, INewDay
         wetColor = new Color32(165, 60, 38, 255);
         dryColor = new Color32(231, 178, 96, 255);
         rend.material.color = dryColor;
+        GameEvents.Instance.OnNewDay += NewDay;
     }
 
     void Update()
     {
         float dt = Time.deltaTime;
-
-        if (water >= 100)
-        {
-            //play sound
-            wet = true;
-        }
-        else
-        {
-            wet = false;
-        }
         UpdateColor(dt);
     }
 
@@ -48,13 +39,14 @@ public class HoleBehaviour : MonoBehaviour, INewDay
 
     public void NewDay()
     {
-        if(transform.childCount > 0)
+        CheckWater();
+        if (transform.childCount > 0)
         {
             transform.GetChild(0).GetComponent<PlantLife>().NewDay();
         }
-
         if (!wet)
         {
+            transform.SetParent(FindObjectOfType<ObjectPooler>().transform);
             gameObject.SetActive(false);
         }
         water = 0;
@@ -63,6 +55,20 @@ public class HoleBehaviour : MonoBehaviour, INewDay
     public void AddWater(float amount) //hacer que se pueda desbordar y ahogar
     {
         water += amount;
+        CheckWater();
+    }
+
+    private void CheckWater()
+    {
+        if (water >= 100)
+        {
+            //play sound
+            wet = true;
+        }
+        else
+        {
+            wet = false;
+        }
     }
 
     public bool GetWet()
