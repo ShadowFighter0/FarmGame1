@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
 public class SaveLoad : MonoBehaviour
 {
@@ -43,5 +44,10 @@ public class SaveLoad : MonoBehaviour
         DirectoryInfo directory = new DirectoryInfo(path);
         directory.Delete(true);
         Directory.CreateDirectory(path);
+    }
+
+    public static bool HasSaves()
+    {
+        return Directory.EnumerateFileSystemEntries(Application.persistentDataPath + "/saves/").Any();
     }
 }

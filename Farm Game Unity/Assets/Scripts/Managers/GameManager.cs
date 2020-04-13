@@ -20,12 +20,33 @@ public class GameManager : MonoBehaviour
 
     private DateTime lastTimeSaved;
 
+    public GameObject UIFolder;
     public GameObject exitPopUp;
     public GameObject saveText;
     public GameObject pauseMenu;
     public GameObject mainMenu;
+    public GameObject continueText;
     public Text lastSavedText;
-
+    public static GameManager instance;
+    private void Awake()
+    {
+        if(instance != null && instance != this)
+        {
+            Debug.Log("deleting double singleton");
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+    private void Start()
+    {
+        if (SaveLoad.HasSaves())
+        {
+            continueText.SetActive(true);
+        }
+    }
     private void Update()
     {
         float dt = Time.deltaTime;
@@ -49,7 +70,7 @@ public class GameManager : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.F8))
         {
-            Load();
+            Reload();
         }
         if (Input.GetKeyDown(KeyCode.F12))
         {
@@ -96,12 +117,19 @@ public class GameManager : MonoBehaviour
     {
         
     }
-
+    public void StartNewGame()
+    {
+        if(SaveLoad.HasSaves())
+        {
+            DeleteProgress();
+        }
+        Reload();
+    }
     public void ExitGame()
     {
         Application.Quit();
     }
-    public void Load()
+    public void Reload()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

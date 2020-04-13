@@ -946,7 +946,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 86741431}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1947053612}
+        m_MethodName: StartNewGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1459831353}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &86741431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9796,7 +9818,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &837915405
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9859,7 +9881,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 837915407}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1459831353}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &837915407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15842,12 +15875,12 @@ GameObject:
   - component: {fileID: 1459831356}
   - component: {fileID: 1459831355}
   m_Layer: 5
-  m_Name: Menu
+  m_Name: MainMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1459831354
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22930,6 +22963,14 @@ PrefabInstance:
       propertyPath: exitPopUp
       value: 
       objectReference: {fileID: 1869477201}
+    - target: {fileID: 1947053612, guid: 970346f953bb5014ab233dc57c73bafb, type: 3}
+      propertyPath: continueText
+      value: 
+      objectReference: {fileID: 837915404}
+    - target: {fileID: 1947053612, guid: 970346f953bb5014ab233dc57c73bafb, type: 3}
+      propertyPath: UIFolder
+      value: 
+      objectReference: {fileID: 2695890741584009756}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 970346f953bb5014ab233dc57c73bafb, type: 3}
 --- !u!114 &1947053612 stripped
