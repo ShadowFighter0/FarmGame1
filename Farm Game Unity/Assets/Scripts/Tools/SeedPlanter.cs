@@ -63,14 +63,25 @@ public class SeedPlanter : MonoBehaviour
     {
         if (go.transform.childCount < 1)
         {
-            GameObject plant = Instantiate(seeds[index].plantType, go.transform.position, Quaternion.identity);
+            GameObject loadPlant = Resources.Load<GameObject>("Prefabs/" + seeds[index].plantType);
+            GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
             plant.transform.SetParent(go.transform);
             plant.GetComponent<PlantLife>().SetSeed(seeds[index]);
 
             InventoryController.Instance.SubstractAmountSeed(1, seeds[index].itemName);
         }
     }
-
+    public Seed GetSeed(string name)
+    {
+        for (int i = 0; i < seeds.Length; i++)
+        {
+            if(seeds[i].itemName.Equals(name))
+            {
+                return seeds[i];
+            }
+        }
+        return null;
+    }
     public int GetSeedsLenght() { return seeds.Length; }
     public void SetSeed(int i)
     {

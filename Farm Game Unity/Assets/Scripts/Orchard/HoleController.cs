@@ -39,7 +39,6 @@ public class HoleController : MonoBehaviour
 
     public void NewDay()
     {
-        CheckWater();
         if (transform.childCount > 0)
         {
             transform.GetChild(0).GetComponent<PlantLife>().NewDay();
@@ -50,11 +49,19 @@ public class HoleController : MonoBehaviour
             gameObject.SetActive(false);
         }
         water = 0;
+        wet = false;
     }
 
     public void AddWater(float amount) //hacer que se pueda desbordar y ahogar
     {
         water += amount;
+        CheckWater();
+    }
+
+    public float GetWater() { return water; }
+    public void SetWater(float w) 
+    { 
+        water = w;
         CheckWater();
     }
 

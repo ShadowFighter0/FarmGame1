@@ -22926,6 +22926,10 @@ PrefabInstance:
       propertyPath: fade
       value: 
       objectReference: {fileID: 2436006962784526049}
+    - target: {fileID: 1947053612, guid: 970346f953bb5014ab233dc57c73bafb, type: 3}
+      propertyPath: exitPopUp
+      value: 
+      objectReference: {fileID: 1869477201}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 970346f953bb5014ab233dc57c73bafb, type: 3}
 --- !u!114 &1947053612 stripped

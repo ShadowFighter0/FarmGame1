@@ -1,31 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[System.Serializable]
+public class PlantInfo
+{
+    public int index;
+    public string seed;
+    public string plant;
+    public int currentGrowthTime;
+    public float x;
+    public float y;
+    public float z;
 
+    public PlantInfo (int i, string s, string p, int time, Vector3 pos)
+    {
+        index = i;
+        seed = s;
+        plant = p;
+        currentGrowthTime = time;
+        x = pos.x;
+        y = pos.y;
+        z = pos.z;
+    }
+}
 public class PlantLife : MonoBehaviour
 {
     private int index = 0;
     private HoleController holeScript;
 
     private Seed seed;
-    private int growthTime;
     private int currentGrowthTime;
     private bool grownUp = false;
 
     void Start()
     {
         gameObject.layer = LayerMask.NameToLayer("Plants");
-        growthTime = seed.growthTime;
         ChangeModel();
         holeScript = gameObject.GetComponentInParent<HoleController>();
-        currentGrowthTime = growthTime;
+        currentGrowthTime = seed.growthTime;
     }
 
     public int GetFood()
     {
         return seed.food.amount; 
     }
-
+    public PlantInfo SavePlant()
+    {
+        return new PlantInfo(index, seed.itemName, seed.plantType, currentGrowthTime, transform.position);
+    }
+    public void InitializePlant(int i, Seed s, int time)
+    {
+        index = i;
+        SetSeed(s);
+        currentGrowthTime = time;
+    }
     public void SetSeed(Seed s) { seed = s; }
 
     public bool GetGrownUp() { return grownUp; }
@@ -37,7 +65,7 @@ public class PlantLife : MonoBehaviour
             currentGrowthTime--;
             if(currentGrowthTime <= 0)
             {
-                currentGrowthTime = growthTime;
+                currentGrowthTime = seed.growthTime;
                 index++;
                 ChangeModel();
             }
@@ -70,6 +98,6 @@ public class PlantLife : MonoBehaviour
     public void AddInventory()
     { 
         InventoryController.Instance.AddItem(seed.food);
-        //InventoryController.Instance.AddItem(seed);
+        InventoryController.Instance.AddItem(seed);
     }
 }

@@ -16,7 +16,6 @@ MonoBehaviour:
   imagePath: PumpkinSeed
   amount: 3
   price: 0
-  plantType: {fileID: 4618003256374547126, guid: 4f72193713cc7a34ea2c15df341d6bd4,
-    type: 3}
+  plantType: Pumpkin
   food: {fileID: 11400000, guid: cf901ae577b467a4a891d1a6c87d4574, type: 2}
   growthTime: 1

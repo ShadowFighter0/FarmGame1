@@ -16,7 +16,6 @@ MonoBehaviour:
   imagePath: CarrotSeed
   amount: 3
   price: 1
-  plantType: {fileID: 9097774220911649678, guid: 3b884f3b89b4efc4ab658d40f66b8e88,
-    type: 3}
+  plantType: Carrot
   food: {fileID: 11400000, guid: 630b779f07ad7864491b660ed51bf517, type: 2}
   growthTime: 1

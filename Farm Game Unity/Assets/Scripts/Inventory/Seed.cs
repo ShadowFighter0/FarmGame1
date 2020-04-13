@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Seed : Item
 {
-    public GameObject plantType;
+    public string plantType;
     public Item food;
     public int growthTime;
 }
