@@ -88,13 +88,11 @@ public class InventoryController : MonoBehaviour
         //Start seeds and materials
         for(int i = 0; i < seedsItems.Length; i++)
         {
-            Sprite sprite = Resources.Load<Sprite>("Sprites/" + seedsItems[i].imagePath);
-            seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].imagePath, false);
+            seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].imagePath, false);// Database[]
         }
         for (int i = 0; i < materialsItems.Length; i++)
         {
-            Sprite sprite = Resources.Load<Sprite>("Sprites/" + materialsItems[i].imagePath);
-            materials[i] = new InventoryItem(materialsItems[i].name, materialsItems[i].imagePath, false);
+            materials[i] = new InventoryItem(materialsItems[i].name, materialsItems[i].imagePath, false);// Database[]
         }
     }
 
@@ -105,7 +103,7 @@ public class InventoryController : MonoBehaviour
         GameEvents.Instance.OnSaveInitiated += Save;
         if(SaveLoad.SaveExists("InventorySeeds"))
         {
-            InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventorySeeds");
+            InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventorySeeds"); 
             for (int i = 0; i < savedItems.Length; i++)
             {
                 seeds[i] = savedItems[i];
@@ -123,7 +121,6 @@ public class InventoryController : MonoBehaviour
 
     private void Update()
     {
-        //TODO change panel of menu
         OpenCloseMenu();
     }
 
@@ -136,7 +133,7 @@ public class InventoryController : MonoBehaviour
     #region Menu && Visual
     private void OpenCloseMenu()
     {
-        if (Input.GetKeyDown(InputManager.instance.Inventory))  //open Menu
+        if (Input.GetKeyDown(InputManager.instance.Inventory))
         {
             book.SetActive(!book.activeSelf);
             if (book.activeSelf)
@@ -219,7 +216,24 @@ public class InventoryController : MonoBehaviour
         }
         else
         {
-            AddNewItem(newItem);
+            if(newItem.name == "Money")
+            {
+                List<int> positions = SearchItem("Money");
+                if ( positions != null)
+                {
+                    items[positions[0]].AddAmount(newItem.amount);
+                }
+                else if (numItems < items.Length)
+                {
+                    items[numItems] = new InventoryItem(newItem.itemName, newItem.imagePath);
+                    items[numItems].AddAmount(newItem.amount);
+                    numItems++;
+                }
+            }
+            else
+            {
+                AddNewItem(newItem);
+            }
         }
 
         //item
@@ -232,7 +246,7 @@ public class InventoryController : MonoBehaviour
         List<int> positions = SearchItem(newItem.itemName);
         InventoryItem item = null;
         int amount = newItem.amount;
-        bool newInventoryItem = true;
+        bool newInventoryItem = false;
 
         if (positions!=null && positions.Count >= 0)
         {
@@ -292,6 +306,7 @@ public class InventoryController : MonoBehaviour
         {
             items[itemSelected] = null;
             ReOrderItem();
+            numItems--;
         }
         else if (currentPage == 1)
         {
@@ -310,7 +325,7 @@ public class InventoryController : MonoBehaviour
 
     private void ReOrderItem()
     {
-        //Ernesto lo ha cambiado asiq no esta hecho 
+
     }
     #endregion
 
@@ -456,15 +471,6 @@ public class InventoryController : MonoBehaviour
         }
         return -1;
     }
-    #endregion
-
-    #region TODO
-    //TODO
-    //TODO comprar items
-    //TODO function that sell items (give item + delete)
-    //TODO function that manage money
-    //TODO notes in gameplay for missions
-    //TODO spin / quick acces
     #endregion
 
     private void OnTriggerEnter(Collider other)
