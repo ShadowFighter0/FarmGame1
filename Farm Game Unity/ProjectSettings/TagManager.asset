@@ -5,9 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hole
-  - Apple
-  - Meat
-  - Wood
   - Ground
   - Plant
   - UnlockableItem

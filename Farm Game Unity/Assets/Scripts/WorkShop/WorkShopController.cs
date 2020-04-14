@@ -32,7 +32,6 @@ public class WorkShopController : MonoBehaviour
         {
             if (Input.GetKeyDown(InputManager.instance.Interact) && !camActive)
             {
-                //open workshop menu
                 workshopCamera.SetActive(true);
 
                 camActive = true;
