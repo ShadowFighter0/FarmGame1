@@ -9893,6 +9893,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1947053612}
+        m_MethodName: ContinueGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &837915407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13136,7 +13147,6 @@ GameObject:
   - component: {fileID: 1202020056}
   - component: {fileID: 1202020057}
   - component: {fileID: 1202020055}
-  - component: {fileID: 1202020058}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -13201,18 +13211,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89385cc0192412e4cbd68374c72987b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1202020058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1202020053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4924ac16a52d17144bc35c69ad50a9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1202604540

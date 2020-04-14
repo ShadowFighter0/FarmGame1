@@ -26,6 +26,7 @@ public class PlayerFollow : MonoBehaviour
     private Vector3 target;
 
     public Vector3 shopRotation;
+    private Transform cam;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class PlayerFollow : MonoBehaviour
             player = m.transform;
         }
         idealPos = player.position;
+        cam = transform.GetChild(0);
     }
 
     void Update()
@@ -105,7 +107,7 @@ public class PlayerFollow : MonoBehaviour
             }
             else
             {
-                idealPos = player.position + player.right * 0.3f + player.up * 1.1f;
+                idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
             }
         }
 

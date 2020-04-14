@@ -59,11 +59,17 @@ public class InputManager : MonoBehaviour
                     {
                         ChangeState(States.Working);
                     }
+                    ChangeTool(scroll);
                 }
                 break;
             case States.Working:
                 if ((Input.anyKey || scroll != 0))
                 {
+                    if (Input.GetKeyDown(RadialMenu))
+                    {
+                        ChangeState(States.SelectingSeed);
+                        RadialMenuController.instance.Open();
+                    }
                     ChangeTool(scroll);
                     if (Input.GetKeyDown(Work) || Input.GetKeyDown(Run))
                     {
@@ -93,7 +99,6 @@ public class InputManager : MonoBehaviour
 
                 break;
         }
-
     }
 
     private void UpdateStates()
@@ -168,6 +173,7 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyDown(keyCodes[i]))
             {
                 activeTool = i;
+                ChangeState(States.Working);
             }
         }
 
@@ -182,6 +188,7 @@ public class InputManager : MonoBehaviour
             {
                 activeTool = 0;
             }
+            ChangeState(States.Working);
         }
 
         if (oldActive != activeTool)

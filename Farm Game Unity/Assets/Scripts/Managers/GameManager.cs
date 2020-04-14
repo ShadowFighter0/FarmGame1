@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,7 +31,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private void Awake()
     {
-        if(instance != null && instance != this)
+        string path = Application.persistentDataPath + "/saves/";
+        Directory.CreateDirectory(path);
+        if (instance != null && instance != this)
         {
             Debug.Log("deleting double singleton");
             Destroy(gameObject);
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+        DontDestroyOnLoad(UIFolder);
     }
     private void Start()
     {
@@ -46,6 +50,7 @@ public class GameManager : MonoBehaviour
         {
             continueText.SetActive(true);
         }
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
     private void Update()
     {
@@ -82,14 +87,16 @@ public class GameManager : MonoBehaviour
             PauseGame();
         }
 
-        int hour = lastTimeSaved.Hour;
-        int min = lastTimeSaved.Minute;
-        int sec = lastTimeSaved.Second;
-        if (pauseMenu.activeSelf && hour != 0 && min != 0 && sec != 0)
+        if (pauseMenu.activeSelf)
         {
-            UpdateSaveText(DateTime.Now);
+            int hour = lastTimeSaved.Hour;
+            int min = lastTimeSaved.Minute;
+            int sec = lastTimeSaved.Second;
+            if (hour != 0 && min != 0 && sec != 0)
+            {
+                UpdateSaveText(DateTime.Now);
+            }
         }
-
     }
     #region Pause menu
     public void PauseGame()
@@ -117,13 +124,19 @@ public class GameManager : MonoBehaviour
     {
         
     }
+    public void ContinueGame()
+    {
+        InputManager.instance.ChangeState(InputManager.States.Idle);
+    }
     public void StartNewGame()
     {
         if(SaveLoad.HasSaves())
         {
             DeleteProgress();
+            Reload();
         }
-        Reload();
+        
+        InputManager.instance.ChangeState(InputManager.States.Idle);
     }
     public void ExitGame()
     {
