@@ -10,7 +10,7 @@ public class CameraCollision : MonoBehaviour
 	private Vector3 dollyDir;
 	private float camDistance;
 
-	public float dis_ray;
+	private float dis;
 	private RaycastHit hit;
 	public Transform player;
 
@@ -21,22 +21,25 @@ public class CameraCollision : MonoBehaviour
 	}
 	void Update()
 	{
-		Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxCamDistance);
-		if (InputManager.state == InputManager.States.Working)
+		if(InputManager.state != InputManager.States.Editing)
 		{
-			camDistance = minCamDistance;
-		}
-		else
-		{
-			if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit))
+			Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxCamDistance);
+			if (InputManager.state == InputManager.States.Working)
 			{
-				camDistance = Mathf.Clamp((hit.distance * dis_ray), minCamDistance, maxCamDistance);
+				camDistance = minCamDistance;
 			}
 			else
 			{
-				camDistance = maxCamDistance;
+				if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit))
+				{
+					camDistance = Mathf.Clamp((hit.distance * dis), minCamDistance, maxCamDistance);
+				}
+				else
+				{
+					camDistance = maxCamDistance;
+				}
 			}
+			transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * camDistance, Time.deltaTime * smooth);
 		}
-		transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * camDistance, Time.deltaTime * smooth);
 	}
 }

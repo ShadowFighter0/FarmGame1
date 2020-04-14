@@ -6,7 +6,6 @@ using System;
 public class GameEvents : MonoBehaviour
 {
 	public static GameEvents Instance;
-
 	private void Awake()
 	{
 		Instance = this;

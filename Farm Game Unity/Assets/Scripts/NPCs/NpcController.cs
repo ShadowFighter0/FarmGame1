@@ -63,8 +63,8 @@ public class NpcController : MonoBehaviour
         talkStarted = true;
         DialogueSystem.instance.SetNPC(this);
         PlayerFollow.instance.ChangeTarget(transform.position + Vector3.up * 1.2f);
-        InputManager.state = InputManager.States.OnUI;
-        if(npc.type.Equals("Citizen"))
+        InputManager.instance.ChangeState(InputManager.States.Dialoguing);
+        if (npc.type.Equals("Citizen"))
         {
             string s = "Need help?\n";
             DialogueSystem.instance.ShowDialogue(npcName, s, QuestToOptions());
@@ -114,7 +114,7 @@ public class NpcController : MonoBehaviour
     {
         DialogueSystem.instance.FinishDialogue();
         talkStarted = false;
-        InputManager.state = InputManager.States.Idle;
+        InputManager.instance.ChangeState(InputManager.States.Idle);
     }
     /// <summary>
     /// Converts the number or button pressed to an action

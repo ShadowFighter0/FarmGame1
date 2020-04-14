@@ -29,7 +29,8 @@ public class InputManager : MonoBehaviour
         Working,
         OnUI,
         Dialoguing,
-        Sleeping
+        Sleeping,
+        Editing
     };
     public static States state = States.OnUI;
     private void Awake()
@@ -129,6 +130,9 @@ public class InputManager : MonoBehaviour
             case States.Sleeping:
                 MovementController.instance.SetMovement(false);
                 PlayerFollow.instance.SetMovement(false);
+                break;
+            case States.Editing:
+                ShowCursorBlockMovement();
                 break;
         }
     }

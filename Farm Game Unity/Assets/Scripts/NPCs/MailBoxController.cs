@@ -60,16 +60,19 @@ public class MailBoxController : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(InputManager.instance.Interact) && playerNear && done)
+        if(playerNear)
         {
-            ShowMails();
-            InputManager.instance.ChangeState(InputManager.States.OnUI);
-            done = false;
-        }
-        if((Input.GetKeyDown(KeyCode.Escape) || activePanels == 0) && !done)
-        {
-            done = true;
-            InputManager.instance.ChangeState(InputManager.States.Idle);
+            if (Input.GetKeyDown(InputManager.instance.Interact) && done)
+            {
+                ShowMails();
+                InputManager.instance.ChangeState(InputManager.States.OnUI);
+                done = false;
+            }
+            if ((Input.GetKeyDown(KeyCode.Escape) || activePanels == 0) && !done)
+            {
+                done = true;
+                InputManager.instance.ChangeState(InputManager.States.Idle);
+            }
         }
     }
 
@@ -82,6 +85,10 @@ public class MailBoxController : MonoBehaviour
     {
         activePanels++;
         mails.Enqueue(m); 
+    }
+    public void PanelPicked()
+    {
+        activePanels--;
     }
 
     private void ShowMails()
