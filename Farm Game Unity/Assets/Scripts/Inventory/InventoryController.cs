@@ -256,7 +256,7 @@ public class InventoryController : MonoBehaviour
                 if (item.GetInventoryAmount() + amount <= cantStackMax)
                 {
                     item.AddAmount(amount);
-                    amount = 0 ;
+                    amount = 0;
                 }
                 else
                 {
