@@ -785,7 +785,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 74186849}
-  - component: {fileID: 74186850}
   m_Layer: 0
   m_Name: FreeCamera
   m_TagString: Untagged
@@ -808,31 +807,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &74186850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74186848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b2bb397ca3c29e4997ad469f5c614ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 1842770464}
-  speed: 5
-  menu: {fileID: 1148265714}
-  itemName: {fileID: 1200220383}
-  description: {fileID: 718583522}
-  images:
-  - {fileID: 1092500422}
-  - {fileID: 300530943}
-  - {fileID: 101237417}
-  amounts:
-  - {fileID: 2009635505}
-  - {fileID: 1102579478}
-  - {fileID: 620052767}
 --- !u!1 &74497087
 GameObject:
   m_ObjectHideFlags: 0
@@ -14566,7 +14540,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 74186850}
+      - m_Target: {fileID: 1687417488}
         m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
@@ -20618,6 +20592,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workshopCamera: {fileID: 74186848}
   mat: {fileID: 2100000, guid: d47be1a233ae26a4a8709aeb3dfbca2b, type: 2}
+  cam: {fileID: 1842770464}
+  freeCam: {fileID: 74186849}
+  speed: 2
+  menu: {fileID: 1148265714}
+  itemName: {fileID: 1200220383}
+  description: {fileID: 718583522}
+  images:
+  - {fileID: 1092500422}
+  - {fileID: 300530943}
+  - {fileID: 101237417}
+  amounts:
+  - {fileID: 2009635505}
+  - {fileID: 1102579478}
+  - {fileID: 620052767}
 --- !u!65 &1687417489
 BoxCollider:
   m_ObjectHideFlags: 0

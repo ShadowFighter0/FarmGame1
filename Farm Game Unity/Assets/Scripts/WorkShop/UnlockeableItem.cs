@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/UnlockeableItem")]
-[System.Serializable]
 public class UnlockeableItem : MonoBehaviour
 {
     public string itemName;
