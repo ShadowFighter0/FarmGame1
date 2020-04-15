@@ -10,9 +10,6 @@ public class WorkShopController : MonoBehaviour
 
     public GameObject workshopCamera;
     private GameObject[] unlockableItems;
-    private MeshRenderer[] mesh;
-    private Material[] original;
-    public Material mat;
 
     public Transform cam;
     public Transform freeCam;
@@ -34,6 +31,9 @@ public class WorkShopController : MonoBehaviour
     private UnlockeableItem item;
     private GameObject currentItem;
 
+    private Vector3 oriCamPos;
+    private Quaternion oriCamRot;
+
     private void Start()
     {
         camPivot = freeCam.GetChild(0);
@@ -41,17 +41,8 @@ public class WorkShopController : MonoBehaviour
         newPivotPos = camPivot.localPosition;
 
         unlockableItems = GameObject.FindGameObjectsWithTag("UnlockableItem");
-        mesh = new MeshRenderer[unlockableItems.Length];
-        original = new Material[unlockableItems.Length];
         for (int i = 0; i < unlockableItems.Length; i++)
         {
-            mesh[i] = unlockableItems[i].GetComponent<MeshRenderer>();
-            Material[] mats = new Material[2];
-            original[i] = mesh[i].material;
-            mats[0] = original[i];
-            mats[1] = mat;
-            mesh[i].materials = mats;
-            
             unlockableItems[i].SetActive(false);
         }
     }
@@ -62,15 +53,18 @@ public class WorkShopController : MonoBehaviour
         {
             if (Input.GetKeyDown(InputManager.instance.Interact) && !camActive)
             {
-                workshopCamera.SetActive(true);
-
-                camActive = true;
-                InputManager.instance.ChangeState(InputManager.States.Editing);
-
-                ChangeItemsState(true, 0);
+                ActivateCamera();
             }
 
-            if(camActive)
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                DisableCamera();
+                InputManager.instance.ChangeState(InputManager.States.Idle);
+
+                ChangeItemsState(false);
+            }
+
+            if (camActive)
             {
                 float dt = Time.deltaTime;
 
@@ -107,12 +101,30 @@ public class WorkShopController : MonoBehaviour
         }
     }
 
-    private void ChangeItemsState(bool b, int m)
+    private void DisableCamera()
+    {
+        workshopCamera.SetActive(false);
+        cam.position = oriCamPos;
+        cam.rotation = oriCamRot;
+        camActive = false;
+    }
+
+    private void ActivateCamera()
+    {
+        workshopCamera.SetActive(true);
+        oriCamPos = cam.position;
+        oriCamRot = cam.rotation;
+        camActive = true;
+        InputManager.instance.ChangeState(InputManager.States.Editing);
+
+        ChangeItemsState(true);
+    }
+
+    private void ChangeItemsState(bool b)
     {
         for (int i = 0; i < unlockableItems.Length; i++)
         {
             unlockableItems[i].SetActive(b);
-            mesh[i].material = mesh[i].materials[m];
         }
     }
 
@@ -157,6 +169,13 @@ public class WorkShopController : MonoBehaviour
         if (input.sqrMagnitude > Mathf.Epsilon)
         {
             newPos += input * speed * dt;
+
+            if(menu.activeSelf)
+            {
+                menu.SetActive(false);
+                currentItem = null;
+                item = null;
+            }
         }
 
         if (scroll != 0)
