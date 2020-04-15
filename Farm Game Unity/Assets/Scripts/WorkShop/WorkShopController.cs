@@ -34,6 +34,10 @@ public class WorkShopController : MonoBehaviour
     private Vector3 oriCamPos;
     private Quaternion oriCamRot;
 
+    public GameObject UIMenu;
+
+    private bool finished = true;
+
     private void Start()
     {
         camPivot = freeCam.GetChild(0);
@@ -51,17 +55,25 @@ public class WorkShopController : MonoBehaviour
     {
         if(playerIn)
         {
-            if (Input.GetKeyDown(InputManager.instance.Interact) && !camActive)
+            if (Input.GetKeyDown(InputManager.instance.Interact) && !camActive && finished)
             {
-                ActivateCamera();
+                finished = false;
+                UIMenu.SetActive(true);
+                InputManager.instance.ChangeState(InputManager.States.OnUI);
             }
 
-            if (Input.GetKeyDown(KeyCode.F1))
+            if (Input.GetKeyDown(KeyCode.F1) && !finished)
             {
-                DisableCamera();
-                InputManager.instance.ChangeState(InputManager.States.Idle);
-
-                ChangeItemsState(false);
+                if(UIMenu.activeSelf)
+                {
+                    finished = true;
+                    CloseMenu();
+                }
+                else
+                {
+                    DisableCamera();
+                    ChangeItemsState(false);
+                }
             }
 
             if (camActive)
@@ -101,16 +113,26 @@ public class WorkShopController : MonoBehaviour
         }
     }
 
+    private void CloseMenu()
+    {
+        UIMenu.SetActive(false);
+        InputManager.instance.ChangeState(InputManager.States.Idle);
+    }
+
     private void DisableCamera()
     {
+        UIMenu.SetActive(true);
+        menu.SetActive(false);
         workshopCamera.SetActive(false);
         cam.position = oriCamPos;
         cam.rotation = oriCamRot;
         camActive = false;
     }
 
-    private void ActivateCamera()
+    public void ActivateCamera()
     {
+        UIMenu.SetActive(false);
+
         workshopCamera.SetActive(true);
         oriCamPos = cam.position;
         oriCamRot = cam.rotation;

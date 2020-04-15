@@ -16,7 +16,7 @@ public class MailBoxController : MonoBehaviour
 
     public Mail[] mail;
 
-    private GameObject[] panels;
+    private List<GameObject> panels;
 
     private bool done = true;
 
@@ -33,6 +33,37 @@ public class MailBoxController : MonoBehaviour
         AddContent(mail[1]);
         AddContent(QuestFileInfo.Instance.GetQuest());
         FillMails();
+    }
+    private void Update()
+    {
+        if (playerNear)
+        {
+            if (Input.GetKeyDown(InputManager.instance.Interact) && done)
+            {
+                mailsPanel.SetActive(true);
+
+                panels = new List<GameObject>();
+                for (int i = 0; i < activePanels; i++)
+                {
+                    panels.Add(mailFolder.GetChild(i).gameObject);
+                    panels[i].SetActive(true);
+                }
+                index = activePanels - 1;
+                InputManager.instance.ChangeState(InputManager.States.OnUI);
+                done = false;
+            }
+            if ((Input.GetKeyDown(KeyCode.F1) || GetActiveMails() == 0) && !done)
+            {
+                Close();
+            }
+        }
+    }
+
+    public void Close()
+    {
+        mailsPanel.SetActive(false);
+        done = true;
+        InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
     private void NewDay()
@@ -55,7 +86,7 @@ public class MailBoxController : MonoBehaviour
         if (index != oldIndex)
         {
             Vector3 pos = Vector3.right * dir * offset;
-            for (int i = 0; i < panels.Length; i++)
+            for (int i = 0; i < panels.Count; i++)
             {
                 panels[i].GetComponent<RectTransform>().localPosition += pos;
             }
@@ -80,32 +111,7 @@ public class MailBoxController : MonoBehaviour
         }
         return n;
     }
-    private void Update()
-    {
-        if(playerNear)
-        {
-            if (Input.GetKeyDown(InputManager.instance.Interact) && done)
-            {
-                mailsPanel.SetActive(true);
-
-                panels = new GameObject[activePanels];
-                for (int i = 0; i < activePanels; i++)
-                {
-                    panels[i] = mailFolder.GetChild(i).gameObject;
-                    panels[i].SetActive(true);
-                }
-                index = activePanels - 1;
-                InputManager.instance.ChangeState(InputManager.States.OnUI);
-                done = false;
-            }
-            if ((Input.GetKeyDown(KeyCode.F1) || GetActiveMails() == 0) && !done)
-            {
-                mailsPanel.SetActive(false);
-                done = true;
-                InputManager.instance.ChangeState(InputManager.States.Idle);
-            }
-        }
-    }
+    
 
     public void AddContent(QuestInfo q) 
     {
@@ -117,9 +123,13 @@ public class MailBoxController : MonoBehaviour
         activePanels++;
         mails.Enqueue(m); 
     }
-    public void PanelPicked()
+
+    public void TakeMail()
     {
+        panels[index].GetComponent<MailBoxPanel>().AddContent();
+        panels.RemoveAt(index);
         activePanels--;
+        ChangePage(index--);
     }
 
     private void FillMails()
