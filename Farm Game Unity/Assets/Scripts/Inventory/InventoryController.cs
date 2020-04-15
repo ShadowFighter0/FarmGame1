@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -326,67 +327,50 @@ public class InventoryController : MonoBehaviour
 
     private void ReOrderItem()
     {
-        for(int i = 0; i < items.Length;    )
+        for(int i = 0; i < items.Length;   )
         {
             InventoryItem item = items[i];
 
-            if (item!= null)
+            ManageAmouts(item);
+
+        }
+    }
+
+    private void ManageAmouts(InventoryItem item)
+    {
+        List<int> positions = SearchItem(item.name);
+
+        for (int i = 0; i < positions.Count && i!=positions.Count; i++)
+        {
+            InventoryItem aux = items[positions[i]];
+            int offset = cantStackMax - aux.GetInventoryAmount();
+
+            if (offset != 0)
             {
-                List<int> positions = SearchItem(item.name);
-
-                for(int j = 0; j < positions.Count; j++)
+                for(int j = i + 1; j < positions.Count && offset > 0; j++ )
                 {
-                    if (j != positions.Count)
+                    int cant = items[positions[j]].GetInventoryAmount();
+
+                    if (cant > offset)
                     {
-                        int offset = cantStackMax - items[positions[j]].GetInventoryAmount();
-
-                        if (items[positions[j + 1]].GetInventoryAmount() > offset)
-                        {
-                            items[positions[j]].AddAmount(offset);
-                            items[positions[j + 1]].SubstractAmount(offset);
-                        }
-
-                        else if (items[positions[j + 1]].GetInventoryAmount() < offset)
-                        {
-                            offset = items[positions[j + 1]].GetInventoryAmount();
-                            items[positions[j]].AddAmount(offset);
-                            items[positions[j + 1]].SubstractAmount(offset);
-                            items[positions[j + 1]] = null;
-                            positions = SearchItem(item.name);
-                        } 
-
-                        else if (items[positions[j + 1]].GetInventoryAmount() == offset)
-                        {
-                            items[positions[j]].AddAmount(items[positions[j + 1]].GetInventoryAmount());
-                            items[positions[j + 1]].SubstractAmount(offset);
-                            items[positions[j + 1]] = null;
-                            positions = SearchItem(item.name);
-                        }
+                        aux.AddAmount(offset);
+                        items[positions[j]].SubstractAmount(offset);
+                        offset = 0;
+                    }
+                    else if(cant == offset)
+                    {
+                        aux.AddAmount(offset);
+                        items[positions[j]] = null;
+                        positions = SearchItem(item.name);
+                    }
+                    else if (cant < offset)
+                    {
+                        offset -= cant;
+                        items[positions[j]] = null;
+                        positions = SearchItem(item.name);
                     }
                 }
-                
-                /*for (int j = 0; j < positions.Count; j++)
-                {
-                    if(j!=positions.Count)
-                    {
-                        if (positions[j + 1] - positions[j] > 1)
-                        {
-                            InventoryItem aux = items[positions[j]+1];
-                            items[positions[j] + 1] = items[positions[j+1]];
-                            items[positions[j + 1]] = aux;
-                            positions = SearchItem(item.name);
-                            
-                        }
-                    }
-                }
-                */
-                i += positions.Count;
-            }
-            else
-            {
-                return ;
-            }
-
+            }      
         }
     }
     #endregion
