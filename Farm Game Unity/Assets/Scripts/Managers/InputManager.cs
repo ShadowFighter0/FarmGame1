@@ -60,6 +60,10 @@ public class InputManager : MonoBehaviour
                     {
                         ChangeState(States.Working);
                     }
+                    if (Input.GetKeyDown(Inventory))
+                    {
+                        InventoryController.Instance.OpenMenu();
+                    }
                     ChangeTool(scroll);
                 }
                 break;
@@ -91,6 +95,10 @@ public class InputManager : MonoBehaviour
                     
                 break;
             case States.OnUI:
+                if (Input.GetKeyDown(Inventory))
+                {
+                    InventoryController.Instance.CloseMenu();
+                }
 
                 break;
             case States.Dialoguing:

@@ -120,11 +120,6 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        OpenCloseMenu();
-    }
-
     private void Save()
     {
         SaveLoad.Save(items, "InventoryItems");
@@ -132,24 +127,20 @@ public class InventoryController : MonoBehaviour
     }
 
     #region Menu && Visual
-    private void OpenCloseMenu()
+    public void OpenMenu()
     {
-        if (Input.GetKeyDown(InputManager.instance.Inventory))
-        {
-            book.SetActive(!book.activeSelf);
-            if (book.activeSelf)
-            {
-                ChangeGui();
-                Time.timeScale = 0;
-                InputManager.instance.ChangeState(InputManager.States.OnUI);
-            }
-            else
-            {
-                Time.timeScale = 1;
-                InputManager.instance.ChangeState(InputManager.States.Idle);
-            }
-        }
+        book.SetActive(true);   
+        ChangeGui();
+        Time.timeScale = 0;
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
+    public void CloseMenu()
+    {
+        book.SetActive(false);
+        Time.timeScale = 1;
+        InputManager.instance.ChangeState(InputManager.States.Idle);
+    }
+
     void ChangeGui()
     {
         pages[oldPage].SetActive(false);
@@ -330,10 +321,21 @@ public class InventoryController : MonoBehaviour
         for(int i = 0; i < items.Length;   )
         {
             InventoryItem item = items[i];
-
             ManageAmouts(item);
-
+            i += SearchItem(item.name).Count;
         }
+        for (int i = 0; i < items.Length;)
+        {
+            InventoryItem item = items[i];
+            ManagePositions(item);
+            i += SearchItem(item.name).Count;
+        }
+
+    }
+
+    private void ManagePositions(InventoryItem item)
+    {
+
     }
 
     private void ManageAmouts(InventoryItem item)
