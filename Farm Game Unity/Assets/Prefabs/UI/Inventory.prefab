@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2798143463214348168}
   - component: {fileID: 1982278763467211702}
+  - component: {fileID: 1512649598}
   m_Layer: 0
   m_Name: Inventory
   m_TagString: Untagged
@@ -43,10 +44,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032d675f697ddb14e9d5c71e7add7ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numItems: 0
+  numSeeds: 0
+  cantStackMax: 20
+  itemSpace: 20
+  seedSpace: 0
   tools: {fileID: 0}
   spin: {fileID: 0}
-  materialsGUI: {fileID: 0}
-  buttons: {fileID: 0}
   book: {fileID: 0}
   deletePanel: {fileID: 0}
-  cursor: {fileID: 0}
+  seedsItems:
+  - {fileID: 11400000, guid: 8e45770c4e6db1e48a9cd7b45960af98, type: 2}
+  - {fileID: 11400000, guid: a3ebe69c60ed3f746965df15612937e6, type: 2}
+  materialsItems: []
+  inventoryEntry:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  pages:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &1512649598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982278763467211707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8263654d3c3a32048a6d971f4cbb459c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopPanel: {fileID: 0}
+  amountPanel: {fileID: 0}
+  totalPrice: {fileID: 0}
