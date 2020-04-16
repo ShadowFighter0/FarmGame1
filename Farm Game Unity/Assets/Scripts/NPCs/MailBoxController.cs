@@ -26,7 +26,7 @@ public class MailBoxController : MonoBehaviour
     private void Start()
     {
         mailsPanel = mailFolder.parent.gameObject;
-        GameEvents.Instance.OnNewDay += NewDay;
+        GameEvents.OnNewDay += NewDay;
         AddContent(QuestFileInfo.Instance.GetQuest());
         AddContent(mail[0]);
         AddContent(QuestFileInfo.Instance.GetQuest());

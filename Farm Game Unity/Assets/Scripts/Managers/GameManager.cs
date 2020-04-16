@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
 
     public void SaveAll()
     {
-        GameEvents.Instance.SaveInitiated();
+        GameEvents.SaveInitiated();
         saveText.SetActive(true);
         DateTime time = DateTime.Now;
         lastTimeSaved = time;
@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
     private void ChangeDay()
     {
         day++;
-        GameEvents.Instance.NewDay();
+        GameEvents.NewDay();
         InputManager.instance.ChangeState(InputManager.States.Idle);
         loading = false;
         SaveAll();

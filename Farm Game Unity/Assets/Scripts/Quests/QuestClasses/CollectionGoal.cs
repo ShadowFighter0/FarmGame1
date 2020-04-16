@@ -19,7 +19,7 @@ public class CollectionGoal : Goal
     public override void Init()
     {
         base.Init();
-        GameEvents.Instance.OnItemCollected += ItemPickedUp;
+        GameEvents.OnItemCollected += ItemPickedUp;
     }
 
     void ItemPickedUp(string s, int am)

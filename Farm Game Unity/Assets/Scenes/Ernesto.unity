@@ -12613,6 +12613,7 @@ MonoBehaviour:
   requirements:
   - {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
   amounts: 05000000
+  purchased: 0
 --- !u!1 &1002958544
 GameObject:
   m_ObjectHideFlags: 0
@@ -22022,6 +22023,7 @@ MonoBehaviour:
   - {fileID: 1102579478}
   - {fileID: 620052767}
   UIMenu: {fileID: 587891416}
+  mat: {fileID: 2100000, guid: d47be1a233ae26a4a8709aeb3dfbca2b, type: 2}
 --- !u!65 &1687417489
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25494,6 +25496,7 @@ MonoBehaviour:
   requirements:
   - {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
   amounts: 05000000
+  purchased: 0
 --- !u!65 &1911728057
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25768,6 +25771,7 @@ MonoBehaviour:
   requirements:
   - {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
   amounts: 05000000
+  purchased: 0
 --- !u!65 &1925157129
 BoxCollider:
   m_ObjectHideFlags: 0

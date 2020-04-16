@@ -5,26 +5,20 @@ using System;
 
 public class GameEvents : MonoBehaviour
 {
-	public static GameEvents Instance;
-	private void Awake()
-	{
-		Instance = this;
-	}
-
-	public event Action<string, int> OnItemCollected;
-	public void ItemCollected(string s, int am)
+	public static event Action<string, int> OnItemCollected;
+	public static void ItemCollected(string s, int am)
 	{
 		OnItemCollected?.Invoke(s, am);
 	}
 
-	public event Action OnNewDay;
-	public void NewDay()
+	public static event Action OnNewDay;
+	public static void NewDay()
 	{
 		OnNewDay?.Invoke();
 	}
 
-	public event Action OnSaveInitiated;
-	public void SaveInitiated()
+	public static event Action OnSaveInitiated;
+	public static void SaveInitiated()
 	{
 		OnSaveInitiated?.Invoke();
 	}

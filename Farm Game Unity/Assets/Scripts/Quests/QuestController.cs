@@ -35,7 +35,7 @@ public class QuestController : MonoBehaviour
 
     private void Start()
     {
-        GameEvents.Instance.OnSaveInitiated += SaveQuests;
+        GameEvents.OnSaveInitiated += SaveQuests;
 
         if(SaveLoad.SaveExists("ActiveQuests"))
         {

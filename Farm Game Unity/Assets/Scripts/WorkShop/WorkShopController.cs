@@ -9,7 +9,7 @@ public class WorkShopController : MonoBehaviour
     private bool camActive = false;
 
     public GameObject workshopCamera;
-    private GameObject[] unlockableItems;
+    private List<UnlockeableItem> unlockableItems = new List<UnlockeableItem>();
 
     public Transform cam;
     public Transform freeCam;
@@ -38,16 +38,39 @@ public class WorkShopController : MonoBehaviour
 
     private bool finished = true;
 
+    public Material mat;
+
     private void Start()
     {
+        GameEvents.OnSaveInitiated += SaveItems;
         camPivot = freeCam.GetChild(0);
         newPos = freeCam.position;
         newPivotPos = camPivot.localPosition;
 
-        unlockableItems = GameObject.FindGameObjectsWithTag("UnlockableItem");
-        for (int i = 0; i < unlockableItems.Length; i++)
+        foreach (UnlockeableItem script in FindObjectsOfType<UnlockeableItem>())
         {
-            unlockableItems[i].SetActive(false);
+            unlockableItems.Add(script);
+        }
+        if (SaveLoad.SaveExists("UnlockeableItems"))
+        {
+            List<bool> bools = SaveLoad.Load<List<bool>>("UnlockeableItems");
+            for (int i = 0; i < unlockableItems.Count; i++)
+            {
+                unlockableItems[i].purchased = bools[i];
+                bool b = unlockableItems[i].purchased;
+                if (b)
+                {
+                    unlockableItems[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    unlockableItems[i].gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            ChangeItemsState(false);
         }
     }
 
@@ -112,6 +135,16 @@ public class WorkShopController : MonoBehaviour
         }
     }
 
+    private void SaveItems()
+    {
+        List<bool> objects = new List<bool>();
+        for (int i = 0; i < unlockableItems.Count; i++)
+        {
+            objects.Add(unlockableItems[i].purchased);
+        }
+        SaveLoad.Save(objects, "UnlockeableItems");
+    }
+
     private void CloseMenu()
     {
         UIMenu.SetActive(false);
@@ -143,9 +176,16 @@ public class WorkShopController : MonoBehaviour
 
     private void ChangeItemsState(bool b)
     {
-        for (int i = 0; i < unlockableItems.Length; i++)
+        for (int i = 0; i < unlockableItems.Count; i++)
         {
-            unlockableItems[i].SetActive(b);
+            if(!unlockableItems[i].purchased)
+            {
+                if(b)
+                {
+                    unlockableItems[i].SetMaterial(mat);
+                }
+                unlockableItems[i].gameObject.SetActive(b);
+            }
         }
     }
 
@@ -170,8 +210,8 @@ public class WorkShopController : MonoBehaviour
             Debug.Log(item.itemName + " purchased!");
             menu.SetActive(false);
 
-            MeshRenderer m = currentItem.GetComponent<MeshRenderer>();
-            m.material = m.materials[1];
+            currentItem.GetComponent<UnlockeableItem>().SetOriginalMat();
+            currentItem.GetComponent<UnlockeableItem>().purchased = true;
 
             currentItem.tag = "Untagged";
             currentItem = null;
@@ -202,7 +242,7 @@ public class WorkShopController : MonoBehaviour
         if (scroll != 0)
         {
             newPivotPos.y -= scroll;
-            //newPivotPos.y = Mathf.Clamp(newPos.y, 5f, 15f);
+            newPivotPos.y = Mathf.Clamp(newPivotPos.y, 5f, 15f);
         }
 
         cam.position = camPivot.position;

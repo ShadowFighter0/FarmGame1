@@ -101,7 +101,7 @@ public class InventoryController : MonoBehaviour
     {
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
-        GameEvents.Instance.OnSaveInitiated += Save;
+        GameEvents.OnSaveInitiated += Save;
         if(SaveLoad.SaveExists("InventorySeeds"))
         {
             InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventorySeeds"); 
@@ -229,7 +229,7 @@ public class InventoryController : MonoBehaviour
         }
 
         //item
-        GameEvents.Instance.ItemCollected(newItem.name, GetAmount(newItem.name));
+        GameEvents.ItemCollected(newItem.name, GetAmount(newItem.name));
         feed.Suscribe(newItem.name, newItem.image, newItem.amount);
     }
     private void AddNewItem(Item newItem)
@@ -424,7 +424,7 @@ public class InventoryController : MonoBehaviour
     {
         InventoryItem item = seeds[SearchSeed(id)];
         item.SubstractAmount(cant);
-        GameEvents.Instance.ItemCollected(item.name, item.GetInventoryAmount());
+        GameEvents.ItemCollected(item.name, item.GetInventoryAmount());
     }
 
     public void ChangePage(int page)

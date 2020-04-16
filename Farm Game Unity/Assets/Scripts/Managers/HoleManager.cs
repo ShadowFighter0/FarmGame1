@@ -30,7 +30,7 @@ public class HoleManager : MonoBehaviour
     }
     private void Start()
     {
-        GameEvents.Instance.OnSaveInitiated += SaveHoles;
+        GameEvents.OnSaveInitiated += SaveHoles;
 
         if (SaveLoad.SaveExists("Holes"))
         {
