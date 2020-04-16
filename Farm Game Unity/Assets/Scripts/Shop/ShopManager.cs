@@ -31,12 +31,14 @@ public class ShopManager : MonoBehaviour
     public GameObject amountPanel;
     public ShopEntry totalPrice;
 
-    private ShopItem[] stockItems;
-    private ShopEntry[] stockUI;
-    
-    private ShopItem[] cart;
+    private ShopItem[] stockItems; //Items that can be bought
 
-    private bool confirmSell = false;
+
+    private ShopEntry[] stockUI; // VisualEntrys
+    
+    private ShopItem[] cart; //Items that will be added to your inventory
+
+    private bool confirmSell = false; //Button that confirm the sell or buy 
     private bool cartView;
     #endregion
 
