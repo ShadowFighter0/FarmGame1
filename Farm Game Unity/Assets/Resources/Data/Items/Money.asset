@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9be7aa3049a5e04bb5acf6e7bc0de87, type: 3}
-  m_Name: CarrotSeed
+  m_Script: {fileID: 11500000, guid: 40808a4d72151f642b2165c5d9d10074, type: 3}
+  m_Name: Money
   m_EditorClassIdentifier: 
-  itemName: CarrotSeed
-  imagePath: CarrotSeed
-  amount: 3
-  price: 1
-  plantType: Carrot
-  food: {fileID: 11400000, guid: 630b779f07ad7864491b660ed51bf517, type: 2}
-  growthTime: 1
+  itemName: Money
+  image: {fileID: 21300000, guid: c07d843da9e05b944847adcbd49e431d, type: 3}
+  amount: 5
+  price: 0

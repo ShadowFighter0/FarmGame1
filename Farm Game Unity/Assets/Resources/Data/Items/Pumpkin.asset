@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40808a4d72151f642b2165c5d9d10074, type: 3}
-  m_Name: Money
+  m_Name: Pumpkin
   m_EditorClassIdentifier: 
-  itemName: Money
-  imagePath: Money
-  amount: 5
+  itemName: Pumpkin
+  image: {fileID: 21300000, guid: c05c8917b49e13845ae35869b88ec539, type: 3}
+  amount: 2
   price: 0

@@ -89,11 +89,11 @@ public class InventoryController : MonoBehaviour
         //Start seeds and materials
         for(int i = 0; i < seedsItems.Length; i++)
         {
-            seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].imagePath, false);// Database[]
+            seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].image.name, false);
         }
         for (int i = 0; i < materialsItems.Length; i++)
         {
-            materials[i] = new InventoryItem(materialsItems[i].name, materialsItems[i].imagePath, false);// Database[]
+            materials[i] = new InventoryItem(materialsItems[i].name, materialsItems[i].image.name, false);
         }
     }
 
@@ -217,7 +217,7 @@ public class InventoryController : MonoBehaviour
                 }
                 else if (numItems < items.Length)
                 {
-                    items[numItems] = new InventoryItem(newItem.itemName, newItem.imagePath);
+                    items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
                     items[numItems].AddAmount(newItem.amount);
                     numItems++;
                 }
@@ -230,8 +230,7 @@ public class InventoryController : MonoBehaviour
 
         //item
         GameEvents.Instance.ItemCollected(newItem.name, GetAmount(newItem.name));
-        Sprite sprite = Resources.Load<Sprite>("Sprites/" + newItem.imagePath);
-        feed.Suscribe(newItem.name, sprite, newItem.amount);
+        feed.Suscribe(newItem.name, newItem.image, newItem.amount);
     }
     private void AddNewItem(Item newItem)
     {
@@ -265,7 +264,7 @@ public class InventoryController : MonoBehaviour
         }
         if ((positions == null || newInventoryItem) && numItems < items.Length)
         {
-            item = items[numItems] = new InventoryItem(newItem.itemName, newItem.imagePath);
+            item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
 
             if (newInventoryItem)
                 item.AddAmount(amount);

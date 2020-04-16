@@ -99,8 +99,7 @@ public class WorkShopController : MonoBehaviour
 
                                 for (int i = 0; i < item.requirements.Length; i++)
                                 {
-                                    Sprite sprite = Resources.Load<Sprite>("Sprites/" + item.requirements[i].imagePath);
-                                    images[i].sprite = sprite;
+                                    images[i].sprite = item.requirements[i].image;
                                     amounts[i].text = item.amounts[i].ToString();
                                 }
                             }

@@ -11,8 +11,8 @@ public class SaveQuest
     public string description;
     public string[] itemId;
     public int[] itemAmount;
-    public Item reward;
-    public SaveQuest(string q, string npc, string d, string[] ids, int[] am, Item r)
+    public string reward;
+    public SaveQuest(string q, string npc, string d, string[] ids, int[] am, string r)
     {
         questName = q;
         npcName = npc;
@@ -42,7 +42,8 @@ public class QuestController : MonoBehaviour
             List<SaveQuest> saved = SaveLoad.Load<List<SaveQuest>>("ActiveQuests");
             foreach (SaveQuest q in saved)
             {
-                AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, q.reward));
+                Item item = DataBase.GetItem(q.reward);
+                AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, item));
             }
             saved.Clear();
         }
@@ -51,7 +52,8 @@ public class QuestController : MonoBehaviour
             List<SaveQuest> saved = SaveLoad.Load<List<SaveQuest>>("CompletedQuests");
             foreach (SaveQuest q in saved)
             {
-                AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, q.reward));
+                Item item = DataBase.GetItem(q.reward);
+                AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, item));
             }
             saved.Clear();
         }
@@ -70,7 +72,7 @@ public class QuestController : MonoBehaviour
                 ids[i] = q.Goals[i].ItemID;
                 amounts[i] = q.Goals[i].RequiredAmount;
             }
-            saveActives.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward));
+            saveActives.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward.itemName));
         }
         List<SaveQuest> saveCompleted = new List<SaveQuest>();
         foreach (Quest q in completedQuests)
@@ -83,11 +85,11 @@ public class QuestController : MonoBehaviour
                 ids[i] = q.Goals[i].ItemID;
                 amounts[i] = q.Goals[i].RequiredAmount;
             }
-            saveCompleted.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward));
+            saveCompleted.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward.itemName));
         }
 
-        //SaveLoad.Save(saveActives, "ActiveQuests");
-        //SaveLoad.Save(saveCompleted, "CompletedQuests");
+        SaveLoad.Save(saveActives, "ActiveQuests");
+        SaveLoad.Save(saveCompleted, "CompletedQuests");
 
         saveActives.Clear();
         saveCompleted.Clear();

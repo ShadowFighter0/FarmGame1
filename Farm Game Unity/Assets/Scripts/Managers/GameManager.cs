@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     public GameObject continueText;
     public Text lastSavedText;
     public static GameManager instance;
+
+    public Transform player;
+    private Vector3 oriPos;
+    private Quaternion oriRot;
     private void Awake()
     {
         string path = Application.persistentDataPath + "/saves/";
@@ -51,6 +55,8 @@ public class GameManager : MonoBehaviour
             continueText.SetActive(true);
         }
         InputManager.instance.ChangeState(InputManager.States.OnUI);
+        oriPos = player.position + Vector3.up;
+        oriRot = player.rotation;
     }
     private void Update()
     {
@@ -116,6 +122,14 @@ public class GameManager : MonoBehaviour
             InputManager.instance.ChangeState(InputManager.States.Idle);
         }
     }
+
+    public void Respawn()
+    {
+        player.position = oriPos;
+        player.rotation = oriRot;
+        InputManager.instance.ChangeState(InputManager.States.Idle);
+    }
+
     public void ShowOptions()
     {
 
