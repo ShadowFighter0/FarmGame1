@@ -1,38 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ShopItem
-{
-    public Item item;
-
-    public int stock;
-    public int amountSelected;
-    bool isSelected = false;
-
-    public void Select()
-    {
-        isSelected = !isSelected;
-    }
-
-    /// <summary>
-    /// Restart the isSelected variable
-    /// </summary>
-    public void CloseShop()
-    {
-        isSelected = true;
-    }
-}
+using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
     #region Variables
     public GameObject shopPanel;
     public GameObject amountPanel;
-    public ShopEntry totalPrice;
 
-    private ShopItem[] stockItems; //Items that can be bought
+    public Text totalPrice;
+    private Slider slider;
+    private InputField input;
 
+    Shop currentShop;
 
     private ShopEntry[] stockUI; // VisualEntrys
     
@@ -40,13 +21,18 @@ public class ShopManager : MonoBehaviour
 
     private bool confirmSell = false; //Button that confirm the sell or buy 
     private bool cartView;
+
+    int pos;
     #endregion
 
 
     #region Functions
+
     private void Start()
     {
-        cart = new ShopItem[stockItems.Length];
+        totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
+        slider = amountPanel.transform.GetChild(3).GetComponent<Slider>();
+        input = amountPanel.transform.GetChild(4).GetComponent<InputField>();
     }
     /// <summary>
     /// Button click select an item
@@ -54,9 +40,29 @@ public class ShopManager : MonoBehaviour
     /// <param name="pos"></param>
     public void Select(int pos)
     {
-        stockItems[pos].Select();
+        this.pos = pos;
+        currentShop.stock[pos].Select();
         stockUI[pos].Select();
+        slider.maxValue = currentShop.stock[pos].stock;
+        amountPanel.SetActive(true);
     }
+
+    public void ConfirmAmount ()
+    {
+        currentShop.stock[pos].amountSelected = (int)slider.value;
+        amountPanel.SetActive(false);
+        slider.value = 0;
+
+    }
+    public void SliderValueChange()
+    {
+        input.text = slider.value.ToString();
+    }
+    public void InputValueChange()
+    {
+        slider.value = int.Parse(input.text);
+    }
+
 
     /// <summary>
     /// Open the shop's panel and Time.scaleTime = 0;
@@ -83,9 +89,9 @@ public class ShopManager : MonoBehaviour
         for(int i  = 0; i < stockUI.Length; i++)
         {
             stockUI[i].CloseShop();
-            if(i < stockItems.Length-1)
+            if(i < currentShop.stock.Length-1)
             {
-                stockItems[i].CloseShop();
+                currentShop.stock[i].CloseShop();
             }
         }
         confirmSell = false;
@@ -98,7 +104,7 @@ public class ShopManager : MonoBehaviour
     public void ReFillShop()//newDay
     {
         //pillar items de Assets
-        foreach(ShopItem s in stockItems)
+        foreach(ShopItem s in currentShop.stock)
         {
             //s.item =
             //s.amountPanel = 
@@ -115,7 +121,7 @@ public class ShopManager : MonoBehaviour
         {
             price += cart[i].item.price;
         }
-        totalPrice.Price(price);
+        totalPrice.text = price.ToString();
 
         if(confirmSell)
         {
@@ -203,9 +209,9 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < stockItems.Length; i++)
+            for (int i = 0; i < currentShop.stock.Length; i++)
             {
-                stockUI[i].Fill(stockItems[i]);
+                stockUI[i].Fill(currentShop.stock[i]);
             }
         }
     }

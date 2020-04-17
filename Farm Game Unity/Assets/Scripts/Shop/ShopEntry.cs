@@ -12,7 +12,7 @@ public class ShopEntry : MonoBehaviour
     private Text amountSelectedText;
     private GameObject select;
 
-    private void Awake()
+    private void Start()
     { 
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<Text>();
