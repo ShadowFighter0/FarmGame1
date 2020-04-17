@@ -52,5 +52,21 @@ public class Shop : MonoBehaviour
         return Random.Range(3, 10);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.CompareTag("Player") && Input.GetKey(KeyCode.E))
+        {
+            ShopManager.Instance.SetCurrentShop(this);
+        }
+    }
+
+    public void NewDay()
+    {
+        foreach(ShopItem s in stock)
+        {
+            s.Fill(GenerateAmount());
+        }
+    }
+
 
 }

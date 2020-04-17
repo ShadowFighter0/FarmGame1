@@ -5,11 +5,20 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    #region Singleton
+    public static ShopManager Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+    #endregion
+
     #region Variables
     public GameObject shopPanel;
     public GameObject amountPanel;
-
+    public Shop[] shops;
     public Text totalPrice;
+
     private Slider slider;
     private InputField input;
 
@@ -33,7 +42,18 @@ public class ShopManager : MonoBehaviour
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
         slider = amountPanel.transform.GetChild(3).GetComponent<Slider>();
         input = amountPanel.transform.GetChild(4).GetComponent<InputField>();
+
+        CartView();
     }
+
+    public void SetCurrentShop(Shop shop)
+    {
+        currentShop = shop;
+        Debug.Log(currentShop);
+        OpenShop();
+
+    }
+
     /// <summary>
     /// Button click select an item
     /// </summary>
@@ -52,28 +72,28 @@ public class ShopManager : MonoBehaviour
         currentShop.stock[pos].amountSelected = (int)slider.value;
         amountPanel.SetActive(false);
         slider.value = 0;
-
     }
+
     public void SliderValueChange()
     {
         input.text = slider.value.ToString();
     }
+
     public void InputValueChange()
     {
         slider.value = int.Parse(input.text);
     }
 
-
     /// <summary>
     /// Open the shop's panel and Time.scaleTime = 0;
     /// </summary>
-    public void OpenShop()
+    private void OpenShop()
     {
         cartView = true;
         CartView();
+        
         Time.timeScale = 0;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
         shopPanel.SetActive(true);
     }
 
@@ -84,9 +104,9 @@ public class ShopManager : MonoBehaviour
     {
         shopPanel.SetActive(false);
         Time.timeScale = 1;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        for(int i  = 0; i < stockUI.Length; i++)
+        InputManager.instance.ChangeState(InputManager.States.Idle);
+
+        for (int i  = 0; i < stockUI.Length; i++)
         {
             stockUI[i].CloseShop();
             if(i < currentShop.stock.Length-1)
@@ -98,23 +118,22 @@ public class ShopManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Get Items from Assets 
+    /// New Day
     /// </summary>
     /// 
-    public void ReFillShop()//newDay
+    public void ReFillShop()
     {
         //pillar items de Assets
-        foreach(ShopItem s in currentShop.stock)
+        foreach(Shop s in shops)
         {
-            //s.item =
-            //s.amountPanel = 
+            s.NewDay();
         }
     }
 
     /// <summary>
     ///Once you have selected all the items you wanna buy get the total price and give the items 
     /// </summary>
-    private void GetCharge() // 
+    private void GetCharge() // Comprobar si funciona q ha saber
     {
         int price = 0;
         for(int i = 0; i< cart.Length; i++)
@@ -138,7 +157,7 @@ public class ShopManager : MonoBehaviour
         //PopUp no hay espacio reutilizar amount panel si se puede
     }
 
-    private void GiveItems(int price)
+    private void GiveItems(int price)   // comprobar si funciona q a saber 
     {
         int numSeeds = 0;
         int numItems = 0;
