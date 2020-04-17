@@ -27,12 +27,15 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject mainMenu;
     public GameObject continueText;
+    public GameObject options;
     public Text lastSavedText;
     public static GameManager instance;
 
     public Transform player;
     private Vector3 oriPos;
     private Quaternion oriRot;
+
+    private string[] sentences =  {"CONTINUE", "NEW GAME"};
     private void Awake()
     {
         string path = Application.persistentDataPath + "/saves/";
@@ -46,14 +49,18 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        DontDestroyOnLoad(UIFolder);
     }
     private void Start()
     {
         if (SaveLoad.HasSaves())
         {
-            continueText.SetActive(true);
+            continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[0];
         }
+        else
+        {
+            continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[1];
+        }
+
         InputManager.instance.ChangeState(InputManager.States.OnUI);
         oriPos = player.position + Vector3.up;
         oriRot = player.rotation;
@@ -130,14 +137,11 @@ public class GameManager : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
-    public void ShowOptions()
+    public void ActiveOptions()
     {
+        options.SetActive(!options.activeSelf);
+    }
 
-    }
-    public void ShowExitPopup()
-    {
-        
-    }
     public void ContinueGame()
     {
         InputManager.instance.ChangeState(InputManager.States.Idle);
@@ -201,6 +205,7 @@ public class GameManager : MonoBehaviour
     public void DeleteProgress()
     {
         SaveLoad.DeleteAllData();
+        Reload();
     }
 
     private void ChangeDay()

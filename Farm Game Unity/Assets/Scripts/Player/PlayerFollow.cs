@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerFollow : MonoBehaviour
 {
     public Transform player;
     public Transform editTarget;
     
-    private const float inputSensitivity = 150.0f;
+    private float inputSensitivity = 150.0f;
 
     Vector3 rotation;
     private const float clampAngle = 80.0f;
@@ -28,6 +29,8 @@ public class PlayerFollow : MonoBehaviour
     public Vector3 shopRotation;
     private Transform cam;
 
+    public Slider inputSlider;
+
     private void Awake()
     {
         instance = this;
@@ -37,6 +40,7 @@ public class PlayerFollow : MonoBehaviour
     {
         Vector3 rot = transform.localRotation.eulerAngles;
         rotation = rot;
+        inputSensitivity = inputSlider.value;
 
         if(player == null)
         {
@@ -63,6 +67,13 @@ public class PlayerFollow : MonoBehaviour
             }
             CameraUpdater(dt);
         }
+
+        inputSensitivity = inputSlider.value;
+    }
+
+    public void SetMouseSens(float value)
+    {
+        inputSensitivity = value;
     }
 
     private void DialogueCamPosition(float dt)
