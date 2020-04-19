@@ -57,13 +57,14 @@ public class InventoryController : MonoBehaviour
     #endregion
 
     #region Public External Objects
-    [Tooltip("Parent of all tools")] public GameObject tools;
-    [Tooltip("Parent of the spin (GUI)")] public GameObject spin;
     [Tooltip("Book")] public GameObject book;
     [Tooltip("Delete Panel")] public GameObject deletePanel;
 
     [Tooltip("Todas las semillas")] public Item[] seedsItems;
     [Tooltip("Todos los materiales")] public Item[] materialsItems;
+    [HideInInspector] public bool bookActive = false;
+
+    InputManager.States currentState;
     #endregion
 
     
@@ -129,16 +130,19 @@ public class InventoryController : MonoBehaviour
     #region Menu && Visual
     public void OpenMenu()
     {
+        bookActive = true;
         book.SetActive(true);   
         ChangeGui();
         Time.timeScale = 0;
+        currentState = InputManager.state;
         InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
     public void CloseMenu()
     {
+        bookActive = false;
         book.SetActive(false);
         Time.timeScale = 1;
-        InputManager.instance.ChangeState(InputManager.States.Idle);
+        InputManager.instance.ChangeState(currentState);   
     }
 
     void ChangeGui()
@@ -197,7 +201,6 @@ public class InventoryController : MonoBehaviour
     #region AddItem/Seed/Material
     public void AddItem(Item newItem)
     {
-        //Seed
         if(newItem.GetType() == typeof(Seed))
         {
             AddNewSeed(newItem);

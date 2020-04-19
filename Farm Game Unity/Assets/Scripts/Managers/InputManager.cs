@@ -70,6 +70,13 @@ public class InputManager : MonoBehaviour
             case States.Working:
                 if ((Input.anyKey || scroll != 0))
                 {
+                    if (Input.GetKeyDown(Inventory))
+                    {
+                        if (InventoryController.Instance.bookActive)
+                            InventoryController.Instance.CloseMenu();
+                        else
+                            InventoryController.Instance.OpenMenu();
+                    }
                     if (Input.GetKeyDown(RadialMenu))
                     {
                         ChangeState(States.SelectingSeed);

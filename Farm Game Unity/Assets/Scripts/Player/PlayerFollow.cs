@@ -40,7 +40,7 @@ public class PlayerFollow : MonoBehaviour
     {
         Vector3 rot = transform.localRotation.eulerAngles;
         rotation = rot;
-        inputSensitivity = inputSlider.value;
+        //inputSensitivity = inputSlider.value;
 
         if(player == null)
         {

@@ -18,31 +18,31 @@ public class ShopItem
     {
         isSelected = true;
     }
-    public void Fill(int amount)
-    {
-        stock = amount;
-    }
-    public void ToCart (int i)
-    {
-        amountSelected = i;
-    }
 }
-
 
 public class Shop : MonoBehaviour
 {
     public Item[] stockItems;
-
     public ShopItem[] stock;
+
+    private bool playerNear = false;
 
     private void Start()
     {
         stock = new ShopItem[stockItems.Length];
-        
-        for(int i = 0; i < stockItems.Length; i++)
+
+        for(int i = 0; i < stock.Length; i++)
         {
-            stock[i].item = stockItems[i];
-            stock[i].Fill(GenerateAmount());
+           // stock[i].item = stockItems[i];
+           // stock[i].stock = GenerateAmount();
+        }
+    }
+
+    private void Update()
+    {
+        if(playerNear && Input.GetKey(KeyCode.E))
+        {
+            ShopManager.Instance.OpenShop(this);
         }
     }
 
@@ -52,19 +52,22 @@ public class Shop : MonoBehaviour
         return Random.Range(3, 10);
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && Input.GetKey(KeyCode.E))
-        {
-            ShopManager.Instance.SetCurrentShop(this);
-        }
+        if (other.CompareTag("Player"))
+            playerNear = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            playerNear = false;
     }
 
     public void NewDay()
     {
         foreach(ShopItem s in stock)
         {
-            s.Fill(GenerateAmount());
+            s.stock = GenerateAmount();
         }
     }
 

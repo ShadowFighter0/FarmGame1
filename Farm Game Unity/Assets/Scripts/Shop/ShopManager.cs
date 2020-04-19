@@ -42,16 +42,6 @@ public class ShopManager : MonoBehaviour
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
         slider = amountPanel.transform.GetChild(3).GetComponent<Slider>();
         input = amountPanel.transform.GetChild(4).GetComponent<InputField>();
-
-        CartView();
-    }
-
-    public void SetCurrentShop(Shop shop)
-    {
-        currentShop = shop;
-        Debug.Log(currentShop);
-        OpenShop();
-
     }
 
     /// <summary>
@@ -87,8 +77,9 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     /// Open the shop's panel and Time.scaleTime = 0;
     /// </summary>
-    private void OpenShop()
+    public void OpenShop(Shop shop)
     {
+        currentShop = shop;
         cartView = true;
         CartView();
         
