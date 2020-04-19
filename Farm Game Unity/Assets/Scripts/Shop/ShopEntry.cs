@@ -28,12 +28,18 @@ public class ShopEntry : MonoBehaviour
         nameText.text = s.item.name;
         price.text = s.item.price.ToString();
         stockText.text = s.stock.ToString();
-        amountSelectedText.text = s.amountSelected.ToString();
     }
 
     public void Select()
     {
-        select.SetActive(!select.activeInHierarchy);
+        if(ShopManager.Instance.cartView)
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     public void CloseShop()
@@ -45,5 +51,4 @@ public class ShopEntry : MonoBehaviour
     {
         nameText.text = price.ToString();
     }
-    
 }

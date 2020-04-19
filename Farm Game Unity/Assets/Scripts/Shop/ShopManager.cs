@@ -29,8 +29,9 @@ public class ShopManager : MonoBehaviour
     private ShopItem[] cart; //Items that will be added to your inventory
 
     private bool confirmSell = false; //Button that confirm the sell or buy 
-    private bool cartView;
+    public bool cartView;
 
+    private int numCart = 0;
     int pos;
     #endregion
 
@@ -64,6 +65,8 @@ public class ShopManager : MonoBehaviour
         currentShop.stock[pos].amountSelected = (int)slider.value;
         amountPanel.SetActive(false);
         slider.value = 0;
+        cart[numCart] = currentShop.stock[pos];
+        numCart++;
     }
 
     public void SliderValueChange()

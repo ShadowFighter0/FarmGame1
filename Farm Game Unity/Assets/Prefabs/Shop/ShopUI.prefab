@@ -729,7 +729,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 105.5, y: 468}
+  m_AnchoredPosition: {x: 47, y: 468}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1173631897083606630
@@ -789,7 +789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1173631897151128999
 RectTransform:
   m_ObjectHideFlags: 0
@@ -885,7 +885,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 237.5, y: 468}
+  m_AnchoredPosition: {x: 191, y: 468}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1173631897163510957
@@ -1444,8 +1444,8 @@ RectTransform:
   m_Father: {fileID: 1173631898080484308}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5797353}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3123,13 +3123,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Money
       objectReference: {fileID: 0}
-    - target: {fileID: 3604012475670104650, guid: 1695317cc75e60a4c8e97da103cb69cc,
-        type: 3}
-      propertyPath: m_Name
-      value: TotalPrice
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1724570162359796939, guid: 1695317cc75e60a4c8e97da103cb69cc, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1695317cc75e60a4c8e97da103cb69cc, type: 3}
 --- !u!224 &3351119096823752798 stripped
 RectTransform:
