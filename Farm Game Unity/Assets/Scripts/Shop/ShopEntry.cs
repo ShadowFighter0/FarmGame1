@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class ShopEntry : MonoBehaviour
 {
-    private Image image;
-    private Text nameText;
-    private Text price;
-    private Text stockText;
-    private Text amountSelectedText;
-    private GameObject select;
+    public Image image;
+    public Text nameText;
+    public Text price;
+    public Text stockText;
+    public Text amountSelectedText;
+    public GameObject select;
 
-    private void Start()
+    private void Awake()
     { 
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<Text>();

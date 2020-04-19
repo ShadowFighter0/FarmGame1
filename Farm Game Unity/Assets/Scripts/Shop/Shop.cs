@@ -6,9 +6,16 @@ public class ShopItem
 {
     public Item item;
 
-    public int stock;
-    public int amountSelected;
+    public int stock = 0;
+    public int amountSelected = 0;
+
     bool isSelected = false;
+
+    public ShopItem(Item i, int amount)
+    {
+        item = i;
+        stock = amount;
+    }
 
     public void Select()
     {
@@ -33,8 +40,8 @@ public class Shop : MonoBehaviour
 
         for(int i = 0; i < stock.Length; i++)
         {
-           // stock[i].item = stockItems[i];
-           // stock[i].stock = GenerateAmount();
+            stock[i] = new ShopItem(stockItems[i], GenerateAmount());
+            Debug.Log(stock[i].item);
         }
     }
 
@@ -70,6 +77,4 @@ public class Shop : MonoBehaviour
             s.stock = GenerateAmount();
         }
     }
-
-
 }

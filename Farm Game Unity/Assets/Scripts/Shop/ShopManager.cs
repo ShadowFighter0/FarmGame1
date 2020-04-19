@@ -24,7 +24,7 @@ public class ShopManager : MonoBehaviour
 
     Shop currentShop;
 
-    private ShopEntry[] stockUI; // VisualEntrys
+    public ShopEntry[] stockUI; // VisualEntrys
     
     private ShopItem[] cart; //Items that will be added to your inventory
 
@@ -39,6 +39,8 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
+        cart = new ShopItem[stockUI.Length];
+
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
         slider = amountPanel.transform.GetChild(3).GetComponent<Slider>();
         input = amountPanel.transform.GetChild(4).GetComponent<InputField>();
@@ -81,11 +83,12 @@ public class ShopManager : MonoBehaviour
     {
         currentShop = shop;
         cartView = true;
+        shopPanel.SetActive(true);
         CartView();
         
         Time.timeScale = 0;
         InputManager.instance.ChangeState(InputManager.States.OnUI);
-        shopPanel.SetActive(true);
+        
     }
 
     /// <summary>
@@ -127,7 +130,7 @@ public class ShopManager : MonoBehaviour
     private void GetCharge() // Comprobar si funciona q ha saber
     {
         int price = 0;
-        for(int i = 0; i< cart.Length; i++)
+        for(int i = 0; i < cart.Length && cart[i]!=null; i++)
         {
             price += cart[i].item.price;
         }
@@ -199,6 +202,7 @@ public class ShopManager : MonoBehaviour
 
     public void CartView()
     {
+        Debug.Log(currentShop);
         cartView = !cartView;
 
         if(cartView)
@@ -219,9 +223,15 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < currentShop.stock.Length; i++)
+            int i = 0;
+            for (   ; i < currentShop.stock.Length; i++)
             {
+                stockUI[i].gameObject.SetActive(true);
                 stockUI[i].Fill(currentShop.stock[i]);
+            }
+            for(    ; i < stockUI.Length; i++)
+            {
+                stockUI[i].gameObject.SetActive(false);
             }
         }
     }
