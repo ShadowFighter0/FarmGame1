@@ -68,7 +68,7 @@ public class PlayerFollow : MonoBehaviour
             CameraUpdater(dt);
         }
 
-        inputSensitivity = inputSlider.value;
+        //inputSensitivity = inputSlider.value;
     }
 
     public void SetMouseSens(float value)

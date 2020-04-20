@@ -6922,6 +6922,7 @@ MonoBehaviour:
   Inventory: 9
   Run: 304
   Click: 323
+  Escape: 0
   tools: {fileID: 1740146414}
   indicator: {fileID: 1050097633}
   radialMenu: {fileID: 5710054236262745422}
@@ -12739,6 +12740,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173631898181320360, guid: b4683fe11a2011b43b71dcf8b935a649,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173631898181320360, guid: b4683fe11a2011b43b71dcf8b935a649,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173631898181320360, guid: b4683fe11a2011b43b71dcf8b935a649,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1173631898636882007, guid: b4683fe11a2011b43b71dcf8b935a649,
         type: 3}
