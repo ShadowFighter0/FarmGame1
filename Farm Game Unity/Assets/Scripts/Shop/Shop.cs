@@ -9,16 +9,10 @@ public class ShopItem
     public int stock = 0;
     public int amountSelected = 0;
 
-    bool isSelected = false;
-
     public ShopItem(Item i, int amount)
     {
         item = i;
         stock = amount;
-    }
-    public void CloseShop()
-    {
-        isSelected = true;
     }
 }
 

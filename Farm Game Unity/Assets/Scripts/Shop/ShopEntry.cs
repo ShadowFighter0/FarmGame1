@@ -10,7 +10,6 @@ public class ShopEntry : MonoBehaviour
     public Text price;
     public Text stockText;
     public Text amountSelectedText;
-    public GameObject select;
 
     private void Awake()
     {
@@ -20,7 +19,6 @@ public class ShopEntry : MonoBehaviour
         price = transform.GetChild(2).GetComponent<Text>();
         stockText= transform.GetChild(3).GetComponent<Text>();
         amountSelectedText = transform.GetChild(4).GetComponent<Text>();
-        select = transform.GetChild(5).gameObject;
     }
 
     public void Fill(ShopItem s)
@@ -41,16 +39,6 @@ public class ShopEntry : MonoBehaviour
             stockText.gameObject.SetActive(true);
             amountSelectedText.gameObject.SetActive(false);
         }
-    }
-
-    public void CartView(bool cart)
-    {
-        
-    }
-
-    public void CloseShop()
-    {
-        select.SetActive(false);
     }
 
     public void Price(int price)

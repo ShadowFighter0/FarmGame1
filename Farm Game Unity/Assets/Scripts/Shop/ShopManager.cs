@@ -28,8 +28,6 @@ public class ShopManager : MonoBehaviour
     public ShopEntry[] stockUI; // VisualEntrys
     
     private ShopItem[] cart; //Items that will be added to your inventory
-
-    private bool confirmSell = false; //Button that confirm the sell or buy 
     public bool cartView;
 
     private int numCart = 0;
@@ -65,13 +63,13 @@ public class ShopManager : MonoBehaviour
         amountPanel.SetActive(true);
     }
 
-    public void ConfirmAmount ()
+    public void ConfirmAmount ()    //danger fanger 
     {
-        ShopItem s = currentShop.stock[pos];
-        ShopItem c = cart[pos];
-
         if (cartView)
         {
+            ShopItem c = cart[pos];
+            ShopItem s = currentShop.stock[SearchStock(c.item.name)];
+
             c.amountSelected -= (int)slider.value;
             s.stock += (int)slider.value;
 
@@ -98,6 +96,8 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
+            ShopItem s = currentShop.stock[pos];
+
             s.amountSelected += (int)slider.value;
             s.stock -= (int)slider.value;
 
@@ -111,6 +111,30 @@ public class ShopManager : MonoBehaviour
         }
 
         amountPanel.SetActive(false);
+        totalPrice.text = GetCharge().ToString();
+    }
+
+    private int SearchStock(string name)
+    {
+        for(int i = 0; i < currentShop.stock.Length; i++)
+        {
+            if(currentShop.stock[i].item.name == name)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    private int SearchCart(string name)
+    {
+        for (int i = 0; i < cart.Length; i++)
+        {
+            if (cart[i].item.name == name)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void SliderValueChange()
@@ -128,9 +152,18 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void OpenShop(Shop shop)
     {
-        if(shop != currentShop)
+        if (shop != currentShop)
         {
+            for (int i = 0; i < cart.Length; i++)
+            {
+                if(cart[i]!= null)
+                {
+                    currentShop.stock[SearchStock(cart[i].item.name)].stock += cart[i].amountSelected;
+                    cart[i].amountSelected = 0;
+                }
+            }
             cart = new ShopItem[stockUI.Length];
+            numCart = 0;
         }
 
         currentShop = shop;
@@ -151,25 +184,14 @@ public class ShopManager : MonoBehaviour
         shopPanel.SetActive(false);
         Time.timeScale = 1;
         InputManager.instance.ChangeState(InputManager.States.Idle);
-
-        for (int i  = 0; i < stockUI.Length; i++)
-        {
-            stockUI[i].CloseShop();
-            if(i < currentShop.stock.Length - 1)
-            {
-                currentShop.stock[i].CloseShop();
-            }
-        }
-        confirmSell = false;
     }
 
     /// <summary>
     /// New Day
     /// </summary>
     /// 
-    public void ReFillShop()
+    public void NewDay()
     {
-        //pillar items de Assets
         foreach(Shop s in shops)
         {
             s.NewDay();
@@ -189,12 +211,12 @@ public class ShopManager : MonoBehaviour
         return price;
     }
 
-    private void NotEnoughtMoney()
+    private void NotEnoughtMoney() //Cambiar por dialogo 
     {
         errorPanel.SetActive(true);
         errorPanel.transform.GetChild(1).GetComponent<Text>().text = "You don't have enought money to buy all";
     }
-    private void NotEnoughtSpace()
+    private void NotEnoughtSpace() //Cambiar por dialogo 
     {
         errorPanel.SetActive(true);
         errorPanel.transform.GetChild(1).GetComponent<Text>().text = "You don't have enought space to store all";
@@ -228,6 +250,8 @@ public class ShopManager : MonoBehaviour
                     }
                     
                 }
+                cart = new ShopItem[stockUI.Length];
+                numCart = 0;
             }
             else
             {
@@ -238,11 +262,6 @@ public class ShopManager : MonoBehaviour
         {
             NotEnoughtMoney();
         }
-    }
-
-    public void ConfirmSell()
-    {
-        confirmSell = true;
     }
 
     public void CartView()
