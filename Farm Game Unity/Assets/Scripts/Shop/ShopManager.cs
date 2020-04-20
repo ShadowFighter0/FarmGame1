@@ -84,6 +84,11 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void OpenShop(Shop shop)
     {
+        if(shop != currentShop)
+        {
+            cart = new ShopItem[stockUI.Length];
+        }
+
         currentShop = shop;
         cartView = true;
         shopPanel.SetActive(true);
@@ -106,7 +111,7 @@ public class ShopManager : MonoBehaviour
         for (int i  = 0; i < stockUI.Length; i++)
         {
             stockUI[i].CloseShop();
-            if(i < currentShop.stock.Length-1)
+            if(i < currentShop.stock.Length - 1)
             {
                 currentShop.stock[i].CloseShop();
             }

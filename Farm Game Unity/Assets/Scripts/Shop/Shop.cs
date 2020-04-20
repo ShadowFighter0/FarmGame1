@@ -16,7 +16,6 @@ public class ShopItem
         item = i;
         stock = amount;
     }
-
     public void Select()
     {
         isSelected = !isSelected;
@@ -47,9 +46,13 @@ public class Shop : MonoBehaviour
 
     private void Update()
     {
-        if(playerNear && Input.GetKey(KeyCode.E))
+        if (playerNear && Input.GetKey(InputManager.instance.Interact))
         {
             ShopManager.Instance.OpenShop(this);
+        }
+        if( ShopManager.Instance.shopPanel.activeSelf && Input.GetKey(InputManager.instance.Escape))
+        {
+            ShopManager.Instance.CloseShop();
         }
     }
 

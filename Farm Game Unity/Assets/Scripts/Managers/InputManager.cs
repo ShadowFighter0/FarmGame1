@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     public KeyCode Inventory;
     public KeyCode Run;
     public KeyCode Click;
+    public KeyCode Escape;
 
     private int activeTool;
     public Transform tools;
