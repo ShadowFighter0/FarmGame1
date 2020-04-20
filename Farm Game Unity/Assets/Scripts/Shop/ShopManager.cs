@@ -16,6 +16,7 @@ public class ShopManager : MonoBehaviour
     #region Variables
     public GameObject shopPanel;
     public GameObject amountPanel;
+    public GameObject errorPanel;
     public Shop[] shops;
     public Text totalPrice;
 
@@ -178,56 +179,54 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     ///Once you have selected all the items you wanna buy get the total price and give the items 
     /// </summary>
-    private void GetCharge() // Comprobar si funciona q ha saber
+    private int GetCharge() // Comprobar si funciona q ha saber
     {
         int price = 0;
         for(int i = 0; i < cart.Length && cart[i]!=null; i++)
         {
             price += cart[i].item.price * cart[i].amountSelected;
         }
-        totalPrice.text = price.ToString();
+        return price;
     }
 
     private void NotEnoughtMoney()
     {
-        //popUp no hay pasta reutilizar panel si se puede 
+        errorPanel.SetActive(true);
+        errorPanel.transform.GetChild(1).GetComponent<Text>().text = "You don't have enought money to buy all";
     }
     private void NotEnoughtSpace()
-    { 
-        //PopUp no hay espacio reutilizar amount panel si se puede
+    {
+        errorPanel.SetActive(true);
+        errorPanel.transform.GetChild(1).GetComponent<Text>().text = "You don't have enought space to store all";
     }
 
-    public void GiveItems(int price)   // comprobar si funciona q a saber 
+    public void GiveItems()   // comprobar si funciona q a saber 
     {
-        int numSeeds = 0;
         int numItems = 0;
-        if (InventoryController.Instance.GetAmount("Money") > price)
+        int price = GetCharge();
+
+        if (InventoryController.Instance.GetAmount("Money") >= price)
         {
             foreach(ShopItem s in cart)
             {
-                if (s.item.GetType() == typeof(Seed))
-                {
-                    numSeeds++;
-                }
-                else if (s.item.GetType() == typeof(Material))
-                {
-                    //Ernesto io t quero  
-                }
-                else
+                if (s != null && s.item.GetType() == typeof(Item))
                 {
                     numItems++;
                 }
             }
 
-            if(InventoryController.Instance.seedSpace > InventoryController.Instance.numSeeds + numSeeds &&
-               InventoryController.Instance.itemSpace > InventoryController.Instance.numItems + numItems)
+            if(InventoryController.Instance.itemSpace >= InventoryController.Instance.numItems + numItems)
             {
                 InventoryController.Instance.SubstractAmountItem(price, "Money");
 
                 foreach (ShopItem s in cart)
                 {
-                    s.item.amount = s.amountSelected;
-                    InventoryController.Instance.AddItem(s.item);
+                    if(s!= null)
+                    {
+                        s.item.amount = s.amountSelected;
+                        InventoryController.Instance.AddItem(s.item);
+                    }
+                    
                 }
             }
             else
@@ -265,7 +264,7 @@ public class ShopManager : MonoBehaviour
                     stockUI[i].gameObject.SetActive(false);
                 }
             }
-            GetCharge();
+            totalPrice.text = GetCharge().ToString();
         }
         else
         {

@@ -157,7 +157,7 @@ public class NpcController : MonoBehaviour
         {
             string sentence = "Buying";
             DialogueSystem.instance.UpdateDialogue(sentence, SentencesToOptions());
-            //Open Shop Buy
+            ShopManager.Instance.GiveItems();
         }
         else if (index == 1)
         {
