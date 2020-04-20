@@ -54,19 +54,62 @@ public class ShopManager : MonoBehaviour
     public void Select(int pos)
     {
         this.pos = pos;
-        currentShop.stock[pos].Select();
-        stockUI[pos].Select();
-        slider.maxValue = currentShop.stock[pos].stock;
+        slider.value = 0;
+        SliderValueChange();
+
+        if(cartView)
+            slider.maxValue = cart[pos].amountSelected;
+        else
+            slider.maxValue = currentShop.stock[pos].stock;
         amountPanel.SetActive(true);
     }
 
     public void ConfirmAmount ()
     {
-        currentShop.stock[pos].amountSelected = (int)slider.value;
+        ShopItem s = currentShop.stock[pos];
+        ShopItem c = cart[pos];
+
+        if (cartView)
+        {
+            c.amountSelected -= (int)slider.value;
+            s.stock += (int)slider.value;
+
+            if (c.amountSelected <= 0)
+            {
+                cart[pos] = null;
+                numCart--;
+
+                for (int i = pos; i < cart.Length; i++)
+                {
+                    if (i != cart.Length - 1)
+                    {
+                        cart[i] = cart[i + 1];
+                    }
+                    else
+                    {
+                        cart[i] = null;
+                    }
+                }
+            }
+
+            cartView = false;
+            CartView();
+        }
+        else
+        {
+            s.amountSelected += (int)slider.value;
+            s.stock -= (int)slider.value;
+
+            if ((int)slider.value > 0)
+            {
+                cart[numCart] = s;
+                numCart++;
+            }
+            cartView = true;
+            CartView();
+        }
+
         amountPanel.SetActive(false);
-        slider.value = 0;
-        cart[numCart] = currentShop.stock[pos];
-        numCart++;
     }
 
     public void SliderValueChange()
@@ -140,14 +183,9 @@ public class ShopManager : MonoBehaviour
         int price = 0;
         for(int i = 0; i < cart.Length && cart[i]!=null; i++)
         {
-            price += cart[i].item.price;
+            price += cart[i].item.price * cart[i].amountSelected;
         }
         totalPrice.text = price.ToString();
-
-        if(confirmSell)
-        {
-            GiveItems(price);
-        }
     }
 
     private void NotEnoughtMoney()
@@ -159,7 +197,7 @@ public class ShopManager : MonoBehaviour
         //PopUp no hay espacio reutilizar amount panel si se puede
     }
 
-    private void GiveItems(int price)   // comprobar si funciona q a saber 
+    public void GiveItems(int price)   // comprobar si funciona q a saber 
     {
         int numSeeds = 0;
         int numItems = 0;
@@ -210,7 +248,6 @@ public class ShopManager : MonoBehaviour
 
     public void CartView()
     {
-        Debug.Log(currentShop);
         cartView = !cartView;
 
         if(cartView)
@@ -219,8 +256,9 @@ public class ShopManager : MonoBehaviour
             {
                 if(cart[i]!=null)
                 {
-                    stockUI[i].Fill(cart[i]);
-                    stockUI[i].gameObject.SetActive(true);
+                    ShopEntry t = stockUI[i];
+                    t.Fill(cart[i]);
+                    t.gameObject.SetActive(true);
                 }
                 else
                 {
@@ -234,8 +272,9 @@ public class ShopManager : MonoBehaviour
             int i = 0;
             for (   ; i < currentShop.stock.Length; i++)
             {
-                stockUI[i].gameObject.SetActive(true);
-                stockUI[i].Fill(currentShop.stock[i]);
+                ShopEntry t = stockUI[i];
+                t.gameObject.SetActive(true);
+                t.Fill(currentShop.stock[i]);
             }
             for(    ; i < stockUI.Length; i++)
             {

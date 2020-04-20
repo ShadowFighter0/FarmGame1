@@ -13,7 +13,8 @@ public class ShopEntry : MonoBehaviour
     public GameObject select;
 
     private void Awake()
-    { 
+    {
+        
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<Text>();
         price = transform.GetChild(2).GetComponent<Text>();
@@ -28,18 +29,23 @@ public class ShopEntry : MonoBehaviour
         nameText.text = s.item.name;
         price.text = s.item.price.ToString();
         stockText.text = s.stock.ToString();
-    }
+        amountSelectedText.text = s.amountSelected.ToString();
 
-    public void Select()
-    {
-        if(ShopManager.Instance.cartView)
+        if (ShopManager.Instance.cartView)
         {
-
+            amountSelectedText.gameObject.SetActive(true);
+            stockText.gameObject.SetActive(false);
         }
         else
         {
-
+            stockText.gameObject.SetActive(true);
+            amountSelectedText.gameObject.SetActive(false);
         }
+    }
+
+    public void CartView(bool cart)
+    {
+        
     }
 
     public void CloseShop()

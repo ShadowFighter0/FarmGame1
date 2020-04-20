@@ -16,10 +16,6 @@ public class ShopItem
         item = i;
         stock = amount;
     }
-    public void Select()
-    {
-        isSelected = !isSelected;
-    }
     public void CloseShop()
     {
         isSelected = true;
