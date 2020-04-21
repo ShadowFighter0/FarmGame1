@@ -14,8 +14,11 @@ public class NpcController : MonoBehaviour
     public string[] mercaderSentences;
     private readonly KeyCode[] keyCodes = new KeyCode[] {KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5};
 
+    private Animator anim;
+
     private void Start()
     {
+        anim = GetComponent<Animator>();
         npc = new NPC(gameObject, npcName, type);
         NpcManager.instance.Suscribe(npc);
     }
@@ -62,6 +65,9 @@ public class NpcController : MonoBehaviour
     {
         talkStarted = true;
         DialogueSystem.instance.SetNPC(this);
+        anim.SetBool("Talk", true);
+        
+        PlayerFollow.instance.SetRotation(transform.rotation.eulerAngles + Vector3.up * 120 + Vector3.right * 20);
         PlayerFollow.instance.ChangeTarget(transform.position + Vector3.up * 1.2f);
         InputManager.instance.ChangeState(InputManager.States.Dialoguing);
         if (npc.type.Equals("Citizen"))
@@ -112,6 +118,7 @@ public class NpcController : MonoBehaviour
 
     private void EndDialogue()
     {
+        anim.SetBool("Talk", false);
         DialogueSystem.instance.FinishDialogue();
         talkStarted = false;
         InputManager.instance.ChangeState(InputManager.States.Idle);

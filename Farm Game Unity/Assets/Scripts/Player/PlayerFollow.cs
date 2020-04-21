@@ -102,6 +102,10 @@ public class PlayerFollow : MonoBehaviour
         transform.position = pos;
     }
 
+    public void SetRotation(Vector3 v)
+    {
+        shopRotation = v;
+    }
     public void ChangeTarget(Vector3 t) { target = t; }
 
     private Vector3 SmoothFollow(float dt)
