@@ -13,13 +13,13 @@ public class MovementController : MonoBehaviour
     }
 
     private CharacterController controller;
-    [SerializeField] float runSpeed = 2f;
-    [SerializeField] float walkSpeed = 1f;
-    [SerializeField] float accel = 10f;
+    public float runSpeed = 2f;
+    public float walkSpeed = 1f;
+    public float accel = 10f;
     private float maxSpeed;
     private float currentSpeed;
 
-    [SerializeField] private float gravityAmount = 9.8f;
+    public float gravityAmount = 9.8f;
     private float gravity = 0;
     private bool jumping = true;
 
@@ -29,7 +29,7 @@ public class MovementController : MonoBehaviour
     private Animator anim;
 
     public float turnSmoothTime = 0.2f;
-    float turnSmoothVelocity;
+    private float turnSmoothVelocity;
 
     private void Start()
     {
@@ -52,11 +52,6 @@ public class MovementController : MonoBehaviour
             moveInputs.x = Input.GetAxisRaw("Horizontal");
             moveInputs.y = Input.GetAxisRaw("Vertical");
         }
-        else
-        {
-            anim.SetBool("walking", false);
-            anim.SetBool("running", false);
-        }
         
         if (InputManager.state == InputManager.States.Working)
         {
@@ -66,28 +61,24 @@ public class MovementController : MonoBehaviour
         {
             NormalMovement(dt, moveInputs);
         }
+        
     }
 
     private void NormalMovement(float dt, Vector2 moveInputs)
     {
         if (moveInputs.sqrMagnitude > Mathf.Epsilon)
         {
-            anim.SetBool("walking", true);
             if (!jumping)
             {
                 Rotation(moveInputs);
             }
-        }
-        else
-        {
-            anim.SetBool("walking", false);
-            anim.SetBool("running", false);
         }
 
         ChangeSpeed();
         Jump(dt);
 
         currentSpeed += GetOffset(dt, moveInputs.magnitude, maxSpeed, currentSpeed, accel);
+        anim.SetFloat("Vel", currentSpeed);
 
         Vector3 newPos = transform.forward * currentSpeed + transform.up * gravity;
         controller.Move(newPos * dt);
@@ -97,23 +88,18 @@ public class MovementController : MonoBehaviour
     {
         if (moveInputs.sqrMagnitude > Mathf.Epsilon)
         {
-            anim.SetBool("walking", true);
             if (!jumping)
             {
                 Rotation(moveInputs);
             }
         }
-        else
-        {
-            anim.SetBool("walking", false);
-            anim.SetBool("running", false);
-        }
 
         maxSpeed = walkSpeed;
-        anim.SetBool("running", false);
 
         offset.x += GetOffset(dt, moveInputs.x, maxSpeed, offset.x, accel);
         offset.z += GetOffset(dt, moveInputs.y, maxSpeed, offset.z, accel);
+
+        anim.SetFloat("Vel", offset.magnitude);
 
         Vector3 newPos = (transform.forward * offset.z + transform.right * offset.x);
         controller.Move(newPos * dt);
@@ -141,12 +127,10 @@ public class MovementController : MonoBehaviour
     {
         if (Input.GetKeyDown(InputManager.instance.Run))
         {
-            anim.SetBool("running", true);
             maxSpeed = runSpeed;
         }
         if (Input.GetKeyUp(InputManager.instance.Run))
         {
-            anim.SetBool("running", false);
             maxSpeed = walkSpeed;
         }
     }
