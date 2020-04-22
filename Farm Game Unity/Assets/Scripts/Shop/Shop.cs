@@ -30,7 +30,6 @@ public class Shop : MonoBehaviour
         for(int i = 0; i < stock.Length; i++)
         {
             stock[i] = new ShopItem(stockItems[i], GenerateAmount());
-            Debug.Log(stock[i].item);
         }
     }
 

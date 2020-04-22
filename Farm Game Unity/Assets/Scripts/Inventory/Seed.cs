@@ -7,6 +7,5 @@ using UnityEngine;
 public class Seed : Item
 {
     public Item food;
-    public string plantType;
     public int growthTime;
 }

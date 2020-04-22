@@ -5,7 +5,6 @@ using UnityEngine;
 public class Hoe : MonoBehaviour
 {
     public GameObject indicator;
-    [SerializeField] GameObject hole = null;
     private GameObject holeManager;
     private void Start()
     {
@@ -35,7 +34,6 @@ public class Hoe : MonoBehaviour
             Vector3 pos = indicator.transform.position;
             GameObject hole = ObjectPooler.Instance.SpawnFromPool("Holes", pos, Quaternion.identity);
             hole.transform.SetParent(holeManager.transform);
-            //Instantiate(hole, indicator.transform.position, Quaternion.identity).transform.SetParent(holeManager.transform);
         }
     }
 

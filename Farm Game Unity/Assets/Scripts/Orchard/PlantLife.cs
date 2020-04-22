@@ -46,7 +46,7 @@ public class PlantLife : MonoBehaviour
     }
     public PlantInfo SavePlant()
     {
-        return new PlantInfo(index, seed.itemName, seed.plantType, currentGrowthTime, transform.position);
+        return new PlantInfo(index, seed.itemName, seed.food.itemName, currentGrowthTime, transform.position);
     }
     public void InitializePlant(int i, Seed s, int time)
     {

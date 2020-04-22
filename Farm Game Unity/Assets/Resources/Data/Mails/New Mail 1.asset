@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Mail 1
   m_EditorClassIdentifier: 
   message: Hola buenas
-  rewardItem: {fileID: 11400000, guid: 8e45770c4e6db1e48a9cd7b45960af98, type: 2}
+  rewardItem: {fileID: 11400000, guid: f1bd94279bfec3a4397714e1203ab3ad, type: 2}

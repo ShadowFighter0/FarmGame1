@@ -76,7 +76,7 @@ public class SeedPlanter : MonoBehaviour
     {
         if (go.transform.childCount < 1)
         {
-            GameObject loadPlant = Resources.Load<GameObject>("Prefabs/" + seeds[index].plantType);
+            GameObject loadPlant = Resources.Load<GameObject>("Prefabs/" + seeds[index].food.itemName);
             GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
             plant.transform.SetParent(go.transform);
             plant.GetComponent<PlantLife>().SetSeed(seeds[index]);
@@ -96,8 +96,5 @@ public class SeedPlanter : MonoBehaviour
         return null;
     }
     public int GetSeedsLenght() { return seeds.Length; }
-    public void SetSeed(int i)
-    {
-        Index = i;
-    }
+    public void SetSeed(int i)  { Index = i; }
 }

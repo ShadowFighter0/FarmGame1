@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DataBase : MonoBehaviour
 {
-    public static Item[] items;
+    private static Item[] items;
     private void Awake()
     {
         items = Resources.LoadAll<Item>("Data/Items");

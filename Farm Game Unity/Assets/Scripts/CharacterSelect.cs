@@ -23,15 +23,9 @@ public class CharacterSelect : MonoBehaviour
     private float oriY;
 
     private Vector3 selectPos;
+    private bool deleting;
 
-    private void Awake()
-    {
-        if (SaveLoad.HasSaves())
-        {
-            Destroy(this);
-            return;
-        }
-    }
+
     void Start()
     {
         selected = def;
@@ -47,23 +41,26 @@ public class CharacterSelect : MonoBehaviour
 
     void Update()
     {
-        float dt = Time.deltaTime;
-        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, pov, dt * 10f);
-
-        Vector3 pos = selectPos;
-        pos.y = transform.position.y;
-        pos.z = transform.position.z;
-
-        transform.position = Vector3.Lerp(transform.position, pos, dt * 10f);
-
-        if (Input.GetMouseButton(0))
+        if(!deleting)
         {
-            float mouseX = -Input.GetAxis("Mouse X");
-            selected.transform.localEulerAngles += Vector3.up * mouseX * dt * 360f;
-        }
-        else
-        {
-            selected.transform.localEulerAngles = Vector3.Lerp(selected.transform.localEulerAngles, Vector3.up * oriY, dt * 10f);
+            float dt = Time.deltaTime;
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, pov, dt * 10f);
+
+            Vector3 pos = selectPos;
+            pos.y = transform.position.y;
+            pos.z = transform.position.z;
+
+            transform.position = Vector3.Lerp(transform.position, pos, dt * 10f);
+
+            if (Input.GetMouseButton(0))
+            {
+                float mouseX = -Input.GetAxis("Mouse X");
+                selected.transform.localEulerAngles += Vector3.up * mouseX * dt * 360f;
+            }
+            else
+            {
+                selected.transform.localEulerAngles = Vector3.Lerp(selected.transform.localEulerAngles, Vector3.up * oriY, dt * 10f);
+            }
         }
     }
     public void SetTarget(GameObject t)
@@ -80,6 +77,7 @@ public class CharacterSelect : MonoBehaviour
 
     public void Finish()
     {
+        selected.GetComponent<ChangeHat>().Finish();
         customizeFolder.SetActive(false);
         changeChrFolder.SetActive(false);
         custButton.SetActive(false);
@@ -103,6 +101,12 @@ public class CharacterSelect : MonoBehaviour
         player.rotation = selected.transform.rotation;
         selected.transform.SetParent(player);
 
+        deleting = true;
+        StartCoroutine(ActiveMovement());
+    }
+    IEnumerator ActiveMovement()
+    {
+        yield return new WaitForEndOfFrame();
         MovementController.instance.enabled = true;
         MovementController.instance.SetAnimator(selected.GetComponent<Animator>());
 

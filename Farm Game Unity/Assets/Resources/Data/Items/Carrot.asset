@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Carrot
   image: {fileID: 21300000, guid: b9eee32aad8fbef418f94b9139951648, type: 3}
   amount: 1
-  price: 1
+  price: 10

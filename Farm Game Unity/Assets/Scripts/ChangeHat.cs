@@ -20,16 +20,23 @@ public class ChangeHat : MonoBehaviour
             }
         }
     }
+
+    public void Finish()
+    {
+        anim.SetTrigger("Finished");
+    }
     public void Selected()
     {
-        anim.SetTrigger("Prueba");
+        anim.SetTrigger("Selected");
     }
     public void ChangeGlasses()
     {
+        anim.SetTrigger("Rand");
         glasses.SetActive(!glasses.activeSelf);
     }
     public void NewHat(int dir)
     {
+        anim.SetTrigger("Rand");
         hatFolder.GetChild(index).gameObject.SetActive(false);
         index += dir;
 

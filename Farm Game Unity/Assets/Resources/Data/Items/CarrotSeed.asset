@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: CarrotSeed
   image: {fileID: 21300000, guid: 2a2bdd660ede30a45ae77b8b56ed3fcc, type: 3}
-  amount: 3
-  price: 1
-  plantType: Carrot
-  food: {fileID: 11400000, guid: 630b779f07ad7864491b660ed51bf517, type: 2}
+  amount: 2
+  price: 12
+  food: {fileID: 11400000, guid: 2d53f6224e768a648a1db02b513c98ee, type: 2}
   growthTime: 1
