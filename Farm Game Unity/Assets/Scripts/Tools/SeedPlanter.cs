@@ -51,9 +51,8 @@ public class SeedPlanter : MonoBehaviour
         {
             if (go.CompareTag("Hole"))
             {
-                ActionTextController.instance.ChangePosition(go.transform.position);
-                ActionTextController.instance.ChangeText("Press E to plant: " + seeds[index].food.itemName);
-                
+                //ActionTextController.instance.ChangePosition(go.transform.position);
+                //ActionTextController.instance.ChangeText("Press E to plant: " + seeds[index].food.itemName);
 
                 if (Input.GetKeyDown(InputManager.instance.Click) && !onAnim && InventoryController.Instance.GetAmount(seeds[index].itemName) > 0)
                 {
