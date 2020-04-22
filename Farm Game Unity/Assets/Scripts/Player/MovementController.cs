@@ -35,14 +35,16 @@ public class MovementController : MonoBehaviour
     {
         maxSpeed = walkSpeed;
         controller = GetComponent<CharacterController>();
-        anim = GetComponent<Animator>();
     }
     void Update()
     {
         float dt = Time.deltaTime;
         Move(dt);
     }
-
+    public void SetAnimator(Animator anim)
+    {
+        this.anim = anim;
+    }
     private void Move(float dt)
     {
         Vector2 moveInputs;
@@ -99,7 +101,7 @@ public class MovementController : MonoBehaviour
         offset.x += GetOffset(dt, moveInputs.x, maxSpeed, offset.x, accel);
         offset.z += GetOffset(dt, moveInputs.y, maxSpeed, offset.z, accel);
 
-        anim.SetFloat("Vel", offset.magnitude);
+        //anim.SetFloat("Vel", offset.magnitude);
 
         Vector3 newPos = (transform.forward * offset.z + transform.right * offset.x);
         controller.Move(newPos * dt);

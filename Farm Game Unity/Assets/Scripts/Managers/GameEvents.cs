@@ -22,10 +22,4 @@ public class GameEvents : MonoBehaviour
 	{
 		OnSaveInitiated?.Invoke();
 	}
-
-	public static event Action<Transform> OnPlayerSelected;
-	public static void PlayerSelected(Transform target)
-	{
-		OnPlayerSelected?.Invoke(target);
-	}
 }
