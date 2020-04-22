@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Plant
   - UnlockableItem
+  - Male
+  - Female
   layers:
   - Default
   - TransparentFX
