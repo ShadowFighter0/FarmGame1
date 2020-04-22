@@ -52,7 +52,7 @@ public class HoleController : MonoBehaviour
         wet = false;
     }
 
-    public void AddWater(float amount) //hacer que se pueda desbordar y ahogar
+    public void AddWater(float amount)
     {
         water += amount;
         CheckWater();
