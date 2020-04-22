@@ -5,8 +5,11 @@ using UnityEngine;
 public class SeedPlanter : MonoBehaviour
 {
     public Seed[] seeds;
+    public Animator anim;
 
     private int index = 0;
+    private bool onAnim;
+
     public int Index
     {
         get => index; 
@@ -50,13 +53,23 @@ public class SeedPlanter : MonoBehaviour
             {
                 ActionTextController.instance.ChangePosition(go.transform.position);
                 ActionTextController.instance.ChangeText("Press E to plant: " + seeds[index].food.itemName);
+                
 
-                if (Input.GetKeyDown(InputManager.instance.Click) && InventoryController.Instance.GetAmount(seeds[index].itemName) > 0)
+                if (Input.GetKeyDown(InputManager.instance.Click) && !onAnim && InventoryController.Instance.GetAmount(seeds[index].itemName) > 0)
                 {
-                    Plant(go);
+                    anim.SetBool("Taking", true);
+                    onAnim = true;
+                    StartCoroutine(AnimDelay(go));
                 }
             }
         }
+    }
+    IEnumerator AnimDelay(GameObject go)
+    {
+        yield return new WaitForSeconds(0.3f);
+        onAnim = false;
+        anim.SetBool("Taking", false);
+        Plant(go);
     }
 
     private void Plant(GameObject go)

@@ -12,7 +12,7 @@ public class NpcController : MonoBehaviour
     public string type;
 
     public string[] mercaderSentences;
-    private readonly KeyCode[] keyCodes = new KeyCode[] {KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5};
+    private readonly KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     private Animator anim;
 
@@ -25,7 +25,7 @@ public class NpcController : MonoBehaviour
 
     private void Update()
     {
-        if(Input.anyKeyDown)
+        if (Input.anyKeyDown)
         {
             bool can = DialogueSystem.instance.CanAction();
 
@@ -66,7 +66,8 @@ public class NpcController : MonoBehaviour
         talkStarted = true;
         DialogueSystem.instance.SetNPC(this);
         anim.SetBool("Talk", true);
-        
+        StartCoroutine(ChangeAnimation());
+
         PlayerFollow.instance.SetRotation(transform.rotation.eulerAngles + Vector3.up * 120 + Vector3.right * 20);
         PlayerFollow.instance.ChangeTarget(transform.position + Vector3.up * 1.2f);
         InputManager.instance.ChangeState(InputManager.States.Dialoguing);
@@ -115,10 +116,13 @@ public class NpcController : MonoBehaviour
         }
         return op;
     }
-
+    IEnumerator ChangeAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("Talk", false);
+    }
     private void EndDialogue()
     {
-        anim.SetBool("Talk", false);
         DialogueSystem.instance.FinishDialogue();
         talkStarted = false;
         InputManager.instance.ChangeState(InputManager.States.Idle);
@@ -208,10 +212,14 @@ public class NpcController : MonoBehaviour
 
                 string sentence = "Thank you! Take " + q.ItemReward.amount + " " + q.ItemReward.itemName;
                 DialogueSystem.instance.UpdateDialogue(sentence, QuestToOptions());
+                anim.SetBool("Talk", true);
+                StartCoroutine(ChangeAnimation());
             }
             else
             {
                 DialogueSystem.instance.UpdateDialogue(q.QuestName + " is not completed!");
+                anim.SetBool("Talk", true);
+                StartCoroutine(ChangeAnimation());
             }
         }
     }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be89c09a6c75b254bb85ccb0361e56eb, type: 3}
   m_Name: New Mail 1
   m_EditorClassIdentifier: 
-  message: DAVID SUBNORMAL
+  message: Hola buenas
   rewardItem: {fileID: 11400000, guid: 8e45770c4e6db1e48a9cd7b45960af98, type: 2}

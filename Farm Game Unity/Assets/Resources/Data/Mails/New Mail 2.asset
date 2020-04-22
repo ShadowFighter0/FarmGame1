@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be89c09a6c75b254bb85ccb0361e56eb, type: 3}
   m_Name: New Mail 2
   m_EditorClassIdentifier: 
-  message: TUS MUERTOS
+  message: david wapo
   rewardItem: {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
