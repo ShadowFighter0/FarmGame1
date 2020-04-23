@@ -35,7 +35,7 @@ public class CharacterSelect : MonoBehaviour
         oriPov = pov;
         customizeFolder.SetActive(false);
         changeChrFolder.SetActive(true);
-        custButton.SetActive(false);
+        custButton.SetActive(true);
 
         oriY = selected.transform.localEulerAngles.y;
         selectPos = selected.transform.position;

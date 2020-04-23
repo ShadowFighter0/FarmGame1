@@ -31,11 +31,10 @@ public class InputManager : MonoBehaviour
         Sleeping,
         Editing
     };
-    public static States state = States.Idle;
+    public static States state = States.OnUI;
     private void Awake()
     {
         instance = this;
-        
     }
     private void Start()
     {

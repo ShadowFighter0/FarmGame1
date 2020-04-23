@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
 
     public RuntimeAnimatorController controller;
 
+    private bool newGame;
+
     private string[] sentences = {"CONTINUE", "NEW GAME"};
     private void Awake()
     {
@@ -101,6 +103,7 @@ public class GameManager : MonoBehaviour
     {
         if (SaveLoad.HasSaves())
         {
+            newGame = false;
             continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[0];
             PlayerInfo info = SaveLoad.Load<PlayerInfo>("PlayerInfo");
             if(info.modelIndex == 1)
@@ -148,16 +151,16 @@ public class GameManager : MonoBehaviour
             day = info.day;
             player.position = new Vector3(info.x, info.y, info.z);
 
+            Destroy(FindObjectOfType<CharacterSelect>());
             MovementController.instance.enabled = true;
             PlayerFollow.instance.enabled = true;
             InputManager.instance.enabled = true;
 
             hudCustom.SetActive(false);
-
-            InputManager.instance.ChangeState(InputManager.States.Idle);
         }
         else
         {
+            newGame = true;
             continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[1];
             InputManager.instance.ChangeState(InputManager.States.OnUI);
         }
@@ -257,7 +260,16 @@ public class GameManager : MonoBehaviour
 
     public void ContinueGame()
     {
-        InputManager.instance.ChangeState(InputManager.States.Idle);
+        if(newGame)
+        {
+            hudCustom.SetActive(true);
+            mainMenu.SetActive(false);
+        }
+        else
+        {
+            InputManager.instance.ChangeState(InputManager.States.Idle);
+            mainMenu.SetActive(false);
+        }
     }
     public void StartNewGame()
     {
