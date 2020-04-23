@@ -6,6 +6,33 @@ using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 
+[System.Serializable]
+public class PlayerInfo
+{
+    public int day;
+
+    public int hatIndex;
+    public int modelIndex;
+    public bool hasGlasses;
+    
+    public float x;
+    public float y;
+    public float z;
+
+    public PlayerInfo(Vector3 pos, int d, int hat, int model, bool glasses)
+    {
+        day = d;
+
+        x = pos.x;
+        y = pos.y;
+        z = pos.z;
+
+        hatIndex = hat;
+        modelIndex = model;
+        hasGlasses = glasses;
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     private int day = 1;
@@ -35,6 +62,16 @@ public class GameManager : MonoBehaviour
     private Vector3 oriPos;
     private Quaternion oriRot;
 
+    private int hatIndex;
+    private int modelIndex;
+    private bool hasGlasses;
+
+    public Transform maleHats;
+    public Transform femaleHats;
+
+    public GameObject maleGlasses;
+    public GameObject femaleGlasses;
+
     private string[] sentences =  {"CONTINUE", "NEW GAME"};
     private void Awake()
     {
@@ -55,6 +92,21 @@ public class GameManager : MonoBehaviour
         if (SaveLoad.HasSaves())
         {
             continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[0];
+            PlayerInfo info = SaveLoad.Load<PlayerInfo>("PlayerInfo");
+            if(info.modelIndex == 1)
+            {
+                player.GetChild(0).gameObject.SetActive(false);
+                maleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
+                maleGlasses.SetActive(info.hasGlasses);
+            }
+            else
+            {
+                player.GetChild(1).gameObject.SetActive(false);
+                femaleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
+                femaleGlasses.SetActive(info.hasGlasses);
+            }
+            day = info.day;
+            player.position = new Vector3(info.x, info.y, info.z);
         }
         else
         {
@@ -110,6 +162,19 @@ public class GameManager : MonoBehaviour
                 UpdateSaveText(DateTime.Now);
             }
         }
+    }
+
+    public void SavePlayer()
+    {
+        PlayerInfo info = new PlayerInfo(player.position, day, hatIndex, modelIndex, hasGlasses);
+        SaveLoad.Save(info, "PlayerInfo");
+    }
+
+    public void SetPlayerCustomization(int h, int m, bool g)
+    {
+        hatIndex = h;
+        modelIndex = m;
+        hasGlasses = g;
     }
     #region Pause menu
     public void PauseGame()

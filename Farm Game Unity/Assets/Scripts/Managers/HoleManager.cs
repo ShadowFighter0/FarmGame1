@@ -26,7 +26,15 @@ public class HoleManager : MonoBehaviour
     public static HoleManager instance;
     private void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this)
+        {
+            Debug.Log("deleting double singleton");
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
     private void Start()
     {
@@ -62,20 +70,23 @@ public class HoleManager : MonoBehaviour
         }
     }
 
-    public void SaveHoles()
+    private void SaveHoles()
     {
-        List<WorldItem> infos = new List<WorldItem>();
-        foreach (Transform child in transform)
+        if(transform.childCount > 0)
         {
-            PlantInfo plantInfo = null;
-            if (child.childCount > 0)
+            List<WorldItem> infos = new List<WorldItem>();
+            foreach (Transform child in transform)
             {
-                plantInfo = child.GetChild(0).GetComponent<PlantLife>().SavePlant();
+                PlantInfo plantInfo = null;
+                if (child.childCount > 0)
+                {
+                    plantInfo = child.GetChild(0).GetComponent<PlantLife>().SavePlant();
+                }
+                float water = child.GetComponent<HoleController>().GetWater();
+                WorldItem childInfo = new WorldItem(child.position, "Holes", plantInfo, water);
+                infos.Add(childInfo);
             }
-            float water = child.GetComponent<HoleController>().GetWater();
-            WorldItem childInfo = new WorldItem(child.position, "Holes", plantInfo, water);
-            infos.Add(childInfo);
+            SaveLoad.Save(infos, "Holes");
         }
-        SaveLoad.Save(infos, "Holes");
     }
 }
