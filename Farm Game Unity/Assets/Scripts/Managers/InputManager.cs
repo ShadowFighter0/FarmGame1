@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
     public KeyCode Escape;
 
     private int activeTool = 0;
-    public Transform tools;
+    private Transform tools;
     public GameObject radialMenu;
 
     public static InputManager instance;
@@ -155,6 +155,8 @@ public class InputManager : MonoBehaviour
             SeedPlanter.instance.Index += scroll;
         }
     }
+
+    public void SetTools(Transform t) { tools = t; }
 
     private void ChangeTool(int scroll)
     {

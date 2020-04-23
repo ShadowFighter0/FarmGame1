@@ -5,7 +5,7 @@ using UnityEngine;
 public class SeedPlanter : MonoBehaviour
 {
     public Seed[] seeds;
-    public Animator anim;
+    private Animator anim;
 
     private int index = 0;
     private bool onAnim;
@@ -36,9 +36,15 @@ public class SeedPlanter : MonoBehaviour
     {
         instance = this;
     }
+
     void Update()
     {
         CheckTarget();
+    }
+
+    public void SetAnimator(Animator an)
+    {
+        anim = an;
     }
 
     private void CheckTarget()

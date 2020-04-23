@@ -6,6 +6,16 @@ public class PlantsCollector : MonoBehaviour
 {
     public Animator anim;
     private bool onAnim;
+
+    public static PlantsCollector instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+    public void SetAnimator(Animator an)
+    {
+        anim = an;
+    }
     void Update()
     {
         GameObject go = RayCastController.instance.GetTarget();

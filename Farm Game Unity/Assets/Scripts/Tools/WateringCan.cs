@@ -13,6 +13,11 @@ public class WateringCan : MonoBehaviour
     {
         waterParticles.Stop();
     }
+
+    public void SetAnimator(Animator an)
+    {
+        anim = an;
+    }
     void Update()
     {
         if(InputManager.state != InputManager.States.OnUI)

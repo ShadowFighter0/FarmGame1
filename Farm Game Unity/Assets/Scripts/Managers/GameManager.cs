@@ -72,7 +72,17 @@ public class GameManager : MonoBehaviour
     public GameObject maleGlasses;
     public GameObject femaleGlasses;
 
-    private string[] sentences =  {"CONTINUE", "NEW GAME"};
+    public GameObject hudCustom;
+
+    public Transform maleTools;
+    public Transform femaleTools;
+
+    public Animator maleAnim;
+    public Animator femaleAnim;
+
+    public RuntimeAnimatorController controller;
+
+    private string[] sentences = {"CONTINUE", "NEW GAME"};
     private void Awake()
     {
         string path = Application.persistentDataPath + "/saves/";
@@ -98,22 +108,60 @@ public class GameManager : MonoBehaviour
                 player.GetChild(0).gameObject.SetActive(false);
                 maleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
                 maleGlasses.SetActive(info.hasGlasses);
+
+                InputManager.instance.SetTools(maleTools);
+                SeedPlanter.instance.SetAnimator(maleAnim);
+                PlantsCollector.instance.SetAnimator(maleAnim);
+                maleTools.GetChild(1).GetComponent<WateringCan>().SetAnimator(maleAnim);
+                MovementController.instance.SetAnimator(maleAnim);
+
+                maleAnim.runtimeAnimatorController = controller;
+
+                maleAnim.gameObject.transform.SetParent(null);
+
+                player.position = maleAnim.gameObject.transform.position;
+                player.rotation = maleAnim.gameObject.transform.rotation;
+
+                maleAnim.gameObject.transform.SetParent(player);
             }
             else
             {
                 player.GetChild(1).gameObject.SetActive(false);
                 femaleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
                 femaleGlasses.SetActive(info.hasGlasses);
+
+                InputManager.instance.SetTools(femaleTools);
+                SeedPlanter.instance.SetAnimator(femaleAnim);
+                PlantsCollector.instance.SetAnimator(femaleAnim);
+                femaleTools.GetChild(1).GetComponent<WateringCan>().SetAnimator(femaleAnim);
+                MovementController.instance.SetAnimator(femaleAnim);
+
+                femaleAnim.runtimeAnimatorController = controller;
+
+                femaleAnim.gameObject.transform.SetParent(null);
+
+                player.position = femaleAnim.gameObject.transform.position;
+                player.rotation = femaleAnim.gameObject.transform.rotation;
+
+                femaleAnim.gameObject.transform.SetParent(player);
             }
             day = info.day;
             player.position = new Vector3(info.x, info.y, info.z);
+
+            MovementController.instance.enabled = true;
+            PlayerFollow.instance.enabled = true;
+            InputManager.instance.enabled = true;
+
+            hudCustom.SetActive(false);
+
+            InputManager.instance.ChangeState(InputManager.States.Idle);
         }
         else
         {
             continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[1];
+            InputManager.instance.ChangeState(InputManager.States.OnUI);
         }
 
-        InputManager.instance.ChangeState(InputManager.States.OnUI);
         oriPos = player.position + Vector3.up;
         oriRot = player.rotation;
     }

@@ -25,6 +25,9 @@ public class CharacterSelect : MonoBehaviour
     private Vector3 selectPos;
     private bool deleting;
 
+    public Transform maleTools;
+    public Transform femaleTools;
+
     void Start()
     {
         selected = def;
@@ -116,6 +119,16 @@ public class CharacterSelect : MonoBehaviour
         MovementController.instance.SetAnimator(selected.GetComponent<Animator>());
 
         PlayerFollow.instance.enabled = true;
+        if(selected.name.Equals("Male"))
+        {
+            InputManager.instance.SetTools(maleTools);
+        }
+        else
+        {
+            InputManager.instance.SetTools(femaleTools);
+        }
+        
+        InputManager.instance.enabled = true;
 
         Animator selAnim = selected.GetComponent<Animator>();
         selAnim.runtimeAnimatorController = animContr;

@@ -6,6 +6,12 @@ public class Hoe : MonoBehaviour
 {
     public GameObject indicator;
     private GameObject holeManager;
+    public static Hoe instance;
+    private Animator anim;
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         holeManager = FindObjectOfType<HoleManager>().gameObject;
@@ -23,6 +29,12 @@ public class Hoe : MonoBehaviour
             Dig(go);
         }
     }
+
+    public void SetAnimator(Animator an)
+    {
+        anim = an;
+    }
+
     private void OnEnable()
     {
         indicator.SetActive(true);
