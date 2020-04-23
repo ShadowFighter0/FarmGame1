@@ -54,16 +54,7 @@ public class MovementController : MonoBehaviour
             moveInputs.x = Input.GetAxisRaw("Horizontal");
             moveInputs.y = Input.GetAxisRaw("Vertical");
         }
-        
-        if (InputManager.state == InputManager.States.Working)
-        {
-            EditMovement(dt, moveInputs);
-        }
-        else
-        {
-            NormalMovement(dt, moveInputs);
-        }
-        
+        NormalMovement(dt, moveInputs);
     }
 
     private void NormalMovement(float dt, Vector2 moveInputs)

@@ -15,10 +15,8 @@ public class InputManager : MonoBehaviour
     public KeyCode Click;
     public KeyCode Escape;
 
-    private int activeTool;
+    private int activeTool = 0;
     public Transform tools;
-
-    public GameObject indicator;
     public GameObject radialMenu;
 
     public static InputManager instance;
@@ -33,7 +31,7 @@ public class InputManager : MonoBehaviour
         Sleeping,
         Editing
     };
-    public static States state = States.OnUI;
+    public static States state = States.Idle;
     private void Awake()
     {
         instance = this;
@@ -50,16 +48,12 @@ public class InputManager : MonoBehaviour
         switch (state)
         {
             case States.Idle:
-                if (Input.anyKey)
+                if (Input.anyKeyDown || scroll != 0)
                 {
                     if (Input.GetKeyDown(RadialMenu))
                     {
                         ChangeState(States.SelectingSeed);
                         RadialMenuController.instance.Open();
-                    }
-                    if(Input.GetKeyDown(Work))
-                    {
-                        ChangeState(States.Working);
                     }
                     if (Input.GetKeyDown(Inventory))
                     {
@@ -69,29 +63,9 @@ public class InputManager : MonoBehaviour
                 }
                 break;
             case States.Working:
-                if ((Input.anyKey || scroll != 0))
-                {
-                    if (Input.GetKeyDown(Inventory))
-                    {
-                        if (InventoryController.Instance.bookActive)
-                            InventoryController.Instance.CloseMenu();
-                        else
-                            InventoryController.Instance.OpenMenu();
-                    }
-                    if (Input.GetKeyDown(RadialMenu))
-                    {
-                        ChangeState(States.SelectingSeed);
-                        RadialMenuController.instance.Open();
-                    }
-                    ChangeTool(scroll);
-                    if (Input.GetKeyDown(Work) || Input.GetKeyDown(Run))
-                    {
-                        ChangeState(States.Idle);
-                    }
-                }
                 break;
             case States.SelectingSeed:
-                if ((Input.anyKey || scroll != 0))
+                if ((Input.anyKeyDown || scroll != 0))
                 {
                     if (Input.GetKeyDown(RadialMenu))
                     {
@@ -107,7 +81,6 @@ public class InputManager : MonoBehaviour
                 {
                     InventoryController.Instance.CloseMenu();
                 }
-
                 break;
             case States.Dialoguing:
 
@@ -127,10 +100,9 @@ public class InputManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 MovementController.instance.SetMovement(true);
                 PlayerFollow.instance.SetMovement(true);
-                indicator.SetActive(false);
                 break;
             case States.Working:
-                indicator.SetActive(true);
+                MovementController.instance.SetMovement(false);
                 break;
             case States.SelectingSeed:
                 Cursor.visible = true;
@@ -163,8 +135,8 @@ public class InputManager : MonoBehaviour
 
     public void ChangeState(States s) 
     {
-        Debug.Log("State: " + s);
         state = s;
+        Debug.Log("State: " + state.ToString());
         UpdateStates();
     }
     private void ChangeSeed(int scroll)
@@ -187,13 +159,12 @@ public class InputManager : MonoBehaviour
     private void ChangeTool(int scroll)
     {
         int oldActive = activeTool;
-        int numTools = tools.transform.childCount - 1;
+        int numTools = tools.transform.childCount;
         for (int i = 0; i < numTools; i++)
         {
             if (Input.GetKeyDown(keyCodes[i]))
             {
                 activeTool = i;
-                ChangeState(States.Working);
             }
         }
 
@@ -202,13 +173,12 @@ public class InputManager : MonoBehaviour
             activeTool += scroll;
             if (activeTool < 0)
             {
-                activeTool = numTools;
+                activeTool = numTools - 1;
             }
-            if (activeTool > numTools)
+            if (activeTool > numTools - 1)
             {
                 activeTool = 0;
             }
-            ChangeState(States.Working);
         }
 
         if (oldActive != activeTool)

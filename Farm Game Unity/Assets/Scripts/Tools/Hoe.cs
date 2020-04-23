@@ -12,21 +12,25 @@ public class Hoe : MonoBehaviour
     }
     void Update()
     {
-        if(InputManager.state == InputManager.States.Working)
+        GameObject go = RayCastController.instance.GetTarget();
+        if(go != null)
         {
-            GameObject go = RayCastController.instance.GetTarget();
-            if(go != null)
-            {
-                SetColor(go);
-            }
+            SetColor(go);
+        }
 
-            if (Input.GetKeyDown(InputManager.instance.Click))
-            {
-                Dig(go);
-            }
+        if (Input.GetKeyDown(InputManager.instance.Click))
+        {
+            Dig(go);
         }
     }
-
+    private void OnEnable()
+    {
+        indicator.SetActive(true);
+    }
+    private void OnDisable()
+    {
+        indicator.SetActive(false);
+    }
     private void Dig(GameObject go)
     {
         if (go.CompareTag("Ground"))

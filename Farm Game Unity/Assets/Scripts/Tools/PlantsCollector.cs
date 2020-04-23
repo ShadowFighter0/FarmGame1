@@ -8,18 +8,15 @@ public class PlantsCollector : MonoBehaviour
     private bool onAnim;
     void Update()
     {
-        if (InputManager.state == InputManager.States.Working)
+        GameObject go = RayCastController.instance.GetTarget();
+        if (Input.GetKeyDown(InputManager.instance.Interact) && go.CompareTag("Hole"))
         {
-            GameObject go = RayCastController.instance.GetTarget();
-            if (Input.GetKeyDown(InputManager.instance.Interact) && go.CompareTag("Hole"))
+            PlantLife script = go.transform.GetComponentInChildren<PlantLife>();
+            if (script != null && !onAnim && script.GetGrownUp())
             {
-                PlantLife script = go.transform.GetComponentInChildren<PlantLife>();
-                if (script != null && !onAnim && script.GetGrownUp())
-                {
-                    onAnim = true;
-                    anim.SetBool("Taking", true);
-                    StartCoroutine(AnimDelay(go, script));
-                }
+                onAnim = true;
+                anim.SetBool("Taking", true);
+                StartCoroutine(AnimDelay(go, script));
             }
         }
     }

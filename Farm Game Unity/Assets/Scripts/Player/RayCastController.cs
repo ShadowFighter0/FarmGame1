@@ -10,30 +10,28 @@ public class RayCastController : MonoBehaviour
     private Vector3[] hitPos = new Vector3[5];
     private GameObject[] go = new GameObject[5];
 
+    public Transform pivot;
+
     public static RayCastController instance;
     private void Awake()
     {
         instance = this;
     }
 
-    [SerializeField] Camera cam = null;
-
     void Update()
     {
-        if (InputManager.state == InputManager.States.Working)
+        ray = new Ray(pivot.position, pivot.forward);
+        Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+        if (Physics.Raycast(ray, out hit))
         {
-            ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                hitPos[0] = hit.point;
-                go[0] = hit.transform.gameObject;
-            }
+            hitPos[0] = hit.point;
+            go[0] = hit.transform.gameObject;
+        }
 
-            LayerMask mask = LayerMask.GetMask("Plants");
-            if (Physics.Raycast(ray, out hit, mask))
-            {
-                go[1] = hit.transform.gameObject;
-            }
+        LayerMask mask = LayerMask.GetMask("Plants");
+        if (Physics.Raycast(ray, out hit, mask))
+        {
+            go[1] = hit.transform.gameObject;
         }
     }
 

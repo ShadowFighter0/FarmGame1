@@ -111,22 +111,15 @@ public class PlayerFollow : MonoBehaviour
     private Vector3 SmoothFollow(float dt)
     {
         Vector3 pos = transform.position;
-        if (InputManager.state == InputManager.States.Working)
+
+        distance = maxDistance;
+        if (InputManager.state == InputManager.States.Dialoguing)
         {
-            idealPos = editTarget.position;
-            distance = 0;
+            idealPos = target;
         }
         else
         {
-            distance = maxDistance;
-            if (InputManager.state == InputManager.States.Dialoguing)
-            {
-                idealPos = target;
-            }
-            else
-            {
-                idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
-            }
+            idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
         }
 
         Vector3 offset = idealPos - pos;

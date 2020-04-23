@@ -38,10 +38,7 @@ public class SeedPlanter : MonoBehaviour
     }
     void Update()
     {
-        if (InputManager.state == InputManager.States.Working)
-        {
-            CheckTarget();
-        }
+        CheckTarget();
     }
 
     private void CheckTarget()
@@ -51,12 +48,9 @@ public class SeedPlanter : MonoBehaviour
         {
             if (go.CompareTag("Hole"))
             {
-                //ActionTextController.instance.ChangePosition(go.transform.position);
-                //ActionTextController.instance.ChangeText("Press E to plant: " + seeds[index].food.itemName);
-
                 if (Input.GetKeyDown(InputManager.instance.Click) && !onAnim && InventoryController.Instance.GetAmount(seeds[index].itemName) > 0)
                 {
-                    anim.SetBool("Taking", true);
+                    anim.SetTrigger("Taking");
                     onAnim = true;
                     StartCoroutine(AnimDelay(go));
                 }
@@ -67,7 +61,6 @@ public class SeedPlanter : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         onAnim = false;
-        anim.SetBool("Taking", false);
         Plant(go);
     }
 
@@ -77,6 +70,7 @@ public class SeedPlanter : MonoBehaviour
         {
             GameObject loadPlant = Resources.Load<GameObject>("Prefabs/" + seeds[index].food.itemName);
             GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
+            go.GetComponent<MeshRenderer>().material.color = Color.black;
             plant.transform.SetParent(go.transform);
             plant.GetComponent<PlantLife>().SetSeed(seeds[index]);
 

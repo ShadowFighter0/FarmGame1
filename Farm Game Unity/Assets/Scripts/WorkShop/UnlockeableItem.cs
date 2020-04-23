@@ -17,6 +17,7 @@ public class UnlockeableItem : MonoBehaviour
     private void Awake()
     {
         mesh = GetComponent<MeshRenderer>();
+        oriMat = mesh.material;
     }
 
     public void SetMaterial(Material m)
