@@ -38,9 +38,10 @@ public class GameManager : MonoBehaviour
     private int day = 1;
 
     public Image fade;
-    public float time = 3;
-    private Color fadeIn = new Color32(0, 0, 0, 0);
-    private Color fadeOut = new Color32(0, 0, 0, 255);
+    public float time = 1;
+
+    private Color fadeIn = new Color32(32, 32, 32, 0);
+    private Color fadeOut = new Color32(32, 32, 32, 255);
 
     private bool loading;
     private bool playerIn;
@@ -83,6 +84,18 @@ public class GameManager : MonoBehaviour
     public RuntimeAnimatorController controller;
 
     private bool newGame;
+    private bool gameLoaded;
+
+    public Transform cam;
+    private Quaternion newCamRot;
+    private Vector3 newCamPos;
+    private bool camMovementFinished;
+
+    public Transform startCameraPivot;
+    public Transform mainMenuCameraPivot;
+
+    private float currentLerpTime;
+    private float lerpTime = 6;
 
     private string[] sentences = {"CONTINUE", "NEW GAME"};
     private void Awake()
@@ -159,57 +172,105 @@ public class GameManager : MonoBehaviour
         oriPos = player.position + Vector3.up;
         oriRot = player.rotation;
     }
-    private void SendAnimators(Animator a)
+    private void OnEnable()
     {
-        GameEvents.AnimatorSelected(a);
+        fade.color = fadeOut;
+
+        cam.position = startCameraPivot.position;
+        cam.rotation = startCameraPivot.rotation;
+
+        newCamPos = cam.position;
+        newCamRot = cam.rotation;
+
+        SceneManager.sceneLoaded += SceneLoaded;
+    }
+
+    private void SceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(WaitStart());
+    }
+    IEnumerator WaitStart()
+    {
+        yield return new WaitForSeconds(1f);
+        gameLoaded = true;
+        currentLerpTime = 0;
+
+        yield return new WaitForSeconds(2f);
+        newCamPos = mainMenuCameraPivot.position;
+        currentLerpTime = 0;
+
+        yield return new WaitForSeconds(2f);
+        mainMenu.transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    private void ActivateCustHUD()
+    {
+        hudCustom.SetActive(true);
     }
     private void Update()
     {
-        float dt = Time.deltaTime;
-        if(loading)
+        if(gameLoaded)
         {
-            fade.color = Color.Lerp(fade.color, fadeOut, dt * time);
-        }
-        else
-        {
-            fade.color = Color.Lerp(fade.color, fadeIn, dt * time);
-        }
+            float dt = Time.deltaTime;
 
-        if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state != InputManager.States.OnUI)
-        {
-            OpenPopUp();
-        }
-
-        if(Input.GetKeyDown(KeyCode.F5))
-        {
-            SaveAll();
-        }
-        if(Input.GetKeyDown(KeyCode.F8))
-        {
-            Reload();
-        }
-        if (Input.GetKeyDown(KeyCode.F12))
-        {
-            DeleteProgress();
-        }
-
-        if(Input.GetKeyDown(KeyCode.P) && !mainMenu.activeSelf)
-        {
-            PauseGame();
-        }
-
-        if (pauseMenu.activeSelf)
-        {
-            int hour = lastTimeSaved.Hour;
-            int min = lastTimeSaved.Minute;
-            int sec = lastTimeSaved.Second;
-            if (hour != 0 && min != 0 && sec != 0)
+            currentLerpTime += Time.deltaTime;
+            if (currentLerpTime > lerpTime)
             {
-                UpdateSaveText(DateTime.Now);
+                currentLerpTime = lerpTime;
+            }
+
+            fade.color = Color.Lerp(fade.color, fadeIn, dt * time);
+
+            if(!camMovementFinished)
+            {
+                float t = currentLerpTime / lerpTime;
+                t = t * t * t * (t * (6f * t - 15f) + 10f);
+
+                cam.position = Vector3.Lerp(cam.position, newCamPos, t);
+            }
+
+            if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state != InputManager.States.OnUI)
+            {
+                OpenPopUp();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                SaveAll();
+            }
+            if (Input.GetKeyDown(KeyCode.F8))
+            {
+                Reload();
+            }
+            if (Input.GetKeyDown(KeyCode.F12))
+            {
+                DeleteProgress();
+            }
+
+            if (Input.GetKeyDown(KeyCode.P) && !mainMenu.activeSelf)
+            {
+                PauseGame();
+            }
+
+            if (pauseMenu.activeSelf)
+            {
+                int hour = lastTimeSaved.Hour;
+                int min = lastTimeSaved.Minute;
+                int sec = lastTimeSaved.Second;
+                if (hour != 0 && min != 0 && sec != 0)
+                {
+                    UpdateSaveText(DateTime.Now);
+                }
             }
         }
     }
 
+    public void SetCamPos(Vector3 pos)
+    {
+        newCamPos = pos;
+        currentLerpTime = 0;
+    }
+    public void FreeCam() { camMovementFinished = true; }
     public void SavePlayer()
     {
         PlayerInfo info = new PlayerInfo(player.position, day, hatIndex, modelIndex, hasGlasses);
@@ -259,9 +320,13 @@ public class GameManager : MonoBehaviour
         {
             hudCustom.SetActive(true);
             mainMenu.SetActive(false);
+            CharacterSelect.instance.enabled = true;
         }
         else
         {
+            cam.position = player.position;
+            FreeCam();
+
             PlayerFollow.instance.enabled = true;
             InputManager.instance.enabled = true;
             InputManager.instance.ChangeState(InputManager.States.Idle);

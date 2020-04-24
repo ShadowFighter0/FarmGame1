@@ -21,7 +21,6 @@ public class WateringCan : MonoBehaviour
         waterParticles.Stop();
         oriRot = transform.eulerAngles;
         newRot = oriRot;
-        
     }
 
     public void SetAnimator(Animator an)
@@ -32,27 +31,21 @@ public class WateringCan : MonoBehaviour
     {
         if(InputManager.state != InputManager.States.OnUI)
         {
-            if (Input.GetKeyDown(InputManager.instance.Click))
+            if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state != InputManager.States.Working)
             {
                 anim.SetTrigger("Watering");
-                InputManager.instance.ChangeState(InputManager.States.Working);
                 //transform.eulerAngles = oriRot + Vector3.forward * 60;
             }
-
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Watering"))
-            {
-                if (!waterParticles.isPlaying)
-                {
-                    waterParticles.Play();
-                }
-            }
-            else if (!waterParticles.isStopped)
-            {
-                //transform.eulerAngles = oriRot;
-                waterParticles.Stop();
-                InputManager.instance.ChangeState(InputManager.States.Idle);
-            }
         }
+    }
+
+    public void Play()
+    {
+        waterParticles.Play();
+    }
+    public void Stop()
+    {
+        waterParticles.Stop();
     }
     private void OnEnable()
     {

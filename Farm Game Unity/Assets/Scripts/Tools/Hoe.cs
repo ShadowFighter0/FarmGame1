@@ -7,6 +7,7 @@ public class Hoe : MonoBehaviour
     public GameObject indicator;
     private GameObject holeManager;
     private Animator anim;
+
     private void Awake()
     {
         GameEvents.OnAnimatorSelected += SetAnimator;
@@ -23,10 +24,12 @@ public class Hoe : MonoBehaviour
         {
             SetColor(go);
         }
-
-        if (Input.GetKeyDown(InputManager.instance.Click))
+        if (anim != null)
         {
-            Dig(go);
+            if (Input.GetKeyDown(InputManager.instance.Click))
+            {
+                Dig(go);
+            }
         }
     }
 
@@ -47,28 +50,27 @@ public class Hoe : MonoBehaviour
     {
         if (go.CompareTag("Ground"))
         {
-            Vector3 pos = indicator.transform.position;
-            GameObject hole = ObjectPooler.Instance.SpawnFromPool("Holes", pos, Quaternion.identity);
-            if(anim != null)
-            {
-                anim.SetTrigger("Dig");
-            }
-            
-            hole.transform.SetParent(holeManager.transform);
+            anim.SetTrigger("Dig");
+            CreateHole();
         }
     }
-
+    public void CreateHole()
+    {
+        Vector3 pos = indicator.transform.position;
+        GameObject hole = ObjectPooler.Instance.SpawnFromPool("Holes", pos, Quaternion.identity);
+        hole.transform.SetParent(holeManager.transform);
+    }
     private void SetColor(GameObject go)
     {
         MeshRenderer m = indicator.GetComponent<MeshRenderer>();
         if (go.CompareTag("Ground"))
         {
-            Color c = new Color(102/255, 1, 20/255, 0.7f);
+            Color c = new Color(102/255, 1, 20/255, 0.3f);
             m.material.color = c;
         }
         else
         {
-            Color c = new Color(1, 20 / 255, 20 / 255, 0.7f);
+            Color c = new Color(1, 20 / 255, 20 / 255, 0.3f);
             m.material.color = c;
         }
     }

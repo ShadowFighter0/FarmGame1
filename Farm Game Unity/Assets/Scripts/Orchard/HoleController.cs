@@ -5,16 +5,14 @@ using UnityEngine;
 public class HoleController : MonoBehaviour
 {
     private MeshRenderer rend;
-    private Color wetColor;
-    private Color dryColor;
+    public Color wetColor;
+    public Color dryColor;
 
     private bool wet = false;
     private float water = 0;
     void Start()
     {
         rend = GetComponent<MeshRenderer>();
-        wetColor = new Color32(165, 60, 38, 255);
-        dryColor = new Color32(231, 178, 96, 255);
         rend.material.color = dryColor;
         GameEvents.OnNewDay += NewDay;
     }

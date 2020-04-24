@@ -28,6 +28,12 @@ public class CharacterSelect : MonoBehaviour
     public Transform maleTools;
     public Transform femaleTools;
 
+    public static CharacterSelect instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
     void Start()
     {
         selected = def;
@@ -39,6 +45,10 @@ public class CharacterSelect : MonoBehaviour
 
         oriY = selected.transform.localEulerAngles.y;
         selectPos = selected.transform.position;
+
+        Vector3 pos = selectPos;
+        pos.y = selectPos.y + 1.5f;
+        GameManager.instance.SetCamPos(pos);
     }
 
     void Update()
@@ -47,12 +57,6 @@ public class CharacterSelect : MonoBehaviour
         {
             float dt = Time.deltaTime;
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, pov, dt * 10f);
-
-            Vector3 pos = selectPos;
-            pos.y = transform.position.y;
-            pos.z = transform.position.z;
-
-            transform.position = Vector3.Lerp(transform.position, pos, dt * 10f);
 
             if (Input.GetMouseButton(0))
             {
@@ -72,11 +76,16 @@ public class CharacterSelect : MonoBehaviour
         {
             selected = t;
             selectPos = selected.transform.position;
+
+            Vector3 pos = selectPos;
+            pos.y = selectPos.y + 1.5f;
+
+            GameManager.instance.SetCamPos(pos);
+
             oriY = selected.transform.eulerAngles.y;
             selected.GetComponent<ChangeHat>().Selected();
         }
     }
-
     public void Finish()
     {
         ChangeHat script = selected.GetComponent<ChangeHat>();
@@ -86,6 +95,7 @@ public class CharacterSelect : MonoBehaviour
         custButton.SetActive(false);
 
         GameManager.instance.SetPlayerCustomization(script.GetIndex(), selected.transform.GetSiblingIndex(), script.GetGlasses());
+        GameManager.instance.FreeCam();
         GameManager.instance.SavePlayer();
 
         Destroy(selected.GetComponent<ChangeHat>());
@@ -101,7 +111,6 @@ public class CharacterSelect : MonoBehaviour
             Destroy(go.GetComponent<ChangeHat>());
             go.SetActive(false);
         }
-
         
         selected.transform.SetParent(null);
         player.position = selected.transform.position;
@@ -119,7 +128,7 @@ public class CharacterSelect : MonoBehaviour
         GameEvents.AnimatorSelected(selected.GetComponent<Animator>());
 
         PlayerFollow.instance.enabled = true;
-        if(selected.name.Equals("Male"))
+        if (selected.name.Equals("Male"))
         {
             InputManager.instance.SetTools(maleTools);
         }
