@@ -18,7 +18,7 @@ public class ShopItem
 
 public class Shop : MonoBehaviour
 {
-    public Item[] stockItems;
+    [Tooltip("No pueden ser mas de 21 items")]public Item[] stockItems;
     public ShopItem[] stock;
 
     private bool playerNear = false;

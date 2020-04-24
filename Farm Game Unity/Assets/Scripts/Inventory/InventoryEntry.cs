@@ -10,6 +10,8 @@ public class InventoryEntry : MonoBehaviour
     private Text nameText;
     private Text amount;
 
+    public int position;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -24,5 +26,17 @@ public class InventoryEntry : MonoBehaviour
         image.sprite = sprite;
         nameText.text = it.name;
         amount.text = it.inventoryAmount.ToString();
+    }
+
+    public void Button()
+    {
+        if(Sell.Instance.playerNear)
+        {
+            Sell.Instance.AddItem(position);
+        }
+        else
+        {
+            InventoryController.Instance.DeleteItem(position);
+        }
     }
 }

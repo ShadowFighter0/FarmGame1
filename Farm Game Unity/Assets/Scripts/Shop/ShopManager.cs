@@ -125,17 +125,6 @@ public class ShopManager : MonoBehaviour
         }
         return -1;
     }
-    private int SearchCart(string name)
-    {
-        for (int i = 0; i < cart.Length; i++)
-        {
-            if (cart[i].item.name == name)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     public void SliderValueChange()
     {
