@@ -6,11 +6,9 @@ public class Hoe : MonoBehaviour
 {
     public GameObject indicator;
     private GameObject holeManager;
-    public static Hoe instance;
     private Animator anim;
     private void Awake()
     {
-        instance = this;
         GameEvents.OnAnimatorSelected += SetAnimator;
     }
     private void Start()

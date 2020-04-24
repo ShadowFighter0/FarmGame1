@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
                 maleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
                 maleGlasses.SetActive(info.hasGlasses);
 
-                GameEvents.AnimatorSelected(femaleAnim);
+                GameEvents.AnimatorSelected(maleAnim);
                 InputManager.instance.SetTools(maleTools);
 
                 maleAnim.runtimeAnimatorController = controller;
