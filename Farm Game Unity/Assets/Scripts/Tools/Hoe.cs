@@ -11,10 +11,12 @@ public class Hoe : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        GameEvents.OnAnimatorSelected += SetAnimator;
     }
     private void Start()
     {
         holeManager = FindObjectOfType<HoleManager>().gameObject;
+        
     }
     void Update()
     {
@@ -49,6 +51,11 @@ public class Hoe : MonoBehaviour
         {
             Vector3 pos = indicator.transform.position;
             GameObject hole = ObjectPooler.Instance.SpawnFromPool("Holes", pos, Quaternion.identity);
+            if(anim != null)
+            {
+                anim.SetTrigger("Dig");
+            }
+            
             hole.transform.SetParent(holeManager.transform);
         }
     }

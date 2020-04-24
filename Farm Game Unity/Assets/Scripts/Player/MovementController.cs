@@ -10,6 +10,7 @@ public class MovementController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        GameEvents.OnAnimatorSelected += SetAnimator;
     }
 
     private CharacterController controller;
@@ -26,7 +27,7 @@ public class MovementController : MonoBehaviour
     public bool canMove = true;
     public Transform cam;
 
-    private Animator anim;
+    public Animator anim;
 
     public float turnSmoothTime = 0.2f;
     private float turnSmoothVelocity;
@@ -35,11 +36,15 @@ public class MovementController : MonoBehaviour
     {
         maxSpeed = walkSpeed;
         controller = GetComponent<CharacterController>();
+        
     }
     void Update()
     {
-        float dt = Time.deltaTime;
-        Move(dt);
+        if(anim != null)
+        {
+            float dt = Time.deltaTime;
+            Move(dt);
+        }
     }
     public void SetAnimator(Animator anim)
     {

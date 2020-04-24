@@ -35,6 +35,11 @@ public class SeedPlanter : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        GameEvents.OnAnimatorSelected += SetAnimator;
+    }
+    private void Start()
+    {
+        
     }
 
     void Update()

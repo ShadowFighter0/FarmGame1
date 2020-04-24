@@ -112,11 +112,8 @@ public class GameManager : MonoBehaviour
                 maleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
                 maleGlasses.SetActive(info.hasGlasses);
 
+                GameEvents.AnimatorSelected(femaleAnim);
                 InputManager.instance.SetTools(maleTools);
-                SeedPlanter.instance.SetAnimator(maleAnim);
-                PlantsCollector.instance.SetAnimator(maleAnim);
-                maleTools.GetChild(1).GetComponent<WateringCan>().SetAnimator(maleAnim);
-                MovementController.instance.SetAnimator(maleAnim);
 
                 maleAnim.runtimeAnimatorController = controller;
 
@@ -133,11 +130,8 @@ public class GameManager : MonoBehaviour
                 femaleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
                 femaleGlasses.SetActive(info.hasGlasses);
 
+                GameEvents.AnimatorSelected(femaleAnim);
                 InputManager.instance.SetTools(femaleTools);
-                SeedPlanter.instance.SetAnimator(femaleAnim);
-                PlantsCollector.instance.SetAnimator(femaleAnim);
-                femaleTools.GetChild(1).GetComponent<WateringCan>().SetAnimator(femaleAnim);
-                MovementController.instance.SetAnimator(femaleAnim);
 
                 femaleAnim.runtimeAnimatorController = controller;
 
@@ -152,9 +146,6 @@ public class GameManager : MonoBehaviour
             player.position = new Vector3(info.x, info.y, info.z);
 
             Destroy(FindObjectOfType<CharacterSelect>());
-            MovementController.instance.enabled = true;
-            PlayerFollow.instance.enabled = true;
-            InputManager.instance.enabled = true;
 
             hudCustom.SetActive(false);
         }
@@ -167,6 +158,10 @@ public class GameManager : MonoBehaviour
 
         oriPos = player.position + Vector3.up;
         oriRot = player.rotation;
+    }
+    private void SendAnimators(Animator a)
+    {
+        GameEvents.AnimatorSelected(a);
     }
     private void Update()
     {
@@ -267,6 +262,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            PlayerFollow.instance.enabled = true;
+            InputManager.instance.enabled = true;
             InputManager.instance.ChangeState(InputManager.States.Idle);
             mainMenu.SetActive(false);
         }

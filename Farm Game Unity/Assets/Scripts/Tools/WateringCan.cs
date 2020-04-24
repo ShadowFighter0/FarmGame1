@@ -12,11 +12,16 @@ public class WateringCan : MonoBehaviour
     private Vector3 oriRot;
     private Vector3 newRot;
 
+    private void Awake()
+    {
+        GameEvents.OnAnimatorSelected += SetAnimator;
+    }
     private void Start()
     {
         waterParticles.Stop();
         oriRot = transform.eulerAngles;
         newRot = oriRot;
+        
     }
 
     public void SetAnimator(Animator an)
