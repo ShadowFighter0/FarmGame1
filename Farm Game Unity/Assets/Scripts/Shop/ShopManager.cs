@@ -16,19 +16,18 @@ public class ShopManager : MonoBehaviour
     #region Variables
     public GameObject shopPanel;
     public GameObject amountPanel;
-    public GameObject errorPanel;
     public Shop[] shops;
     public Text totalPrice;
 
     private Slider slider;
     private InputField input;
 
-    public Shop currentShop;
+    [HideInInspector]public Shop currentShop;
 
     public ShopEntry[] stockUI; // VisualEntrys
     
     private ShopItem[] cart; //Items that will be added to your inventory
-    public bool cartView;
+    [HideInInspector]public bool cartView;
 
     private int numCart = 0;
     int pos;
