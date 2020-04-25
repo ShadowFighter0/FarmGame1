@@ -47,7 +47,7 @@ public class InventoryController : MonoBehaviour
     public int cantStackMax = 20;
 
     public int itemSpace = 20;
-    public int seedSpace;
+    public int seedSpace = 20;
     #endregion
 
     #region Inventory Array
@@ -147,9 +147,6 @@ public class InventoryController : MonoBehaviour
 
     void ChangeGui()
     {
-        pages[oldPage].SetActive(false);
-        pages[currentPage].SetActive(true);
-
         switch (currentPage)
         {
             case 0:
@@ -171,11 +168,10 @@ public class InventoryController : MonoBehaviour
                 break;
 
             case 1:
-                Transform page = pages[currentPage].transform.GetChild(0);
-                for (int i = 0; i < page.childCount; i++)
+                for (int i = 0; i < inventoryEntry.Length; i++)
                 {
-                    InventoryEntry it = page.GetChild(i).GetComponent<InventoryEntry>();
-                    if (i< seeds.Length)
+                    InventoryEntry it = inventoryEntry[i];
+                    if (i < seeds.Length)
                     {
                         it.gameObject.SetActive(true);
                         InventoryItem seed = seeds[i];
@@ -187,11 +183,8 @@ public class InventoryController : MonoBehaviour
                     {
                         it.gameObject.SetActive(false);
                     }
-                    
                 }
-                //TODO ernesto lo ha cambiado asiq no esta hecho 
                 break;
-
 
         }
         oldPage = currentPage;
