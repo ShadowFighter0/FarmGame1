@@ -166,9 +166,17 @@ public class NpcController : MonoBehaviour
     {
         if (index == 0)
         {
-            string sentence = "Buying";
-            DialogueSystem.instance.UpdateDialogue(sentence, SentencesToOptions());
-            ShopManager.Instance.GiveItems();
+            if(ShopManager.Instance.currentShop != null && ShopManager.Instance.currentShop.owner.name == npc.name)
+            {
+                ShopManager.Instance.GiveItems();
+                DialogueSystem.instance.UpdateDialogue("Buying", SentencesToOptions());
+            }
+            else
+            {
+                DialogueSystem.instance.UpdateDialogue("Sorry, those items are not mine.");
+            }
+                
+
         }
         else if (index == 1)
         {

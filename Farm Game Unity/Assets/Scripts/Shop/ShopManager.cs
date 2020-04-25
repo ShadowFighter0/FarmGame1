@@ -23,7 +23,7 @@ public class ShopManager : MonoBehaviour
     private Slider slider;
     private InputField input;
 
-    Shop currentShop;
+    public Shop currentShop;
 
     public ShopEntry[] stockUI; // VisualEntrys
     
@@ -39,6 +39,8 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
+
+        GameEvents.OnNewDay += NewDay;
         cart = new ShopItem[stockUI.Length];
 
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
@@ -63,7 +65,7 @@ public class ShopManager : MonoBehaviour
         amountPanel.SetActive(true);
     }
 
-    public void ConfirmAmount ()    //danger fanger 
+    public void ConfirmAmount()    //danger fanger 
     {
         if (cartView)
         {
@@ -200,13 +202,11 @@ public class ShopManager : MonoBehaviour
 
     private void NotEnoughtMoney() //Cambiar por dialogo 
     {
-        errorPanel.SetActive(true);
-        errorPanel.transform.GetChild(1).GetComponent<Text>().text = "You don't have enought money to buy all";
+        DialogueSystem.instance.UpdateDialogue("You don't have enought money to buy all");
     }
     private void NotEnoughtSpace() //Cambiar por dialogo 
     {
-        errorPanel.SetActive(true);
-        errorPanel.transform.GetChild(1).GetComponent<Text>().text = "You don't have enought space to store all";
+        DialogueSystem.instance.UpdateDialogue("You don't have enought space to store all");
     }
 
     public void GiveItems()   // comprobar si funciona q a saber 

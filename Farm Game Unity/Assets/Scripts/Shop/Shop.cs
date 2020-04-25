@@ -21,6 +21,8 @@ public class Shop : MonoBehaviour
     [Tooltip("No pueden ser mas de 21 items")]public Item[] stockItems;
     public ShopItem[] stock;
 
+    public NpcController owner;
+
     private bool playerNear = false;
 
     private void Start()
