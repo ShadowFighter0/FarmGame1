@@ -140,15 +140,6 @@ public class InputManager : MonoBehaviour
     }
     private void ChangeSeed(int scroll)
     {
-        int numSeeds = SeedPlanter.instance.GetSeedsLenght() - 1;
-        for (int i = 0; i < numSeeds; i++)
-        {
-            if (Input.GetKeyDown(keyCodes[i]))
-            {
-                SeedPlanter.instance.Index = i;
-            }
-        }
-
         if (scroll != 0)
         {
             SeedPlanter.instance.Index += scroll;
@@ -166,6 +157,12 @@ public class InputManager : MonoBehaviour
             if (Input.GetKeyDown(keyCodes[i]))
             {
                 activeTool = i;
+
+                if (oldActive == activeTool)
+                {
+                    GameObject go = tools.GetChild(activeTool).gameObject;
+                    go.SetActive(!go.activeSelf);
+                }
             }
         }
 
@@ -181,7 +178,7 @@ public class InputManager : MonoBehaviour
                 activeTool = 0;
             }
         }
-
+        
         if (oldActive != activeTool)
         {
             tools.GetChild(oldActive).gameObject.SetActive(false);

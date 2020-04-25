@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Mail 2
   m_EditorClassIdentifier: 
   message: david wapo
-  rewardItem: {fileID: 11400000, guid: f1bd94279bfec3a4397714e1203ab3ad, type: 2}
+  rewardItem: {fileID: 11400000, guid: be2956b92aac055419c69979d4dfbd48, type: 2}

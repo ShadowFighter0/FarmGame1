@@ -204,6 +204,7 @@ public class InventoryController : MonoBehaviour
         if(newItem.GetType() == typeof(Seed))
         {
             AddNewSeed(newItem);
+            SeedPlanter.instance.UpdateCurrentSeeds();
         }
         else if(newItem.GetType() == typeof(Material))
         {

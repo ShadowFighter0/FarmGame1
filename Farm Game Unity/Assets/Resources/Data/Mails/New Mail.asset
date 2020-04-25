@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Mail
   m_EditorClassIdentifier: 
   message: DALE CARLA
-  rewardItem: {fileID: 11400000, guid: f1bd94279bfec3a4397714e1203ab3ad, type: 2}
+  rewardItem: {fileID: 11400000, guid: dbbac99b6e7af71438f2246e8f9f5c4e, type: 2}

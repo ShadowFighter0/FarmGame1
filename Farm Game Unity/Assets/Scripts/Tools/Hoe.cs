@@ -15,7 +15,6 @@ public class Hoe : MonoBehaviour
     private void Start()
     {
         holeManager = FindObjectOfType<HoleManager>().gameObject;
-        
     }
     void Update()
     {

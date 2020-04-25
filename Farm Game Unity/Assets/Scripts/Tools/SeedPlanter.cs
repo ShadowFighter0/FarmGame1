@@ -1,21 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SeedPlanter : MonoBehaviour
 {
     public Seed[] seeds;
+    private List<Seed> currentSeeds = new List<Seed>();
     private Animator anim;
 
     private int index = 0;
-    private bool onAnim;
 
     public int Index
     {
         get => index; 
         set 
         {
-            int maxSeeds = seeds.Length - 1;
+            int maxSeeds = currentSeeds.Count - 1;
             if(value > maxSeeds)
             {
                 index = maxSeeds;
@@ -39,12 +40,42 @@ public class SeedPlanter : MonoBehaviour
     }
     private void Start()
     {
-        
+        UpdateCurrentSeeds();
+    }
+
+    public void UpdateCurrentSeeds()
+    {
+        foreach (Seed s in seeds)
+        {
+            if (InventoryController.Instance.GetAmount(s.itemName) > 0)
+            {
+                if(!currentSeeds.Contains(s))
+                {
+                    currentSeeds.Add(s);
+                }
+            }
+            else if (currentSeeds.Contains(s))
+            {
+                currentSeeds.Remove(s);
+            }
+        }
+        Debug.Log("Updating seeds. Current seeds: " + currentSeeds.Count);
     }
 
     void Update()
     {
-        CheckTarget();
+        if(currentSeeds.Count > 0)
+        {
+            if(!ActionTextController.instance.gameObject.activeSelf)
+            {
+                ActionTextController.instance.gameObject.SetActive(true);
+            }
+            CheckTarget();
+        }
+        else if(ActionTextController.instance.gameObject.activeSelf)
+        {
+            ActionTextController.instance.gameObject.SetActive(false);
+        }
     }
 
     public void SetAnimator(Animator an)
@@ -59,11 +90,15 @@ public class SeedPlanter : MonoBehaviour
         {
             if (go.CompareTag("Hole"))
             {
-                if (Input.GetKeyDown(InputManager.instance.Click) && !onAnim && InventoryController.Instance.GetAmount(seeds[index].itemName) > 0)
+                ActionTextController.instance.ChangePosition(go.transform.position);
+                ActionTextController.instance.ChangeText(currentSeeds[index].itemName);
+                if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[index].itemName) > 0 && InputManager.state != InputManager.States.Working)
                 {
-                    anim.SetTrigger("Taking");
-                    onAnim = true;
-                    StartCoroutine(AnimDelay(go));
+                    if (go.transform.childCount < 1)
+                    {
+                        anim.SetTrigger("Taking");
+                        StartCoroutine(AnimDelay(go));
+                    }
                 }
             }
         }
@@ -71,22 +106,19 @@ public class SeedPlanter : MonoBehaviour
     IEnumerator AnimDelay(GameObject go)
     {
         yield return new WaitForSeconds(0.3f);
-        onAnim = false;
         Plant(go);
     }
 
     private void Plant(GameObject go)
     {
-        if (go.transform.childCount < 1)
-        {
-            GameObject loadPlant = Resources.Load<GameObject>("Prefabs/" + seeds[index].food.itemName);
-            GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
-            go.GetComponent<MeshRenderer>().material.color = Color.black;
-            plant.transform.SetParent(go.transform);
-            plant.GetComponent<PlantLife>().SetSeed(seeds[index]);
+        GameObject loadPlant = Resources.Load<GameObject>("Prefabs/" + currentSeeds[index].food.itemName);
+        GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
+        go.GetComponent<MeshRenderer>().material.color = Color.black;
+        plant.transform.SetParent(go.transform);
+        plant.GetComponent<PlantLife>().SetSeed(currentSeeds[index]);
 
-            InventoryController.Instance.SubstractAmountSeed(1, seeds[index].itemName);
-        }
+        InventoryController.Instance.SubstractAmountSeed(1, currentSeeds[index].itemName);
+        UpdateCurrentSeeds();
     }
     public Seed GetSeed(string name)
     {
@@ -99,6 +131,4 @@ public class SeedPlanter : MonoBehaviour
         }
         return null;
     }
-    public int GetSeedsLenght() { return seeds.Length; }
-    public void SetSeed(int i)  { Index = i; }
 }
