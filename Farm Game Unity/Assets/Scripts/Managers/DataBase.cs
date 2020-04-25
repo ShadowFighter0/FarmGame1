@@ -23,7 +23,18 @@ public class DataBase : MonoBehaviour
         }
         return null;
     }
+    public static GameObject SearchPrefab(string name)
+    {
+        for (int i = 0; i < plantPrefabs.Length; i++)
+        {
+            if(plantPrefabs[i].name.Equals(name))
+            {
+                return plantPrefabs[i];
+            }
+        }
 
+        return null;
+    }
     public static Sprite GetItemSprite(string name)
     {
         for (int i = 0; i < items.Length; i++)
@@ -42,7 +53,11 @@ public class DataBase : MonoBehaviour
         {
             if (items[i].GetType().Equals(typeof(Seed)))
             {
-                
+                Seed seed = (Seed)items[i];
+                if(seed.food.itemName.Equals(name))
+                {
+                    return SearchPrefab(name);
+                }
             }
         }
         return null;

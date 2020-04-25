@@ -111,7 +111,7 @@ public class SeedPlanter : MonoBehaviour
 
     private void Plant(GameObject go)
     {
-        GameObject loadPlant = Resources.Load<GameObject>("Prefabs/" + currentSeeds[index].food.itemName);
+        GameObject loadPlant = DataBase.PlantPrefab(currentSeeds[index].food.itemName);
         GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
         go.GetComponent<MeshRenderer>().material.color = Color.black;
         plant.transform.SetParent(go.transform);
