@@ -15,10 +15,10 @@ public class InventoryEntry : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        notActive = transform.GetChild(4).gameObject;
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<Text>();
         amount = transform.GetChild(2).GetComponent<Text>();
+        notActive = transform.GetChild(4).gameObject;
     }
     public void Fill(InventoryItem it)
     {
@@ -30,13 +30,6 @@ public class InventoryEntry : MonoBehaviour
 
     public void Button()
     {
-        if(Sell.Instance.playerNear)
-        {
-            Sell.Instance.AddItem(position);
-        }
-        else
-        {
-            InventoryController.Instance.DeleteItem(position);
-        }
+       InventoryController.Instance.DeleteItem(position);
     }
 }
