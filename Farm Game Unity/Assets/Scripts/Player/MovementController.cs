@@ -50,6 +50,10 @@ public class MovementController : MonoBehaviour
     {
         this.anim = anim;
     }
+    public void StopMovement()
+    {
+        currentSpeed = 0;
+    }
     private void Move(float dt)
     {
         Vector2 moveInputs;

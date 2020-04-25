@@ -83,8 +83,8 @@ public class GameManager : MonoBehaviour
 
     public RuntimeAnimatorController controller;
 
-    private bool newGame;
-    private bool gameLoaded;
+    private bool newGame = false;
+    private bool gameLoaded = false;
 
     public Transform cam;
     private Quaternion newCamRot;
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
     public Transform mainMenuCameraPivot;
 
     private float currentLerpTime;
-    private float lerpTime = 6;
+    private float lerpTime = 1;
 
     private string[] sentences = {"CONTINUE", "NEW GAME"};
     private void Awake()
@@ -171,9 +171,7 @@ public class GameManager : MonoBehaviour
 
         oriPos = player.position + Vector3.up;
         oriRot = player.rotation;
-    }
-    private void OnEnable()
-    {
+
         fade.color = fadeOut;
 
         cam.position = startCameraPivot.position;
@@ -181,25 +179,28 @@ public class GameManager : MonoBehaviour
 
         newCamPos = cam.position;
         newCamRot = cam.rotation;
-
+    }
+    private void OnEnable()
+    {
         SceneManager.sceneLoaded += SceneLoaded;
     }
 
     private void SceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(WaitStart());
+        SceneManager.sceneLoaded -= SceneLoaded;
     }
     IEnumerator WaitStart()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0f);
         gameLoaded = true;
         currentLerpTime = 0;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0f);
         newCamPos = mainMenuCameraPivot.position;
         currentLerpTime = 0;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0f);
         mainMenu.transform.GetChild(0).gameObject.SetActive(true);
     }
 
@@ -349,6 +350,11 @@ public class GameManager : MonoBehaviour
     }
     public void Reload()
     {
+        StartCoroutine(LoadScene());
+    }
+    IEnumerator LoadScene()
+    {
+        yield return new WaitForSeconds(0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     private void UpdateSaveText(DateTime time)
