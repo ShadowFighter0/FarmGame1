@@ -160,7 +160,6 @@ public class ShopManager : MonoBehaviour
         shopPanel.SetActive(true);
         CartView();
         
-        Time.timeScale = 0;
         InputManager.instance.ChangeState(InputManager.States.OnUI);
         
     }
@@ -171,7 +170,6 @@ public class ShopManager : MonoBehaviour
     public void CloseShop()
     {
         shopPanel.SetActive(false);
-        Time.timeScale = 1;
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 

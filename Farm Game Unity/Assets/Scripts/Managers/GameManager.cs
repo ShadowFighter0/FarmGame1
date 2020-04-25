@@ -293,12 +293,10 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(gamePaused);
         if (gamePaused)
         {
-            //Time.timeScale = 0;
             InputManager.instance.ChangeState(InputManager.States.OnUI);
         }
         else
         {
-            //Time.timeScale = 1;
             InputManager.instance.ChangeState(InputManager.States.Idle);
         }
     }

@@ -133,7 +133,6 @@ public class InventoryController : MonoBehaviour
         bookActive = true;
         book.SetActive(true);   
         ChangeGui();
-        Time.timeScale = 0;
         currentState = InputManager.state;
         InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
@@ -141,7 +140,6 @@ public class InventoryController : MonoBehaviour
     {
         bookActive = false;
         book.SetActive(false);
-        Time.timeScale = 1;
         InputManager.instance.ChangeState(currentState);   
     }
 
