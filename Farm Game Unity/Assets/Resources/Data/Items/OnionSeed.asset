@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OnionSeed
   m_EditorClassIdentifier: 
   itemName: OnionSeed
-  image: {fileID: 21300000, guid: 78455e1c6f7c0934a925997fb3c2b63b, type: 3}
+  image: {fileID: 21300000, guid: 0268606f4effcf5418725179d3c7f5b3, type: 3}
   amount: 2
   price: 12
   food: {fileID: 11400000, guid: 6831338669b0a1044a6c92a632314cfb, type: 2}

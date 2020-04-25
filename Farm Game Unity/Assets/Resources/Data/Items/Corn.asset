@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Corn
   m_EditorClassIdentifier: 
   itemName: Corn
-  image: {fileID: 21300000, guid: fff941c2d999e3541a70f0d465387ba3, type: 3}
+  image: {fileID: 21300000, guid: 51d9998336ced604ca1708da22c60917, type: 3}
   amount: 1
   price: 10

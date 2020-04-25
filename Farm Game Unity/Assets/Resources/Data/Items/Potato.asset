@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Potato
   m_EditorClassIdentifier: 
   itemName: Potato
-  image: {fileID: 21300000, guid: d15521a26ac9e5d4399557eea741612c, type: 3}
+  image: {fileID: 21300000, guid: 51d9998336ced604ca1708da22c60917, type: 3}
   amount: 1
   price: 10

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Watermelon
   m_EditorClassIdentifier: 
   itemName: Watermelon
-  image: {fileID: 21300000, guid: 03e5d56c6383c2044b6402569f51c2b4, type: 3}
+  image: {fileID: 21300000, guid: 51d9998336ced604ca1708da22c60917, type: 3}
   amount: 1
   price: 10
