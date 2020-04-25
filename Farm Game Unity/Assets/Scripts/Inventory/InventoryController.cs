@@ -60,7 +60,7 @@ public class InventoryController : MonoBehaviour
     [Tooltip("Book")] public GameObject book;
     [Tooltip("Delete Panel")] public GameObject deletePanel;
 
-    [Tooltip("Todas las semillas")] public Item[] seedsItems;
+    private Item[] seedsItems;
     [Tooltip("Todos los materiales")] public Item[] materialsItems;
     [HideInInspector] public bool bookActive = false;
 
@@ -80,6 +80,7 @@ public class InventoryController : MonoBehaviour
 
     private void Awake()
     {
+        seedsItems = Resources.LoadAll<Seed>("Data/Items");
         Instance = this;    //Singleton
         items = new InventoryItem [itemSpace];
 

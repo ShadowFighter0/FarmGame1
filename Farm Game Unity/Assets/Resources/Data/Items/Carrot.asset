@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Carrot
   m_EditorClassIdentifier: 
   itemName: Carrot
-  image: {fileID: 21300000, guid: 51d9998336ced604ca1708da22c60917, type: 3}
+  image: {fileID: 21300000, guid: 1ca9a1b883bb3da4bbff01e84b659530, type: 3}
   amount: 1
   price: 10

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Pepper
   m_EditorClassIdentifier: 
   itemName: Pepper
-  image: {fileID: 21300000, guid: 51d9998336ced604ca1708da22c60917, type: 3}
+  image: {fileID: 21300000, guid: 6740093bfbae0b34cac7a38e48a30b5f, type: 3}
   amount: 1
   price: 10

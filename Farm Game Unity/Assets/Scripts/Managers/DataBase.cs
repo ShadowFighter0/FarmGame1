@@ -9,6 +9,7 @@ public class DataBase : MonoBehaviour
     private void Awake()
     {
         items = Resources.LoadAll<Item>("Data/Items");
+        Debug.Log(items.Length);
         plantPrefabs = Resources.LoadAll<GameObject>("Prefabs");
     }
 
@@ -23,6 +24,17 @@ public class DataBase : MonoBehaviour
         }
         return null;
     }
+    public static Sprite GetItemSprite(string name)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i].itemName.Equals(name))
+            {
+                return items[i].image;
+            }
+        }
+        return null;
+    }
     public static GameObject SearchPrefab(string name)
     {
         for (int i = 0; i < plantPrefabs.Length; i++)
@@ -33,17 +45,6 @@ public class DataBase : MonoBehaviour
             }
         }
 
-        return null;
-    }
-    public static Sprite GetItemSprite(string name)
-    {
-        for (int i = 0; i < items.Length; i++)
-        {
-            if (items[i].itemName.Equals(name))
-            {
-                return items[i].image;
-            }
-        }
         return null;
     }
 
