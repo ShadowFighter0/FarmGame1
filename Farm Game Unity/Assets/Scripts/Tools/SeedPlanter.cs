@@ -7,7 +7,6 @@ public class SeedPlanter : MonoBehaviour
 {
     public Seed[] seeds;
     private List<Seed> currentSeeds = new List<Seed>();
-    private Animator anim;
 
     private int index = 0;
 
@@ -36,7 +35,6 @@ public class SeedPlanter : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        GameEvents.OnAnimatorSelected += SetAnimator;
     }
     private void Start()
     {
@@ -59,7 +57,6 @@ public class SeedPlanter : MonoBehaviour
                 currentSeeds.Remove(s);
             }
         }
-        Debug.Log("Updating seeds. Current seeds: " + currentSeeds.Count);
     }
 
     void Update()
@@ -78,11 +75,6 @@ public class SeedPlanter : MonoBehaviour
         }
     }
 
-    public void SetAnimator(Animator an)
-    {
-        anim = an;
-    }
-
     private void CheckTarget()
     {
         GameObject go = RayCastController.instance.GetTarget();
@@ -96,7 +88,7 @@ public class SeedPlanter : MonoBehaviour
                 {
                     if (go.transform.childCount < 1)
                     {
-                        anim.SetTrigger("Taking");
+                        InputManager.instance.playerAnim.SetTrigger("Taking");
                         StartCoroutine(AnimDelay(go));
                     }
                 }

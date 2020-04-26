@@ -6,12 +6,7 @@ public class Hoe : MonoBehaviour
 {
     public GameObject indicator;
     private GameObject holeManager;
-    private Animator anim;
 
-    private void Awake()
-    {
-        GameEvents.OnAnimatorSelected += SetAnimator;
-    }
     private void Start()
     {
         holeManager = FindObjectOfType<HoleManager>().gameObject;
@@ -23,18 +18,13 @@ public class Hoe : MonoBehaviour
         {
             SetColor(go);
         }
-        if (anim != null)
+        if (InputManager.instance.playerAnim != null)
         {
             if (Input.GetKeyDown(InputManager.instance.Click))
             {
                 Dig(go);
             }
         }
-    }
-
-    public void SetAnimator(Animator an)
-    {
-        anim = an;
     }
 
     private void OnEnable()
@@ -49,7 +39,7 @@ public class Hoe : MonoBehaviour
     {
         if (go.CompareTag("Ground"))
         {
-            anim.SetTrigger("Dig");
+            InputManager.instance.playerAnim.SetTrigger("Dig");
             CreateHole();
         }
     }
@@ -61,7 +51,7 @@ public class Hoe : MonoBehaviour
     }
     private void SetColor(GameObject go)
     {
-        MeshRenderer m = indicator.GetComponent<MeshRenderer>();
+        MeshRenderer m = indicator.GetComponentInChildren<MeshRenderer>();
         if (go.CompareTag("Ground"))
         {
             Color c = new Color(102/255, 1, 20/255, 0.3f);

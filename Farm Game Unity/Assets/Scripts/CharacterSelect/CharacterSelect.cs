@@ -125,7 +125,7 @@ public class CharacterSelect : MonoBehaviour
         selected.transform.SetParent(player);
 
         MovementController.instance.enabled = true;
-        GameEvents.AnimatorSelected(selected.GetComponent<Animator>());
+        InputManager.instance.SetAnimator(selected.GetComponent<Animator>());
 
         PlayerFollow.instance.enabled = true;
         if (selected.name.Equals("Male"))

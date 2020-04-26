@@ -4,22 +4,12 @@ using UnityEngine;
 
 public class PlantsCollector : MonoBehaviour
 {
-    public Animator anim;
     private bool onAnim;
 
     public static PlantsCollector instance;
     private void Awake()
     {
         instance = this;
-        GameEvents.OnAnimatorSelected += SetAnimator;
-    }
-    private void Start()
-    {
-        
-    }
-    public void SetAnimator(Animator an)
-    {
-        anim = an;
     }
     void Update()
     {
@@ -30,7 +20,7 @@ public class PlantsCollector : MonoBehaviour
             if (script != null && !onAnim && script.GetGrownUp())
             {
                 onAnim = true;
-                anim.SetBool("Taking", true);
+                InputManager.instance.playerAnim.SetTrigger("Taking");
                 StartCoroutine(AnimDelay(go, script));
             }
         }
@@ -40,7 +30,6 @@ public class PlantsCollector : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         onAnim = false;
-        anim.SetBool("Taking", false);
         script.AddInventory();
         Destroy(go.transform.GetChild(0).gameObject);
     }

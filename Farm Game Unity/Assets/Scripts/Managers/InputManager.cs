@@ -19,6 +19,8 @@ public class InputManager : MonoBehaviour
     private Transform tools;
     public GameObject radialMenu;
 
+    public Animator playerAnim;
+
     public static InputManager instance;
 
     public enum States
@@ -89,7 +91,7 @@ public class InputManager : MonoBehaviour
                 break;
         }
     }
-
+    public void SetAnimator(Animator anim) { playerAnim = anim; }
     private void UpdateStates()
     {
         switch (state)

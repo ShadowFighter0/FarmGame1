@@ -7,15 +7,10 @@ public class WateringCan : MonoBehaviour
 {
     public Transform wateringCan;
     public ParticleSystem waterParticles;
-    public Animator anim;
 
     private Vector3 oriRot;
     private Vector3 newRot;
 
-    private void Awake()
-    {
-        GameEvents.OnAnimatorSelected += SetAnimator;
-    }
     private void Start()
     {
         waterParticles.Stop();
@@ -23,17 +18,13 @@ public class WateringCan : MonoBehaviour
         newRot = oriRot;
     }
 
-    public void SetAnimator(Animator an)
-    {
-        anim = an;
-    }
     void Update()
     {
         if(InputManager.state != InputManager.States.OnUI)
         {
             if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state != InputManager.States.Working)
             {
-                anim.SetTrigger("Watering");
+                InputManager.instance.playerAnim.SetTrigger("Watering");
                 //transform.eulerAngles = oriRot + Vector3.forward * 60;
             }
         }

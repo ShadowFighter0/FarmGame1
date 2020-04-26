@@ -10,7 +10,6 @@ public class MovementController : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        GameEvents.OnAnimatorSelected += SetAnimator;
     }
 
     private CharacterController controller;
@@ -27,8 +26,6 @@ public class MovementController : MonoBehaviour
     public bool canMove = true;
     public Transform cam;
 
-    public Animator anim;
-
     public float turnSmoothTime = 0.2f;
     private float turnSmoothVelocity;
 
@@ -40,15 +37,11 @@ public class MovementController : MonoBehaviour
     }
     void Update()
     {
-        if(anim != null)
+        if(InputManager.instance.playerAnim != null)
         {
             float dt = Time.deltaTime;
             Move(dt);
         }
-    }
-    public void SetAnimator(Animator anim)
-    {
-        this.anim = anim;
     }
     public void StopMovement()
     {
@@ -80,7 +73,7 @@ public class MovementController : MonoBehaviour
         Jump(dt);
 
         currentSpeed += GetOffset(dt, moveInputs.magnitude, maxSpeed, currentSpeed, accel);
-        anim.SetFloat("Vel", currentSpeed);
+        InputManager.instance.playerAnim.SetFloat("Vel", currentSpeed);
 
         Vector3 newPos = transform.forward * currentSpeed + transform.up * gravity;
         controller.Move(newPos * dt);

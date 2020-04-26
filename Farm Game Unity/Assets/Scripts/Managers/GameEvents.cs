@@ -22,10 +22,4 @@ public class GameEvents : MonoBehaviour
 	{
 		OnSaveInitiated?.Invoke();
 	}
-
-	public static event Action<Animator> OnAnimatorSelected;
-	public static void AnimatorSelected(Animator anim)
-	{
-		OnAnimatorSelected?.Invoke(anim);
-	}
 }
