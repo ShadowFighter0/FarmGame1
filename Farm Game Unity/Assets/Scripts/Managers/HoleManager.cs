@@ -26,9 +26,11 @@ public class HoleManager : MonoBehaviour
     public static HoleManager instance;
     private void Awake()
     {
+        GameEvents.OnSaveInitiated += SaveHoles;
         if (instance != null && instance != this)
         {
             Debug.Log("deleting double singleton");
+            GameEvents.OnSaveInitiated -= SaveHoles;
             Destroy(gameObject);
         }
         else
@@ -38,8 +40,6 @@ public class HoleManager : MonoBehaviour
     }
     private void Start()
     {
-        GameEvents.OnSaveInitiated += SaveHoles;
-
         if (SaveLoad.SaveExists("Holes"))
         {
             List<WorldItem> holesSaveds = new List<WorldItem>();

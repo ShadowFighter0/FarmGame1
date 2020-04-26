@@ -62,6 +62,12 @@ public class WorkShopController : MonoBehaviour
                 if (b)
                 {
                     unlockableItems[i].gameObject.SetActive(true);
+
+                    MonoBehaviour itemController = unlockableItems[i].gameObject.GetComponent<MonoBehaviour>();
+                    if (itemController != null)
+                    {
+                        itemController.enabled = true;
+                    }
                 }
                 else
                 {
@@ -175,7 +181,6 @@ public class WorkShopController : MonoBehaviour
 
         ChangeItemsState(true);
     }
-
     private void ChangeItemsState(bool b)
     {
         for (int i = 0; i < unlockableItems.Count; i++)
@@ -215,7 +220,7 @@ public class WorkShopController : MonoBehaviour
             UnlockeableItem script = currentItem.GetComponent<UnlockeableItem>();
             script.SetOriginalMat();
             script.purchased = true;
-            Destroy(script);
+            //Destroy(script);
 
             MonoBehaviour itemController = currentItem.GetComponent<MonoBehaviour>();
             if(itemController != null)

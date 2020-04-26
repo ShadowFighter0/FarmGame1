@@ -80,4 +80,8 @@ public class HoleController : MonoBehaviour
     {
         return wet;
     }
+    private void OnDestroy()
+    {
+        GameEvents.OnNewDay -= NewDay;
+    }
 }
