@@ -38,7 +38,6 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-
         GameEvents.OnNewDay += NewDay;
         cart = new ShopItem[stockUI.Length];
 
@@ -50,7 +49,7 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     /// Button click select an item
     /// </summary>
-    /// <param name="pos"></param>
+    /// <param name="pos" ></param>
     public void Select(int pos)
     {
         this.pos = pos;
@@ -64,7 +63,7 @@ public class ShopManager : MonoBehaviour
         amountPanel.SetActive(true);
     }
 
-    public void ConfirmAmount()    //danger fanger 
+    public void ConfirmAmount()
     {
         if (cartView)
         {
@@ -162,7 +161,6 @@ public class ShopManager : MonoBehaviour
         CartView();
         
         InputManager.instance.ChangeState(InputManager.States.OnUI);
-        
     }
 
     /// <summary>

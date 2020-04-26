@@ -53,6 +53,14 @@ public class Shop : MonoBehaviour
         return Random.Range(3, 10);
     }
 
+    public void NewDay()
+    {
+        foreach (ShopItem s in stock)
+        {
+            s.stock = GenerateAmount();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -62,13 +70,5 @@ public class Shop : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             playerNear = false;
-    }
-
-    public void NewDay()
-    {
-        foreach(ShopItem s in stock)
-        {
-            s.stock = GenerateAmount();
-        }
     }
 }
