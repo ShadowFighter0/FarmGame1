@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -113,6 +114,7 @@ public class WorkShopController : MonoBehaviour
                         if (hit.transform.gameObject.CompareTag("UnlockableItem"))
                         {
                             menu.SetActive(true);
+
                             currentItem = hit.transform.gameObject;
                             item = hit.transform.GetComponent<UnlockeableItem>();
                             if (item != null)
@@ -210,8 +212,16 @@ public class WorkShopController : MonoBehaviour
             Debug.Log(item.itemName + " purchased!");
             menu.SetActive(false);
 
-            currentItem.GetComponent<UnlockeableItem>().SetOriginalMat();
-            currentItem.GetComponent<UnlockeableItem>().purchased = true;
+            UnlockeableItem script = currentItem.GetComponent<UnlockeableItem>();
+            script.SetOriginalMat();
+            script.purchased = true;
+            Destroy(script);
+
+            MonoBehaviour itemController = currentItem.GetComponent<MonoBehaviour>();
+            if(itemController != null)
+            {
+                itemController.enabled = true;
+            }
 
             currentItem.tag = "Untagged";
             currentItem = null;
@@ -221,8 +231,8 @@ public class WorkShopController : MonoBehaviour
     private void Movement(float dt)
     {
         Vector3 input;
-        input.x = Input.GetAxis("Horizontal");
-        input.z = Input.GetAxis("Vertical");
+        input.x = -Input.GetAxis("Horizontal");
+        input.z = -Input.GetAxis("Vertical");
         input.y = 0;
 
         int scroll = (int)Input.mouseScrollDelta.y;

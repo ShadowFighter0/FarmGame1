@@ -9,7 +9,6 @@ public class DataBase : MonoBehaviour
     private void Awake()
     {
         items = Resources.LoadAll<Item>("Data/Items");
-        Debug.Log(items.Length);
         plantPrefabs = Resources.LoadAll<GameObject>("Prefabs");
     }
 

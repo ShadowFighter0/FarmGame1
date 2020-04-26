@@ -13,7 +13,7 @@ public class Goal
 
     public virtual void Init()
     {
-        // default init stuff
+        //default init stuff
     }
 
     public void Evaluate()

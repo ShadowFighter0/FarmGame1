@@ -17,14 +17,14 @@ public class SaveLoad
         {
             formatter.Serialize(fileStream, objectToSave);
         }
-        Debug.Log("saved!");
+        Debug.Log(key + "saved!");
     }
 
     public static T Load<T>(string key)
     {
         string path = Application.persistentDataPath + "/saves/";
         BinaryFormatter formatter = new BinaryFormatter();
-        T returnValue = default(T);
+        T returnValue = default;
         using (FileStream fileStream = new FileStream(path + key + ".txt", FileMode.Open))
         {
             returnValue = (T)formatter.Deserialize(fileStream);
