@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Hoe : MonoBehaviour
 {
-    public GameObject indicator;
+    public GameObject indicatorPrefab;
+    private GameObject indicator;
     private GameObject holeManager;
 
     private void Start()
     {
+        indicator = GameObject.Instantiate<GameObject>(indicatorPrefab);
         holeManager = FindObjectOfType<HoleManager>().gameObject;
     }
     void Update()
@@ -29,11 +31,17 @@ public class Hoe : MonoBehaviour
 
     private void OnEnable()
     {
-        indicator.SetActive(true);
+        if (indicator != null)
+        {
+            indicator.SetActive(true);
+        }
     }
     private void OnDisable()
     {
-        indicator.SetActive(false);
+        if (indicator != null)
+        {
+            indicator.SetActive(false);
+        }
     }
     private void Dig(GameObject go)
     {
