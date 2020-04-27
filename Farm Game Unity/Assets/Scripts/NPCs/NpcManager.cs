@@ -15,7 +15,6 @@ public class NpcManager : MonoBehaviour
     public void Suscribe(NPC npc) 
     {
         npcs.Add(npc);
-        Debug.Log(npc.name + " added");
     }
 
     public void AddQuest(Quest q, string name)
@@ -23,9 +22,7 @@ public class NpcManager : MonoBehaviour
         NPC npc = SearchNPC(name);
         if(npc != null)
         {
-            Debug.Log(npc.name + " find");
             SearchNPC(name).quest.Add(q);
-            Debug.Log(q.QuestName + " added to " + npc.name);
         }
     }
 

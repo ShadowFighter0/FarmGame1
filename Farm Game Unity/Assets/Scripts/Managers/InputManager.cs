@@ -137,7 +137,6 @@ public class InputManager : MonoBehaviour
     public void ChangeState(States s) 
     {
         state = s;
-        Debug.Log("State: " + state.ToString());
         UpdateStates();
     }
     private void ChangeSeed(int scroll)

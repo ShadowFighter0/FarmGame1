@@ -42,8 +42,7 @@ public class HoleManager : MonoBehaviour
     {
         if (SaveLoad.SaveExists("Holes"))
         {
-            List<WorldItem> holesSaveds = new List<WorldItem>();
-            holesSaveds = SaveLoad.Load<List<WorldItem>>("Holes");
+            List<WorldItem> holesSaveds = SaveLoad.Load<List<WorldItem>>("Holes");
             foreach (WorldItem info in holesSaveds)
             {
                 Vector3 pos = new Vector3(info.x, info.y, info.z);

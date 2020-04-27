@@ -41,6 +41,7 @@ public class SeedPlanter : MonoBehaviour
         UpdateCurrentSeeds();
     }
 
+    public List<Seed> CurrentSeeds() { return currentSeeds; }
     public void UpdateCurrentSeeds()
     {
         foreach (Seed s in seeds)
@@ -105,7 +106,6 @@ public class SeedPlanter : MonoBehaviour
     {
         GameObject loadPlant = DataBase.PlantPrefab(currentSeeds[index].food.itemName);
         GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
-        go.GetComponent<MeshRenderer>().material.color = Color.black;
         plant.transform.SetParent(go.transform);
         plant.GetComponent<PlantLife>().SetSeed(currentSeeds[index]);
 

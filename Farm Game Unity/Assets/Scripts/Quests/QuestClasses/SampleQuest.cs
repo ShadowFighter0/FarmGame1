@@ -6,7 +6,6 @@ public class SampleQuest : Quest
 {
     public SampleQuest(string questName, string npcName, string description, string[] itemId, int[] itemAmount, Item reward)
     {
-        Debug.Log(questName + " assigned.");
         QuestName = questName;
         Description = description;
         NPCName = npcName;

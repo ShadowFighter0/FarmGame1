@@ -17,7 +17,6 @@ public class SaveLoad
         {
             formatter.Serialize(fileStream, objectToSave);
         }
-        Debug.Log(key + "saved!");
     }
 
     public static T Load<T>(string key)

@@ -3,14 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class Page
+{
+    public GameObject parent;
+    public Image[] images;
+
+    public Page(GameObject p, GameObject[] icons, Image[] spr, Vector2[] pos)
+    {
+        parent = p;
+        for (int i = 0; i < icons.Length; i++)
+        {
+            icons[i].GetComponent<RectTransform>().localPosition = pos[i];
+        }
+        images = spr;
+    }
+    public void OpenChilds()
+    {
+        parent.SetActive(true);
+    }
+    public void CloseChilds()
+    {
+        parent.SetActive(false);
+    }
+}
 public class RadialMenuController : MonoBehaviour
 {
-    public Transform parent;
-    private GameObject[] icons;
-    private RectTransform[] iconRects;
-    private Vector2[] activePos;
+    public GameObject parent;
+    public GameObject changeButton;
 
-    private int numChilds;
+    public Sprite def;
 
     public int distance;
     public float time = 0.2f;
@@ -18,52 +39,95 @@ public class RadialMenuController : MonoBehaviour
     public Text text;
 
     public static RadialMenuController instance;
+    private Page[] page= new Page[2];
 
+    private int currentPage = 0;
     void Awake()
     {
         instance = this;
-        numChilds = parent.childCount;
-        icons = new GameObject[numChilds];
-        iconRects = new RectTransform[numChilds];
 
-        int offset = 360 / numChilds;
-
-        activePos = new Vector2[numChilds];
-
-        for (int i = 0; i < numChilds; i++)
+        for (int i = 0; i < 2; i++)
         {
-            float angle = (offset * i) * Mathf.Deg2Rad;
+            int numChilds = parent.transform.GetChild(i).childCount;
+            GameObject[] icons = new GameObject[numChilds];
+            Image[] images = new Image[numChilds];
+            Vector2[] activePos = new Vector2[numChilds];
 
-            activePos[i].x = distance * Mathf.Cos(angle);
-            activePos[i].y = distance * Mathf.Sin(angle);
+            int offset = 360 / numChilds;
+            for (int j = 0; j < numChilds; j++)
+            {
+                float angle = (offset * j) * Mathf.Deg2Rad;
 
-            icons[i] = parent.GetChild(i).gameObject;
-            iconRects[i] = parent.GetChild(i).GetComponent<RectTransform>();
+                activePos[j].x = distance * Mathf.Cos(angle);
+                activePos[j].y = distance * Mathf.Sin(angle);
+
+                icons[j] = parent.transform.GetChild(i).GetChild(j).gameObject;
+                images[j] = icons[j].GetComponent<Image>();
+            }
+            page[i] = new Page(parent.transform.GetChild(i).gameObject, icons, images, activePos);
         }
     }
-    public void Open()
+    private void Start()
     {
-        parent.gameObject.SetActive(true);
-        for (int i = 0; i < numChilds; i++)
+        FillPages();
+    }
+    public void FillPages()
+    {
+        List<Seed> seeds = SeedPlanter.instance.CurrentSeeds();
+        int numSeeds = 0;
+        for (int i = 0; i < 2; i++)
         {
-            if (InventoryController.Instance.GetAmount(SeedPlanter.instance.seeds[i].itemName) > 0)
+            int num = parent.transform.GetChild(i).childCount;
+            for (int j = 0; j < num; j++)
             {
-                icons[i].SetActive(true);
-                iconRects[i].localPosition = activePos[i];
+                if(numSeeds < seeds.Count)
+                {
+                    numSeeds++;
+                    page[i].images[j].sprite = seeds[j].image;
+                }
+                else
+                {
+                    page[i].images[j].sprite = def;
+                }
             }
         }
     }
+    public void SetPage(int i) { currentPage = i; }
+
+    public void ChangePage()
+    {
+        page[currentPage].CloseChilds();
+        if (currentPage == 0)
+        {
+            currentPage = 1;
+        }
+        else
+        {
+            currentPage = 0;
+        }
+        page[currentPage].OpenChilds();
+    }
+    public void Open()
+    {
+        FillPages();
+        parent.SetActive(true);
+        changeButton.SetActive(true);
+        page[currentPage].OpenChilds();
+    }
     public void Close()
     {
+        parent.SetActive(false);
+        changeButton.SetActive(false);
+        page[currentPage].CloseChilds();
         InputManager.instance.ChangeState(InputManager.States.Idle);
-        parent.gameObject.SetActive(false);
-        for (int i = 0; i < numChilds; i++)
-        {
-            icons[i].SetActive(false);
-        }
     }
     public void ChangeText(string s)
     {
         text.text = s;
+    }
+
+    public void SetSeed(Transform t)
+    {
+        SeedPlanter.instance.Index = t.GetSiblingIndex();
     }
 }

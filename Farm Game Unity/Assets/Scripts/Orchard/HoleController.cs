@@ -17,25 +17,7 @@ public class HoleController : MonoBehaviour
         GameEvents.OnNewDay += NewDay;
     }
 
-    void Update()
-    {
-        float dt = Time.deltaTime;
-        UpdateColor(dt);
-    }
-
-    private void UpdateColor(float dt)
-    {
-        if (wet)
-        {
-            rend.material.color = Color.Lerp(rend.material.color, wetColor, dt);
-        }
-        else
-        {
-            rend.material.color = Color.Lerp(rend.material.color, dryColor, dt);
-        }
-    }
-
-    public void NewDay()
+    private void NewDay()
     {
         if (transform.childCount > 0)
         {
@@ -65,14 +47,17 @@ public class HoleController : MonoBehaviour
 
     private void CheckWater()
     {
+        Debug.Log("pollas");
         if (water >= 100)
         {
             //play sound
             wet = true;
+            rend.material.color = wetColor;
         }
         else
         {
             wet = false;
+            rend.material.color = dryColor;
         }
     }
 
