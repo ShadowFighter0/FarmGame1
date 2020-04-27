@@ -10,6 +10,7 @@ TagManager:
   - UnlockableItem
   - Male
   - Female
+  - Water
   layers:
   - Default
   - TransparentFX

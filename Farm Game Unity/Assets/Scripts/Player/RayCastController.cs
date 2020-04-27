@@ -21,7 +21,6 @@ public class RayCastController : MonoBehaviour
     void Update()
     {
         ray = new Ray(pivot.position, pivot.forward);
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
         if (Physics.Raycast(ray, out hit))
         {
             hitPos[0] = hit.point;
