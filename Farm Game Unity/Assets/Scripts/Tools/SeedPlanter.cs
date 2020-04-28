@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class SeedPlanter : MonoBehaviour
 {
-    public Seed[] seeds;
+    private Seed[] seeds;
     private List<Seed> currentSeeds = new List<Seed>();
+    private ParticleSystem seedParticles;
 
     private int index = 0;
 
@@ -35,6 +36,7 @@ public class SeedPlanter : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        seeds = Resources.LoadAll<Seed>("Data/Items");
     }
     private void Start()
     {
@@ -64,13 +66,9 @@ public class SeedPlanter : MonoBehaviour
     {
         if(currentSeeds.Count > 0)
         {
-            if(!ActionTextController.instance.gameObject.activeSelf)
-            {
-                ActionTextController.instance.gameObject.SetActive(true);
-            }
             CheckTarget();
         }
-        else if(ActionTextController.instance.gameObject.activeSelf)
+        else if (ActionTextController.instance.gameObject.activeSelf)
         {
             ActionTextController.instance.gameObject.SetActive(false);
         }
@@ -83,9 +81,15 @@ public class SeedPlanter : MonoBehaviour
         {
             if (go.CompareTag("Hole"))
             {
+                if (!ActionTextController.instance.gameObject.activeSelf)
+                {
+                    ActionTextController.instance.gameObject.SetActive(true);
+                }
+
                 ActionTextController.instance.ChangePosition(go.transform.position);
                 ActionTextController.instance.ChangeText(currentSeeds[index].itemName);
-                if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[index].itemName) > 0 && InputManager.state != InputManager.States.Working)
+
+                if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
                 {
                     if (go.transform.childCount < 1)
                     {
@@ -93,6 +97,10 @@ public class SeedPlanter : MonoBehaviour
                         StartCoroutine(AnimDelay(go));
                     }
                 }
+            }
+            else if (ActionTextController.instance.gameObject.activeSelf)
+            {
+                ActionTextController.instance.gameObject.SetActive(false);
             }
         }
     }
@@ -105,6 +113,7 @@ public class SeedPlanter : MonoBehaviour
     private void Plant(GameObject go)
     {
         GameObject loadPlant = DataBase.PlantPrefab(currentSeeds[index].food.itemName);
+
         GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
         plant.transform.SetParent(go.transform);
         plant.GetComponent<PlantLife>().SetSeed(currentSeeds[index]);

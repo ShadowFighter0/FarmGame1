@@ -29,6 +29,8 @@ public class CharacterSelect : MonoBehaviour
     public Transform femaleTools;
 
     public static CharacterSelect instance;
+    private Vector3 turnSmoothVelocity;
+
     private void Awake()
     {
         instance = this;
@@ -65,7 +67,7 @@ public class CharacterSelect : MonoBehaviour
             }
             else
             {
-                selected.transform.localEulerAngles = Vector3.Lerp(selected.transform.localEulerAngles, Vector3.up * oriY, dt * 10f);
+                selected.transform.localEulerAngles = Vector3.SmoothDamp(selected.transform.localEulerAngles, Vector3.up * oriY, ref turnSmoothVelocity, 0.2f);
             }
         }
     }

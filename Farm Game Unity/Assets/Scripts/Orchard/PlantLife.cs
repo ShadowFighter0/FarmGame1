@@ -7,17 +7,16 @@ public class PlantInfo
     public int index;
     public string seed;
     public string plant;
-    public int currentGrowthTime;
     public float x;
     public float y;
     public float z;
 
-    public PlantInfo (int i, string s, string p, int time, Vector3 pos)
+    public PlantInfo (int i, string s, string p, Vector3 pos)
     {
         index = i;
         seed = s;
         plant = p;
-        currentGrowthTime = time;
+
         x = pos.x;
         y = pos.y;
         z = pos.z;
@@ -29,7 +28,6 @@ public class PlantLife : MonoBehaviour
     private HoleController holeScript;
 
     private Seed seed;
-    private int currentGrowthTime;
     private bool grownUp = false;
 
     void Start()
@@ -37,7 +35,6 @@ public class PlantLife : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Plants");
         ChangeModel();
         holeScript = gameObject.GetComponentInParent<HoleController>();
-        currentGrowthTime = seed.growthTime;
     }
 
     public int GetFood()
@@ -46,31 +43,33 @@ public class PlantLife : MonoBehaviour
     }
     public PlantInfo SavePlant()
     {
-        return new PlantInfo(index, seed.itemName, seed.food.itemName, currentGrowthTime, transform.position);
+        return new PlantInfo(index, seed.itemName, seed.food.itemName, transform.position);
     }
-    public void InitializePlant(int i, Seed s, int time)
+    public void InitializePlant(int i, Seed s)
     {
         index = i;
         SetSeed(s);
-        currentGrowthTime = time;
     }
     public void SetSeed(Seed s) { seed = s; }
 
     public bool GetGrownUp() { return grownUp; }
 
-    public void NewDay()
+    public void GrownUp()
     {
-        if (holeScript.GetWet() && index < transform.childCount-1)
+        grownUp = true;
+        index = transform.childCount - 1;
+        ChangeModel();
+    }
+
+    public void UpdateState()
+    {
+        bool wet = holeScript.GetWet();
+        if (wet && index < transform.childCount - 1)
         {
-            currentGrowthTime--;
-            if(currentGrowthTime <= 0)
-            {
-                currentGrowthTime = seed.growthTime;
-                index++;
-                ChangeModel();
-            }
+            index++;
+            ChangeModel();
         }
-        if (!holeScript.GetWet())
+        if (!wet)
         {
             Destroy(gameObject);
         }   

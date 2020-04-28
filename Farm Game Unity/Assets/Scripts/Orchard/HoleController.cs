@@ -21,7 +21,7 @@ public class HoleController : MonoBehaviour
     {
         if (transform.childCount > 0)
         {
-            transform.GetChild(0).GetComponent<PlantLife>().NewDay();
+            transform.GetChild(0).GetComponent<PlantLife>().UpdateState();
         }
         if (!wet)
         {
@@ -47,7 +47,6 @@ public class HoleController : MonoBehaviour
 
     private void CheckWater()
     {
-        Debug.Log("pollas");
         if (water >= 100)
         {
             //play sound

@@ -61,7 +61,7 @@ public class HoleManager : MonoBehaviour
 
                     PlantLife script = go.GetComponent<PlantLife>();
                     Seed s = SeedPlanter.instance.GetSeed(plant.seed);
-                    script.InitializePlant(plant.index, s, plant.currentGrowthTime);
+                    script.InitializePlant(plant.index, s);
 
                     go.transform.SetParent(hole.transform);
                 }
