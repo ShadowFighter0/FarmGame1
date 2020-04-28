@@ -7,33 +7,95 @@ public class Sell : MonoBehaviour
     ShopItem[] stock;
     ShopEntry[] stockUI;
 
-    public bool sellOpen;
+    int numStock = 0;
+    int position = 0;
+
+    public bool onSell;
     public bool playerNear;
     public GameObject shopPanel;
-    
+
+
+
     public static Sell Instance;
 
     private void Awake()
     {
         Instance = this;
+        stockUI = ShopManager.Instance.stockUI;
     }
     private void Start()
     {
-        stockUI = ShopManager.Instance.stockUI;
+
     }
 
     private void Update()
     {
+        if (playerNear && Input.GetKey(InputManager.instance.Interact))
+        {
+            if (!shopPanel.activeSelf)
+            {
+                shopPanel.SetActive(true);
+                ShowStock();
+                onSell = true;
+                //mostrar lo del panel shop pero F
+            }
+            else
+            {
+                shopPanel.SetActive(false);
+                onSell = false;
+                //cerrar el panel shop
+            }
+
+        }
     }
 
-    public void AddItem(int pos)
+    public void ReturnItems(int position)
     {
-
+        AmountPanel.Instance.gameObject.SetActive(true);
+        AmountPanel.Instance.On(stock[position].stock);
     }
-    public void ConfirmAmount()
+
+    private void ShowStock()
     {
-
+        for (int i = 0; i < stockUI.Length; i++)
+        {
+            if (stock[i] != null)
+            {
+                stockUI[i].gameObject.SetActive(true);
+                stockUI[i].Fill(stock[i]);
+            }
+            else
+            {
+                stockUI[i].gameObject.SetActive(false);
+            }
+        }
     }
+
+    public void Button(int pos)
+    {
+        position = pos;
+    }
+
+    public void AddItem(int amount)
+    {
+        int currentPosition = SearchStock(InventoryController.Instance.GetID(position));
+        //Añadir a stock
+        if (currentPosition < 0)
+        {
+            string id = InventoryController.Instance.GetID(position);
+            stock[numStock].item = DataBase.GetItem(id);
+            stock[numStock].stock = amount;
+            numStock++;
+
+            InventoryController.Instance.SubstractAmountItem(amount, id);
+        }
+        else
+        {
+            stock[position].stock += amount;
+        }
+    }
+
+
     private int SearchStock(string name)
     {
         for (int i = 0; i < stock.Length; i++)
@@ -45,6 +107,7 @@ public class Sell : MonoBehaviour
         }
         return -1;
     }
+
     public void CloseShop()
     {
         shopPanel.SetActive(false);
@@ -54,7 +117,7 @@ public class Sell : MonoBehaviour
     public void ChangeView()
     {
         shopPanel.SetActive(!shopPanel.activeInHierarchy);
-        if(shopPanel.activeInHierarchy)
+        if (shopPanel.activeInHierarchy)
         {
             for (int i = 0; i < stock.Length; i++)
             {
@@ -81,15 +144,12 @@ public class Sell : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-            playerNear = true;            
+            playerNear = true;
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
             playerNear = false;
-            
-        }
-           
+
     }
 }

@@ -9,6 +9,7 @@ public class InventoryEntry : MonoBehaviour
     private Image image;
     private Text nameText;
     private Text amount;
+    private Text price;
 
     public int position;
 
@@ -17,8 +18,9 @@ public class InventoryEntry : MonoBehaviour
     {
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<Text>();
-        amount = transform.GetChild(2).GetComponent<Text>();
+        amount = transform.GetChild(3).GetComponent<Text>();
         notActive = transform.GetChild(4).gameObject;
+        price = transform.GetChild(5).GetComponent<Text>();
     }
     public void Fill(InventoryItem it)
     {
@@ -26,10 +28,28 @@ public class InventoryEntry : MonoBehaviour
         image.sprite = sprite;
         nameText.text = it.name;
         amount.text = it.inventoryAmount.ToString();
+
+        if (Sell.Instance.playerNear)
+        {
+            price.text = DataBase.GetItem(it.name).price.ToString();
+            price.gameObject.SetActive(true);
+        }
+        else
+        {
+            price.gameObject.SetActive(false);
+        }
     }
 
     public void Button()
     {
-       InventoryController.Instance.DeleteItem(position);
+        if (Sell.Instance.playerNear)
+        {
+            AmountPanel.Instance.gameObject.SetActive(true);
+            AmountPanel.Instance.On(int.Parse(amount.text));
+        }
+        else
+        {
+            InventoryController.Instance.DeleteItem(position);
+        }
     }
 }

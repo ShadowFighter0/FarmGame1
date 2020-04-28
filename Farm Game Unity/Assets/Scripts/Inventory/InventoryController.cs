@@ -10,9 +10,11 @@ public class InventoryItem
     public string name;
     public string image;
 
+    public int price;
+
     public bool isActivate = true;
 
-    public int inventoryAmount = 0 ;
+    public int inventoryAmount = 0;
 
     public InventoryItem(string name, string image)
     {
@@ -67,7 +69,7 @@ public class InventoryController : MonoBehaviour
     InputManager.States currentState;
     #endregion
 
-    
+
     #region Pages
     private int currentPage = 0;
     private int oldPage = 0;
@@ -75,21 +77,21 @@ public class InventoryController : MonoBehaviour
 
     public GameObject[] pages;
     #endregion
-    
+
     int itemSelected; //Item selected in the inventory
 
     private void Awake()
     {
         seedsItems = Resources.LoadAll<Seed>("Data/Items");
         Instance = this;    //Singleton
-        items = new InventoryItem [itemSpace];
+        items = new InventoryItem[itemSpace];
 
         seedSpace = seedsItems.Length;
-        seeds = new InventoryItem [seedSpace];
-        materials = new InventoryItem [materialsItems.Length];
+        seeds = new InventoryItem[seedSpace];
+        materials = new InventoryItem[materialsItems.Length];
 
         //Start seeds and materials
-        for(int i = 0; i < seedsItems.Length; i++)
+        for (int i = 0; i < seedsItems.Length; i++)
         {
             seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].image.name, false);
         }
@@ -104,15 +106,15 @@ public class InventoryController : MonoBehaviour
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
         GameEvents.OnSaveInitiated += Save;
-        if(SaveLoad.SaveExists("InventorySeeds"))
+        if (SaveLoad.SaveExists("InventorySeeds"))
         {
-            InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventorySeeds"); 
+            InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventorySeeds");
             for (int i = 0; i < savedItems.Length; i++)
             {
                 seeds[i] = savedItems[i];
             }
         }
-        if(SaveLoad.SaveExists("InventoryItems"))
+        if (SaveLoad.SaveExists("InventoryItems"))
         {
             InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventoryItems");
             for (int i = 0; i < savedItems.Length; i++)
@@ -132,7 +134,7 @@ public class InventoryController : MonoBehaviour
     public void OpenMenu()
     {
         bookActive = true;
-        book.SetActive(true);   
+        book.SetActive(true);
         ChangeGui();
         currentState = InputManager.state;
         InputManager.instance.ChangeState(InputManager.States.OnUI);
@@ -141,7 +143,7 @@ public class InventoryController : MonoBehaviour
     {
         bookActive = false;
         book.SetActive(false);
-        InputManager.instance.ChangeState(currentState);   
+        InputManager.instance.ChangeState(currentState);
     }
 
     void ChangeGui()
@@ -155,7 +157,7 @@ public class InventoryController : MonoBehaviour
                     it.notActive.SetActive(false);
                     if (items[i] != null)
                     {
-                        
+
                         it.gameObject.SetActive(true);
                         it.Fill(items[i]);
                     }
@@ -190,24 +192,28 @@ public class InventoryController : MonoBehaviour
     }
     #endregion
 
+    public string GetID(int pos)
+    {
+        return items[pos].name;
+    }
     #region AddItem/Seed/Material
     public void AddItem(Item newItem)
     {
-        if(newItem.GetType() == typeof(Seed))
+        if (newItem.GetType() == typeof(Seed))
         {
             AddNewSeed(newItem);
             SeedPlanter.instance.UpdateCurrentSeeds();
         }
-        else if(newItem.GetType() == typeof(Material))
+        else if (newItem.GetType() == typeof(Material))
         {
             //item = AddMaterial(); 
         }
         else
         {
-            if(newItem.name == "Money")
+            if (newItem.name == "Money")
             {
                 List<int> positions = SearchItem("Money");
-                if ( positions != null)
+                if (positions != null)
                 {
                     items[positions[0]].AddAmount(newItem.amount);
                 }
@@ -235,7 +241,7 @@ public class InventoryController : MonoBehaviour
         int amount = newItem.amount;
         bool newInventoryItem = false;
 
-        if (positions!=null && positions.Count >= 0)
+        if (positions != null && positions.Count >= 0)
         {
             for (int i = 0; i < positions.Count && amount > 0; i++)
             {
@@ -275,7 +281,7 @@ public class InventoryController : MonoBehaviour
         InventoryItem newSeed = seeds[SearchSeed(newItem.itemName)];
         newSeed.AddAmount(newItem.amount);
 
-        if(!newSeed.isActivate)
+        if (!newSeed.isActivate)
         {
             newSeed.isActivate = true;
         }
@@ -300,9 +306,9 @@ public class InventoryController : MonoBehaviour
         {
             seeds[itemSelected].SubstractAmount(seeds[itemSelected].GetInventoryAmount());
         }
-            
+
         deletePanel.SetActive(false);
-        
+
         ChangeGui();
     }
 
@@ -313,7 +319,7 @@ public class InventoryController : MonoBehaviour
 
     private void ReOrderItem()
     {
-        for(int i = 0; i < items.Length;   )
+        for (int i = 0; i < items.Length;)
         {
             InventoryItem item = items[i];
             ManageAmouts(item);
@@ -337,14 +343,14 @@ public class InventoryController : MonoBehaviour
     {
         List<int> positions = SearchItem(item.name);
 
-        for (int i = 0; i < positions.Count && i!=positions.Count; i++)
+        for (int i = 0; i < positions.Count && i != positions.Count; i++)
         {
             InventoryItem aux = items[positions[i]];
             int offset = cantStackMax - aux.GetInventoryAmount();
 
             if (offset != 0)
             {
-                for(int j = i + 1; j < positions.Count && offset > 0; j++ )
+                for (int j = i + 1; j < positions.Count && offset > 0; j++)
                 {
                     int cant = items[positions[j]].GetInventoryAmount();
 
@@ -354,7 +360,7 @@ public class InventoryController : MonoBehaviour
                         items[positions[j]].SubstractAmount(offset);
                         offset = 0;
                     }
-                    else if(cant == offset)
+                    else if (cant == offset)
                     {
                         aux.AddAmount(offset);
                         items[positions[j]] = null;
@@ -367,7 +373,7 @@ public class InventoryController : MonoBehaviour
                         positions = SearchItem(item.name);
                     }
                 }
-            }      
+            }
         }
     }
     #endregion
@@ -383,7 +389,7 @@ public class InventoryController : MonoBehaviour
     {
         List<int> positions = SearchItem(id);
         int cantidadPorRestar = cant;
-        if(positions!=null)
+        if (positions != null)
         {
             for (int i = 0; i < positions.Count && cantidadPorRestar > 0; i++)
             {
@@ -438,7 +444,7 @@ public class InventoryController : MonoBehaviour
     public int GetAmount(string name)
     {
         List<int> positions = SearchItem(name);
-        if (positions!= null && positions.Count > 0)
+        if (positions != null && positions.Count > 0)
         {
             int cant = 0;
             for (int i = 0; i < positions.Count; i++)
@@ -448,7 +454,7 @@ public class InventoryController : MonoBehaviour
             }
             return cant;
         }
-        else 
+        else
         {
             int pos = SearchSeed(name);
             if (pos >= 0)
@@ -483,7 +489,7 @@ public class InventoryController : MonoBehaviour
         List<int> positions = new List<int>();
         for (int i = 0; i < items.Length; i++)
         {
-            if(items[i] != null)
+            if (items[i] != null)
             {
                 if (name.Equals(items[i].name))
                     positions.Add(i);

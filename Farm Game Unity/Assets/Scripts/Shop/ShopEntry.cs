@@ -5,19 +5,20 @@ using UnityEngine.UI;
 
 public class ShopEntry : MonoBehaviour
 {
-    public Image image;
-    public Text nameText;
-    public Text price;
-    public Text stockText;
-    public Text amountSelectedText;
+    private Image image;
+    private Text nameText;
+    private Text price;
+    private Text stockText;
+    private Text amountSelectedText;
 
+    public int position;
     private void Awake()
     {
-        
+
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<Text>();
         price = transform.GetChild(2).GetComponent<Text>();
-        stockText= transform.GetChild(3).GetComponent<Text>();
+        stockText = transform.GetChild(3).GetComponent<Text>();
         amountSelectedText = transform.GetChild(4).GetComponent<Text>();
     }
 
@@ -44,5 +45,17 @@ public class ShopEntry : MonoBehaviour
     public void Price(int price)
     {
         nameText.text = price.ToString();
+    }
+
+    public void Button()
+    {
+        if (ShopManager.Instance.onShop)
+        {
+            ShopManager.Instance.Select(position);
+        }
+        else if (Sell.Instance.onSell)
+        {
+            Sell.Instance.ReturnItems(position);
+        }
     }
 }

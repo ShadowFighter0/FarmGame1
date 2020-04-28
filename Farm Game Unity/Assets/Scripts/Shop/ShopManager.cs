@@ -5,45 +5,35 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
-    #region Singleton
+
     public static ShopManager Instance;
-    private void Awake()
-    {
-        Instance = this;
-    }
-    #endregion
 
     #region Variables
+    public bool onShop = false;
     public GameObject shopPanel;
-    public GameObject amountPanel;
     public Shop[] shops;
     public Text totalPrice;
 
-    private Slider slider;
-    private InputField input;
-
-    [HideInInspector]public Shop currentShop;
+    [HideInInspector] public Shop currentShop;
 
     public ShopEntry[] stockUI; // VisualEntrys
-    
+
     private ShopItem[] cart; //Items that will be added to your inventory
-    [HideInInspector]public bool cartView;
+    [HideInInspector] public bool cartView;
 
     private int numCart = 0;
     int pos;
     #endregion
 
-
     #region Functions
 
-    private void Start()
+    private void Awake()
     {
+        Instance = this;
         GameEvents.OnNewDay += NewDay;
         cart = new ShopItem[stockUI.Length];
 
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
-        slider = amountPanel.transform.GetChild(3).GetComponent<Slider>();
-        input = amountPanel.transform.GetChild(4).GetComponent<InputField>();
     }
 
     /// <summary>
@@ -53,25 +43,23 @@ public class ShopManager : MonoBehaviour
     public void Select(int pos)
     {
         this.pos = pos;
-        slider.value = 0;
-        SliderValueChange();
-
-        if(cartView)
-            slider.maxValue = cart[pos].amountSelected;
+        Debug.Log(AmountPanel.Instance.gameObject.name);
+        AmountPanel.Instance.gameObject.SetActive(true);
+        if (cartView)
+            AmountPanel.Instance.On(cart[pos].amountSelected);
         else
-            slider.maxValue = currentShop.stock[pos].stock;
-        amountPanel.SetActive(true);
+            AmountPanel.Instance.On(currentShop.stock[pos].stock);
     }
 
-    public void ConfirmAmount()
+    public void ConfirmAmount(int cant)
     {
         if (cartView)
         {
             ShopItem c = cart[pos];
             ShopItem s = currentShop.stock[SearchStock(c.item.name)];
 
-            c.amountSelected -= (int)slider.value;
-            s.stock += (int)slider.value;
+            c.amountSelected -= cant;
+            s.stock += cant;
 
             if (c.amountSelected <= 0)
             {
@@ -98,10 +86,10 @@ public class ShopManager : MonoBehaviour
         {
             ShopItem s = currentShop.stock[pos];
 
-            s.amountSelected += (int)slider.value;
-            s.stock -= (int)slider.value;
+            s.amountSelected += cant;
+            s.stock -= cant;
 
-            if ((int)slider.value > 0)
+            if (cant > 0)
             {
                 cart[numCart] = s;
                 numCart++;
@@ -110,42 +98,32 @@ public class ShopManager : MonoBehaviour
             CartView();
         }
 
-        amountPanel.SetActive(false);
+        AmountPanel.Instance.Off();
         totalPrice.text = GetCharge().ToString();
     }
 
     private int SearchStock(string name)
     {
-        for(int i = 0; i < currentShop.stock.Length; i++)
+        for (int i = 0; i < currentShop.stock.Length; i++)
         {
-            if(currentShop.stock[i].item.name == name)
+            if (currentShop.stock[i].item.name == name)
             {
                 return i;
             }
         }
         return -1;
     }
-
-    public void SliderValueChange()
-    {
-        input.text = slider.value.ToString();
-    }
-
-    public void InputValueChange()
-    {
-        slider.value = int.Parse(input.text);
-    }
-
     /// <summary>
     /// Open the shop's panel and Time.scaleTime = 0;
     /// </summary>
     public void OpenShop(Shop shop)
     {
+        onShop = true;
         if (shop != currentShop)
         {
             for (int i = 0; i < cart.Length; i++)
             {
-                if(cart[i]!= null)
+                if (cart[i] != null)
                 {
                     currentShop.stock[SearchStock(cart[i].item.name)].stock += cart[i].amountSelected;
                     cart[i].amountSelected = 0;
@@ -159,7 +137,6 @@ public class ShopManager : MonoBehaviour
         cartView = true;
         shopPanel.SetActive(true);
         CartView();
-        
         InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
 
@@ -168,6 +145,8 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void CloseShop()
     {
+        //
+        onShop = false;
         shopPanel.SetActive(false);
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
@@ -178,7 +157,7 @@ public class ShopManager : MonoBehaviour
     /// 
     public void NewDay()
     {
-        foreach(Shop s in shops)
+        foreach (Shop s in shops)
         {
             s.NewDay();
         }
@@ -190,7 +169,7 @@ public class ShopManager : MonoBehaviour
     private int GetCharge() // Comprobar si funciona q ha saber
     {
         int price = 0;
-        for(int i = 0; i < cart.Length && cart[i]!=null; i++)
+        for (int i = 0; i < cart.Length && cart[i] != null; i++)
         {
             price += cart[i].item.price * cart[i].amountSelected;
         }
@@ -213,7 +192,7 @@ public class ShopManager : MonoBehaviour
 
         if (InventoryController.Instance.GetAmount("Money") >= price)
         {
-            foreach(ShopItem s in cart)
+            foreach (ShopItem s in cart)
             {
                 if (s != null && s.item.GetType() == typeof(Item))
                 {
@@ -221,18 +200,18 @@ public class ShopManager : MonoBehaviour
                 }
             }
 
-            if(InventoryController.Instance.itemSpace >= InventoryController.Instance.numItems + numItems)
+            if (InventoryController.Instance.itemSpace >= InventoryController.Instance.numItems + numItems)
             {
                 InventoryController.Instance.SubstractAmountItem(price, "Money");
 
                 foreach (ShopItem s in cart)
                 {
-                    if(s!= null)
+                    if (s != null)
                     {
                         s.item.amount = s.amountSelected;
                         InventoryController.Instance.AddItem(s.item);
                     }
-                    
+
                 }
                 cart = new ShopItem[stockUI.Length];
                 numCart = 0;
@@ -251,12 +230,13 @@ public class ShopManager : MonoBehaviour
     public void CartView()
     {
         cartView = !cartView;
+        shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
 
-        if(cartView)
+        if (cartView)
         {
-            for(int i = 0; i < cart.Length; i++)
+            for (int i = 0; i < cart.Length; i++)
             {
-                if(cart[i]!=null)
+                if (cart[i] != null)
                 {
                     ShopEntry t = stockUI[i];
                     t.Fill(cart[i]);
@@ -272,13 +252,13 @@ public class ShopManager : MonoBehaviour
         else
         {
             int i = 0;
-            for (   ; i < currentShop.stock.Length; i++)
+            for (; i < currentShop.stock.Length; i++)
             {
                 ShopEntry t = stockUI[i];
                 t.gameObject.SetActive(true);
                 t.Fill(currentShop.stock[i]);
             }
-            for(    ; i < stockUI.Length; i++)
+            for (; i < stockUI.Length; i++)
             {
                 stockUI[i].gameObject.SetActive(false);
             }

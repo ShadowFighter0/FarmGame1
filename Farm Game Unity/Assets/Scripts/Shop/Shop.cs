@@ -18,18 +18,18 @@ public class ShopItem
 
 public class Shop : MonoBehaviour
 {
-    [Tooltip("No pueden ser mas de 21 items")]public Item[] stockItems;
+    [Tooltip("No pueden ser mas de 21 items")] public Item[] stockItems;
     public ShopItem[] stock;
 
     public NpcController owner;
 
     private bool playerNear = false;
 
-    private void Start()
+    private void Awake()
     {
         stock = new ShopItem[stockItems.Length];
 
-        for(int i = 0; i < stock.Length; i++)
+        for (int i = 0; i < stock.Length; i++)
         {
             stock[i] = new ShopItem(stockItems[i], GenerateAmount());
         }
@@ -41,7 +41,7 @@ public class Shop : MonoBehaviour
         {
             ShopManager.Instance.OpenShop(this);
         }
-        if( ShopManager.Instance.shopPanel.activeSelf && Input.GetKey(InputManager.instance.Escape))
+        if (ShopManager.Instance.shopPanel.activeSelf && Input.GetKey(InputManager.instance.Escape))
         {
             ShopManager.Instance.CloseShop();
         }
