@@ -14,9 +14,8 @@ public class Sell : MonoBehaviour
     public bool playerNear;
     public GameObject shopPanel;
 
-
-
     public static Sell Instance;
+
 
     private void Awake()
     {
