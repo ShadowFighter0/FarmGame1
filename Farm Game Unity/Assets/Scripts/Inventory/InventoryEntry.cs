@@ -18,7 +18,7 @@ public class InventoryEntry : MonoBehaviour
     {
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<Text>();
-        amount = transform.GetChild(3).GetComponent<Text>();
+        amount = transform.GetChild(2).GetComponent<Text>();
         notActive = transform.GetChild(4).gameObject;
         price = transform.GetChild(5).GetComponent<Text>();
     }

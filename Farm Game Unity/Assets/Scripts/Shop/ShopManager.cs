@@ -43,7 +43,6 @@ public class ShopManager : MonoBehaviour
     public void Select(int pos)
     {
         this.pos = pos;
-        Debug.Log(AmountPanel.Instance.gameObject.name);
         AmountPanel.Instance.gameObject.SetActive(true);
         if (cartView)
             AmountPanel.Instance.On(cart[pos].amountSelected);
