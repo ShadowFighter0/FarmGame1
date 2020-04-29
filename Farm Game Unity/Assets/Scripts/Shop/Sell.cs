@@ -22,10 +22,6 @@ public class Sell : MonoBehaviour
         Instance = this;
         stockUI = ShopManager.Instance.stockUI;
     }
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
