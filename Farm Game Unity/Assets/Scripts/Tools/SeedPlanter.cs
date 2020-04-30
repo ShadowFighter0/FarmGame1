@@ -43,6 +43,7 @@ public class SeedPlanter : MonoBehaviour
         UpdateCurrentSeeds();
     }
 
+    public int GetCurrentSeeds() { return currentSeeds.Count; }
     public List<Seed> CurrentSeeds() { return currentSeeds; }
     public void UpdateCurrentSeeds()
     {
