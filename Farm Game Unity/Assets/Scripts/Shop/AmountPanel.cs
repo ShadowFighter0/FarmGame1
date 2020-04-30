@@ -7,6 +7,8 @@ public class AmountPanel : MonoBehaviour
 {
     public static AmountPanel Instance;
 
+    public bool isOn = false;
+
     private Slider slider;
     private InputField input;
 
@@ -20,6 +22,8 @@ public class AmountPanel : MonoBehaviour
         input = transform.GetChild(4).GetComponent<InputField>();
 
         gameObject.SetActive(false);
+
+        
     }
 
     public void On(int maxCant)
@@ -29,11 +33,13 @@ public class AmountPanel : MonoBehaviour
         slider.value = maxCant;
 
         SliderValueChange();
+        isOn = true;
     }
 
     public void Off()
     {
         gameObject.SetActive(false);
+        isOn = false;
     }
 
     public void ConfirmAmount()
@@ -43,10 +49,14 @@ public class AmountPanel : MonoBehaviour
         {
             ShopManager.Instance.ConfirmAmount(amount);
         }
-        else if (Sell.Instance.onSell)
+        else 
         {
-            //Sell.Instance.
+            if (Sell.Instance.playerNear && InventoryController.Instance.currentPage == 0)
+                Sell.Instance.AddItem(amount);
+            else if(Sell.Instance.onSell)
+                Sell.Instance.ConfirmReturnItems(amount);               
         }
+        Off();
     }
     public void SliderValueChange()
     {

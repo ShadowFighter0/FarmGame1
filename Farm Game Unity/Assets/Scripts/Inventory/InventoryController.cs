@@ -71,11 +71,9 @@ public class InventoryController : MonoBehaviour
 
 
     #region Pages
-    private int currentPage = 0;
+    public int currentPage = 0;
     private int oldPage = 0;
     public InventoryEntry[] inventoryEntry; // entry of inventory
-
-    public GameObject[] pages;
     #endregion
 
     int itemSelected; //Item selected in the inventory
