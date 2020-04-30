@@ -57,11 +57,12 @@ public class WorkShopController : MonoBehaviour
             List<bool> bools = SaveLoad.Load<List<bool>>("UnlockeableItems");
             for (int i = 0; i < unlockableItems.Count; i++)
             {
-                unlockableItems[i].purchased = bools[i];
-                bool b = unlockableItems[i].purchased;
-                if (b)
+                //unlockableItems[i].purchased = bools[i];
+                //bool b = unlockableItems[i].purchased;
+                if (bools[i])
                 {
                     unlockableItems[i].gameObject.SetActive(true);
+                    unlockableItems[i].Purchased();
 
                     MonoBehaviour itemController = unlockableItems[i].gameObject.GetComponent<MonoBehaviour>();
                     if (itemController != null)
@@ -193,6 +194,10 @@ public class WorkShopController : MonoBehaviour
                 }
                 unlockableItems[i].gameObject.SetActive(b);
             }
+            else
+            {
+                unlockableItems[i].Purchased();
+            }
         }
     }
 
@@ -219,7 +224,7 @@ public class WorkShopController : MonoBehaviour
 
             UnlockeableItem script = currentItem.GetComponent<UnlockeableItem>();
             script.SetOriginalMat();
-            script.purchased = true;
+            script.Purchased();
             //Destroy(script);
 
             MonoBehaviour itemController = currentItem.GetComponent<MonoBehaviour>();
