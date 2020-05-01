@@ -98,6 +98,8 @@ public class GameManager : MonoBehaviour
     private float lerpTime = 1;
 
     private string[] sentences = {"CONTINUE", "NEW GAME"};
+
+    private bool canSave = true;
     private void Awake()
     {
         string path = Application.persistentDataPath + "/saves/";
@@ -380,17 +382,22 @@ public class GameManager : MonoBehaviour
 
     public void SaveAll()
     {
-        GameEvents.SaveInitiated();
-        saveText.SetActive(true);
-        DateTime time = DateTime.Now;
-        lastTimeSaved = time;
-        if (pauseMenu.activeSelf)
+        if(canSave)
         {
-            UpdateSaveText(time);
+            canSave = false;
+
+            GameEvents.SaveInitiated();
+            saveText.SetActive(true);
+            DateTime time = DateTime.Now;
+            lastTimeSaved = time;
+            if (pauseMenu.activeSelf)
+            {
+                UpdateSaveText(time);
+            }
+
+            Debug.Log("Last save: " + time.ToString());
+            StartCoroutine(DisableSaveText());
         }
-        
-        Debug.Log("Last save: " + time.ToString());
-        StartCoroutine(DisableSaveText());
     }
 
     public void DeleteProgress()
@@ -411,6 +418,8 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         saveText.SetActive(false);
+        yield return new WaitForSeconds(1);
+        canSave = true;
     }
     IEnumerator Fade()
     {

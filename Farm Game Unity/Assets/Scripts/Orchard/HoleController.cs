@@ -10,10 +10,14 @@ public class HoleController : MonoBehaviour
 
     private bool wet = false;
     private float water = 0;
-    void Start()
+    private void Awake()
     {
         rend = GetComponent<MeshRenderer>();
         rend.material.color = dryColor;
+    }
+    void Start()
+    {
+
         GameEvents.OnNewDay += NewDay;
     }
 
