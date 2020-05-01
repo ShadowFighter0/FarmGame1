@@ -22,8 +22,6 @@ public class AmountPanel : MonoBehaviour
         input = transform.GetChild(4).GetComponent<InputField>();
 
         gameObject.SetActive(false);
-
-        
     }
 
     public void On(int maxCant)
@@ -51,9 +49,9 @@ public class AmountPanel : MonoBehaviour
         }
         else 
         {
-            if (Sell.Instance.playerNear && InventoryController.Instance.currentPage == 0)
+            if (Sell.Instance.playerNear && !Sell.Instance.onSell && InventoryController.Instance.currentPage == 0)
                 Sell.Instance.AddItem(amount);
-            else if(Sell.Instance.onSell)
+            else
                 Sell.Instance.ConfirmReturnItems(amount);               
         }
         Off();

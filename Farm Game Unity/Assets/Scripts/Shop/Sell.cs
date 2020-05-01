@@ -71,6 +71,7 @@ public class Sell : MonoBehaviour
             ReOrder();
             numStock--;
         }
+        ShowStock();
     }
     private void ReOrder()
     {
