@@ -10,7 +10,7 @@ public class Sell : MonoBehaviour
     int numStock = 0;
     int position = 0;
 
-    public bool onSell;
+    public bool onShopView;
     public bool playerNear;
     public GameObject shopPanel;
 
@@ -35,14 +35,13 @@ public class Sell : MonoBehaviour
                 shopPanel.transform.GetChild(4).gameObject.SetActive(false);    //oculta cartButton
                 shopPanel.SetActive(true);
                 ShowStock();
-                onSell = true;
-                //mostrar lo del panel shop pero F
+                onShopView = true;
             }
             else
             {
                 InputManager.instance.ChangeState(InputManager.States.Idle);
                 shopPanel.SetActive(false);
-                onSell = false;
+                onShopView = false;
                 shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
                 shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
                  
@@ -54,8 +53,9 @@ public class Sell : MonoBehaviour
         }
     }
 
-    public void ReturnItems(int position)
+    public void ReturnItems(int pos)
     {
+        position = pos;
         AmountPanel.Instance.On(stock[position].stock);
     }
 

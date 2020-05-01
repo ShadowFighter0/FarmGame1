@@ -49,7 +49,7 @@ public class AmountPanel : MonoBehaviour
         }
         else 
         {
-            if (Sell.Instance.playerNear && !Sell.Instance.onSell && InventoryController.Instance.currentPage == 0)
+            if (Sell.Instance.playerNear && !Sell.Instance.onShopView && InventoryController.Instance.currentPage == 0)
                 Sell.Instance.AddItem(amount);
             else
                 Sell.Instance.ConfirmReturnItems(amount);               

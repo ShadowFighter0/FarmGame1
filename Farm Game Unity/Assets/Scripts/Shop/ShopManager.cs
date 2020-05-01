@@ -14,7 +14,7 @@ public class ShopManager : MonoBehaviour
     public Shop[] shops;
     public Text totalPrice;
 
-    [HideInInspector] public Shop currentShop;
+    public Shop currentShop;
 
     public ShopEntry[] stockUI; // VisualEntrys
 

@@ -44,6 +44,7 @@ public class InventoryEntry : MonoBehaviour
     {
         if (Sell.Instance.playerNear)
         {
+            Sell.Instance.Button(position);
             AmountPanel.Instance.gameObject.SetActive(true);
             AmountPanel.Instance.On(int.Parse(amount.text));
         }
