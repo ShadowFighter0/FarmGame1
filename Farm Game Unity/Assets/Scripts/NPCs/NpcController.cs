@@ -166,7 +166,7 @@ public class NpcController : MonoBehaviour
     {
         if (index == 0)
         {
-            if(ShopManager.Instance.currentShop != null && ShopManager.Instance.currentShop.owner.name == npc.name)
+            if(ShopManager.Instance.currentShop != null && ShopManager.Instance.currentShop.owner.npc.name == npc.name)
             {
                 ShopManager.Instance.GiveItems();
                 DialogueSystem.instance.UpdateDialogue("Buying", SentencesToOptions());

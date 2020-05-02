@@ -64,18 +64,15 @@ public class InventoryController : MonoBehaviour
 
     private Item[] seedsItems;
     [Tooltip("Todos los materiales")] public Item[] materialsItems;
-    [HideInInspector] public bool bookActive = false;
+    [HideInInspector] public bool inventoryOpen = false;
 
     InputManager.States currentState;
     #endregion
 
 
     #region Pages
-    private int currentPage = 0;
-    private int oldPage = 0;
+    public int currentPage = 0;
     public InventoryEntry[] inventoryEntry; // entry of inventory
-
-    public GameObject[] pages;
     #endregion
 
     int itemSelected; //Item selected in the inventory
@@ -103,6 +100,7 @@ public class InventoryController : MonoBehaviour
 
     private void Start()
     {
+        book.SetActive(false);
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
         GameEvents.OnSaveInitiated += Save;
@@ -133,7 +131,7 @@ public class InventoryController : MonoBehaviour
     #region Menu && Visual
     public void OpenMenu()
     {
-        bookActive = true;
+        inventoryOpen = true;
         book.SetActive(true);
         ChangeGui();
         currentState = InputManager.state;
@@ -141,7 +139,7 @@ public class InventoryController : MonoBehaviour
     }
     public void CloseMenu()
     {
-        bookActive = false;
+        inventoryOpen = false;
         book.SetActive(false);
         InputManager.instance.ChangeState(currentState);
     }
@@ -155,9 +153,9 @@ public class InventoryController : MonoBehaviour
                 {
                     InventoryEntry it = inventoryEntry[i];
                     it.notActive.SetActive(false);
-                    if (items[i] != null)
-                    {
 
+                    if (items[i] != null)
+                    { 
                         it.gameObject.SetActive(true);
                         it.Fill(items[i]);
                     }
@@ -188,7 +186,6 @@ public class InventoryController : MonoBehaviour
                 break;
 
         }
-        oldPage = currentPage;
     }
     #endregion
 
@@ -196,6 +193,7 @@ public class InventoryController : MonoBehaviour
     {
         return items[pos].name;
     }
+
     #region AddItem/Seed/Material
     public void AddItem(Item newItem)
     {
@@ -206,13 +204,14 @@ public class InventoryController : MonoBehaviour
         }
         else if (newItem.GetType() == typeof(Material))
         {
-            //item = AddMaterial(); 
+            //AddMaterial(); 
         }
         else
         {
             if (newItem.name == "Money")
             {
                 List<int> positions = SearchItem("Money");
+
                 if (positions != null)
                 {
                     items[positions[0]].AddAmount(newItem.amount);
@@ -239,10 +238,10 @@ public class InventoryController : MonoBehaviour
         List<int> positions = SearchItem(newItem.itemName);
         InventoryItem item = null;
         int amount = newItem.amount;
-        bool newInventoryItem = false;
 
-        if (positions != null && positions.Count >= 0)
+        if (positions != null && positions.Count > 0)
         {
+            Debug.Log("Sumar cant Item");
             for (int i = 0; i < positions.Count && amount > 0; i++)
             {
                 item = items[positions[i]];
@@ -261,19 +260,28 @@ public class InventoryController : MonoBehaviour
 
             if (amount != 0)
             {
-                newInventoryItem = true;
+                item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
+                item.AddAmount(amount);
             }
         }
-        if ((positions == null || newInventoryItem) && numItems < items.Length)
+        if (positions == null && numItems < items.Length)
         {
-            item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
+            Debug.Log("Nuevo Item");
+            int numEntrys = amount / cantStackMax;
+            int off = amount % cantStackMax;
 
-            if (newInventoryItem)
-                item.AddAmount(amount);
-            else
-                item.AddAmount(newItem.amount);
-
-            numItems++;
+            for(int i = numItems; i <= numEntrys; i++)
+            {
+                item = items[i] = new InventoryItem(newItem.itemName, newItem.image.name);
+                item.AddAmount(20);
+                numItems++;
+            }
+            if(off > 0)
+            {
+                item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
+                item.AddAmount(off);
+                numItems++;
+            }
         }
     }
     private void AddNewSeed(Item newItem)
@@ -299,8 +307,7 @@ public class InventoryController : MonoBehaviour
         if (currentPage == 0)
         {
             items[itemSelected] = null;
-            //ReOrderItem();
-            numItems--;
+            ReOrderSimple(itemSelected);
         }
         else if (currentPage == 1)
         {
@@ -319,62 +326,103 @@ public class InventoryController : MonoBehaviour
 
     private void ReOrderItem()
     {
-        for (int i = 0; i < items.Length;)
-        {
-            InventoryItem item = items[i];
-            ManageAmouts(item);
-            i += SearchItem(item.name).Count;
-        }
-        for (int i = 0; i < items.Length;)
-        {
-            InventoryItem item = items[i];
-            ManagePositions(item);
-            i += SearchItem(item.name).Count;
-        }
+        List<InventoryItem> length = NumberOfItems();
 
+        for (int i = 0; i < length.Count; i++)
+        {
+            if(length[i] != null)
+                ManageReorder(length[i]);
+        }
     }
 
-    private void ManagePositions(InventoryItem item)
+    /// <summary>
+    /// todos los tipos de items q hay en el inventory
+    /// </summary>
+    /// <returns></returns>
+    private List<InventoryItem> NumberOfItems()
     {
-
+        List<InventoryItem> it = new List<InventoryItem>();
+        for(int i = 0; i < items.Length; i++)
+        {
+            bool stop = false;
+            if (i == 0)
+            {
+                it.Add(items[0]);
+            }
+            for (int j = 0; j < it.Count && !stop; j++)
+            {
+                if(items[i] != it[j])
+                {
+                    it.Add(items[i]);
+                    stop = true;
+                }
+            }
+        }
+        return it;
     }
 
-    private void ManageAmouts(InventoryItem item)
+    private void ManageReorder(InventoryItem item)
     {
         List<int> positions = SearchItem(item.name);
-
-        for (int i = 0; i < positions.Count && i != positions.Count; i++)
+        if (positions != null)
         {
-            InventoryItem aux = items[positions[i]];
-            int offset = cantStackMax - aux.GetInventoryAmount();
-
-            if (offset != 0)
+            for (int i = 0; i < positions.Count; i++)
             {
-                for (int j = i + 1; j < positions.Count && offset > 0; j++)
-                {
-                    int cant = items[positions[j]].GetInventoryAmount();
+                InventoryItem aux = items[positions[i]];
+                int offset = cantStackMax - aux.GetInventoryAmount();
 
-                    if (cant > offset)
+                if (offset != 0)
+                {
+                    for (int j = i + 1; j < positions.Count && offset > 0; j++)
                     {
-                        aux.AddAmount(offset);
-                        items[positions[j]].SubstractAmount(offset);
-                        offset = 0;
-                    }
-                    else if (cant == offset)
-                    {
-                        aux.AddAmount(offset);
-                        items[positions[j]] = null;
-                        positions = SearchItem(item.name);
-                    }
-                    else if (cant < offset)
-                    {
-                        offset -= cant;
-                        items[positions[j]] = null;
-                        positions = SearchItem(item.name);
+                        int cant = items[positions[j]].GetInventoryAmount();
+
+                        if (cant > offset)
+                        {
+                            aux.AddAmount(offset);
+                            items[positions[j]].SubstractAmount(offset);
+                            offset = 0;
+                        }
+
+                        else if (cant == offset)
+                        {
+                            aux.AddAmount(offset);
+                            items[positions[j]] = null;
+                            ReOrderSimple(positions[j]);
+                            positions = SearchItem(item.name);
+                        }
+
+                        else if (cant < offset)
+                        {
+                            offset -= cant;
+                            items[positions[j]] = null;
+                            ReOrderSimple(positions[j]);
+                            positions = SearchItem(item.name);
+                        }
                     }
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// items[i] = items[i+1] y numItems--
+    /// </summary>
+    /// <param name="pos"></param>
+    private void ReOrderSimple(int pos)
+    {
+        for (int i = pos; i < items.Length; i++)
+        {
+            if (i != items.Length-1)
+            {
+                items[i] = items[i + 1];
+            }
+            else
+            {
+                items[i] = null;
+            }
+        }
+        numItems--;
     }
     #endregion
 
@@ -398,11 +446,14 @@ public class InventoryController : MonoBehaviour
                 if (item.GetInventoryAmount() >= cantidadPorRestar)
                 {
                     item.SubstractAmount(cantidadPorRestar);
-                    cantidadPorRestar -= item.GetInventoryAmount();
+                    cantidadPorRestar = 0;
 
                     if (item.GetInventoryAmount() == 0)
                     {
                         items[positions[i]] = null;
+                        ReOrderSimple(positions[i]);
+                        for (int j = i; j < positions.Count; j++)
+                            positions[j]--;
                     }
                 }
                 else
@@ -410,11 +461,14 @@ public class InventoryController : MonoBehaviour
                     item.SubstractAmount(item.GetInventoryAmount());
                     cantidadPorRestar -= item.GetInventoryAmount();
                     items[positions[i]] = null;
+                    for (int j = i; j < positions.Count; j++)
+                        positions[j]--;
                 }
             }
-
-            //ReOrderItem();
         }
+        ReOrderItem();
+        ChangeGui();
+        
     }
 
     /// <summary>
@@ -480,7 +534,7 @@ public class InventoryController : MonoBehaviour
     #region Search Functions
 
     /// <summary>
-    /// Search for an Item (return pos in array or -1 if there's no in inventory)
+    /// Search for an Item (return positions in a list or null if there's no in inventory)
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
@@ -489,10 +543,9 @@ public class InventoryController : MonoBehaviour
         List<int> positions = new List<int>();
         for (int i = 0; i < items.Length; i++)
         {
-            if (items[i] != null)
+            if (items[i] != null && name.Equals(items[i].name))
             {
-                if (name.Equals(items[i].name))
-                    positions.Add(i);
+                positions.Add(i);
             }
         }
         if (positions.Count > 0)
@@ -511,6 +564,7 @@ public class InventoryController : MonoBehaviour
         }
         return -1;
     }
+
     private int SearchMaterial(string name)
     {
         for (int i = 0; i < materials.Length; i++)

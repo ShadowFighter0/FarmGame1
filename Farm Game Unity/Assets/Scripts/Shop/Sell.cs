@@ -10,49 +10,87 @@ public class Sell : MonoBehaviour
     int numStock = 0;
     int position = 0;
 
-    public bool onSell;
+    public bool onShopView;
     public bool playerNear;
     public GameObject shopPanel;
 
-
-
     public static Sell Instance;
 
-    private void Awake()
+    private void Start()
     {
         Instance = this;
         stockUI = ShopManager.Instance.stockUI;
-    }
-    private void Start()
-    {
-
+        stock = new ShopItem[stockUI.Length];
     }
 
     private void Update()
     {
-        if (playerNear && Input.GetKey(InputManager.instance.Interact))
+        if (playerNear && Input.GetKeyDown(InputManager.instance.Interact))
         {
             if (!shopPanel.activeSelf)
             {
+                InputManager.instance.ChangeState(InputManager.States.OnUI);
+                if(InventoryController.Instance.inventoryOpen)
+                    InventoryController.Instance.CloseMenu();
+                shopPanel.transform.GetChild(0).gameObject.SetActive(false);    //oculta Money
+                shopPanel.transform.GetChild(4).gameObject.SetActive(false);    //oculta cartButton
+
                 shopPanel.SetActive(true);
                 ShowStock();
-                onSell = true;
-                //mostrar lo del panel shop pero F
+                onShopView = true;
             }
             else
             {
+                InputManager.instance.ChangeState(InputManager.States.Idle);
                 shopPanel.SetActive(false);
-                onSell = false;
-                //cerrar el panel shop
+                onShopView = false;
+                shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
+                shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
             }
-
+        }
+        if(onShopView && InventoryController.Instance.inventoryOpen)
+        {
+            InputManager.instance.ChangeState(InputManager.States.Idle);
+            shopPanel.SetActive(false);
+            onShopView = false;
+            shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
+            shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
         }
     }
 
-    public void ReturnItems(int position)
+    public void ReturnItems(int pos)
     {
-        AmountPanel.Instance.gameObject.SetActive(true);
+        position = pos;
         AmountPanel.Instance.On(stock[position].stock);
+    }
+
+    public void ConfirmReturnItems(int cant)
+    {
+        Item i = stock[position].item;
+        i.amount = cant;
+        InventoryController.Instance.AddItem(i);
+
+        stock[position].stock -= cant;
+        if(stock[position].stock == 0)
+        {
+            ReOrder();
+            numStock--;
+        }
+        ShowStock();
+    }
+    private void ReOrder()
+    {
+        for(int i = position; i < stock.Length && stock[i] != null; i++)
+        {
+            if(i != stock.Length - 1 )
+            {
+                stock[i] = stock[i + 1];
+            }
+            else
+            {
+                stock[i] = null;
+            }
+        }
     }
 
     private void ShowStock()
@@ -79,28 +117,25 @@ public class Sell : MonoBehaviour
     public void AddItem(int amount)
     {
         int currentPosition = SearchStock(InventoryController.Instance.GetID(position));
+        string id = InventoryController.Instance.GetID(position);
         //Añadir a stock
-        if (currentPosition < 0)
+        if (currentPosition >= 0)
         {
-            string id = InventoryController.Instance.GetID(position);
-            stock[numStock].item = DataBase.GetItem(id);
-            stock[numStock].stock = amount;
-            numStock++;
-
-            InventoryController.Instance.SubstractAmountItem(amount, id);
+            stock[currentPosition].stock += amount;
         }
         else
         {
-            stock[position].stock += amount;
+            stock[numStock] = new ShopItem(DataBase.GetItem(id), amount);
+            numStock++;
         }
+        InventoryController.Instance.SubstractAmountItem(amount, id);
     }
-
 
     private int SearchStock(string name)
     {
         for (int i = 0; i < stock.Length; i++)
         {
-            if (stock[i].item.name == name)
+            if (stock[i] != null && stock[i].item.name == name)
             {
                 return i;
             }

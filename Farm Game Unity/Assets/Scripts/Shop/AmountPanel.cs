@@ -7,6 +7,8 @@ public class AmountPanel : MonoBehaviour
 {
     public static AmountPanel Instance;
 
+    public bool isOn = false;
+
     private Slider slider;
     private InputField input;
 
@@ -29,11 +31,13 @@ public class AmountPanel : MonoBehaviour
         slider.value = maxCant;
 
         SliderValueChange();
+        isOn = true;
     }
 
     public void Off()
     {
         gameObject.SetActive(false);
+        isOn = false;
     }
 
     public void ConfirmAmount()
@@ -43,10 +47,14 @@ public class AmountPanel : MonoBehaviour
         {
             ShopManager.Instance.ConfirmAmount(amount);
         }
-        else if (Sell.Instance.onSell)
+        else 
         {
-            //Sell.Instance.
+            if (Sell.Instance.playerNear && !Sell.Instance.onShopView && InventoryController.Instance.currentPage == 0)
+                Sell.Instance.AddItem(amount);
+            else
+                Sell.Instance.ConfirmReturnItems(amount);               
         }
+        Off();
     }
     public void SliderValueChange()
     {

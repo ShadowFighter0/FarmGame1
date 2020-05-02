@@ -14,7 +14,7 @@ public class ShopManager : MonoBehaviour
     public Shop[] shops;
     public Text totalPrice;
 
-    [HideInInspector] public Shop currentShop;
+    public Shop currentShop;
 
     public ShopEntry[] stockUI; // VisualEntrys
 
@@ -209,6 +209,7 @@ public class ShopManager : MonoBehaviour
                     {
                         s.item.amount = s.amountSelected;
                         InventoryController.Instance.AddItem(s.item);
+                        s.amountSelected = 0;
                     }
 
                 }
