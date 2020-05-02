@@ -53,7 +53,7 @@ public class ShopEntry : MonoBehaviour
         {
             ShopManager.Instance.Select(position);
         }
-        else if (Sell.Instance.onSell)
+        else if (Sell.Instance.onShopView )
         {
             Sell.Instance.ReturnItems(position);
         }

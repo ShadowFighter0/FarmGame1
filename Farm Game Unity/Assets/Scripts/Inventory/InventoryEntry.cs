@@ -5,15 +5,14 @@ using UnityEngine.UI;
 
 public class InventoryEntry : MonoBehaviour
 {
-    [HideInInspector] public GameObject notActive;
-    private Image image;
-    private Text nameText;
-    private Text amount;
-    private Text price;
+    public GameObject notActive;
+    public Image image;
+    public Text nameText;
+    public Text amount;
+    public Text price;
 
     public int position;
 
-    // Start is called before the first frame update
     private void Awake()
     {
         image = transform.GetChild(0).GetComponent<Image>();
@@ -22,6 +21,7 @@ public class InventoryEntry : MonoBehaviour
         notActive = transform.GetChild(4).gameObject;
         price = transform.GetChild(5).GetComponent<Text>();
     }
+
     public void Fill(InventoryItem it)
     {
         Sprite sprite = DataBase.GetItemSprite(it.image);
@@ -44,6 +44,7 @@ public class InventoryEntry : MonoBehaviour
     {
         if (Sell.Instance.playerNear)
         {
+            Sell.Instance.Button(position);
             AmountPanel.Instance.gameObject.SetActive(true);
             AmountPanel.Instance.On(int.Parse(amount.text));
         }
