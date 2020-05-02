@@ -209,6 +209,7 @@ public class ShopManager : MonoBehaviour
                     {
                         s.item.amount = s.amountSelected;
                         InventoryController.Instance.AddItem(s.item);
+                        s.amountSelected = 0;
                     }
 
                 }

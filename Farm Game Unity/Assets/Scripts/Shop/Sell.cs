@@ -30,9 +30,11 @@ public class Sell : MonoBehaviour
             if (!shopPanel.activeSelf)
             {
                 InputManager.instance.ChangeState(InputManager.States.OnUI);
-                //oculta cosas
+                if(InventoryController.Instance.inventoryOpen)
+                    InventoryController.Instance.CloseMenu();
                 shopPanel.transform.GetChild(0).gameObject.SetActive(false);    //oculta Money
                 shopPanel.transform.GetChild(4).gameObject.SetActive(false);    //oculta cartButton
+
                 shopPanel.SetActive(true);
                 ShowStock();
                 onShopView = true;
@@ -44,12 +46,15 @@ public class Sell : MonoBehaviour
                 onShopView = false;
                 shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
                 shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
-                 
-                if(AmountPanel.Instance.isOn)
-                {
-                    AmountPanel.Instance.Off();
-                }
             }
+        }
+        if(onShopView && InventoryController.Instance.inventoryOpen)
+        {
+            InputManager.instance.ChangeState(InputManager.States.Idle);
+            shopPanel.SetActive(false);
+            onShopView = false;
+            shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
+            shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
         }
     }
 

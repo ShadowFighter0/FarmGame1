@@ -50,7 +50,7 @@ public class Shop : MonoBehaviour
     private int GenerateAmount()
     {
         // q este mejor si eso 
-        return Random.Range(3, 10);
+        return Random.Range(21, 42);
     }
 
     public void NewDay()

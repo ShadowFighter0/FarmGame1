@@ -64,7 +64,7 @@ public class InventoryController : MonoBehaviour
 
     private Item[] seedsItems;
     [Tooltip("Todos los materiales")] public Item[] materialsItems;
-    [HideInInspector] public bool bookActive = false;
+    [HideInInspector] public bool inventoryOpen = false;
 
     InputManager.States currentState;
     #endregion
@@ -100,6 +100,7 @@ public class InventoryController : MonoBehaviour
 
     private void Start()
     {
+        book.SetActive(false);
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
         GameEvents.OnSaveInitiated += Save;
@@ -130,7 +131,7 @@ public class InventoryController : MonoBehaviour
     #region Menu && Visual
     public void OpenMenu()
     {
-        bookActive = true;
+        inventoryOpen = true;
         book.SetActive(true);
         ChangeGui();
         currentState = InputManager.state;
@@ -138,7 +139,7 @@ public class InventoryController : MonoBehaviour
     }
     public void CloseMenu()
     {
-        bookActive = false;
+        inventoryOpen = false;
         book.SetActive(false);
         InputManager.instance.ChangeState(currentState);
     }
@@ -152,6 +153,7 @@ public class InventoryController : MonoBehaviour
                 {
                     InventoryEntry it = inventoryEntry[i];
                     it.notActive.SetActive(false);
+
                     if (items[i] != null)
                     { 
                         it.gameObject.SetActive(true);
@@ -225,7 +227,6 @@ public class InventoryController : MonoBehaviour
             {
                 AddNewItem(newItem);
             }
-            
         }
 
         //item
@@ -237,11 +238,10 @@ public class InventoryController : MonoBehaviour
         List<int> positions = SearchItem(newItem.itemName);
         InventoryItem item = null;
         int amount = newItem.amount;
-        bool newInventoryItem = false;
 
-        if (positions != null && positions.Count >= 0)
+        if (positions != null && positions.Count > 0)
         {
-            Debug.Log("ya esta");
+            Debug.Log("Sumar cant Item");
             for (int i = 0; i < positions.Count && amount > 0; i++)
             {
                 item = items[positions[i]];
@@ -264,23 +264,24 @@ public class InventoryController : MonoBehaviour
                 item.AddAmount(amount);
             }
         }
-        if ((positions == null || newInventoryItem) && numItems < items.Length)
+        if (positions == null && numItems < items.Length)
         {
+            Debug.Log("Nuevo Item");
             int numEntrys = amount / cantStackMax;
             int off = amount % cantStackMax;
 
-            for(int i = numItems; i < numEntrys; i++)
+            for(int i = numItems; i <= numEntrys; i++)
             {
                 item = items[i] = new InventoryItem(newItem.itemName, newItem.image.name);
-                item.AddAmount(newItem.amount);
+                item.AddAmount(20);
                 numItems++;
             }
             if(off > 0)
             {
                 item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
-                item.AddAmount(newItem.amount);
+                item.AddAmount(off);
+                numItems++;
             }
-            numItems++;
         }
     }
     private void AddNewSeed(Item newItem)
