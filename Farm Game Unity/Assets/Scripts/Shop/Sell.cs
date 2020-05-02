@@ -16,7 +16,7 @@ public class Sell : MonoBehaviour
 
     public static Sell Instance;
 
-    private void Awake()
+    private void Start()
     {
         Instance = this;
         stockUI = ShopManager.Instance.stockUI;
