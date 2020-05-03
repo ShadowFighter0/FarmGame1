@@ -69,7 +69,6 @@ public class InventoryController : MonoBehaviour
     InputManager.States currentState;
     #endregion
 
-
     #region Pages
     public int currentPage = 0;
     public InventoryEntry[] inventoryEntry; // entry of inventory
@@ -268,11 +267,13 @@ public class InventoryController : MonoBehaviour
         {
             Debug.Log("Nuevo Item");
             int numEntrys = amount / cantStackMax;
+            Debug.Log(numEntrys);
             int off = amount % cantStackMax;
+            Debug.Log(off);
 
-            for(int i = numItems; i <= numEntrys; i++)
+            for(int i = 0; i < numEntrys; i++)
             {
-                item = items[i] = new InventoryItem(newItem.itemName, newItem.image.name);
+                item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
                 item.AddAmount(20);
                 numItems++;
             }
