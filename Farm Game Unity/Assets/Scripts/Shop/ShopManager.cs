@@ -5,16 +5,15 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
-
     public static ShopManager Instance;
 
     #region Variables
     public bool onShop = false;
     public GameObject shopPanel;
-    public Shop[] shops;
+    private Shop[] shops;
     public Text totalPrice;
 
-    public Shop currentShop;
+    [HideInInspector] public Shop currentShop;
 
     public ShopEntry[] stockUI; // VisualEntrys
 
@@ -34,6 +33,8 @@ public class ShopManager : MonoBehaviour
         cart = new ShopItem[stockUI.Length];
 
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
+
+        shops = FindObjectsOfType<Shop>();
     }
 
     /// <summary>

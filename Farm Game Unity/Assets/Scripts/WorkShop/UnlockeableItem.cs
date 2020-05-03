@@ -10,6 +10,7 @@ public class UnlockeableItem : MonoBehaviour
     public string description;
     public Item[] requirements;
     public int[] amounts;
+    public string iniTag;
 
     private Material oriMat;
     private Material[] oriMats;
@@ -21,6 +22,8 @@ public class UnlockeableItem : MonoBehaviour
 
     private void Awake()
     {
+        iniTag = gameObject.tag;
+        gameObject.tag = "UnlockableItem";
         if(transform.childCount > 0)
         {
             meshes = GetComponentsInChildren<MeshRenderer>();
@@ -39,7 +42,8 @@ public class UnlockeableItem : MonoBehaviour
 
     public void Purchased()
     {
-        
+        purchased = true;
+        gameObject.tag = iniTag;
     }
 
     public void SetMaterial(Material m)

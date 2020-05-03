@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -128,6 +129,11 @@ public class RadialMenuController : MonoBehaviour
 
     public void SetSeed(Transform t)
     {
-        SeedPlanter.instance.Index = t.GetSiblingIndex();
+        int index = t.GetSiblingIndex();
+        if(index <= SeedPlanter.instance.GetCurrentSeeds())
+        {
+            SeedPlanter.instance.Index = index;
+            Close();
+        }
     }
 }

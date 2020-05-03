@@ -4647,7 +4647,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shop Entry (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
+    - {fileID: 1394083660986660068, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f234178203e4b9c4e9e0f171a018a611, type: 3}
 --- !u!224 &1025985684729092412 stripped
 RectTransform:
