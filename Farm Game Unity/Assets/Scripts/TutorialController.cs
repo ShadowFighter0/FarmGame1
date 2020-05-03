@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class TutorialController : MonoBehaviour
 {
-    private int state;
-    void Start()
+    private int state = -1;
+
+    public static TutorialController instance;
+    private void Awake()
     {
-        
+        instance = this;
     }
 
-    void Update()
+    public void NextState()
+    {
+        state++;
+        UpdateStates();
+    }
+
+    private void UpdateStates()
     {
         switch (state)
         {
             case 0:
-                // lanzar mision tutorial
+                NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox next to me you will find your first order!\nCome back to me when you have finished");
                 break;
             case 1:
                 break;
