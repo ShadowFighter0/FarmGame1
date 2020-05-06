@@ -145,6 +145,8 @@ public class CharacterSelect : MonoBehaviour
         selAnim.runtimeAnimatorController = animContr;
 
         InputManager.instance.ChangeState(InputManager.States.Idle);
+
+        TutorialController.instance.NextState();
         Destroy(this);
     }
     public void Customize()

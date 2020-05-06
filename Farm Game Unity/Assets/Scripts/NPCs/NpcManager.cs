@@ -37,4 +37,13 @@ public class NpcManager : MonoBehaviour
         }
         return null;
     }
+
+    public void StartForcedDialogue(string npcName, string sentences)
+    {
+        NPC npc = SearchNPC(npcName);
+        if (npc != null)
+        {
+            npc.character.GetComponent<NpcController>().ForceDialogue(sentences);
+        }
+    }
 }

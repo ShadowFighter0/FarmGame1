@@ -8,5 +8,5 @@ public class Mail : ScriptableObject
     public string message;
     public Item rewardItem;
     public int amount;
-    public Quest quest;
+    public QuestTemplate quest;
 }

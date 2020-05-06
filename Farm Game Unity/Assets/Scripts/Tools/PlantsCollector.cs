@@ -13,15 +13,18 @@ public class PlantsCollector : MonoBehaviour
     }
     void Update()
     {
-        GameObject go = RayCastController.instance.GetTarget();
-        if (Input.GetKeyDown(InputManager.instance.Interact) && go.CompareTag("Hole"))
+        if (Input.GetKeyDown(InputManager.instance.Interact))
         {
-            PlantLife script = go.transform.GetComponentInChildren<PlantLife>();
-            if (script != null && !onAnim && script.GetGrownUp())
+            GameObject go = RayCastController.instance.GetTarget();
+            if (go.CompareTag("Hole"))
             {
-                onAnim = true;
-                InputManager.instance.playerAnim.SetTrigger("Taking");
-                StartCoroutine(AnimDelay(go, script));
+                PlantLife script = go.transform.GetComponentInChildren<PlantLife>();
+                if (script != null && !onAnim && script.GetGrownUp())
+                {
+                    onAnim = true;
+                    InputManager.instance.playerAnim.SetTrigger("Taking");
+                    StartCoroutine(AnimDelay(go, script));
+                }
             }
         }
     }

@@ -63,6 +63,12 @@ public class NpcController : MonoBehaviour
 
     private void StartDialogue()
     {
+        UpdateCamPositionAndState();
+        SetIniDialogues();
+    }
+
+    private void UpdateCamPositionAndState()
+    {
         talkStarted = true;
         DialogueSystem.instance.SetNPC(this);
         anim.SetBool("Talk", true);
@@ -71,6 +77,16 @@ public class NpcController : MonoBehaviour
         PlayerFollow.instance.SetRotation(transform.rotation.eulerAngles + Vector3.up * 120 + Vector3.right * 20);
         PlayerFollow.instance.ChangeTarget(transform.position + Vector3.up * 1.2f);
         InputManager.instance.ChangeState(InputManager.States.Dialoguing);
+    }
+
+    public void ForceDialogue(string s)
+    {
+        UpdateCamPositionAndState();
+        DialogueSystem.instance.ShowDialogue(npcName, s, QuestToOptions());
+    }
+
+    private void SetIniDialogues()
+    {
         if (npc.type.Equals("Citizen"))
         {
             string s = "Need help?\n";
@@ -82,6 +98,7 @@ public class NpcController : MonoBehaviour
             DialogueSystem.instance.ShowDialogue(npcName, s, SentencesToOptions());
         }
     }
+
     /// <summary>
     /// Converts all sentences and quest names into options to dialogue system
     /// </summary>

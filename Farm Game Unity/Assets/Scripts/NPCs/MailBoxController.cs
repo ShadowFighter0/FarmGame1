@@ -27,11 +27,10 @@ public class MailBoxController : MonoBehaviour
     {
         mailsPanel = mailFolder.parent.gameObject;
         GameEvents.OnNewDay += NewDay;
-        AddContent(QuestFileInfo.Instance.GetQuest());
+
         AddContent(mail[0]);
         AddContent(QuestFileInfo.Instance.GetQuest());
-        AddContent(mail[1]);
-        AddContent(QuestFileInfo.Instance.GetQuest());
+
         FillMails();
     }
     private void Update()
