@@ -15,10 +15,16 @@ public class InputManager : MonoBehaviour
     public KeyCode Escape;
 
     private int activeTool = 0;
-    private Transform tools;
+    private int oldActive = 0;
+
+    private Transform toolsFolder;
     public GameObject radialMenu;
 
+    private GameObject[] tools;
+
     public Animator playerAnim;
+
+    private bool canChangeTool = true;
 
     public static InputManager instance;
 
@@ -40,6 +46,12 @@ public class InputManager : MonoBehaviour
     private void Start()
     {
         UpdateStates();
+        tools = new GameObject[toolsFolder.childCount];
+        for (int i = 0; i < toolsFolder.childCount; i++)
+        {
+            tools[i] = toolsFolder.GetChild(i).gameObject;
+        }
+
     }
 
     private void Update()
@@ -90,6 +102,8 @@ public class InputManager : MonoBehaviour
                 break;
         }
     }
+
+    public void SetCanChangeTool(bool b) { canChangeTool = b; }
     public void SetAnimator(Animator anim) { playerAnim = anim; }
     private void UpdateStates()
     {
@@ -145,44 +159,55 @@ public class InputManager : MonoBehaviour
             SeedPlanter.instance.Index += scroll;
         }
     }
-
-    public void SetTools(Transform t) { tools = t; }
+    public void ChangeVisualTool()
+    {
+        tools[oldActive].gameObject.SetActive(false);
+        tools[activeTool].gameObject.SetActive(true);
+    }
+    public void Unnequip()
+    {
+        tools[activeTool].SetActive(!tools[activeTool].activeSelf);
+    }
+    public void SetTools(Transform t) { toolsFolder = t; }
 
     private void ChangeTool(int scroll)
     {
-        int oldActive = activeTool;
-        int numTools = tools.transform.childCount;
-        for (int i = 0; i < numTools; i++)
+        if(canChangeTool)
         {
-            if (Input.GetKeyDown(keyCodes[i]))
+            oldActive = activeTool;
+            int numTools = toolsFolder.transform.childCount;
+            for (int i = 0; i < numTools; i++)
             {
-                activeTool = i;
-
-                if (oldActive == activeTool)
+                if (Input.GetKeyDown(keyCodes[i]))
                 {
-                    GameObject go = tools.GetChild(activeTool).gameObject;
-                    go.SetActive(!go.activeSelf);
+                    activeTool = i;
+
+                    if (oldActive == activeTool)
+                    {
+                        //unequip aniamtion
+                        playerAnim.SetTrigger("Unnequip");
+                    }
                 }
             }
-        }
 
-        if (scroll != 0)
-        {
-            activeTool += scroll;
-            if (activeTool < 0)
+            if (scroll != 0)
             {
-                activeTool = numTools - 1;
+                activeTool += scroll;
+                if (activeTool < 0)
+                {
+                    activeTool = numTools - 1;
+                }
+                if (activeTool > numTools - 1)
+                {
+                    activeTool = 0;
+                }
             }
-            if (activeTool > numTools - 1)
+
+            if (oldActive != activeTool)
             {
-                activeTool = 0;
+                //equip animation
+                playerAnim.SetTrigger("ChangeTool");
             }
-        }
-        
-        if (oldActive != activeTool)
-        {
-            tools.GetChild(oldActive).gameObject.SetActive(false);
-            tools.GetChild(activeTool).gameObject.SetActive(true);
         }
     }
 }

@@ -94,7 +94,7 @@ public class SeedPlanter : MonoBehaviour
                 {
                     if (go.transform.childCount < 1)
                     {
-                        InputManager.instance.playerAnim.SetTrigger("Taking");
+                        InputManager.instance.playerAnim.SetTrigger("Plant");
                         StartCoroutine(AnimDelay(go));
                     }
                 }
