@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,7 +12,8 @@ public class WorldItem
     public string prefab;
     public PlantInfo plantInfo;
     public float water;
-    public WorldItem(Vector3 pos, string name, PlantInfo info, float w)
+    public float time;
+    public WorldItem(Vector3 pos, string name, PlantInfo info, float w, float t)
     {
         x = pos.x;
         y = pos.y;
@@ -19,6 +21,7 @@ public class WorldItem
         prefab = name;
         plantInfo = info;
         water = w;
+        time = t;
     }
 }
 public class HoleManager : MonoBehaviour
@@ -48,6 +51,7 @@ public class HoleManager : MonoBehaviour
                 Vector3 pos = new Vector3(info.x, info.y, info.z);
                 GameObject hole = ObjectPooler.Instance.SpawnFromPool(info.prefab, pos, Quaternion.identity);
                 hole.GetComponent<HoleController>().SetWater(info.water);
+                hole.GetComponent<HoleController>().Timer = info.time;
                 hole.transform.SetParent(transform);
 
                 PlantInfo plant = info.plantInfo;
@@ -82,7 +86,8 @@ public class HoleManager : MonoBehaviour
                     plantInfo = child.GetChild(0).GetComponent<PlantLife>().SavePlant();
                 }
                 float water = child.GetComponent<HoleController>().GetWater();
-                WorldItem childInfo = new WorldItem(child.position, "Holes", plantInfo, water);
+                float time = child.GetComponent<HoleController>().Timer;
+                WorldItem childInfo = new WorldItem(child.position, "Holes", plantInfo, water, time);
                 infos.Add(childInfo);
             }
             SaveLoad.Save(infos, "Holes");

@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be89c09a6c75b254bb85ccb0361e56eb, type: 3}
-  m_Name: New Mail 2
+  m_Name: 3
   m_EditorClassIdentifier: 
-  message: david wapo
-  rewardItem: {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
+  message: DALE CARLA
+  rewardItem: {fileID: 11400000, guid: 7d481730501584b4ea90c7e8656469f3, type: 2}
+  amount: 0
+  quest: {fileID: 0}

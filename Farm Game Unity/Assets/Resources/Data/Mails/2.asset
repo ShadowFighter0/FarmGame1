@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be89c09a6c75b254bb85ccb0361e56eb, type: 3}
-  m_Name: New Mail 1
+  m_Name: 2
   m_EditorClassIdentifier: 
-  message: Welcome to Carrot's Day!\n Take this
-  rewardItem: {fileID: 11400000, guid: be2956b92aac055419c69979d4dfbd48, type: 2}
-  amount: 4
+  message: david wapo
+  rewardItem: {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
+  amount: 0
   quest: {fileID: 0}

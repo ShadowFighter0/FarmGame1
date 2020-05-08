@@ -17,4 +17,4 @@ MonoBehaviour:
   amount: 2
   price: 12
   food: {fileID: 11400000, guid: 514e22415cae6e243b258a210776e83d, type: 2}
-  growthTime: 1
+  growthTime: 5

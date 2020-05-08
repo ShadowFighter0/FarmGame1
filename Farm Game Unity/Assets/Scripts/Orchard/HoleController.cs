@@ -10,18 +10,31 @@ public class HoleController : MonoBehaviour
 
     private bool wet = false;
     private float water = 0;
+
+    public float Timer { get; set; }
+    public float time;
     private void Awake()
     {
         rend = GetComponent<MeshRenderer>();
         rend.material.color = dryColor;
     }
-    void Start()
+    private void Start()
     {
+        time = GameManager.instance.dayTime;
+    }
+    private void Update()
+    {
+        float dt = Time.deltaTime;
+        Timer += dt;
 
-        GameEvents.OnNewDay += NewDay;
+        if(Timer > time)
+        {
+            Timer = 0;
+            UpdateHole();
+        }
     }
 
-    private void NewDay()
+    private void UpdateHole()
     {
         if (transform.childCount > 0)
         {
@@ -32,8 +45,6 @@ public class HoleController : MonoBehaviour
             transform.SetParent(FindObjectOfType<ObjectPooler>().transform);
             gameObject.SetActive(false);
         }
-        water = 0;
-        wet = false;
     }
 
     public void AddWater(float amount)
@@ -46,6 +57,7 @@ public class HoleController : MonoBehaviour
     public void SetWater(float w) 
     { 
         water = w;
+        Timer = 0;
         CheckWater();
     }
 
@@ -67,9 +79,5 @@ public class HoleController : MonoBehaviour
     public bool GetWet()
     {
         return wet;
-    }
-    private void OnDestroy()
-    {
-        GameEvents.OnNewDay -= NewDay;
     }
 }

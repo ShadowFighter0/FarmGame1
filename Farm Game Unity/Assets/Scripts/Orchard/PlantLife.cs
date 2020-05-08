@@ -30,13 +30,24 @@ public class PlantLife : MonoBehaviour
     private Seed seed;
     private bool grownUp = false;
 
+    private float timer = 0;
+
     void Start()
     {
         gameObject.layer = LayerMask.NameToLayer("Plants");
         ChangeModel();
         holeScript = gameObject.GetComponentInParent<HoleController>();
     }
-
+    private void Update()
+    {
+        float dt = Time.deltaTime;
+        timer += dt;
+        if(timer > seed.growthTime && !grownUp)
+        {
+            timer = 0;
+            UpdateState();
+        }
+    }
     public int GetFood()
     {
         return seed.food.amount; 
@@ -90,13 +101,19 @@ public class PlantLife : MonoBehaviour
         }
         if (index >= transform.childCount - 1)
         {
+            holeScript.SetWater(0);
+            StartCoroutine(DeletePlant());
             grownUp = true;
         }
+    }
+    private IEnumerator DeletePlant()
+    {
+        yield return new WaitForSeconds(GameManager.instance.dayTime);
+        Destroy(gameObject);
     }
 
     public void AddInventory()
     { 
         InventoryController.Instance.AddItem(seed.food);
-        InventoryController.Instance.AddItem(seed);
     }
 }

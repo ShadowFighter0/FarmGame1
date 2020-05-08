@@ -100,6 +100,8 @@ public class GameManager : MonoBehaviour
     private string[] sentences = {"CONTINUE", "NEW GAME"};
 
     private bool canSave = true;
+
+    public int dayTime;
     private void Awake()
     {
         string path = Application.persistentDataPath + "/saves/";

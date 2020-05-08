@@ -16,7 +16,10 @@ public class MailBoxPanel : MonoBehaviour
         }
         if(mail != null)
         {
-            InventoryController.Instance.AddItem(mail.rewardItem);
+            if(mail.rewardItem != null)
+            {
+                InventoryController.Instance.AddItem(mail.rewardItem);
+            }
         }
         gameObject.SetActive(false);
     }
@@ -29,7 +32,7 @@ public class MailBoxPanel : MonoBehaviour
         }
         return info;
     }
-
+    
     public void Assign(QuestInfo q) 
     { 
         quest = q;
