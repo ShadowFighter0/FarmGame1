@@ -75,7 +75,7 @@ public class MovementController : MonoBehaviour
         currentSpeed += GetOffset(dt, moveInputs.magnitude, maxSpeed, currentSpeed, accel);
         InputManager.instance.playerAnim.SetFloat("Vel", currentSpeed);
 
-        Vector3 newPos = transform.forward * currentSpeed + transform.up * gravity;
+        Vector3 newPos = (transform.forward * currentSpeed + transform.up * gravity);
         controller.Move(newPos * dt);
     }
 
@@ -94,9 +94,7 @@ public class MovementController : MonoBehaviour
         offset.x += GetOffset(dt, moveInputs.x, maxSpeed, offset.x, accel);
         offset.z += GetOffset(dt, moveInputs.y, maxSpeed, offset.z, accel);
 
-        //anim.SetFloat("Vel", offset.magnitude);
-
-        Vector3 newPos = (transform.forward * offset.z + transform.right * offset.x);
+        Vector3 newPos = (transform.forward * offset.z + transform.right * offset.x).normalized;
         controller.Move(newPos * dt);
 
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, cam.eulerAngles.y, transform.eulerAngles.z);
