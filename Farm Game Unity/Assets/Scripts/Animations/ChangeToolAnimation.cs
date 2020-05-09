@@ -20,6 +20,7 @@ public class ChangeToolAnimation : StateMachineBehaviour
         {
             toolChanged = true;
             InputManager.instance.ChangeVisualTool();
+            AudioManager.PlaySound(DataBase.SearchClip("ChangeTool"));
         }
     }
 

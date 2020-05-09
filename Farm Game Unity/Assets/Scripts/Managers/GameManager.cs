@@ -209,7 +209,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0f);
         gameLoaded = true;
-        AudioManager.PlaySound(mainMenuMusic);
+        //AudioManager.PlaySound(mainMenuMusic);
         currentLerpTime = 0;
 
         yield return new WaitForSeconds(0f);

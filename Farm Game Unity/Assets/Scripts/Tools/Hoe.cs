@@ -48,7 +48,6 @@ public class Hoe : MonoBehaviour
         if (go.CompareTag("Ground"))
         {
             InputManager.instance.playerAnim.SetTrigger("Dig");
-            CreateHole();
         }
     }
     public void CreateHole()
