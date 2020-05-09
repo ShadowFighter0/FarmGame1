@@ -21,6 +21,11 @@ public class MailBoxController : MonoBehaviour
     private int mailIndex = 0;
     public GameObject mailImage;
 
+    public AudioClip open;
+    private AudioClip mailReceived;
+
+    private int activeMails = 0;
+
     public static MailBoxController instance;
 
     private void Awake()
@@ -30,6 +35,7 @@ public class MailBoxController : MonoBehaviour
     }
     private void Start()
     {
+        mailReceived = DataBase.SearchClip("MailNotification");
         mailsPanel = mailFolder.parent.gameObject;
         mails = Resources.LoadAll<Mail>("Data/Mails");
 
@@ -50,19 +56,21 @@ public class MailBoxController : MonoBehaviour
                 timer = 0;
                 mailIndex++;
                 AddContent(mails[mailIndex]);
+                
             }
 
             if (playerNear)
             {
-                if (Input.GetKeyDown(InputManager.instance.Interact) && done)
+                if (Input.GetKeyDown(InputManager.instance.Interact) && done && activeMails > 0)
                 {
                     mailsPanel.SetActive(true);
-
+                    AudioManager.PlaySoundWithVariation(open);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
                     done = false;
                 }
-                if ((Input.GetKeyDown(KeyCode.F1) || GetActiveMails() == 0) && !done)
+                if ((Input.GetKeyDown(KeyCode.F1) || activeMails == 0) && !done)
                 {
+                    AudioManager.PlaySoundWithVariation(open);
                     Close();
                 }
             }
@@ -117,6 +125,8 @@ public class MailBoxController : MonoBehaviour
 
                 mailImage.SetActive(true);
                 StartCoroutine(CloseUIMail());
+                AudioManager.PlaySound(mailReceived);
+                activeMails++;
                 return;
             }
         }
@@ -132,6 +142,8 @@ public class MailBoxController : MonoBehaviour
 
                 mailImage.SetActive(true);
                 StartCoroutine(CloseUIMail());
+                AudioManager.PlaySound(mailReceived);
+                activeMails++;
                 return;
             }
         }
@@ -139,9 +151,9 @@ public class MailBoxController : MonoBehaviour
 
     public void TakeMail()
     {
-        int i = GetActiveMails() - 1;
+        int i = activeMails - 1;
         mailFolder.GetChild(i).GetComponent<MailBoxPanel>().AddContent();
-
+        activeMails--;
     }
 
     private void OnTriggerEnter(Collider other)

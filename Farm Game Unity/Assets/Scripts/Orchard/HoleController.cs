@@ -13,6 +13,10 @@ public class HoleController : MonoBehaviour
 
     public float Timer { get; set; }
     public float time;
+
+    private bool soundPlayed = false;
+
+    private AudioClip wetSound;
     private void Awake()
     {
         rend = GetComponent<MeshRenderer>();
@@ -20,6 +24,7 @@ public class HoleController : MonoBehaviour
     }
     private void Start()
     {
+        wetSound = DataBase.SearchClip("Wet");
         time = GameManager.instance.dayTime;
     }
     private void Update()
@@ -65,12 +70,17 @@ public class HoleController : MonoBehaviour
     {
         if (water >= 100)
         {
-            //play sound
+            if(!soundPlayed)
+            {
+                soundPlayed = true;
+                AudioManager.PlaySound(wetSound);
+            }
             wet = true;
             rend.material.color = wetColor;
         }
         else
         {
+            soundPlayed = false;
             wet = false;
             rend.material.color = dryColor;
         }

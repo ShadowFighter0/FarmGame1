@@ -6,10 +6,13 @@ public class DataBase : MonoBehaviour
 {
     private static Item[] items;
     private static GameObject[] plantPrefabs;
+
+    private static AudioClip[] audioClips;
     private void Awake()
     {
         items = Resources.LoadAll<Item>("Data/Items");
         plantPrefabs = Resources.LoadAll<GameObject>("Prefabs");
+        audioClips = Resources.LoadAll<AudioClip>("AudioClips");
     }
 
     public static Item GetItem(string name)
@@ -58,6 +61,18 @@ public class DataBase : MonoBehaviour
                 {
                     return SearchPrefab(name);
                 }
+            }
+        }
+        return null;
+    }
+
+    public static AudioClip SearchClip(string name)
+    {
+        for (int i = 0; i < audioClips.Length; i++)
+        {
+            if(audioClips[i].name.Equals(name))
+            {
+                return audioClips[i];
             }
         }
         return null;

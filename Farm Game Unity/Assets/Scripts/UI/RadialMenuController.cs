@@ -77,6 +77,7 @@ public class RadialMenuController : MonoBehaviour
     {
         List<Seed> seeds = SeedPlanter.instance.CurrentSeeds();
         int numSeeds = 0;
+        int seedIndex = 0;
         for (int i = 0; i < 2; i++)
         {
             int num = parent.transform.GetChild(i).childCount;
@@ -85,7 +86,8 @@ public class RadialMenuController : MonoBehaviour
                 if(numSeeds < seeds.Count)
                 {
                     numSeeds++;
-                    page[i].images[j].sprite = seeds[j].image;
+                    page[i].images[j].sprite = seeds[seedIndex].image;
+                    seedIndex++;
                 }
                 else
                 {

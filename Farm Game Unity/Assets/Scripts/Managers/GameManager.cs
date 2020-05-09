@@ -107,6 +107,8 @@ public class GameManager : MonoBehaviour
     private int restHours = 0;
 
     public int dayTime;
+
+    private AudioClip mainMenuMusic;
     private void Awake()
     {
         string path = Application.persistentDataPath + "/saves/";
@@ -123,6 +125,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        mainMenuMusic = DataBase.SearchClip("Theme");
         if (SaveLoad.HasSaves())
         {
             newGame = false;
@@ -206,6 +209,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0f);
         gameLoaded = true;
+        AudioManager.PlaySound(mainMenuMusic);
         currentLerpTime = 0;
 
         yield return new WaitForSeconds(0f);
