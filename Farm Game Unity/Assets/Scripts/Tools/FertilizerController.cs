@@ -6,7 +6,7 @@ public class FertilizerController : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetKeyDown(InputManager.instance.Interact))
+        if (Input.GetKeyDown(InputManager.instance.Interact) && InputManager.state == InputManager.States.Idle)
         {
             GameObject go = RayCastController.instance.GetTarget();
             if (go.CompareTag("Hole"))

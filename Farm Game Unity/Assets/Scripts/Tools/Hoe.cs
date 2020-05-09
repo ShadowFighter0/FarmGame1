@@ -22,7 +22,7 @@ public class Hoe : MonoBehaviour
         }
         if (InputManager.instance.playerAnim != null)
         {
-            if (Input.GetKeyDown(InputManager.instance.Click))
+            if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state == InputManager.States.Idle)
             {
                 Dig(go);
             }

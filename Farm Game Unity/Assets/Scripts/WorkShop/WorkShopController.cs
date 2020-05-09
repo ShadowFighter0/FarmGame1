@@ -26,6 +26,8 @@ public class WorkShopController : MonoBehaviour
     public GameObject menu;
     public Text itemName;
     public Text description;
+
+    public GameObject[] requirements;
     public Image[] images;
     public Text[] amounts;
 
@@ -131,6 +133,7 @@ public class WorkShopController : MonoBehaviour
 
                                 for (int i = 0; i < item.requirements.Length; i++)
                                 {
+                                    requirements[i].SetActive(true);
                                     images[i].sprite = item.requirements[i].image;
                                     amounts[i].text = item.amounts[i].ToString();
                                 }
@@ -154,6 +157,13 @@ public class WorkShopController : MonoBehaviour
         SaveLoad.Save(objects, "UnlockeableItems");
     }
 
+    public void DisableRequirements()
+    {
+        for (int i = 0; i < requirements.Length; i++)
+        {
+            requirements[i].SetActive(false);
+        }
+    }
     private void CloseMenu()
     {
         UIMenu.SetActive(false);

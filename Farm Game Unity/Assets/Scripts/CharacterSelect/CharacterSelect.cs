@@ -99,6 +99,7 @@ public class CharacterSelect : MonoBehaviour
         GameManager.instance.SetPlayerCustomization(script.GetIndex(), selected.transform.GetSiblingIndex(), script.GetGlasses());
         GameManager.instance.FreeCam();
         GameManager.instance.SavePlayer();
+        GameManager.instance.gameStarted = true;
 
         Destroy(selected.GetComponent<ChangeHat>());
         if (selected.CompareTag("Male"))

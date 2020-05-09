@@ -40,9 +40,10 @@ public class RadialMenuController : MonoBehaviour
     public Text text;
 
     public static RadialMenuController instance;
-    private Page[] page= new Page[2];
+    private readonly Page[] page= new Page[2];
 
     private int currentPage = 0;
+
     void Awake()
     {
         instance = this;

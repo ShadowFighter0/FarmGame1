@@ -21,39 +21,60 @@ public class MailBoxController : MonoBehaviour
     private int mailIndex = 0;
     public GameObject mailImage;
 
+    public static MailBoxController instance;
+
+    private void Awake()
+    {
+        instance = this;
+        GameEvents.OnSaveInitiated += SaveMails;
+    }
     private void Start()
     {
         mailsPanel = mailFolder.parent.gameObject;
-
         mails = Resources.LoadAll<Mail>("Data/Mails");
 
-        AddContent(mails[mailIndex]);
+        if(SaveLoad.SaveExists("Mails"))
+        {
+            int loadIndex = SaveLoad.Load<int>("Mails");
+            mailIndex = loadIndex;
+        }
     }
     private void Update()
     {
-        float dt = Time.deltaTime;
-        timer += dt;
-        if (timer > time && mailIndex < mails.Length - 1)
+        if(GameManager.instance.gameStarted)
         {
-            timer = 0;
-            mailIndex++;
-            AddContent(mails[mailIndex]);
-        }
-
-        if (playerNear)
-        {
-            if (Input.GetKeyDown(InputManager.instance.Interact) && done)
+            float dt = Time.deltaTime;
+            timer += dt;
+            if (timer > time && mailIndex < mails.Length - 1)
             {
-                mailsPanel.SetActive(true);
-
-                InputManager.instance.ChangeState(InputManager.States.OnUI);
-                done = false;
+                timer = 0;
+                mailIndex++;
+                AddContent(mails[mailIndex]);
             }
-            if ((Input.GetKeyDown(KeyCode.F1) || GetActiveMails() == 0) && !done)
+
+            if (playerNear)
             {
-                Close();
+                if (Input.GetKeyDown(InputManager.instance.Interact) && done)
+                {
+                    mailsPanel.SetActive(true);
+
+                    InputManager.instance.ChangeState(InputManager.States.OnUI);
+                    done = false;
+                }
+                if ((Input.GetKeyDown(KeyCode.F1) || GetActiveMails() == 0) && !done)
+                {
+                    Close();
+                }
             }
         }
+    }
+    public void SendTutorialMail()
+    {
+        AddContent(mails[mailIndex]);
+    }
+    private void SaveMails()
+    {
+        SaveLoad.Save(mailIndex, "Mails");
     }
     private IEnumerator CloseUIMail()
     {

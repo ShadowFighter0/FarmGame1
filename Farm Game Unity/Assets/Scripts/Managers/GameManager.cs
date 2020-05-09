@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
 
     private bool newGame = false;
     private bool gameLoaded = false;
+    public bool gameStarted = false;
 
     public Transform cam;
     private Quaternion newCamRot;
@@ -100,6 +101,10 @@ public class GameManager : MonoBehaviour
     private string[] sentences = {"CONTINUE", "NEW GAME"};
 
     private bool canSave = true;
+
+    public Slider hoursSlider;
+    public Text hoursText;
+    private int restHours = 0;
 
     public int dayTime;
     private void Awake()
@@ -168,6 +173,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            gameStarted = false;
             newGame = true;
             continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[1];
             InputManager.instance.ChangeState(InputManager.States.OnUI);
@@ -183,6 +189,8 @@ public class GameManager : MonoBehaviour
 
         newCamPos = cam.position;
         newCamRot = cam.rotation;
+
+        hoursSlider.onValueChanged.AddListener(delegate { SetHoursText(); });
     }
     private void OnEnable()
     {
@@ -208,6 +216,20 @@ public class GameManager : MonoBehaviour
         mainMenu.transform.GetChild(0).gameObject.SetActive(true);
     }
 
+    private void SetHoursText()
+    {
+        restHours = (int)hoursSlider.value;
+
+        if(restHours == 1)
+        {
+            hoursText.text = restHours + " hour";
+        }
+        else
+        {
+            hoursText.text = restHours + " hours";
+        }
+        
+    }
     private void ActivateCustHUD()
     {
         hudCustom.SetActive(true);
@@ -334,6 +356,7 @@ public class GameManager : MonoBehaviour
             InputManager.instance.enabled = true;
             InputManager.instance.ChangeState(InputManager.States.Idle);
             mainMenu.SetActive(false);
+            gameStarted = true;
         }
     }
     public void StartNewGame()

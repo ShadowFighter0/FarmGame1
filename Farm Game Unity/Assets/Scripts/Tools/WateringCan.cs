@@ -20,13 +20,10 @@ public class WateringCan : MonoBehaviour
 
     void Update()
     {
-        if(InputManager.state != InputManager.States.OnUI)
+        if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state == InputManager.States.Idle)
         {
-            if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state != InputManager.States.Working)
-            {
-                InputManager.instance.playerAnim.SetTrigger("Watering");
-                //transform.eulerAngles = oriRot + Vector3.forward * 60;
-            }
+            InputManager.instance.playerAnim.SetTrigger("Watering");
+            //transform.eulerAngles = oriRot + Vector3.forward * 60;
         }
     }
 
