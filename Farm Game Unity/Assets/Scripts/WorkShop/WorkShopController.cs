@@ -220,7 +220,6 @@ public class WorkShopController : MonoBehaviour
                 int amount = InventoryController.Instance.GetAmount(item.requirements[i].itemName);
                 if (amount <= 0)
                 {
-                    Debug.Log("You dont have enought materials!");
                     return;
                 }
             }
@@ -229,7 +228,6 @@ public class WorkShopController : MonoBehaviour
             {
                 InventoryController.Instance.SubstractAmountItem(item.amounts[i], item.requirements[i].itemName);
             }
-            Debug.Log(item.itemName + " purchased!");
             menu.SetActive(false);
 
             UnlockeableItem script = currentItem.GetComponent<UnlockeableItem>();
