@@ -25,7 +25,7 @@ public class HoleController : MonoBehaviour
     private void Start()
     {
         wetSound = DataBase.SearchClip("Wet");
-        time = GameManager.instance.dayTime;
+        time = TimeManager.instance.dayTime;
     }
     private void Update()
     {

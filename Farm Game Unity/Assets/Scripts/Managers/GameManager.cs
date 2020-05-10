@@ -106,8 +106,6 @@ public class GameManager : MonoBehaviour
     public Text hoursText;
     private int restHours = 0;
 
-    public int dayTime;
-
     private AudioClip mainMenuMusic;
     private void Awake()
     {
@@ -122,6 +120,8 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+
+        GameEvents.OnNewDay += SaveAll;
     }
     private void Start()
     {
@@ -399,14 +399,13 @@ public class GameManager : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
 
-    public void NewDay()
+    public void StartRest()
     {
-        if(!loading)
-        {
-            InputManager.instance.ChangeState(InputManager.States.Sleeping);
-            loading = true;
-            StartCoroutine(Fade());
-        }
+        InputManager.instance.ChangeState(InputManager.States.Sleeping);
+        loading = true;
+        TimeManager.instance.Rest(restHours);
+
+        //StartCoroutine(Fade());
     }
 
     public void SaveAll()
@@ -434,26 +433,12 @@ public class GameManager : MonoBehaviour
         SaveLoad.DeleteAllData();
         Reload();
     }
-
-    private void ChangeDay()
-    {
-        day++;
-        GameEvents.NewDay();
-        InputManager.instance.ChangeState(InputManager.States.Idle);
-        loading = false;
-        SaveAll();
-    }
     IEnumerator DisableSaveText()
     {
         yield return new WaitForSeconds(3);
         saveText.SetActive(false);
         yield return new WaitForSeconds(1);
         canSave = true;
-    }
-    IEnumerator Fade()
-    {
-        yield return new WaitForSeconds(time);
-        ChangeDay();
     }
     public int GetDay() { return day; }
 

@@ -108,7 +108,7 @@ public class PlantLife : MonoBehaviour
     }
     private IEnumerator DeletePlant()
     {
-        yield return new WaitForSeconds(GameManager.instance.dayTime);
+        yield return new WaitForSeconds(TimeManager.instance.dayTime);
         Destroy(gameObject);
     }
 
