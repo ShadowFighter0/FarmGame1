@@ -27,19 +27,25 @@ public class TimeManager : MonoBehaviour
 {
     private Date time;
     private float timer;
-    public float minuteTime;
+    private float minuteTime;
     public int minuteAmount;
-
-    public int maxHour;
-    public int minHour;
 
     private bool resting = false;
     private int wakeHour = 0;
     private int wakeMinute = 0;
 
-    public int dayTime;
+    private int textHour = 1;
 
+    public int dayTime;
+    
+    private bool playerIn = false;
+
+    public Slider hoursSlider;
+    public Text hoursText;
     public Text timeText;
+    public Text wakeUpText;
+
+    public GameObject exitPopUp;
 
     public static TimeManager instance;
     private void Awake()
@@ -49,7 +55,7 @@ public class TimeManager : MonoBehaviour
     }
     private void Start()
     {
-        int dayHours = (maxHour + 24) - minHour;
+        int dayHours = 24;
         int min = 60 / minuteAmount;
         int minutesPerDay = min * dayHours;
         minuteTime = dayTime / minutesPerDay;
@@ -63,6 +69,8 @@ public class TimeManager : MonoBehaviour
             time = new Date();
         }
         timeText.text = time.hour + ":" + time.minute;
+        SetWakeHourText();
+        hoursSlider.onValueChanged.AddListener(delegate { SetHoursText(); });
     }
 
     private void Update()
@@ -73,8 +81,8 @@ public class TimeManager : MonoBehaviour
             if (timer > minuteTime)
             {
                 timer = 0;
-
                 time.minute += minuteAmount;
+
                 if (time.minute == 60)
                 {
                     time.minute = 0;
@@ -84,9 +92,8 @@ public class TimeManager : MonoBehaviour
                     {
                         time.hour = 0;
                     }
-                    if (time.hour == maxHour)
+                    if (time.hour == 7)
                     {
-                        time.hour = minHour;
                         time.day++;
                         GameEvents.NewDay();
                     }
@@ -102,32 +109,37 @@ public class TimeManager : MonoBehaviour
                     }
                 }
                 timeText.text = time.hour + ":" + time.minute;
+                if(exitPopUp.activeSelf)
+                {
+                    SetWakeHourText();
+                }
+            }
+            if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state != InputManager.States.OnUI)
+            {
+                OpenPopUp();
             }
         }
     }
 
-    public void Rest(int hours)
+    public void Rest()
     {
         if(!resting)
         {
-            Time.timeScale = hours * 5;
-            int targetHour = time.hour + hours;
+            exitPopUp.SetActive(false);
+            Time.timeScale = 10;
+            int targetHour = time.hour + (int)hoursSlider.value;
             if (targetHour >= 24)
             {
                 targetHour -= 24;
-                if (targetHour >= maxHour)
-                {
-                    int dif = targetHour - maxHour;
-                    wakeHour = minHour + dif;
-                    wakeMinute = time.minute;
-                }
+                wakeHour = targetHour;
+                wakeMinute = time.minute;
             }
             else
             {
                 wakeHour = targetHour;
                 wakeMinute = time.minute;
             }
-            
+
             resting = true;
             InputManager.instance.ChangeState(InputManager.States.Sleeping);
         }
@@ -136,4 +148,53 @@ public class TimeManager : MonoBehaviour
     {
         SaveLoad.Save(time, "GameTime");
     }
+    private void OpenPopUp()
+    {
+        exitPopUp.SetActive(true);
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
+    }
+    public void ClosePopUp()
+    {
+        exitPopUp.SetActive(false);
+        InputManager.instance.ChangeState(InputManager.States.Idle);
+    }
+    private void SetHoursText()
+    {
+        textHour = (int)hoursSlider.value;
+
+        if (textHour == 1)
+        {
+            hoursText.text = textHour + " hour";
+        }
+        else
+        {
+            hoursText.text = textHour + " hours";
+        }
+        SetWakeHourText();
+    }
+    private void SetWakeHourText()
+    {
+        int wakeTime = time.hour + textHour;
+        if(wakeTime >= 24)
+        {
+            wakeTime -= 24;
+        }
+        wakeUpText.text = "Wake up hour: " + wakeTime + ":" + time.minute;
+    }
+    #region Trigger with player
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerIn = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerIn = false;
+        }
+    }
+    #endregion
 }

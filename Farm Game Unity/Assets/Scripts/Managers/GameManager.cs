@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     private DateTime lastTimeSaved;
 
     public GameObject UIFolder;
-    public GameObject exitPopUp;
+
     public GameObject saveText;
     public GameObject pauseMenu;
     public GameObject mainMenu;
@@ -101,10 +101,6 @@ public class GameManager : MonoBehaviour
     private string[] sentences = {"CONTINUE", "NEW GAME"};
 
     private bool canSave = true;
-
-    public Slider hoursSlider;
-    public Text hoursText;
-    private int restHours = 0;
 
     private AudioClip mainMenuMusic;
     private void Awake()
@@ -192,8 +188,6 @@ public class GameManager : MonoBehaviour
 
         newCamPos = cam.position;
         newCamRot = cam.rotation;
-
-        hoursSlider.onValueChanged.AddListener(delegate { SetHoursText(); });
     }
     private void OnEnable()
     {
@@ -220,24 +214,6 @@ public class GameManager : MonoBehaviour
         mainMenu.transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    private void SetHoursText()
-    {
-        restHours = (int)hoursSlider.value;
-
-        if(restHours == 1)
-        {
-            hoursText.text = restHours + " hour";
-        }
-        else
-        {
-            hoursText.text = restHours + " hours";
-        }
-        
-    }
-    private void ActivateCustHUD()
-    {
-        hudCustom.SetActive(true);
-    }
     private void Update()
     {
         if(gameLoaded)
@@ -258,11 +234,6 @@ public class GameManager : MonoBehaviour
                 t = t * t * t * (t * (6f * t - 15f) + 10f);
 
                 cam.position = Vector3.Lerp(cam.position, newCamPos, t);
-            }
-
-            if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state != InputManager.States.OnUI)
-            {
-                OpenPopUp();
             }
 
             if (Input.GetKeyDown(KeyCode.F5))
@@ -393,20 +364,6 @@ public class GameManager : MonoBehaviour
         lastSavedText.text = "(Last save at " + t + ". " + difference + " minutes ago)";
     }
     #endregion
-    private void OpenPopUp()
-    {
-        exitPopUp.SetActive(true);
-        InputManager.instance.ChangeState(InputManager.States.OnUI);
-    }
-
-    public void StartRest()
-    {
-        InputManager.instance.ChangeState(InputManager.States.Sleeping);
-        loading = true;
-        TimeManager.instance.Rest(restHours);
-
-        //StartCoroutine(Fade());
-    }
 
     public void SaveAll()
     {
@@ -440,22 +397,4 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         canSave = true;
     }
-    public int GetDay() { return day; }
-
-    #region Trigger with player
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerIn = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerIn = false;
-        }
-    }
-    #endregion
 }
