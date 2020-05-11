@@ -79,6 +79,10 @@ public class MovementController : MonoBehaviour
         controller.Move(newPos * dt);
     }
 
+    public void SetRotation(Vector3 rot)
+    {
+        transform.eulerAngles = rot;
+    }
     private void EditMovement(float dt, Vector2 moveInputs)
     {
         if (moveInputs.sqrMagnitude > Mathf.Epsilon)

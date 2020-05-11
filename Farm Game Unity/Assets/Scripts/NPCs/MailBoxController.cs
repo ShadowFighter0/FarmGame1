@@ -35,7 +35,7 @@ public class MailBoxController : MonoBehaviour
     }
     private void Start()
     {
-        mailReceived = DataBase.SearchClip("MailNotification");
+        mailReceived = DataBase.GetAudioClip("MailNotification");
         mailsPanel = mailFolder.parent.gameObject;
         mails = Resources.LoadAll<Mail>("Data/Mails");
 

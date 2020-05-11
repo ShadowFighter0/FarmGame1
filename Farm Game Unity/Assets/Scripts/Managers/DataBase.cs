@@ -4,77 +4,37 @@ using UnityEngine;
 
 public class DataBase : MonoBehaviour
 {
-    private static Item[] items;
-    private static GameObject[] plantPrefabs;
+    private static readonly Dictionary<string, Item> items = new Dictionary<string, Item>();
+    private static readonly Dictionary<string, GameObject> plantPrefabs = new Dictionary<string, GameObject>();
+    private static readonly Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
-    private static AudioClip[] audioClips;
     private void Awake()
     {
-        items = Resources.LoadAll<Item>("Data/Items");
-        plantPrefabs = Resources.LoadAll<GameObject>("Prefabs");
-        audioClips = Resources.LoadAll<AudioClip>("AudioClips");
+        InitDictionarys();
     }
 
-    public static Item GetItem(string name)
+    private static void InitDictionarys()
     {
-        for (int i = 0; i < items.Length; i++)
+        Item[] loadItems = Resources.LoadAll<Item>("Data/Items");
+        for (int i = 0; i < loadItems.Length; i++)
         {
-            if (items[i].itemName.Equals(name))
-            {
-                return items[i];
-            }
-        }
-        return null;
-    }
-    public static Sprite GetItemSprite(string name)
-    {
-        for (int i = 0; i < items.Length; i++)
-        {
-            if (items[i].itemName.Equals(name))
-            {
-                return items[i].image;
-            }
-        }
-        return null;
-    }
-    public static GameObject SearchPrefab(string name)
-    {
-        for (int i = 0; i < plantPrefabs.Length; i++)
-        {
-            if(plantPrefabs[i].name.Equals(name))
-            {
-                return plantPrefabs[i];
-            }
+            items.Add(loadItems[i].itemName, loadItems[i]);
         }
 
-        return null;
-    }
-
-    public static GameObject PlantPrefab(string name)
-    {
-        for (int i = 0; i < items.Length; i++)
+        GameObject[] loadPrefabs = Resources.LoadAll<GameObject>("Prefabs");
+        for (int i = 0; i < loadPrefabs.Length; i++)
         {
-            if (items[i].GetType().Equals(typeof(Seed)))
-            {
-                Seed seed = (Seed)items[i];
-                if(seed.food.itemName.Equals(name))
-                {
-                    return SearchPrefab(name);
-                }
-            }
+            plantPrefabs.Add(loadPrefabs[i].name, loadPrefabs[i]);
         }
-        return null;
-    }
 
-    public static AudioClip SearchClip(string name)
-    {
-        for (int i = 0; i < audioClips.Length; i++)
+        AudioClip[] clips = Resources.LoadAll<AudioClip>("AudioClips");
+        for (int i = 0; i < clips.Length; i++)
         {
-            if(audioClips[i].name.Equals(name))
-            {
-                return audioClips[i];
-            }
+            audioClips.Add(clips[i].name, clips[i]);
         }
-        return null;
     }
+    public static Item GetItem(string name) { return items[name]; }
+    public static Sprite GetItemSprite(string name) { return items[name].image; }
+    public static GameObject GetPlantPrefab(string name) { return plantPrefabs[name]; }
+    public static AudioClip GetAudioClip(string name) { return audioClips[name]; }
 }

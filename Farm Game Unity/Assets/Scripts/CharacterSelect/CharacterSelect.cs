@@ -76,7 +76,7 @@ public class CharacterSelect : MonoBehaviour
         custButton.SetActive(true);
         if (selected != t)
         {
-            AudioManager.PlaySound(DataBase.SearchClip("Whoosh"));
+            AudioManager.PlaySound(DataBase.GetAudioClip("Whoosh"));
             selected = t;
             selectPos = selected.transform.position;
 

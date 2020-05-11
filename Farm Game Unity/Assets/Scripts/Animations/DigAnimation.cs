@@ -22,12 +22,12 @@ public class DigAnimation : StateMachineBehaviour
         {
             digged = true;
             FindObjectOfType<Hoe>().CreateHole();
-            AudioManager.PlaySound(DataBase.SearchClip("Dig"));
+            AudioManager.PlaySound(DataBase.GetAudioClip("Dig"));
         }
         if(currentFrame >= .75f && !secondSound)
         {
             secondSound = true;
-            AudioManager.PlaySound(DataBase.SearchClip("Dig2"));
+            AudioManager.PlaySound(DataBase.GetAudioClip("Dig2"));
         }
     }
 

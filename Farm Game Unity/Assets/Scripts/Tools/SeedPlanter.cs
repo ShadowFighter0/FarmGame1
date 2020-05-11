@@ -113,7 +113,7 @@ public class SeedPlanter : MonoBehaviour
 
     private void Plant(GameObject go)
     {
-        GameObject loadPlant = DataBase.PlantPrefab(currentSeeds[index].food.itemName);
+        GameObject loadPlant = DataBase.GetPlantPrefab(currentSeeds[index].food.itemName);
 
         GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.identity);
         plant.transform.SetParent(go.transform);

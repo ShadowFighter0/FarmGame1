@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        mainMenuMusic = DataBase.SearchClip("Theme");
+        mainMenuMusic = DataBase.GetAudioClip("Theme");
         if (SaveLoad.HasSaves())
         {
             newGame = false;

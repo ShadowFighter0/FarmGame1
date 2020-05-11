@@ -7,7 +7,7 @@ public class WaterAnimation : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         FindObjectOfType<WateringCan>().Play();
-        AudioManager.PlaySound(DataBase.SearchClip("Watering"));
+        AudioManager.PlaySound(DataBase.GetAudioClip("Watering"));
         InputManager.instance.ChangeState(InputManager.States.Working);
     }
 

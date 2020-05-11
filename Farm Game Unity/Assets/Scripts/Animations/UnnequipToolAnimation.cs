@@ -20,7 +20,7 @@ public class UnnequipToolAnimation : StateMachineBehaviour
         {
             toolChanged = true;
             InputManager.instance.Unnequip();
-            AudioManager.PlaySound(DataBase.SearchClip("ChangeTool"));
+            AudioManager.PlaySound(DataBase.GetAudioClip("ChangeTool"));
         }
     }
 

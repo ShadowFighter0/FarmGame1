@@ -22,9 +22,12 @@ public class Hoe : MonoBehaviour
         }
         if (InputManager.instance.playerAnim != null)
         {
-            if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state == InputManager.States.Idle)
+            if (Input.GetKeyDown(InputManager.instance.Click))
             {
-                Dig(go);
+                if (InputManager.state == InputManager.States.Idle && go.CompareTag("Ground"))
+                {
+                    InputManager.instance.playerAnim.SetTrigger("Dig");
+                }
             }
         }
     }
@@ -41,13 +44,6 @@ public class Hoe : MonoBehaviour
         if (indicator != null)
         {
             indicator.SetActive(false);
-        }
-    }
-    private void Dig(GameObject go)
-    {
-        if (go.CompareTag("Ground"))
-        {
-            InputManager.instance.playerAnim.SetTrigger("Dig");
         }
     }
     public void CreateHole()

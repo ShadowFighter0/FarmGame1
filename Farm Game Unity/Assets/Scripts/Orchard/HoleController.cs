@@ -14,7 +14,7 @@ public class HoleController : MonoBehaviour
     public float Timer { get; set; }
     public float time;
 
-    private bool soundPlayed = false;
+    private bool soundPlayed = true;
 
     private AudioClip wetSound;
     private void Awake()
@@ -24,27 +24,26 @@ public class HoleController : MonoBehaviour
     }
     private void Start()
     {
-        wetSound = DataBase.SearchClip("Wet");
-        time = TimeManager.instance.dayTime;
+        wetSound = DataBase.GetAudioClip("Wet");
+        time = TimeManager.instance.secondsPerDay;
+        soundPlayed = false;
     }
     private void Update()
     {
-        float dt = Time.deltaTime;
-        Timer += dt;
-
-        if(Timer > time)
+        if (TimeManager.instance.ActiveHour() && wet)
         {
-            Timer = 0;
-            UpdateHole();
+            float dt = Time.deltaTime;
+            Timer += dt;
+            if (Timer > time)
+            {
+                Timer = 0;
+                UpdateHole();
+            }
         }
     }
 
     private void UpdateHole()
     {
-        if (transform.childCount > 0)
-        {
-            transform.GetChild(0).GetComponent<PlantLife>().UpdateState();
-        }
         if (!wet)
         {
             transform.SetParent(FindObjectOfType<ObjectPooler>().transform);

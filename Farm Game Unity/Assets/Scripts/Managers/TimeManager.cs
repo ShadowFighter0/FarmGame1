@@ -27,8 +27,8 @@ public class TimeManager : MonoBehaviour
 {
     private Date time;
     private float timer;
-    private float minuteTime;
     public int minuteAmount;
+    private float minuteTime;
 
     private bool resting = false;
     private int wakeHour = 0;
@@ -36,9 +36,11 @@ public class TimeManager : MonoBehaviour
 
     private int textHour = 1;
 
-    public int dayTime;
+    public int secondsPerDay = 300;
     
     private bool playerIn = false;
+
+    private const float minutesPerDay = 1440.0f;
 
     public Slider hoursSlider;
     public Text hoursText;
@@ -55,10 +57,7 @@ public class TimeManager : MonoBehaviour
     }
     private void Start()
     {
-        int dayHours = 24;
-        int min = 60 / minuteAmount;
-        int minutesPerDay = min * dayHours;
-        minuteTime = dayTime / minutesPerDay;
+        minuteTime = secondsPerDay * minuteAmount / minutesPerDay;
 
         if (SaveLoad.SaveExists("GameTime"))
         {
@@ -114,7 +113,7 @@ public class TimeManager : MonoBehaviour
                     SetWakeHourText();
                 }
             }
-            if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state != InputManager.States.OnUI)
+            if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state == InputManager.States.Idle)
             {
                 OpenPopUp();
             }
@@ -180,6 +179,12 @@ public class TimeManager : MonoBehaviour
             wakeTime -= 24;
         }
         wakeUpText.text = "Wake up hour: " + wakeTime + ":" + time.minute;
+    }
+
+    public bool ActiveHour() 
+    {
+        int hour = time.hour;
+        return hour <= 22 && hour >= 7; 
     }
     #region Trigger with player
     private void OnTriggerEnter(Collider other)

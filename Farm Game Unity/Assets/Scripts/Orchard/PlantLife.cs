@@ -7,6 +7,7 @@ public class PlantInfo
     public int index;
     public string seed;
     public string plant;
+
     public float x;
     public float y;
     public float z;
@@ -40,12 +41,15 @@ public class PlantLife : MonoBehaviour
     }
     private void Update()
     {
-        float dt = Time.deltaTime;
-        timer += dt;
-        if(timer > seed.growthTime && !grownUp)
+        if (TimeManager.instance.ActiveHour() && holeScript.GetWet() && !grownUp)
         {
-            timer = 0;
-            UpdateState();
+            float dt = Time.deltaTime;
+            timer += dt;
+            if (timer > seed.growthTime)
+            {
+                timer = 0;
+                UpdateState();
+            }
         }
     }
     public int GetFood()
@@ -80,10 +84,6 @@ public class PlantLife : MonoBehaviour
             index++;
             ChangeModel();
         }
-        if (!wet)
-        {
-            Destroy(gameObject);
-        }   
     }
 
     private void ChangeModel()
@@ -101,14 +101,14 @@ public class PlantLife : MonoBehaviour
         }
         if (index >= transform.childCount - 1)
         {
-            holeScript.SetWater(0);
-            StartCoroutine(DeletePlant());
+            //holeScript.SetWater(0);
+            //StartCoroutine(DeletePlant());
             grownUp = true;
         }
     }
     private IEnumerator DeletePlant()
     {
-        yield return new WaitForSeconds(TimeManager.instance.dayTime);
+        yield return new WaitForSeconds(TimeManager.instance.secondsPerDay);
         Destroy(gameObject);
     }
 
