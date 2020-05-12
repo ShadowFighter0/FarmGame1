@@ -8,22 +8,33 @@ public class WateringCan : MonoBehaviour
     public Transform wateringCan;
     public ParticleSystem waterParticles;
 
-    private Vector3 oriRot;
-    private Vector3 newRot;
+    private bool mousePressed = false;
 
     private void Start()
     {
         waterParticles.Stop();
-        oriRot = transform.eulerAngles;
-        newRot = oriRot;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state == InputManager.States.Idle)
         {
+            mousePressed = true;
+            StartCoroutine(MouseHold());
+        }
+        if(Input.GetKeyUp(InputManager.instance.Click) && mousePressed)
+        {
+            mousePressed = false;
             InputManager.instance.playerAnim.SetTrigger("Watering");
-            //transform.eulerAngles = oriRot + Vector3.forward * 60;
+        }
+    }
+    IEnumerator MouseHold()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if(mousePressed)
+        {
+            mousePressed = false;
+            InputManager.instance.playerAnim.SetTrigger("MultiWatering");
         }
     }
 
