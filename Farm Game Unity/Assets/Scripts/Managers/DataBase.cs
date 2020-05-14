@@ -10,6 +10,9 @@ public class DataBase : MonoBehaviour
 
     private void Awake()
     {
+        items.Clear();
+        plantPrefabs.Clear();
+        audioClips.Clear();
         InitDictionarys();
     }
 
@@ -37,4 +40,5 @@ public class DataBase : MonoBehaviour
     public static Sprite GetItemSprite(string name) { return items[name].image; }
     public static GameObject GetPlantPrefab(string name) { return plantPrefabs[name]; }
     public static AudioClip GetAudioClip(string name) { return audioClips[name]; }
+
 }

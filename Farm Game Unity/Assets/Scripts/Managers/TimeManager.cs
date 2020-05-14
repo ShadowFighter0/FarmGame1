@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,9 +44,9 @@ public class TimeManager : MonoBehaviour
     private const float minutesPerDay = 1440.0f;
 
     public Slider hoursSlider;
-    public Text hoursText;
+    public TextMeshProUGUI hoursText;
     public Text timeText;
-    public Text wakeUpText;
+    public TextMeshProUGUI wakeUpText;
 
     public GameObject exitPopUp;
 

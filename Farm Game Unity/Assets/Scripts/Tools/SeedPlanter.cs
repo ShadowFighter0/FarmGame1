@@ -8,6 +8,9 @@ public class SeedPlanter : MonoBehaviour
     private Seed[] seeds;
     private List<Seed> currentSeeds = new List<Seed>();
     private ParticleSystem seedParticles;
+    
+    public GameObject indicator;
+    private SeedsIndicator indicatorScript;
 
     private int index = 0;
 
@@ -41,6 +44,7 @@ public class SeedPlanter : MonoBehaviour
     private void Start()
     {
         UpdateCurrentSeeds();
+        indicatorScript = indicator.GetComponent<SeedsIndicator>();
     }
 
     public int GetCurrentSeeds() { return currentSeeds.Count; }
@@ -61,6 +65,7 @@ public class SeedPlanter : MonoBehaviour
                 currentSeeds.Remove(s);
             }
         }
+
     }
 
     void Update()
@@ -69,10 +74,14 @@ public class SeedPlanter : MonoBehaviour
         {
             CheckTarget();
         }
-        else if (ActionTextController.instance.gameObject.activeSelf)
+        else if (SeedsIndicator.instance.gameObject.activeSelf)
         {
-            ActionTextController.instance.gameObject.SetActive(false);
+            SeedsIndicator.instance.gameObject.SetActive(false);
         }
+    }
+    public void UpdateIndicator()
+    {
+        indicatorScript.ActivateChild(seeds[index].food.itemName);
     }
 
     private void CheckTarget()
@@ -82,13 +91,16 @@ public class SeedPlanter : MonoBehaviour
         {
             if (go.CompareTag("Hole"))
             {
-                if (!ActionTextController.instance.gameObject.activeSelf)
+                if (!go.GetComponent<HoleController>().HasPlant())
                 {
-                    ActionTextController.instance.gameObject.SetActive(true);
+                    indicator.gameObject.SetActive(true);
+                }
+                else if (indicator.activeSelf)
+                {
+                    indicator.gameObject.SetActive(false);
                 }
 
-                ActionTextController.instance.ChangePosition(go.transform.position);
-                ActionTextController.instance.ChangeText(currentSeeds[index].itemName);
+                indicatorScript.ChangePosition(go.transform.position);
 
                 if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
                 {
@@ -99,9 +111,9 @@ public class SeedPlanter : MonoBehaviour
                     }
                 }
             }
-            else if (ActionTextController.instance.gameObject.activeSelf)
+            else if (indicator.activeSelf)
             {
-                ActionTextController.instance.gameObject.SetActive(false);
+                indicator.SetActive(false);
             }
         }
     }

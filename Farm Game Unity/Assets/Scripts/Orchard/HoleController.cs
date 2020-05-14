@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 public class HoleController : MonoBehaviour
@@ -84,7 +85,10 @@ public class HoleController : MonoBehaviour
             rend.material.color = dryColor;
         }
     }
-
+    public bool HasPlant()
+    {
+        return transform.childCount > 0;
+    }
     public bool GetWet()
     {
         return wet;

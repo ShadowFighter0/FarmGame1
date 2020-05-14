@@ -136,6 +136,7 @@ public class RadialMenuController : MonoBehaviour
         if(index <= SeedPlanter.instance.GetCurrentSeeds())
         {
             SeedPlanter.instance.Index = index;
+            SeedPlanter.instance.UpdateIndicator();
             Close();
         }
     }

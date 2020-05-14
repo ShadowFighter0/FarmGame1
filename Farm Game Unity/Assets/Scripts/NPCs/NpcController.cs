@@ -171,7 +171,6 @@ public class NpcController : MonoBehaviour
             else if(index < max)
             {
                 UpdateMercaderDialogue(index);
-
             }
         }
     }
@@ -192,8 +191,6 @@ public class NpcController : MonoBehaviour
             {
                 DialogueSystem.instance.UpdateDialogue("Sorry, those items are not mine.");
             }
-                
-
         }
         else if (index == 1)
         {

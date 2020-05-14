@@ -157,6 +157,7 @@ public class InputManager : MonoBehaviour
         if (scroll != 0)
         {
             SeedPlanter.instance.Index += scroll;
+            SeedPlanter.instance.UpdateIndicator();
         }
     }
     public void ChangeVisualTool()
