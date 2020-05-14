@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using System.IO;
+using TMPro;
 
 [System.Serializable]
 public class PlayerInfo
@@ -125,7 +126,7 @@ public class GameManager : MonoBehaviour
         if (SaveLoad.HasSaves())
         {
             newGame = false;
-            continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[0];
+            continueText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = sentences[0];
             PlayerInfo info = SaveLoad.Load<PlayerInfo>("PlayerInfo");
             if(info.modelIndex == 1)
             {
@@ -174,7 +175,7 @@ public class GameManager : MonoBehaviour
         {
             gameStarted = false;
             newGame = true;
-            continueText.transform.GetChild(0).GetComponent<Text>().text = sentences[1];
+            continueText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = sentences[1];
             InputManager.instance.ChangeState(InputManager.States.OnUI);
         }
 
