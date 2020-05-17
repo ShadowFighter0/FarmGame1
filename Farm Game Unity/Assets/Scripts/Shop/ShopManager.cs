@@ -29,7 +29,6 @@ public class ShopManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        GameEvents.OnNewDay += NewDay;
         cart = new ShopItem[stockUI.Length];
 
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
@@ -45,10 +44,11 @@ public class ShopManager : MonoBehaviour
     {
         this.pos = pos;
         AmountPanel.Instance.gameObject.SetActive(true);
+
         if (cartView)
             AmountPanel.Instance.On(cart[pos].amountSelected);
         else
-            AmountPanel.Instance.On(currentShop.stock[pos].stock);
+            AmountPanel.Instance.On(50);
     }
 
     public void ConfirmAmount(int cant)
@@ -56,10 +56,8 @@ public class ShopManager : MonoBehaviour
         if (cartView)
         {
             ShopItem c = cart[pos];
-            ShopItem s = currentShop.stock[SearchStock(c.item.name)];
 
             c.amountSelected -= cant;
-            s.stock += cant;
 
             if (c.amountSelected <= 0)
             {
@@ -85,15 +83,20 @@ public class ShopManager : MonoBehaviour
         else
         {
             ShopItem s = currentShop.stock[pos];
-
-            s.amountSelected += cant;
-            s.stock -= cant;
-
-            if (cant > 0)
+            int cartPos = Search(s.item.name);
+            if(cartPos < 0)
             {
-                cart[numCart] = s;
-                numCart++;
+                if (cant > 0)
+                {
+                    s.amountSelected += cant;
+                    cart[numCart] = s;
+                   numCart++;
+                }
             }
+            else
+            {
+                cart[cartPos].amountSelected += cant;
+            }        
             cartView = true;
             CartView();
         }
@@ -113,22 +116,26 @@ public class ShopManager : MonoBehaviour
         }
         return -1;
     }
+    private int Search(string name)
+    {
+        for(int i = 0; i < cart.Length; i++ )
+        {
+            if(cart[i]!=null && cart[i].item.name.Equals(name))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     /// <summary>
-    /// Open the shop's panel and Time.scaleTime = 0;
+    /// Open the shop's panel
     /// </summary>
     public void OpenShop(Shop shop)
     {
         onShop = true;
         if (shop != currentShop)
         {
-            for (int i = 0; i < cart.Length; i++)
-            {
-                if (cart[i] != null)
-                {
-                    currentShop.stock[SearchStock(cart[i].item.name)].stock += cart[i].amountSelected;
-                    cart[i].amountSelected = 0;
-                }
-            }
             cart = new ShopItem[stockUI.Length];
             numCart = 0;
         }
@@ -141,26 +148,13 @@ public class ShopManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Close the shop's panel and Time.scaleTime = 1
+    /// Close the shop's panel
     /// </summary>
     public void CloseShop()
     {
-        //
         onShop = false;
         shopPanel.SetActive(false);
         InputManager.instance.ChangeState(InputManager.States.Idle);
-    }
-
-    /// <summary>
-    /// New Day
-    /// </summary>
-    /// 
-    public void NewDay()
-    {
-        foreach (Shop s in shops)
-        {
-            s.NewDay();
-        }
     }
 
     /// <summary>

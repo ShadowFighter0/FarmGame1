@@ -6,32 +6,40 @@ public class ShopItem
 {
     public Item item;
 
-    public int stock = 0;
     public int amountSelected = 0;
 
-    public ShopItem(Item i, int amount)
+    public ShopItem(Item i)
     {
         item = i;
-        stock = amount;
     }
 }
 
 public class Shop : MonoBehaviour
 {
-    [Tooltip("No pueden ser mas de 21 items")] public Item[] stockItems;
+    private Item[] stockItems;
     public ShopItem[] stock;
 
     public NpcController owner;
+    public bool seeds;
 
     private bool playerNear = false;
 
-    private void Awake()
+    private void Start()
     {
+        if(seeds)
+        {
+            stockItems = Resources.LoadAll<Seed>("Data/Items/Seeds");
+        }
+        else
+        {
+            stockItems = Resources.LoadAll<Item>("Data/Items/Items");
+        }
+
         stock = new ShopItem[stockItems.Length];
 
         for (int i = 0; i < stock.Length; i++)
         {
-            stock[i] = new ShopItem(stockItems[i], GenerateAmount());
+            stock[i] = new ShopItem(stockItems[i]);
         }
     }
 
@@ -44,20 +52,6 @@ public class Shop : MonoBehaviour
         if (ShopManager.Instance.shopPanel.activeSelf && Input.GetKey(InputManager.instance.Escape))
         {
             ShopManager.Instance.CloseShop();
-        }
-    }
-
-    private int GenerateAmount()
-    {
-        // q este mejor si eso 
-        return Random.Range(21, 42);
-    }
-
-    public void NewDay()
-    {
-        foreach (ShopItem s in stock)
-        {
-            s.stock = GenerateAmount();
         }
     }
 

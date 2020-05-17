@@ -2,9 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class SellItem
+{
+    public Item item;
+
+    public int amountSelected = 0;
+    public int amount = 0;
+
+    public SellItem(Item i, int stock)
+    {
+        item = i;
+        amount = stock;
+    }
+}
+
 public class Sell : MonoBehaviour
 {
-    ShopItem[] stock;
+    SellItem[] stock;
     ShopEntry[] stockUI;
 
     int numStock = 0;
@@ -20,7 +35,7 @@ public class Sell : MonoBehaviour
     {
         Instance = this;
         stockUI = ShopManager.Instance.stockUI;
-        stock = new ShopItem[stockUI.Length];
+        stock = new SellItem[stockUI.Length];
     }
 
     private void Update()
@@ -32,8 +47,10 @@ public class Sell : MonoBehaviour
                 InputManager.instance.ChangeState(InputManager.States.OnUI);
                 if(InventoryController.Instance.inventoryOpen)
                     InventoryController.Instance.CloseMenu();
+
                 shopPanel.transform.GetChild(0).gameObject.SetActive(false);    //oculta Money
                 shopPanel.transform.GetChild(4).gameObject.SetActive(false);    //oculta cartButton
+
 
                 shopPanel.SetActive(true);
                 ShowStock();
@@ -61,7 +78,7 @@ public class Sell : MonoBehaviour
     public void ReturnItems(int pos)
     {
         position = pos;
-        AmountPanel.Instance.On(stock[position].stock);
+        AmountPanel.Instance.On(stock[position].amount);
     }
 
     public void ConfirmReturnItems(int cant)
@@ -70,8 +87,8 @@ public class Sell : MonoBehaviour
         i.amount = cant;
         InventoryController.Instance.AddItem(i);
 
-        stock[position].stock -= cant;
-        if(stock[position].stock == 0)
+        stock[position].amount -= cant;
+        if(stock[position].amount == 0)
         {
             ReOrder();
             numStock--;
@@ -121,11 +138,11 @@ public class Sell : MonoBehaviour
         //Añadir a stock
         if (currentPosition >= 0)
         {
-            stock[currentPosition].stock += amount;
+            stock[currentPosition].amount += amount;
         }
         else
         {
-            stock[numStock] = new ShopItem(DataBase.GetItem(id), amount);
+            stock[numStock] = new SellItem(DataBase.GetItem(id), amount);
             numStock++;
         }
         InventoryController.Instance.SubstractAmountItem(amount, id);

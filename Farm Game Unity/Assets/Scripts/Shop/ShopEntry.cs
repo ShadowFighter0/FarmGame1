@@ -24,22 +24,30 @@ public class ShopEntry : MonoBehaviour
 
     public void Fill(ShopItem s)
     {
+        stockText.gameObject.SetActive(false);
         image.sprite = s.item.image;
         nameText.text = s.item.name;
         price.text = s.item.price.ToString();
-        stockText.text = s.stock.ToString();
-        amountSelectedText.text = s.amountSelected.ToString();
 
         if (ShopManager.Instance.cartView)
         {
+            amountSelectedText.text = s.amountSelected.ToString();
             amountSelectedText.gameObject.SetActive(true);
-            stockText.gameObject.SetActive(false);
         }
         else
         {
-            stockText.gameObject.SetActive(true);
             amountSelectedText.gameObject.SetActive(false);
         }
+    }
+
+    public void Fill(SellItem s)
+    {
+        image.sprite = s.item.image;
+        nameText.text = s.item.name;
+        price.text = s.item.price.ToString();
+        stockText.gameObject.SetActive(true);
+        stockText.text = s.amount.ToString();
+        amountSelectedText.gameObject.SetActive(false);
     }
 
     public void Price(int price)
@@ -53,7 +61,7 @@ public class ShopEntry : MonoBehaviour
         {
             ShopManager.Instance.Select(position);
         }
-        else if (Sell.Instance.onShopView )
+        else if (Sell.Instance.onShopView)
         {
             Sell.Instance.ReturnItems(position);
         }

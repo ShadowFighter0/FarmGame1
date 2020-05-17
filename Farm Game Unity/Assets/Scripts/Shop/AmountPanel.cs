@@ -18,8 +18,8 @@ public class AmountPanel : MonoBehaviour
     {
         Instance = this;
 
-        slider = transform.GetChild(3).GetComponent<Slider>();
-        input = transform.GetChild(4).GetComponent<InputField>();
+        slider = transform.GetChild(0).GetChild(2).GetComponent<Slider>();
+        input = transform.GetChild(0).GetChild(3).GetComponent<InputField>();
 
         gameObject.SetActive(false);
     }
