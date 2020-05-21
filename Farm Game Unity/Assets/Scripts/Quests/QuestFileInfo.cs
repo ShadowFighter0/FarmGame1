@@ -5,8 +5,8 @@ using System.IO;
 
 public class QuestFileInfo : MonoBehaviour
 {
-    private Queue<QuestInfo> quests = new Queue<QuestInfo>();
-    public QuestTemplate []questsInfos;
+    private readonly Queue<QuestInfo> quests = new Queue<QuestInfo>();
+    private QuestTemplate[] questsInfos;
     public static QuestFileInfo Instance;
     private void Awake()
     {
@@ -15,9 +15,10 @@ public class QuestFileInfo : MonoBehaviour
     }
     private void FillQueue()
     {
+        questsInfos = Resources.LoadAll<QuestTemplate>("Data/Quests");
         for (int i = 0; i < questsInfos.Length; i++)
         {
-            quests.Enqueue(new QuestInfo(questsInfos[i].title, questsInfos[i].description, questsInfos[i].ids, questsInfos[i].amounts, questsInfos[i].NPCName, questsInfos[i].itemReward));
+            quests.Enqueue(new QuestInfo(questsInfos[i].title, questsInfos[i].description, questsInfos[i].ids, questsInfos[i].amounts, questsInfos[i].NPCName, questsInfos[i].itemReward, questsInfos[i].experience));
         }
     }
 
@@ -35,8 +36,9 @@ public class QuestInfo
     public int[] amounts;
     public string npcName;
     public Item itemReward;
+    public int experience;
 
-    public QuestInfo(string s, string d, string[] id, int[] am, string npc, Item item)
+    public QuestInfo(string s, string d, string[] id, int[] am, string npc, Item item, int exp)
     {
         title = s;
         description = d;
@@ -44,5 +46,6 @@ public class QuestInfo
         amounts = am;
         npcName = npc;
         itemReward = item;
+        experience = exp;
     }
 }

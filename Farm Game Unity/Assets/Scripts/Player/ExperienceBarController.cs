@@ -23,10 +23,10 @@ public class ExperienceBarController : MonoBehaviour
     public void ShowBar()
     {
         group.alpha = 1;
-        //if(coPlaying)
-        //{
-        //    StopCoroutine(co);
-        //}
+        if (coPlaying)
+        {
+            StopCoroutine(co);
+        }
         StartCoroutine(co);
     }
 

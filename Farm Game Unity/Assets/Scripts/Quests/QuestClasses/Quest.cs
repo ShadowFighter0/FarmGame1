@@ -12,7 +12,8 @@ public class Quest
     public Item ItemReward { get; set; }
     public bool Completed { get; set; }
     public string NPCName { get; set; }
-    public bool itemGiven { get; set; }
+    public bool ItemGiven { get; set; }
+    public int QuestExp { get; set; }
 
     public bool CheckGoals()
     {
@@ -26,15 +27,22 @@ public class Quest
 
     public void GiveReward()
     {
-        if (ItemReward != null && Completed)
+        if (Completed)
         {
-            itemGiven = true;
-            foreach (Goal g in Goals)
+            if (ItemReward != null)
             {
-                InventoryController.Instance.SubstractAmountItem(g.RequiredAmount, g.ItemID);
+                ItemGiven = true;
+                foreach (Goal g in Goals)
+                {
+                    InventoryController.Instance.SubstractAmountItem(g.RequiredAmount, g.ItemID);
+                }
+                InventoryController.Instance.AddItem(ItemReward);
+                QuestController.Instance.RemoveQuest(this);
             }
-            InventoryController.Instance.AddItem(ItemReward);
-            QuestController.Instance.RemoveQuest(this);
+            if (QuestExp > 0)
+            {
+                PlayerManager.instace.AddExp(QuestExp);
+            }
         }
     }
 }

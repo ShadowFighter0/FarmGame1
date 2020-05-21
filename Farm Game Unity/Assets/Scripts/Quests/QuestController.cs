@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class SaveQuest
@@ -22,12 +23,14 @@ public class SaveQuest
         reward = r;
     }
 }
+
 public class QuestController : MonoBehaviour
 {
     List<Quest> activeQuests = new List<Quest>();
     List<Quest> completedQuests = new List<Quest>();
     public static QuestController Instance;
-
+    public Transform questPanelFolder;
+    private GameObject[] questPanels;
     private void Awake()
     {
         Instance = this;
@@ -56,6 +59,12 @@ public class QuestController : MonoBehaviour
                 AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, item));
             }
             saved.Clear();
+        }
+        int amount = questPanelFolder.childCount;
+        questPanels = new GameObject[amount];
+        for (int i = 0; i < amount; i++)
+        {
+            questPanels[i] = questPanelFolder.GetChild(i).gameObject;
         }
     }
 
@@ -138,7 +147,16 @@ public class QuestController : MonoBehaviour
             }
         }
     }
+    public void ShowQuests()
+    {
+        for (int i = 0; i < completedQuests.Count; i++)
+        {
+            if (!questPanels[i].activeSelf)
+            {
 
+            }
+        }
+    }
     public void AddUpdatedQuest(Quest q)
     {
         completedQuests.Remove(q);

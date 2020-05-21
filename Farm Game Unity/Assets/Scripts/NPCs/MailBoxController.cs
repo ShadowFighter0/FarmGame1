@@ -44,6 +44,9 @@ public class MailBoxController : MonoBehaviour
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
+        AddContent(QuestFileInfo.Instance.GetQuest());
+        AddContent(QuestFileInfo.Instance.GetQuest());
+        AddContent(QuestFileInfo.Instance.GetQuest());
     }
     private void Update()
     {

@@ -9,6 +9,7 @@ public class QuestTemplate : ScriptableObject
     public string description;
     public string NPCName;
     public Item itemReward;
+    public int experience;
     [Header("Goals")]
     public string[] ids;
     public int[] amounts;

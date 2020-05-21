@@ -24,7 +24,7 @@ public class CollectionGoal : Goal
 
     void ItemPickedUp(string s, int am)
     {
-        if (s.Equals(ItemID) && !Quest.itemGiven)
+        if (s.Equals(ItemID) && !Quest.ItemGiven)
         {
             bool currentState = Quest.Completed;
             CurrentAmount = am;
