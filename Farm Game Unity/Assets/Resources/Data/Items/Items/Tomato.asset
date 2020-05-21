@@ -16,3 +16,4 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 6c7573e0f6156e44c8ee04726e5886db, type: 3}
   amount: 1
   price: 10
+  experience: 2

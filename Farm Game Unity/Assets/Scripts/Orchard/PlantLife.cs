@@ -115,5 +115,6 @@ public class PlantLife : MonoBehaviour
     public void AddInventory()
     { 
         InventoryController.Instance.AddItem(seed.food);
+        PlayerManager.instace.AddExp(seed.food.experience);
     }
 }

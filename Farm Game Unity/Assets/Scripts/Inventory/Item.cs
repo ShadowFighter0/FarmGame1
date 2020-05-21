@@ -13,7 +13,7 @@ public class Item : ScriptableObject
     public int amount = 0;
 
     public int price = 0;
-
+    public int experience;
     public void SetAmount(int am)
     {
         amount = am;

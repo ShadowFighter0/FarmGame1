@@ -11,17 +11,23 @@ public class Date
     public int day;
     public int hour;
     public int minute;
+    public float hourAngle;
+    public float minuteAngle;
     public Date()
     {
         day = 1;
         hour = 7;
         minute = 0;
+        hourAngle = -90;
+        minuteAngle = -90;
     }
     public Date(Date t)
     {
         day = t.day;
         hour = t.hour;
         minute = t.minute;
+        hourAngle = t.hourAngle;
+        minuteAngle = t.minuteAngle;
     }
 }
 public class TimeManager : MonoBehaviour
@@ -51,6 +57,11 @@ public class TimeManager : MonoBehaviour
     public GameObject exitPopUp;
 
     public static TimeManager instance;
+
+    public GameObject clock;
+    private RectTransform minuteHand;
+    private RectTransform hourHand;
+    private Vector3 offset = Vector3.forward * 30f;
     private void Awake()
     {
         instance = this;
@@ -60,6 +71,9 @@ public class TimeManager : MonoBehaviour
     {
         minuteTime = secondsPerDay * minuteAmount / minutesPerDay;
 
+        minuteHand = clock.transform.GetChild(1).GetComponent<RectTransform>();
+        hourHand = clock.transform.GetChild(0).GetComponent<RectTransform>();
+
         if (SaveLoad.SaveExists("GameTime"))
         {
             time = new Date(SaveLoad.Load<Date>("GameTime"));
@@ -68,6 +82,9 @@ public class TimeManager : MonoBehaviour
         {
             time = new Date();
         }
+        minuteHand.localEulerAngles = Vector3.forward * time.minuteAngle;
+        hourHand.localEulerAngles = Vector3.forward * time.hourAngle;
+
         timeText.text = time.hour + ":" + time.minute;
         SetWakeHourText();
         hoursSlider.onValueChanged.AddListener(delegate { SetHoursText(); });
@@ -82,13 +99,16 @@ public class TimeManager : MonoBehaviour
             {
                 timer = 0;
                 time.minute += minuteAmount;
+                minuteHand.localEulerAngles -= offset;
+                time.minuteAngle = minuteHand.localEulerAngles.z;
 
                 if (time.minute == 60)
                 {
                     time.minute = 0;
                     time.hour++;
-
-                    if(time.hour == 24)
+                    hourHand.localEulerAngles -= offset;
+                    time.hourAngle = hourHand.localEulerAngles.z;
+                    if (time.hour == 24)
                     {
                         time.hour = 0;
                     }
