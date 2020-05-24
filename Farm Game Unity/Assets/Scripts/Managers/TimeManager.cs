@@ -202,6 +202,11 @@ public class TimeManager : MonoBehaviour
         wakeUpText.text = "Wake up hour: " + wakeTime + ":" + time.minute;
     }
 
+    public int GetSecondsPerDay()
+    {
+        return secondsPerDay;
+    }
+
     public bool ActiveHour() 
     {
         int hour = time.hour;

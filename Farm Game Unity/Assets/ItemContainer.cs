@@ -19,7 +19,8 @@ public class ItemContainer : MonoBehaviour
         {
             if (Input.GetKeyDown(InputManager.instance.Interact))
             {
-                //show menu
+                InventoryController.Instance.OpenMenu();
+                InventoryController.Instance.ChangePage(2);
             }
         }
     }

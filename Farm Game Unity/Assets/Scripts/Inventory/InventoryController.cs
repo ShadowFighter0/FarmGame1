@@ -42,18 +42,13 @@ public class InventoryController : MonoBehaviour
     public static InventoryController Instance;     //Singleton
     #endregion
 
-    #region numSeeds
     [HideInInspector] public int numItems = 0;  //num of items in the inventory
-    [HideInInspector] public int numSeeds = 0;  //num of seeds in the inventory
-
     public int cantStackMax = 20;
 
     public int itemSpace = 20;
     public int seedSpace = 20;
-    #endregion
 
     #region Inventory Array
-    InventoryItem[] materials;  // Materials inventory
     InventoryItem[] items;      // Items inventory
     InventoryItem[] seeds;      // Seed inventory
     #endregion
@@ -63,7 +58,6 @@ public class InventoryController : MonoBehaviour
     [Tooltip("Delete Panel")] public GameObject deletePanel;
 
     private Item[] seedsItems;
-    [Tooltip("Todos los materiales")] public Item[] materialsItems;
     [HideInInspector] public bool inventoryOpen = false;
 
     InputManager.States currentState;
@@ -71,7 +65,8 @@ public class InventoryController : MonoBehaviour
 
     #region Pages
     public int currentPage = 0;
-    public InventoryEntry[] inventoryEntry; // entry of inventory
+    public InventoryEntry[] inventoryEntry; //Entry of inventory
+    public MissionEntry[] missionsEntry; //Entry of inventory
     #endregion
 
     int itemSelected; //Item selected in the inventory
@@ -84,16 +79,11 @@ public class InventoryController : MonoBehaviour
 
         seedSpace = seedsItems.Length;
         seeds = new InventoryItem[seedSpace];
-        materials = new InventoryItem[materialsItems.Length];
 
-        //Start seeds and materials
+        //Start seeds 
         for (int i = 0; i < seedsItems.Length; i++)
         {
             seeds[i] = new InventoryItem(seedsItems[i].name, seedsItems[i].image.name, false);
-        }
-        for (int i = 0; i < materialsItems.Length; i++)
-        {
-            materials[i] = new InventoryItem(materialsItems[i].name, materialsItems[i].image.name, false);
         }
     }
 
@@ -148,13 +138,17 @@ public class InventoryController : MonoBehaviour
         switch (currentPage)
         {
             case 0:
+                for (int i = 0; i < missionsEntry.Length; i++)
+                {
+                    missionsEntry[i].gameObject.SetActive(false);
+                }
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
                     it.notActive.SetActive(false);
 
                     if (items[i] != null)
-                    { 
+                    {
                         it.gameObject.SetActive(true);
                         it.Fill(items[i]);
                     }
@@ -166,6 +160,10 @@ public class InventoryController : MonoBehaviour
                 break;
 
             case 1:
+                for (int i = 0; i < missionsEntry.Length; i++)
+                {
+                    missionsEntry[i].gameObject.SetActive(false);
+                }
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
@@ -183,6 +181,18 @@ public class InventoryController : MonoBehaviour
                     }
                 }
                 break;
+            case 2:
+                for (int i = 0; i < inventoryEntry.Length; i++)
+                {
+                    inventoryEntry[i].gameObject.SetActive(false);
+                }
+                for (int i = 0; i < missionsEntry.Length; i++)
+                {
+                    missionsEntry[i].gameObject.SetActive(true);
+                }
+
+                //Aqui Ernesto
+                break;
 
         }
     }
@@ -193,17 +203,13 @@ public class InventoryController : MonoBehaviour
         return items[pos].name;
     }
 
-    #region AddItem/Seed/Material
+    #region AddItem/Seed
     public void AddItem(Item newItem)
     {
         if (newItem.GetType() == typeof(Seed))
         {
             AddNewSeed(newItem);
             SeedPlanter.instance.UpdateCurrentSeeds();
-        }
-        else if (newItem.GetType() == typeof(Material))
-        {
-            //AddMaterial(); 
         }
         else
         {
@@ -271,13 +277,13 @@ public class InventoryController : MonoBehaviour
             int off = amount % cantStackMax;
             Debug.Log(off);
 
-            for(int i = 0; i < numEntrys; i++)
+            for (int i = 0; i < numEntrys; i++)
             {
                 item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
                 item.AddAmount(20);
                 numItems++;
             }
-            if(off > 0)
+            if (off > 0)
             {
                 item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
                 item.AddAmount(off);
@@ -294,11 +300,6 @@ public class InventoryController : MonoBehaviour
         {
             newSeed.isActivate = true;
         }
-    }
-
-    public void AddMaterial(GameObject obj)
-    {
-        //TODO
     }
     #endregion
 
@@ -331,7 +332,7 @@ public class InventoryController : MonoBehaviour
 
         for (int i = 0; i < length.Count; i++)
         {
-            if(length[i] != null)
+            if (length[i] != null)
                 ManageReorder(length[i]);
         }
     }
@@ -343,7 +344,7 @@ public class InventoryController : MonoBehaviour
     private List<InventoryItem> NumberOfItems()
     {
         List<InventoryItem> it = new List<InventoryItem>();
-        for(int i = 0; i < items.Length; i++)
+        for (int i = 0; i < items.Length; i++)
         {
             bool stop = false;
             if (i == 0)
@@ -352,7 +353,7 @@ public class InventoryController : MonoBehaviour
             }
             for (int j = 0; j < it.Count && !stop; j++)
             {
-                if(items[i] != it[j])
+                if (items[i] != it[j])
                 {
                     it.Add(items[i]);
                     stop = true;
@@ -414,7 +415,7 @@ public class InventoryController : MonoBehaviour
     {
         for (int i = pos; i < items.Length; i++)
         {
-            if (i != items.Length-1)
+            if (i != items.Length - 1)
             {
                 items[i] = items[i + 1];
             }
@@ -469,7 +470,7 @@ public class InventoryController : MonoBehaviour
         }
         ReOrderItem();
         ChangeGui();
-        
+
     }
 
     /// <summary>
@@ -516,19 +517,8 @@ public class InventoryController : MonoBehaviour
             {
                 return seeds[pos].GetInventoryAmount();
             }
-            else
-            {
-                pos = SearchMaterial(name);
-                if (pos >= 0)
-                {
-                    return materials[pos].GetInventoryAmount();
-                }
-                else
-                {
-                    return 0;
-                }
-            }
         }
+        return 0;
     }
     #endregion
 
@@ -565,22 +555,6 @@ public class InventoryController : MonoBehaviour
         }
         return -1;
     }
-
-    private int SearchMaterial(string name)
-    {
-        for (int i = 0; i < materials.Length; i++)
-        {
-            if (name.Equals(materials[i].name))
-                return i;
-        }
-        return -1;
-    }
     #endregion
 
-    private void OnTriggerEnter(Collider other)
-    {
-        ///Player tiene un collider le pasa el script ITEM cuando pase por encima y despues lo destruye
-        AddMaterial(other.gameObject);
-        Destroy(other.gameObject);
-    }
 }

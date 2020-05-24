@@ -29,8 +29,6 @@ public class QuestController : MonoBehaviour
     List<Quest> activeQuests = new List<Quest>();
     List<Quest> completedQuests = new List<Quest>();
     public static QuestController Instance;
-    public Transform questPanelFolder;
-    private GameObject[] questPanels;
     private void Awake()
     {
         Instance = this;
@@ -59,12 +57,6 @@ public class QuestController : MonoBehaviour
                 AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, item));
             }
             saved.Clear();
-        }
-        int amount = questPanelFolder.childCount;
-        questPanels = new GameObject[amount];
-        for (int i = 0; i < amount; i++)
-        {
-            questPanels[i] = questPanelFolder.GetChild(i).gameObject;
         }
     }
 
@@ -144,16 +136,6 @@ public class QuestController : MonoBehaviour
                 string s = "- " + g.CurrentAmount + " / " + g.Description;
                 GUI.Label(new Rect(20, pos, 300, 300), s);
                 pos += 15;
-            }
-        }
-    }
-    public void ShowQuests()
-    {
-        for (int i = 0; i < completedQuests.Count; i++)
-        {
-            if (!questPanels[i].activeSelf)
-            {
-
             }
         }
     }
