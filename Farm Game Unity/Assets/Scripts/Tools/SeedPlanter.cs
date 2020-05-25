@@ -6,7 +6,6 @@ public class SeedPlanter : MonoBehaviour
 {
     private Seed[] seeds;
     private List<Seed> currentSeeds = new List<Seed>();
-    private ParticleSystem seedParticles;
     
     public GameObject indicator;
     private SeedsIndicator indicatorScript;
@@ -80,7 +79,7 @@ public class SeedPlanter : MonoBehaviour
     }
     public void UpdateIndicator()
     {
-        indicatorScript.ActivateChild(seeds[index].food.itemName);
+        indicatorScript.ActivateChild(currentSeeds[index].food.itemName);
     }
 
     private void CheckTarget()

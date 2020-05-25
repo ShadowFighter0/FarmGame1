@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: WatermelonSeed
   image: {fileID: 21300000, guid: ba83e10c63ea00a44804f3982a4bf668, type: 3}
-  amount: 2
+  amount: 1
   price: 12
+  experience: 0
   food: {fileID: 11400000, guid: d8484271ff847544c8c33cdea4fdba04, type: 2}
   growthTime: 5

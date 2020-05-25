@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: WheatSeed
   image: {fileID: 21300000, guid: fb776bfe538ab524ca67fe17366d9d18, type: 3}
-  amount: 2
+  amount: 1
   price: 12
+  experience: 0
   food: {fileID: 11400000, guid: 514e22415cae6e243b258a210776e83d, type: 2}
   growthTime: 5

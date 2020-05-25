@@ -16,5 +16,6 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: f226f1c35fb885f4cb7e72d5137620e4, type: 3}
   amount: 1
   price: 23
+  experience: 0
   food: {fileID: 11400000, guid: b85a17f9e95920d46b0e8119dc307e31, type: 2}
   growthTime: 5

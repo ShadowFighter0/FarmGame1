@@ -59,7 +59,6 @@ public class MailBoxController : MonoBehaviour
                 timer = 0;
                 mailIndex++;
                 AddContent(mails[mailIndex]);
-                
             }
 
             if (playerNear)
@@ -69,6 +68,7 @@ public class MailBoxController : MonoBehaviour
                     mailsPanel.SetActive(true);
                     AudioManager.PlaySoundWithVariation(open);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
+                    UpdatePositions();
                     done = false;
                 }
                 if ((Input.GetKeyDown(KeyCode.F1) || activeMails == 0) && !done)
@@ -100,21 +100,15 @@ public class MailBoxController : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
-    private int GetActiveMails()
+    private void UpdatePositions()
     {
-        int n = 0;
+        int offset = 20;
+        int index = 0;
         foreach (Transform child in mailFolder)
         {
-            if(child.gameObject.activeSelf)
-            {
-                n++;
-            }
-            else
-            {
-                break;
-            }
+            child.GetComponent<RectTransform>().localPosition += Vector3.right * offset * index;
+            index++;
         }
-        return n;
     }
 
     public void AddContent(QuestInfo info)

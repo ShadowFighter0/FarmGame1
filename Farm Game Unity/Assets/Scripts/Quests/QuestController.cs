@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,9 +27,14 @@ public class SaveQuest
 
 public class QuestController : MonoBehaviour
 {
-    List<Quest> activeQuests = new List<Quest>();
-    List<Quest> completedQuests = new List<Quest>();
+    private List<Quest> activeQuests = new List<Quest>();
+    private List<Quest> completedQuests = new List<Quest>();
     public static QuestController Instance;
+
+    private bool playerIn;
+    public Transform questPanelFolder;
+    private GameObject[] questPanels;
+
     private void Awake()
     {
         Instance = this;
@@ -58,8 +64,50 @@ public class QuestController : MonoBehaviour
             }
             saved.Clear();
         }
+
+        int max = questPanelFolder.childCount;
+        questPanels = new GameObject[max];
+        for (int i = 0; i < max; i++)
+        {
+            questPanels[i] = questPanelFolder.GetChild(i).gameObject;
+        }
+    }
+    private void Update()
+    {
+        if (playerIn)
+        {
+            if (Input.GetKeyDown(InputManager.instance.Interact))
+            {
+                UpdatePanels();
+                InventoryController.Instance.OpenMenu();
+                InventoryController.Instance.ChangePage(2);
+            }
+        }
     }
 
+    public void UpdatePanels()
+    {
+        string[,] descriptions = GetQuestsDescriptions();
+        int index = 0;
+        for (int i = 0; i < completedQuests.Count; i++)
+        {
+            questPanels[index].SetActive(true);
+            questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
+            questPanels[index].GetComponent<QuestEntry>().AssignQuest(completedQuests[i]);
+            index++;
+        }
+        for (int i = 0; i < activeQuests.Count; i++)
+        {
+            questPanels[index].SetActive(true);
+            questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
+            questPanels[index].GetComponent<QuestEntry>().AssignQuest(activeQuests[i]);
+            index++;
+        }
+        for (int i = index; i < questPanels.Length; i++)
+        {
+            questPanels[index].SetActive(false);
+        }
+    }
     private void SaveQuests()
     {
         List<SaveQuest> saveActives = new List<SaveQuest>();
@@ -101,44 +149,38 @@ public class QuestController : MonoBehaviour
         q.CheckGoals();
     }
 
-    private void OnGUI()
+    private string[,] GetQuestsDescriptions()
     {
-        int pos = 20;
-        GUI.Label(new Rect(10, pos, 300, 300), "ACTIVE");
-        pos += 20;
-        for (int i = 0; i < activeQuests.Count; i++)
+        string[,] description = new string[2, completedQuests.Count + activeQuests.Count];
+
+        int index = 0;
+        BuildDescription(description, completedQuests, index);
+        BuildDescription(description, activeQuests, index);
+
+        return description;
+    }
+
+    private void BuildDescription(string[,] description, List<Quest> list, int index)
+    {
+        for (int i = 0; i < list.Count; i++)
         {
-            GUI.Label(new Rect(20, pos, 300, 300), activeQuests[i].QuestName + ": " + activeQuests[i].Description + " " + activeQuests[i].NPCName);
-            pos += 15;
-            GUI.Label(new Rect(20, pos, 300, 300), activeQuests[i].ItemReward.itemName);
-            pos += 15;
-            for (int j = 0; j < activeQuests[i].Goals.Count; j++)
+            description[0, index] = list[i].QuestName;
+
+            description[1, index] = "";
+            description[1, index] += list[i].QuestName + " " + list[i].Description + " " + list[i].NPCName;
+            description[1, index] += "\n";
+            description[1, index] += list[i].ItemReward.itemName;
+
+            for (int j = 0; j < list[i].Goals.Count; j++)
             {
-                Goal g = activeQuests[i].Goals[j];
-                string s = "- " + g.CurrentAmount + " / " + g.Description;
-                GUI.Label(new Rect(20, pos, 300, 300), s);
-                pos += 15;
+                Goal g = list[i].Goals[j];
+                description[1, index] += "\n";
+                description[1, index] += "- " + g.CurrentAmount + " / " + g.Description;
             }
-        }
-        pos += 15;
-        GUI.Label(new Rect(10, pos, 300, 300), "COMPLETED");
-        pos += 20;
-        for (int i = 0; i < completedQuests.Count; i++)
-        {
-            GUI.Label(new Rect(20, pos, 300, 300), completedQuests[i].QuestName + " " + completedQuests[i].Description + " " + completedQuests[i].NPCName);
-            pos += 15;
-            GUI.Label(new Rect(20, pos, 300, 300), completedQuests[i].ItemReward.itemName);
-            pos += 15;
-            
-            for (int j = 0; j < completedQuests[i].Goals.Count; j++)
-            {
-                Goal g = completedQuests[i].Goals[j];
-                string s = "- " + g.CurrentAmount + " / " + g.Description;
-                GUI.Label(new Rect(20, pos, 300, 300), s);
-                pos += 15;
-            }
+            index++;
         }
     }
+
     public void AddUpdatedQuest(Quest q)
     {
         completedQuests.Remove(q);
@@ -146,7 +188,11 @@ public class QuestController : MonoBehaviour
     }
     public void RemoveQuest(Quest q)
     {
-        completedQuests.Remove(q);
+        if(completedQuests.Contains(q))
+        {
+            completedQuests.Remove(q);
+            UpdatePanels();
+        }
     }
     public void AddCompletedQuest(Quest q)
     {

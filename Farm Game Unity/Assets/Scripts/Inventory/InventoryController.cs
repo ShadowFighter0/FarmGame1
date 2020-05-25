@@ -66,7 +66,7 @@ public class InventoryController : MonoBehaviour
     #region Pages
     public int currentPage = 0;
     public InventoryEntry[] inventoryEntry; //Entry of inventory
-    public MissionEntry[] missionsEntry; //Entry of inventory
+    public GameObject questFolder;
     #endregion
 
     int itemSelected; //Item selected in the inventory
@@ -138,10 +138,6 @@ public class InventoryController : MonoBehaviour
         switch (currentPage)
         {
             case 0:
-                for (int i = 0; i < missionsEntry.Length; i++)
-                {
-                    missionsEntry[i].gameObject.SetActive(false);
-                }
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
@@ -157,13 +153,13 @@ public class InventoryController : MonoBehaviour
                         it.gameObject.SetActive(false);
                     }
                 }
+                if(questFolder.activeSelf)
+                {
+                    questFolder.SetActive(false);
+                }
                 break;
 
             case 1:
-                for (int i = 0; i < missionsEntry.Length; i++)
-                {
-                    missionsEntry[i].gameObject.SetActive(false);
-                }
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
@@ -180,20 +176,22 @@ public class InventoryController : MonoBehaviour
                         it.gameObject.SetActive(false);
                     }
                 }
+                if (questFolder.activeSelf)
+                {
+                    questFolder.SetActive(false);
+                }
                 break;
             case 2:
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     inventoryEntry[i].gameObject.SetActive(false);
                 }
-                for (int i = 0; i < missionsEntry.Length; i++)
+
+                if (!questFolder.activeSelf)
                 {
-                    missionsEntry[i].gameObject.SetActive(true);
+                    questFolder.SetActive(true);
                 }
-
-                //Aqui Ernesto
                 break;
-
         }
     }
     #endregion
@@ -236,6 +234,7 @@ public class InventoryController : MonoBehaviour
 
         //item
         GameEvents.ItemCollected(newItem.name, GetAmount(newItem.name));
+        QuestController.Instance.UpdatePanels();
         feed.Suscribe(newItem.name, newItem.image, newItem.amount);
     }
     private void AddNewItem(Item newItem)

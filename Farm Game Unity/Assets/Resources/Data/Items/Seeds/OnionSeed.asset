@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: OnionSeed
   image: {fileID: 21300000, guid: 4d82fe64019666b489f3383cef916c08, type: 3}
-  amount: 2
+  amount: 1
   price: 12
+  experience: 0
   food: {fileID: 11400000, guid: 6831338669b0a1044a6c92a632314cfb, type: 2}
   growthTime: 5

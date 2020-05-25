@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: TomatoSeed
   image: {fileID: 21300000, guid: d01da4b76eda79842b0de25cec93f39e, type: 3}
-  amount: 2
+  amount: 1
   price: 12
+  experience: 0
   food: {fileID: 11400000, guid: 7ea54666ea62e4146ae249ccd6ac4572, type: 2}
   growthTime: 5

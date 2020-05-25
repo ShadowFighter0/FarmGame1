@@ -37,10 +37,12 @@ public class MailBoxPanel : MonoBehaviour
     { 
         quest = q;
         transform.GetChild(0).GetComponent<Text>().text = QuestInfo();
+        transform.SetSiblingIndex(0);
     }
     public void Assign(Mail m)
     {
         mail = m;
         transform.GetChild(0).GetComponent<Text>().text = m.message;
+        transform.SetSiblingIndex(0);
     }
 }
