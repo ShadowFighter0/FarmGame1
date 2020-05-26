@@ -31,7 +31,7 @@ public class QuestController : MonoBehaviour
     private List<Quest> completedQuests = new List<Quest>();
     public static QuestController Instance;
 
-    private bool playerIn;
+    private bool playerIn = false;
     public Transform questPanelFolder;
     private GameObject[] questPanels;
 
@@ -154,13 +154,13 @@ public class QuestController : MonoBehaviour
         string[,] description = new string[2, completedQuests.Count + activeQuests.Count];
 
         int index = 0;
-        BuildDescription(description, completedQuests, index);
-        BuildDescription(description, activeQuests, index);
+        BuildDescription(ref description, completedQuests, ref index);
+        BuildDescription(ref description, activeQuests, ref index);
 
         return description;
     }
 
-    private void BuildDescription(string[,] description, List<Quest> list, int index)
+    private void BuildDescription(ref string[,] description, List<Quest> list, ref int index)
     {
         for (int i = 0; i < list.Count; i++)
         {
@@ -207,4 +207,21 @@ public class QuestController : MonoBehaviour
             AddCompletedQuest(q);
         }
     }
+
+    #region Trigger with player
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerIn = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            playerIn = false;
+        }
+    }
+    #endregion
 }

@@ -10,7 +10,7 @@ public class Hoe : MonoBehaviour
 
     private void Start()
     {
-        indicator = GameObject.Instantiate<GameObject>(indicatorPrefab);
+        indicator = Instantiate(indicatorPrefab);
         holeManager = FindObjectOfType<HoleManager>().gameObject;
     }
     void Update()
@@ -18,7 +18,15 @@ public class Hoe : MonoBehaviour
         GameObject go = RayCastController.instance.GetTarget();
         if(go != null)
         {
-            SetColor(go);
+            if(go.CompareTag("Ground") || go.CompareTag("Hole"))
+            {
+                SetColor(go);
+                indicator.SetActive(true);
+            }
+            else if(indicator.activeSelf)
+            {
+                indicator.SetActive(false);
+            }
         }
         if (InputManager.instance.playerAnim != null)
         {
