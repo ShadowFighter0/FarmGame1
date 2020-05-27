@@ -41,8 +41,6 @@ public class WorkShopController : MonoBehaviour
 
     private bool finished = true;
 
-    public Material mat;
-
     private void Start()
     {
         GameEvents.OnSaveInitiated += SaveItems;
@@ -200,7 +198,7 @@ public class WorkShopController : MonoBehaviour
             {
                 if(b)
                 {
-                    unlockableItems[i].SetMaterial(mat);
+                    unlockableItems[i].SetMaterial();
                 }
                 unlockableItems[i].gameObject.SetActive(b);
             }

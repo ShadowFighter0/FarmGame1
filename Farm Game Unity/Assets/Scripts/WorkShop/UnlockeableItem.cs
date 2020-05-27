@@ -12,6 +12,8 @@ public class UnlockeableItem : MonoBehaviour
     public int[] amounts;
     public string iniTag;
 
+    public Material mat;
+
     private Material oriMat;
     private Material[] oriMats;
 
@@ -46,18 +48,18 @@ public class UnlockeableItem : MonoBehaviour
         gameObject.tag = iniTag;
     }
 
-    public void SetMaterial(Material m)
+    public void SetMaterial()
     {
         if (transform.childCount > 0)
         {
             for (int i = 0; i < meshes.Length; i++)
             {
-                meshes[i].material = m;
+                meshes[i].material = mat;
             }
         }
         else
         {
-            mesh.material = m;
+            mesh.material = mat;
         }
     }
 
