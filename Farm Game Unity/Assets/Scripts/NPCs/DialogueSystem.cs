@@ -40,6 +40,7 @@ public class DialogueSystem : MonoBehaviour
         }
         rect = GetComponent<RectTransform>();
         iniY = rect.localPosition.y;
+        pos = rect.localPosition;
     }
     public void SetNPC(NpcController npc) { current = npc; }
     public bool CanAction() { return canAction; }
