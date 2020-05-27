@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,19 +8,19 @@ public class InventoryEntry : MonoBehaviour
 {
     public GameObject notActive;
     public Image image;
-    public Text nameText;
-    public Text amount;
-    public Text price;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI amount;
+    public TextMeshProUGUI price;
 
     public int position;
 
     private void Awake()
     {
         image = transform.GetChild(0).GetComponent<Image>();
-        nameText = transform.GetChild(1).GetComponent<Text>();
-        amount = transform.GetChild(2).GetComponent<Text>();
+        nameText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        amount = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         notActive = transform.GetChild(4).gameObject;
-        price = transform.GetChild(5).GetComponent<Text>();
+        price = transform.GetChild(5).GetComponent<TextMeshProUGUI>();
     }
 
     public void Fill(InventoryItem it)
