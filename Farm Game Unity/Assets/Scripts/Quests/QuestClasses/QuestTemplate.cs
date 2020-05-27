@@ -13,4 +13,5 @@ public class QuestTemplate : ScriptableObject
     [Header("Goals")]
     public string[] ids;
     public int[] amounts;
+    public bool isOrder;
 }

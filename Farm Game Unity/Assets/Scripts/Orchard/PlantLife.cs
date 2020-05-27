@@ -101,8 +101,8 @@ public class PlantLife : MonoBehaviour
         }
         if (index >= transform.childCount - 1)
         {
-            //holeScript.SetWater(0);
-            //StartCoroutine(DeletePlant());
+            holeScript.SetWater(0);
+            StartCoroutine(DeletePlant());
             grownUp = true;
         }
     }

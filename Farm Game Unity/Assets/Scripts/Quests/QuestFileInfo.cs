@@ -18,7 +18,7 @@ public class QuestFileInfo : MonoBehaviour
         questsInfos = Resources.LoadAll<QuestTemplate>("Data/Quests");
         for (int i = 0; i < questsInfos.Length; i++)
         {
-            quests.Enqueue(new QuestInfo(questsInfos[i].title, questsInfos[i].description, questsInfos[i].ids, questsInfos[i].amounts, questsInfos[i].NPCName, questsInfos[i].itemReward, questsInfos[i].experience));
+            quests.Enqueue(new QuestInfo(questsInfos[i].title, questsInfos[i].description, questsInfos[i].ids, questsInfos[i].amounts, questsInfos[i].NPCName, questsInfos[i].itemReward, questsInfos[i].experience, questsInfos[i].isOrder));
         }
     }
 
@@ -37,8 +37,8 @@ public class QuestInfo
     public string npcName;
     public Item itemReward;
     public int experience;
-
-    public QuestInfo(string s, string d, string[] id, int[] am, string npc, Item item, int exp)
+    public bool isOrder;
+    public QuestInfo(string s, string d, string[] id, int[] am, string npc, Item item, int exp, bool isOrd)
     {
         title = s;
         description = d;
@@ -47,5 +47,6 @@ public class QuestInfo
         npcName = npc;
         itemReward = item;
         experience = exp;
+        isOrder = isOrd;
     }
 }

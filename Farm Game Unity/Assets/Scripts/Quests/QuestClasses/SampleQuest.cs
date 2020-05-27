@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SampleQuest : Quest
 {
-    public SampleQuest(string questName, string npcName, string description, string[] itemId, int[] itemAmount, Item reward)
+    public SampleQuest(string questName, string npcName, string description, string[] itemId, int[] itemAmount, Item reward, int exp, bool isOrd)
     {
         QuestName = questName;
         Description = description;
@@ -17,6 +17,8 @@ public class SampleQuest : Quest
            Goals.Add(new CollectionGoal(this, itemId[i], false, InventoryController.Instance.GetAmount(itemId[i]), itemAmount[i]));
         }
         Completed = false;
+        QuestExp = exp;
+        IsOrder = isOrd;
         Goals.ForEach(g => g.Init());
         CheckGoals();
     }

@@ -15,6 +15,8 @@ public class Quest
     public bool ItemGiven { get; set; }
     public int QuestExp { get; set; }
 
+    public bool IsOrder { get; set; }
+
     public bool CheckGoals()
     {
         Completed = Goals.All(g => g.Completed);

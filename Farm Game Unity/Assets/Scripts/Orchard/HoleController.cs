@@ -22,25 +22,13 @@ public class HoleController : MonoBehaviour
     {
         rend = GetComponent<MeshRenderer>();
         rend.material.color = dryColor;
+        GameEvents.OnNewDay += UpdateHole;
     }
     private void Start()
     {
         wetSound = DataBase.GetAudioClip("Wet");
         time = TimeManager.instance.secondsPerDay;
         soundPlayed = false;
-    }
-    private void Update()
-    {
-        if (TimeManager.instance.ActiveHour() && wet)
-        {
-            float dt = Time.deltaTime;
-            Timer += dt;
-            if (Timer > time)
-            {
-                Timer = 0;
-                UpdateHole();
-            }
-        }
     }
 
     private void UpdateHole()
@@ -50,6 +38,7 @@ public class HoleController : MonoBehaviour
             transform.SetParent(FindObjectOfType<ObjectPooler>().transform);
             gameObject.SetActive(false);
         }
+        SetWater(0);
     }
 
     public void AddWater(float amount)

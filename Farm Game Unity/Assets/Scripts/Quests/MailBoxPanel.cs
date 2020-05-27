@@ -12,7 +12,7 @@ public class MailBoxPanel : MonoBehaviour
     {
         if(quest != null)
         {
-            QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward));
+            QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward, quest.experience, quest.isOrder));
         }
         if(mail != null)
         {
