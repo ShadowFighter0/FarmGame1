@@ -146,7 +146,7 @@ public class TimeManager : MonoBehaviour
         if(!resting)
         {
             exitPopUp.SetActive(false);
-            Time.timeScale = 10;
+            Time.timeScale = 30;
             int targetHour = time.hour + (int)hoursSlider.value;
             if (targetHour >= 24)
             {

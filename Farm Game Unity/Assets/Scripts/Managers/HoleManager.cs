@@ -50,8 +50,10 @@ public class HoleManager : MonoBehaviour
             {
                 Vector3 pos = new Vector3(info.x, info.y, info.z);
                 GameObject hole = ObjectPooler.Instance.SpawnFromPool(info.prefab, pos, Quaternion.identity);
-                hole.GetComponent<HoleController>().SetWater(info.water);
-                hole.GetComponent<HoleController>().Timer = info.time;
+
+                HoleController holeScript = hole.GetComponent<HoleController>();
+                holeScript.SetWater(info.water);
+                holeScript.Timer = info.time;
                 hole.transform.SetParent(transform);
 
                 PlantInfo plant = info.plantInfo;
@@ -66,6 +68,7 @@ public class HoleManager : MonoBehaviour
                     PlantLife script = go.GetComponent<PlantLife>();
                     Seed s = SeedPlanter.instance.GetSeed(plant.seed);
                     script.InitializePlant(plant.index, s);
+                    script.SetScript(holeScript);
 
                     go.transform.SetParent(hole.transform);
                 }

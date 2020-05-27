@@ -29,8 +29,6 @@ public class PlayerFollow : MonoBehaviour
     public Vector3 shopRotation;
     private Transform cam;
 
-    public Slider inputSlider;
-
     private void Awake()
     {
         instance = this;
@@ -40,7 +38,6 @@ public class PlayerFollow : MonoBehaviour
     {
         Vector3 rot = transform.localRotation.eulerAngles;
         rotation = rot;
-        //inputSensitivity = inputSlider.value;
 
         if(player == null)
         {
@@ -88,8 +85,9 @@ public class PlayerFollow : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        rotation.y += mouseX * inputSensitivity * dt;
-        rotation.x -= mouseY * inputSensitivity * dt;
+        float sensivility = GameManager.instance.MouseSensivility;
+        rotation.y += mouseX * sensivility * dt;
+        rotation.x -= mouseY * sensivility * dt;
 
         rotation.x = Mathf.Clamp(rotation.x, -clampAngle, clampAngle);
         localRotation = Quaternion.Euler(rotation);

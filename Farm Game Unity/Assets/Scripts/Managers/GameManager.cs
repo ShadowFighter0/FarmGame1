@@ -43,9 +43,6 @@ public class GameManager : MonoBehaviour
 
     private Color fadeIn = new Color32(32, 32, 32, 0);
     private Color fadeOut = new Color32(32, 32, 32, 255);
-
-    private bool loading;
-    private bool playerIn;
     private bool gamePaused = false;
 
     private DateTime lastTimeSaved;
@@ -57,7 +54,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject continueText;
     public GameObject options;
-    public Text lastSavedText;
+    public GameObject menuOptions;
     public static GameManager instance;
 
     public Transform player;
@@ -104,6 +101,8 @@ public class GameManager : MonoBehaviour
     private bool canSave = true;
 
     private AudioClip mainMenuMusic;
+
+    public float MouseSensivility { get; set; }
     private void Awake()
     {
         string path = Application.persistentDataPath + "/saves/";
@@ -122,6 +121,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        MouseSensivility = 300;
         mainMenuMusic = DataBase.GetAudioClip("Theme");
         if (SaveLoad.HasSaves())
         {
@@ -254,17 +254,6 @@ public class GameManager : MonoBehaviour
             {
                 PauseGame();
             }
-
-            if (pauseMenu.activeSelf)
-            {
-                int hour = lastTimeSaved.Hour;
-                int min = lastTimeSaved.Minute;
-                int sec = lastTimeSaved.Second;
-                if (hour != 0 && min != 0 && sec != 0)
-                {
-                    UpdateSaveText(DateTime.Now);
-                }
-            }
         }
     }
 
@@ -289,20 +278,24 @@ public class GameManager : MonoBehaviour
     #region Pause menu
     public void PauseGame()
     {
-        bool paused = pauseMenu.activeSelf;
-        paused = !paused;
-        gamePaused = paused;
+        gamePaused = !pauseMenu.activeSelf;
         pauseMenu.SetActive(gamePaused);
         if (gamePaused)
         {
+            Time.timeScale = 0;
             InputManager.instance.ChangeState(InputManager.States.OnUI);
         }
         else
         {
+            Time.timeScale = 1;
             InputManager.instance.ChangeState(InputManager.States.Idle);
         }
     }
-
+    
+    public void SetSensivility(Slider value)
+    {
+        MouseSensivility = value.value;
+    }
     public void Respawn()
     {
         player.position = oriPos;
@@ -314,6 +307,11 @@ public class GameManager : MonoBehaviour
     {
         options.SetActive(!options.activeSelf);
     }
+    public void ActiveMenuOptions()
+    {
+        menuOptions.SetActive(!menuOptions.activeSelf);
+    }
+
 
     public void ContinueGame()
     {
@@ -355,14 +353,8 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator LoadScene()
     {
-        yield return new WaitForSeconds(0);
+        yield return new WaitForEndOfFrame();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    private void UpdateSaveText(DateTime time)
-    {
-        int difference = time.Minute - lastTimeSaved.Minute;
-        string t = lastTimeSaved.Hour + ":" + lastTimeSaved.Minute + ":" + lastTimeSaved.Second;
-        lastSavedText.text = "(Last save at " + t + ". " + difference + " minutes ago)";
     }
     #endregion
 
@@ -376,10 +368,6 @@ public class GameManager : MonoBehaviour
             saveText.SetActive(true);
             DateTime time = DateTime.Now;
             lastTimeSaved = time;
-            if (pauseMenu.activeSelf)
-            {
-                UpdateSaveText(time);
-            }
 
             Debug.Log("Last save: " + time.ToString());
             StartCoroutine(DisableSaveText());

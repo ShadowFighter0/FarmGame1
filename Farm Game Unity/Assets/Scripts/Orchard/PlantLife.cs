@@ -36,19 +36,28 @@ public class PlantLife : MonoBehaviour
     void Start()
     {
         gameObject.layer = LayerMask.NameToLayer("Plants");
+        
+        if (holeScript != null)
+        {
+            holeScript = gameObject.GetComponentInParent<HoleController>();
+        }
         ChangeModel();
-        holeScript = gameObject.GetComponentInParent<HoleController>();
     }
+
+    public void SetScript(HoleController script) { holeScript = script; }
     private void Update()
     {
-        if (TimeManager.instance.ActiveHour() && holeScript.GetWet() && !grownUp)
+        if(holeScript != null)
         {
-            float dt = Time.deltaTime;
-            timer += dt;
-            if (timer > seed.growthTime)
+            if (TimeManager.instance.ActiveHour() && holeScript.GetWet() && !grownUp)
             {
-                timer = 0;
-                UpdateState();
+                float dt = Time.deltaTime;
+                timer += dt;
+                if (timer > seed.growthTime)
+                {
+                    timer = 0;
+                    UpdateState();
+                }
             }
         }
     }
