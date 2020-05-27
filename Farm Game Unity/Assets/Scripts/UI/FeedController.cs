@@ -11,7 +11,7 @@ public class FeedController : MonoBehaviour
     private Vector2 oriPosition;
 
     private float timer;
-    [SerializeField] float deactivateTime = 2;
+    private float deactivateTime = 2;
 
     void Start()
     {
@@ -36,6 +36,7 @@ public class FeedController : MonoBehaviour
             RemovePanel();
         }
         AddToQueue();
+        MovePanels();
     }
 
     private void RemovePanel()
@@ -62,7 +63,8 @@ public class FeedController : MonoBehaviour
             offset.y = (activePanels.Count - 1 - i) * 100;
             offset.x = 170;
 
-            LeanTween.moveLocal(activePanels[i], offset, 0.5f).setEaseOutSine();
+            RectTransform rect = activePanels[i].GetComponent<RectTransform>();
+            rect.localPosition = Vector3.Lerp(rect.localPosition, offset, 10 * Time.deltaTime);
         }
     }
 
@@ -79,7 +81,6 @@ public class FeedController : MonoBehaviour
         if (activePanels.Count < feed.Count)
         {
             PanelInfo(info);
-            MovePanels();
         }
         else
         {

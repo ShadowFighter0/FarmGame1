@@ -24,6 +24,8 @@ public class DialogueSystem : MonoBehaviour
 
     private NpcController current;
 
+    private Vector3 pos;
+
     private void Start()
     {
         nameText = transform.GetChild(0).GetComponent<Text>();
@@ -50,9 +52,14 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        rect.localPosition = Vector3.Lerp(rect.localPosition, pos, Time.deltaTime * 10.0f);
+    }
+
     public void ShowDialogue(string name, string dialogue, string[] options)
     {
-        LeanTween.moveLocalY(gameObject, rect.localPosition.y + 450, 0.5f).setEaseOutSine();
+        pos = rect.localPosition + Vector3.up * 450;
         firstDialogue = true;
         InputManager.instance.ChangeState(InputManager.States.Dialoguing);
 
@@ -75,7 +82,7 @@ public class DialogueSystem : MonoBehaviour
         {
             options[i].gameObject.SetActive(false);
         }
-        LeanTween.moveLocalY(gameObject, iniY, 0.5f).setEaseInSine();
+        pos = Vector3.up * iniY;
 
         StartCoroutine(Action());
         SetNPC(null);
