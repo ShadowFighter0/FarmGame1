@@ -11,6 +11,9 @@ public class UnlockeableItem : MonoBehaviour
     public Item[] requirements;
     public int[] amounts;
     public string iniTag;
+    public int level;
+
+    public GameObject vfx;
 
     public Material mat;
 
@@ -75,6 +78,11 @@ public class UnlockeableItem : MonoBehaviour
         else
         {
             mesh.material = oriMat;
+        }
+
+        if(vfx != null)
+        {
+            Instantiate(vfx, transform.position + new Vector3(-2.0f, 0, -2.0f), Quaternion.identity);
         }
     }
 }

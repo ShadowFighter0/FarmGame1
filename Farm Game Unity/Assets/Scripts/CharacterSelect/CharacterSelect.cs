@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CharacterSelect : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class CharacterSelect : MonoBehaviour
 
     public GameObject def;
     public Transform player;
-    public Text customizeText;
+    public TextMeshProUGUI customizeText;
 
     private float pov;
     private float oriPov;

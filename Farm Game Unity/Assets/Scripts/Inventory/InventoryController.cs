@@ -109,6 +109,7 @@ public class InventoryController : MonoBehaviour
                 items[i] = savedItems[i];
             }
         }
+        AddItem(DataBase.GetItem("Money"));
     }
 
     private void Save()
