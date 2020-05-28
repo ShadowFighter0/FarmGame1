@@ -213,6 +213,10 @@ public class WorkShopController : MonoBehaviour
     {
         if (item != null)
         {
+            if (PlayerManager.instace.GetCurrentLevel() < item.level)
+            {
+                return;
+            }
             for (int i = 0; i < item.requirements.Length; i++)
             {
                 int amount = InventoryController.Instance.GetAmount(item.requirements[i].itemName);

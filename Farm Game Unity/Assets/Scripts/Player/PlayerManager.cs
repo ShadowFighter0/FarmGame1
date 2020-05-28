@@ -57,6 +57,10 @@ public class PlayerManager : MonoBehaviour
     {
         SaveLoad.Save(playerInfo, "PlayerLvl");
     }
+    public int GetCurrentLevel()
+    {
+        return playerInfo.level;
+    }
 
     private void ChangeExpBar()
     {
