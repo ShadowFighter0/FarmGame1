@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class DialogueButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private int index;
-    private Text text;
+    private TextMeshProUGUI text;
 
     private void Awake()
     {
-        text = GetComponent<Text>();
+        text = GetComponent<TextMeshProUGUI>();
         index = transform.GetSiblingIndex();
     }
 
