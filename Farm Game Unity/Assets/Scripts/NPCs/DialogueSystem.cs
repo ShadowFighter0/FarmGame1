@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class DialogueSystem : MonoBehaviour
 {
     public static DialogueSystem instance;
@@ -9,10 +10,10 @@ public class DialogueSystem : MonoBehaviour
     {
         instance = this;
     }
-    private Text nameText;
-    private Text dialogueText;
+    private TextMeshProUGUI nameText;
+    private TextMeshProUGUI dialogueText;
 
-    private Text[] options;
+    private TextMeshProUGUI[] options;
 
     private RectTransform rect;
     private float iniY;
@@ -28,13 +29,13 @@ public class DialogueSystem : MonoBehaviour
 
     private void Start()
     {
-        nameText = transform.GetChild(0).GetComponent<Text>();
-        dialogueText = transform.GetChild(1).GetComponent<Text>();
-        options = new Text[transform.GetChild(2).childCount];
+        nameText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        dialogueText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        options = new TextMeshProUGUI[transform.GetChild(2).childCount];
         int i = 0;
         foreach (Transform child in transform.GetChild(2))
         {
-            options[i] = child.GetComponent<Text>();
+            options[i] = child.GetComponent<TextMeshProUGUI>();
             options[i].gameObject.SetActive(false);
             i++;
         }

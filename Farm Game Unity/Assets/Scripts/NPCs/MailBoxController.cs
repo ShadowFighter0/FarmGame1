@@ -19,6 +19,7 @@ public class MailBoxController : MonoBehaviour
     public float time;
 
     private int mailIndex = 0;
+    private int questIndex = 0;
     public GameObject mailImage;
 
     public AudioClip open;
@@ -44,9 +45,9 @@ public class MailBoxController : MonoBehaviour
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
-        AddContent(QuestFileInfo.Instance.GetQuest());
-        AddContent(QuestFileInfo.Instance.GetQuest());
-        AddContent(QuestFileInfo.Instance.GetQuest());
+        AddContent(DataBase.GetQuest(questIndex));
+        AddContent(DataBase.GetQuest(questIndex));
+        AddContent(DataBase.GetQuest(questIndex));
     }
     private void Update()
     {
@@ -57,7 +58,6 @@ public class MailBoxController : MonoBehaviour
             if (timer > time && mailIndex < mails.Length - 1)
             {
                 timer = 0;
-                mailIndex++;
                 AddContent(mails[mailIndex]);
             }
 
@@ -124,6 +124,7 @@ public class MailBoxController : MonoBehaviour
                 StartCoroutine(CloseUIMail());
                 AudioManager.PlaySound(mailReceived);
                 activeMails++;
+                questIndex++;
                 return;
             }
         }
@@ -141,6 +142,7 @@ public class MailBoxController : MonoBehaviour
                 StartCoroutine(CloseUIMail());
                 AudioManager.PlaySound(mailReceived);
                 activeMails++;
+                mailIndex++;
                 return;
             }
         }
