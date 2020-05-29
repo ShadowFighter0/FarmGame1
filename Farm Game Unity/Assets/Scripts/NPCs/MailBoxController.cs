@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,7 +56,7 @@ public class MailBoxController : MonoBehaviour
         {
             float dt = Time.deltaTime;
             timer += dt;
-            if (timer > time && mailIndex < mails.Length - 1)
+            if (timer > time && mailIndex < mails.Length - 1 && done)
             {
                 timer = 0;
                 AddContent(mails[mailIndex]);
@@ -92,6 +93,14 @@ public class MailBoxController : MonoBehaviour
         yield return new WaitForSeconds(3);
         mailImage.SetActive(false);
 
+    }
+    public void MoveMails(int direction)
+    {
+        int newPos = activeMails - 1 + direction;
+        if(newPos < 0 || newPos >= activeMails)
+        {
+            return;
+        }
     }
     public void Close()
     {
