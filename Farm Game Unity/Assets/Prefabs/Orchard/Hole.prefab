@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a347fa5909fd3ce4e897727b4aa09382, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,6 +96,7 @@ MonoBehaviour:
   wetColor: {r: 0.30980393, g: 0.22352943, b: 0.15686275, a: 0}
   dryColor: {r: 0.43529415, g: 0.31764707, b: 0.20000002, a: 0}
   time: 1000
+  vfx: {fileID: 8966893186367703135, guid: 39059bc7504562d469a4b0ccc7df9ac5, type: 3}
 --- !u!65 &4603360078955852526
 BoxCollider:
   m_ObjectHideFlags: 0

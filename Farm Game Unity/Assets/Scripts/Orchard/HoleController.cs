@@ -17,6 +17,8 @@ public class HoleController : MonoBehaviour
     private bool soundPlayed = true;
 
     private AudioClip wetSound;
+
+    public GameObject vfx;
     private void Awake()
     {
         rend = GetComponent<MeshRenderer>();
@@ -30,6 +32,11 @@ public class HoleController : MonoBehaviour
         soundPlayed = false;
     }
 
+    public void DoVFX()
+    {
+        GameObject go = Instantiate(vfx, transform.position, Quaternion.identity);
+        Destroy(go, 3.0f);
+    }
     private void UpdateHole()
     {
         if (!wet)

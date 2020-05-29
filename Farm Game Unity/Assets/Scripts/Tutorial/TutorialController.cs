@@ -39,7 +39,7 @@ public class TutorialController : MonoBehaviour
                 MailBoxController.instance.SendTutorialMail();
                 break;
             case 1:
-                
+                NpcManager.instance.StartForcedDialogue("Maria", "Now you need an orchard. Go to the barn and buy one!");
                 break;
             case 2:
                 break;

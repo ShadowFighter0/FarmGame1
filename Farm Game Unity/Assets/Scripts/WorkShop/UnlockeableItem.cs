@@ -82,7 +82,8 @@ public class UnlockeableItem : MonoBehaviour
 
         if(vfx != null)
         {
-            Instantiate(vfx, transform.position + new Vector3(-2.0f, 0, -2.0f), Quaternion.identity);
+            GameObject go = Instantiate(vfx, transform.position + new Vector3(-2.0f, 0, -2.0f), Quaternion.identity);
+            Destroy(go, 3.0f);
         }
     }
 }
