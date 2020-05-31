@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,12 +25,13 @@ public class WorkShopController : MonoBehaviour
     private Ray ray;
 
     public GameObject menu;
-    public Text itemName;
-    public Text description;
+    public TextMeshProUGUI itemName;
+    public TextMeshProUGUI description;
+    public TextMeshProUGUI acceptText;
 
     public GameObject[] requirements;
     public Image[] images;
-    public Text[] amounts;
+    public TextMeshProUGUI[] amounts;
 
     private UnlockeableItem item;
     private GameObject currentItem;
@@ -57,8 +59,6 @@ public class WorkShopController : MonoBehaviour
             List<bool> bools = SaveLoad.Load<List<bool>>("UnlockeableItems");
             for (int i = 0; i < unlockableItems.Count; i++)
             {
-                //unlockableItems[i].purchased = bools[i];
-                //bool b = unlockableItems[i].purchased;
                 if (bools[i])
                 {
                     unlockableItems[i].gameObject.SetActive(true);
@@ -112,33 +112,49 @@ public class WorkShopController : MonoBehaviour
                 float dt = Time.deltaTime;
 
                 Movement(dt);
-
-                if (Input.GetKeyDown(InputManager.instance.Click))
+                if (!menu.activeSelf)
                 {
-                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(ray, out hit))
+                    CheckTarget();
+                }
+            }
+        }
+    }
+
+    private void CheckTarget()
+    {
+        if (Input.GetKeyDown(InputManager.instance.Click))
+        {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.gameObject.CompareTag("UnlockableItem"))
+                {
+                    menu.SetActive(true);
+
+                    currentItem = hit.transform.gameObject;
+                    item = currentItem.GetComponent<UnlockeableItem>();
+                    if (item != null)
                     {
-                        if (hit.transform.gameObject.CompareTag("UnlockableItem"))
+                        itemName.text = item.itemName;
+                        description.text = item.description;
+
+                        for (int i = 0; i < item.requirements.Length; i++)
                         {
-                            menu.SetActive(true);
-
-                            currentItem = hit.transform.gameObject;
-                            item = hit.transform.GetComponent<UnlockeableItem>();
-                            if (item != null)
-                            {
-                                itemName.text = item.itemName;
-                                description.text = item.description;
-
-                                for (int i = 0; i < item.requirements.Length; i++)
-                                {
-                                    requirements[i].SetActive(true);
-                                    images[i].sprite = item.requirements[i].image;
-                                    amounts[i].text = item.amounts[i].ToString();
-                                }
-                            }
-
-                            newPos = hit.transform.position;
+                            requirements[i].SetActive(true);
+                            images[i].sprite = item.requirements[i].image;
+                            amounts[i].text = item.amounts[i].ToString();
                         }
+
+                        int lvl = item.level;
+                        if (PlayerManager.instace.GetCurrentLevel() < lvl)
+                        {
+                            acceptText.text = "Need level " + lvl;
+                        }
+                        else
+                        {
+                            acceptText.text = "Buy ";
+                        }
+                        newPos = hit.transform.position;
                     }
                 }
             }
@@ -159,7 +175,10 @@ public class WorkShopController : MonoBehaviour
     {
         for (int i = 0; i < requirements.Length; i++)
         {
-            requirements[i].SetActive(false);
+            if(requirements[i].activeSelf)
+            {
+                requirements[i].SetActive(false);
+            }
         }
     }
     private void CloseMenu()
@@ -225,7 +244,7 @@ public class WorkShopController : MonoBehaviour
                     return;
                 }
             }
-
+            DisableRequirements();
             for (int i = 0; i < item.requirements.Length; i++)
             {
                 InventoryController.Instance.SubstractAmountItem(item.amounts[i], item.requirements[i].itemName);
