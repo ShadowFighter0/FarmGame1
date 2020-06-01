@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShopEntry : MonoBehaviour
 {
     private Image image;
-    private Text nameText;
-    private Text price;
-    private Text stockText;
-    private Text amountSelectedText;
+    private TextMeshProUGUI nameText;
+    private TextMeshProUGUI price;
+    private TextMeshProUGUI stockText;
+    private TextMeshProUGUI amountSelectedText;
 
     public int position;
     private void Awake()
     {
 
         image = transform.GetChild(0).GetComponent<Image>();
-        nameText = transform.GetChild(1).GetComponent<Text>();
-        price = transform.GetChild(2).GetComponent<Text>();
-        stockText = transform.GetChild(3).GetComponent<Text>();
-        amountSelectedText = transform.GetChild(4).GetComponent<Text>();
+        nameText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        price = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        stockText = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        amountSelectedText = transform.GetChild(4).GetComponent<TextMeshProUGUI>();
     }
 
     public void Fill(ShopItem s)

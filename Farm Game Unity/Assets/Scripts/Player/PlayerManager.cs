@@ -84,8 +84,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        Item seed = DataBase.GetItem("CarrotSeed");
-        shopScript.AddToStock(seed);
+        StartCoroutine(AddStock());
 
     }
     private void SavePlayer()
@@ -182,5 +181,12 @@ public class PlayerManager : MonoBehaviour
     {
         popUp.SetActive(false);
         InputManager.instance.ChangeState(InputManager.States.Idle);
+    }
+
+    IEnumerator AddStock()
+    {
+        yield return new WaitForSeconds(1f);
+        Item seed = DataBase.GetItem("CarrotSeed");
+        shopScript.AddToStock(seed);
     }
 }

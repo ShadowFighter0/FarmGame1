@@ -84,12 +84,13 @@ public class ShopManager : MonoBehaviour
         {
             ShopItem s = currentShop.stock[pos];
             int cartPos = Search(s.item.name);
+
             if(cartPos < 0)
             {
                 if (cant > 0)
                 {
-                    s.amountSelected += cant;
-                    cart[numCart] = s;
+                   s.amountSelected += cant;
+                   cart[numCart] = s;
                    numCart++;
                 }
             }
@@ -105,17 +106,6 @@ public class ShopManager : MonoBehaviour
         totalPrice.text = GetCharge().ToString();
     }
 
-    private int SearchStock(string name)
-    {
-        for (int i = 0; i < currentShop.stock.Length; i++)
-        {
-            if (currentShop.stock[i].item.name == name)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
     private int Search(string name)
     {
         for(int i = 0; i < cart.Length; i++ )
@@ -231,7 +221,7 @@ public class ShopManager : MonoBehaviour
         {
             for (int i = 0; i < cart.Length; i++)
             {
-                if (cart[i] != null)
+                if (cart[i] != null && cart[i].item != null)
                 {
                     ShopEntry t = stockUI[i];
                     t.Fill(cart[i]);
@@ -249,13 +239,16 @@ public class ShopManager : MonoBehaviour
             int i = 0;
             for (   ; i < currentShop.stock.Length; i++)
             {
-                ShopEntry t = stockUI[i];
-                t.gameObject.SetActive(true);
-                t.Fill(currentShop.stock[i]);
-            }
-            for (   ; i < stockUI.Length; i++)
-            {
-                stockUI[i].gameObject.SetActive(false);
+                if(currentShop.stock[i].item != null)
+                {
+                    ShopEntry t = stockUI[i];
+                    t.gameObject.SetActive(true);
+                    t.Fill(currentShop.stock[i]);
+                }
+                else
+                {
+                    stockUI[i].gameObject.SetActive(false);
+                }
             }
         }
     }

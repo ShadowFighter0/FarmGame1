@@ -20,8 +20,7 @@ public class ShopItem
 
 public class Shop : MonoBehaviour
 {
-    private Item[] stockItems;
-    public ShopItem[] stock;
+    public ShopItem[] stock = new ShopItem[21];
 
     public NpcController owner;
     public bool seeds;
@@ -31,7 +30,6 @@ public class Shop : MonoBehaviour
 
     private void Start()
     {
-        stock = new ShopItem[21];
         for (int i = 0; i < stock.Length; i++)
         {
             stock[i] = new ShopItem();
@@ -52,7 +50,7 @@ public class Shop : MonoBehaviour
 
     public void AddToStock (Item seed)
     {
-        stock[num] = new ShopItem(seed);
+        stock[num].item = seed;
         num++;
     }
 
