@@ -82,7 +82,13 @@ public class PlayerManager : MonoBehaviour
     {
         return playerInfo.level;
     }
-
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            AddExp(3);
+        }
+    }
     private void ChangeExpBar()
     {
         float size = (float)playerInfo.experience / levelExperience[playerInfo.level] * barwidth;
@@ -154,5 +160,10 @@ public class PlayerManager : MonoBehaviour
             imageGo[i].SetActive(true);
             images[i].sprite = imagesQueue.Dequeue();
         }
+    }
+    public void CloseUI()
+    {
+        popUp.SetActive(false);
+        InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 }
