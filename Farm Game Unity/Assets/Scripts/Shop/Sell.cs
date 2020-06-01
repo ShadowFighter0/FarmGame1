@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class SellItem
 {
     public Item item;
@@ -25,6 +24,7 @@ public class Sell : MonoBehaviour
     int numStock = 0;
     int position = 0;
 
+    float timeForNextSell;
     public bool onShopView;
     public bool playerNear;
     public GameObject shopPanel;
@@ -35,11 +35,23 @@ public class Sell : MonoBehaviour
     {
         Instance = this;
         stockUI = ShopManager.Instance.stockUI;
-        stock = new SellItem[stockUI.Length];
+        stock = new SellItem [stockUI.Length];
     }
 
     private void Update()
     {
+        if (numStock > 0)
+        {
+            if (timeForNextSell < 0)
+            {
+                timeForNextSell = Random.Range(60, 500);
+                SellItem();
+            }
+            else
+            {
+                timeForNextSell -= Time.deltaTime;
+            }
+        }
         if (playerNear && Input.GetKeyDown(InputManager.instance.Interact))
         {
             if (!shopPanel.activeSelf)
@@ -65,7 +77,7 @@ public class Sell : MonoBehaviour
                 shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
             }
         }
-        if(onShopView && InventoryController.Instance.inventoryOpen)
+        if (onShopView && InventoryController.Instance.inventoryOpen)
         {
             InputManager.instance.ChangeState(InputManager.States.Idle);
             shopPanel.SetActive(false);
@@ -95,6 +107,7 @@ public class Sell : MonoBehaviour
         }
         ShowStock();
     }
+
     private void ReOrder()
     {
         for(int i = position; i < stock.Length && stock[i] != null; i++)
@@ -187,10 +200,25 @@ public class Sell : MonoBehaviour
         }
     }
 
-    public void SellItem(int pos)
+    public void SellItem()
     {
-        //TODO random time and random item
-        //TODO show cars
+        //Deploy Car
+
+        int pos = Random.Range(0, numStock);
+        SellItem item = stock[pos];
+        int cant = Random.Range(0, item.amount);
+        MoneyBox.Instance.AddMoney(item.item.price * cant);
+
+        if (cant == item.amount)
+        {
+            stock[pos] = null;
+            ReOrder();
+            numStock--;
+        }
+        else
+        {
+            item.amount -= cant;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -198,6 +226,7 @@ public class Sell : MonoBehaviour
         if (other.CompareTag("Player"))
             playerNear = true;
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
