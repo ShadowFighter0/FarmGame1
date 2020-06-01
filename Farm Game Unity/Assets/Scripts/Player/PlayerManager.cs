@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -32,6 +32,14 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI experience;
     public RectTransform experienceBar;
 
+    public Transform imagesFolder;
+    private Image[] images;
+    private GameObject[] imageGo;
+    public Sprite[] sprites;
+    private Queue<Sprite> imagesQueue = new Queue<Sprite>();
+
+    public GameObject popUp;
+
     public static PlayerManager instace;
     private void Awake()
     {
@@ -40,6 +48,10 @@ public class PlayerManager : MonoBehaviour
     }
     private void Start()
     {
+        foreach (Sprite s in sprites)
+        {
+            imagesQueue.Enqueue(s);
+        }
         if(SaveLoad.SaveExists("PlayerLvl"))
         {
             PlayerLevel loadInfo = SaveLoad.Load<PlayerLevel>("PlayerLvl");
@@ -49,6 +61,15 @@ public class PlayerManager : MonoBehaviour
         {
             playerInfo = new PlayerLevel();
         }
+        int max = imagesFolder.childCount;
+        images = new Image[max];
+        imageGo = new GameObject[max];
+        for (int i = 0; i < max; i++)
+        {
+            imageGo[i] = imagesFolder.GetChild(i).gameObject;
+            images[i] = imageGo[i].GetComponent<Image>();
+        }
+
         barwidth = experienceBar.sizeDelta.x;
         ChangeExpBar();
         ChangeLvls();
@@ -80,7 +101,7 @@ public class PlayerManager : MonoBehaviour
         {
             int difference = nextExp - levelExperience[playerInfo.level];
             playerInfo.level++;
-
+            UpdateLvlRewards();
             playerInfo.experience = difference;
             
             ChangeLvls();
@@ -91,5 +112,47 @@ public class PlayerManager : MonoBehaviour
         }
         ChangeExpBar();
         ExperienceBarController.instace.ShowBar();
+    }
+
+    private void UpdateLvlRewards()
+    {
+        UpdateImages();
+        popUp.SetActive(true);
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
+        switch (playerInfo.level)
+        {
+            case 1:
+                ActivateImages(2);
+                break;
+            case 2:
+                ActivateImages(4);
+                break;
+            case 3:
+                ActivateImages(4);
+                break;
+            case 4:
+                ActivateImages(5);
+                break;
+            default:
+                break;
+        }
+    }
+    private void UpdateImages()
+    {
+        for (int i = 0; i < imageGo.Length; i++)
+        {
+            if(imageGo[i].activeSelf)
+            {
+                imageGo[i].SetActive(false);
+            }
+        }
+    }
+    private void ActivateImages(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            imageGo[i].SetActive(true);
+            images[i].sprite = imagesQueue.Dequeue();
+        }
     }
 }
