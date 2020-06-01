@@ -40,6 +40,8 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject popUp;
 
+    private Shop shopScript;
+
     public static PlayerManager instace;
     private void Awake()
     {
@@ -73,6 +75,18 @@ public class PlayerManager : MonoBehaviour
         barwidth = experienceBar.sizeDelta.x;
         ChangeExpBar();
         ChangeLvls();
+
+        for (int i = 0; i < ShopManager.Instance.shops.Length; i++)
+        {
+            if (ShopManager.Instance.shops[i].seeds)
+            {
+                shopScript = ShopManager.Instance.shops[i];
+            }
+        }
+
+        Item seed = DataBase.GetItem("CarrotSeed");
+        shopScript.AddToStock(seed);
+
     }
     private void SavePlayer()
     {
@@ -160,15 +174,8 @@ public class PlayerManager : MonoBehaviour
             imageGo[i].SetActive(true);
             Sprite spr = imagesQueue.Dequeue();
             images[i].sprite = spr;
-
-            
-            for (int i = 0; i < ShopManager.Instance.shops.Length; i++)
-            {
-                if(ShopManager.Instance.shops[i].seeds)
-                {
-                    ShopManager.Instance.shops[i].AddToStock();
-                }
-            }
+            Item seed = DataBase.GetItem(spr.name);
+            shopScript.AddToStock(seed);
         }
     }
     public void CloseUI()

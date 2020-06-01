@@ -12,6 +12,10 @@ public class ShopItem
     {
         item = i;
     }
+    public ShopItem()
+    {
+        item = null;
+    }
 }
 
 public class Shop : MonoBehaviour
@@ -28,6 +32,10 @@ public class Shop : MonoBehaviour
     private void Start()
     {
         stock = new ShopItem[21];
+        for (int i = 0; i < stock.Length; i++)
+        {
+            stock[i] = new ShopItem();
+        }
     }
 
     private void Update()
@@ -42,7 +50,7 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void AddToStock (Seed seed)
+    public void AddToStock (Item seed)
     {
         stock[num] = new ShopItem(seed);
         num++;
