@@ -22,12 +22,17 @@ public class MoneyBox : MonoBehaviour
         {
             if(Input.GetKeyDown(InputManager.instance.Interact))
             {
-                Item aux = moneyClass;
-                aux.amount = moneyAmount;
-                InventoryController.Instance.AddItem(aux);
-                moneyAmount = 0;
+                CollectMoney();
             }
         }
+    }
+
+    private void CollectMoney()
+    {
+        Item aux = moneyClass;
+        aux.amount = moneyAmount;
+        InventoryController.Instance.AddItem(aux);
+        moneyAmount = 0;
     }
 
     public void AddMoney (int cant)
