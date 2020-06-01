@@ -21,26 +21,13 @@ public class Shop : MonoBehaviour
 
     public NpcController owner;
     public bool seeds;
+    int num = 0;
 
     private bool playerNear = false;
 
     private void Start()
     {
-        if(seeds)
-        {
-            stockItems = Resources.LoadAll<Seed>("Data/Items/Seeds");
-        }
-        else
-        {
-            stockItems = Resources.LoadAll<Item>("Data/Items/Items");
-        }
-
-        stock = new ShopItem[stockItems.Length];
-
-        for (int i = 0; i < stock.Length; i++)
-        {
-            stock[i] = new ShopItem(stockItems[i]);
-        }
+        stock = new ShopItem[21];
     }
 
     private void Update()
@@ -53,6 +40,12 @@ public class Shop : MonoBehaviour
         {
             ShopManager.Instance.CloseShop();
         }
+    }
+
+    public void AddToStock (Seed seed)
+    {
+        stock[num] = new ShopItem(seed);
+        num++;
     }
 
     private void OnTriggerEnter(Collider other)

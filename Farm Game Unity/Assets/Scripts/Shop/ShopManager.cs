@@ -10,7 +10,7 @@ public class ShopManager : MonoBehaviour
     #region Variables
     public bool onShop = false;
     public GameObject shopPanel;
-    private Shop[] shops;
+    public Shop[] shops;
     public Text totalPrice;
 
     [HideInInspector] public Shop currentShop;
@@ -247,13 +247,13 @@ public class ShopManager : MonoBehaviour
         else
         {
             int i = 0;
-            for (; i < currentShop.stock.Length; i++)
+            for (   ; i < currentShop.stock.Length; i++)
             {
                 ShopEntry t = stockUI[i];
                 t.gameObject.SetActive(true);
                 t.Fill(currentShop.stock[i]);
             }
-            for (; i < stockUI.Length; i++)
+            for (   ; i < stockUI.Length; i++)
             {
                 stockUI[i].gameObject.SetActive(false);
             }

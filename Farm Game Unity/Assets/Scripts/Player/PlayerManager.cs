@@ -158,7 +158,17 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             imageGo[i].SetActive(true);
-            images[i].sprite = imagesQueue.Dequeue();
+            Sprite spr = imagesQueue.Dequeue();
+            images[i].sprite = spr;
+
+            
+            for (int i = 0; i < ShopManager.Instance.shops.Length; i++)
+            {
+                if(ShopManager.Instance.shops[i].seeds)
+                {
+                    ShopManager.Instance.shops[i].AddToStock();
+                }
+            }
         }
     }
     public void CloseUI()
