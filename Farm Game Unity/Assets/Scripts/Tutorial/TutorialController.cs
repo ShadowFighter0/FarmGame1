@@ -37,6 +37,7 @@ public class TutorialController : MonoBehaviour
             case 0:
                 NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox next to me you will find your first order!\nCome back to me when you're done");
                 MailBoxController.instance.SendTutorialMail();
+                PlayerManager.instace.SendCarrots();
                 break;
             case 1:
                 NpcManager.instance.StartForcedDialogue("Maria", "Now you need an orchard. Go to the barn and buy one!");
