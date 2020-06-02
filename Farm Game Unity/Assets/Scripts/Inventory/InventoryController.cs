@@ -75,10 +75,10 @@ public class InventoryController : MonoBehaviour
     {
         seedsItems = Resources.LoadAll<Seed>("Data/Items");
         Instance = this;    //Singleton
-        items = new InventoryItem[itemSpace];
+        items = new InventoryItem [itemSpace];
 
         seedSpace = seedsItems.Length;
-        seeds = new InventoryItem[seedSpace];
+        seeds = new InventoryItem [seedSpace];
 
         //Start seeds 
         for (int i = 0; i < seedsItems.Length; i++)
@@ -93,6 +93,7 @@ public class InventoryController : MonoBehaviour
         missions = QuestController.Instance;
         feed = FindObjectOfType<FeedController>();
         GameEvents.OnSaveInitiated += Save;
+
         if (SaveLoad.SaveExists("InventorySeeds"))
         {
             InventoryItem[] savedItems = SaveLoad.Load<InventoryItem[]>("InventorySeeds");
