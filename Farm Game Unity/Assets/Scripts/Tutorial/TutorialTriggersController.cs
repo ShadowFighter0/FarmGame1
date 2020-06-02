@@ -11,10 +11,13 @@ public class TutorialTriggersController : MonoBehaviour
     }
     void Start()
     {
-        bool[] bools = SaveLoad.Load<bool[]>("TutorialTriggers");
-        for (int i = 0; i < bools.Length; i++)
+        if(SaveLoad.SaveExists("TutorialTriggers"))
         {
-            transform.GetChild(i).gameObject.SetActive(bools[i]);
+            bool[] bools = SaveLoad.Load<bool[]>("TutorialTriggers");
+            for (int i = 0; i < bools.Length; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(bools[i]);
+            }
         }
     }
 

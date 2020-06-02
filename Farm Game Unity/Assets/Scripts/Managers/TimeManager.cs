@@ -134,8 +134,9 @@ public class TimeManager : MonoBehaviour
                     SetWakeHourText();
                 }
             }
-            if (Input.GetKeyDown(InputManager.instance.Interact) && playerIn && InputManager.state == InputManager.States.Idle)
+            if (playerIn && InputManager.state == InputManager.States.Idle)
             {
+                playerIn = false;
                 OpenPopUp();
             }
         }
