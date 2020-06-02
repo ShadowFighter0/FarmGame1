@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 925281662}
   - component: {fileID: 925281658}
   - component: {fileID: 925281661}
-  m_Layer: 0
+  - component: {fileID: 1488808909}
+  m_Layer: 2
   m_Name: Sprinkler
   m_TagString: UnlockableItem
   m_Icon: {fileID: 0}
@@ -107,7 +108,24 @@ MonoBehaviour:
   requirements:
   - {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
   amounts: 64000000
-  purchased: 0
+  iniTag: 
+  level: 5
+  vfx: {fileID: 0}
+  mat: {fileID: 2100000, guid: d47be1a233ae26a4a8709aeb3dfbca2b, type: 2}
+  purchased: 1
+--- !u!65 &1488808909
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704729504415458264}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 1, z: 12}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1705984626094172184
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +137,7 @@ GameObject:
   - component: {fileID: 1704260977475077220}
   - component: {fileID: 1719740585866172320}
   - component: {fileID: 1727781740092608624}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Prop_Sprinkler_01 (118)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +217,7 @@ GameObject:
   - component: {fileID: 1704260977988091480}
   - component: {fileID: 1719740586381831580}
   - component: {fileID: 1727781739509328460}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Prop_Sprinkler_01 (121)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +297,7 @@ GameObject:
   - component: {fileID: 1704414601192028121}
   - component: {fileID: 1720268209432266123}
   - component: {fileID: 1728662276167091603}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Prop_Sprinkler_Hose_01 (81)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +376,7 @@ GameObject:
   - component: {fileID: 1704414600812626459}
   - component: {fileID: 1720268209019203657}
   - component: {fileID: 1728662275485200465}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Prop_Sprinkler_Hose_01 (80)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,6 +461,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1007721114291099867, guid: b1d476a26e4679748b7befe0fd2b1c6e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1007721114291099868, guid: b1d476a26e4679748b7befe0fd2b1c6e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -522,6 +545,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007721114291099867, guid: b1d476a26e4679748b7befe0fd2b1c6e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1007721114291099868, guid: b1d476a26e4679748b7befe0fd2b1c6e,
         type: 3}
