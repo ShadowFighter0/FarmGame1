@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoneyBox : MonoBehaviour
 {
+    // q se vea algo pa saber q hay money
+    
     int moneyAmount;
     bool inside;
     public Item moneyClass;
@@ -23,7 +25,7 @@ public class MoneyBox : MonoBehaviour
             if(Input.GetKeyDown(InputManager.instance.Interact))
             {
                 CollectMoney();
-                //Ernesto quiero pizza y resplandor
+                Debug.Log("MoneyCollect");
             }
         }
     }
