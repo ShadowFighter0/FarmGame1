@@ -149,7 +149,7 @@ public class CharacterSelect : MonoBehaviour
 
         InputManager.instance.ChangeState(InputManager.States.Idle);
 
-        TutorialController.instance.NextState();
+        TutorialController.instance.SendFirstMail();
         Destroy(this);
     }
     public void Customize()

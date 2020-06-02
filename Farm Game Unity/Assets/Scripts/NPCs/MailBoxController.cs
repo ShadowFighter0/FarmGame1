@@ -76,6 +76,12 @@ public class MailBoxController : MonoBehaviour
                 {
                     AudioManager.PlaySoundWithVariation(open);
                     Close();
+
+                    if (!TutorialController.instance.GetThingDone(0))
+                    {
+                        TutorialController.instance.SendWorkshopMessage();
+                        TutorialController.instance.SetThingDone(0);
+                    }
                 }
             }
         }

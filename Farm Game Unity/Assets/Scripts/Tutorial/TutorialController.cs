@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class TutorialController : MonoBehaviour
 {
-    private int state = -1;
     public GameObject popUp;
     public TextMeshProUGUI text;
     public VideoPlayer player;
     public static TutorialController instance;
+
+    private bool[] thingsDone = new bool[3];
+    //0 -> first mail
+    //1 -> orchard bought
+    //2 -> first quest completed
+
     private void Awake()
     {
         instance = this;
+        if (SaveLoad.SaveExists("ThingsDone"))
+        {
+            thingsDone = SaveLoad.Load<bool[]>("ThingsDone");
+        }
     }
 
-    public void NextState()
-    {
-        state++;
-        UpdateStates();
-    }
-
+    public void SetThingDone(int i) { thingsDone[i] = true; }
+    public bool GetThingDone(int i) { return thingsDone[i]; }
     public void TutorialPopUp(VideoClip video, string description)
     {
         popUp.SetActive(true);
@@ -38,22 +42,24 @@ public class TutorialController : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
-    private void UpdateStates()
+    public void Save()
     {
-        switch (state)
-        {
-            case 0:
-                NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox next to me you will find your first order!\nCome back to me when you're done");
-                MailBoxController.instance.SendTutorialMail();
-                PlayerManager.instace.SendCarrots();
-                break;
-            case 1:
-                NpcManager.instance.StartForcedDialogue("Maria", "Now you need an orchard. Go to the barn and buy one!");
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
+        SaveLoad.Save(thingsDone, "ThingsDone");
+    }
+
+    public void SendFirstMail()
+    {
+        NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox next to me you will find your first order!\nCome back to me when you're done");
+        MailBoxController.instance.SendTutorialMail();
+        PlayerManager.instace.SendCarrots();
+    }
+
+    public void SendWorkshopMessage()
+    {
+        NpcManager.instance.StartForcedDialogue("Maria", "Now you need an orchard. Go to the barn and buy one with the workshop!");
+    }
+    public void SendShopMessage()
+    {
+        NpcManager.instance.StartForcedDialogue("Maria", "kghjhjhg!");
     }
 }
