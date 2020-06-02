@@ -71,4 +71,15 @@ public class QuestInfo
         experience = exp;
         isOrder = isOrd;
     }
+    public QuestInfo(QuestTemplate q)
+    {
+        title = q.title;
+        description = q.description;
+        ids = q.ids;
+        amounts = q.amounts;
+        npcName = q.NPCName;
+        itemReward = q.itemReward;
+        experience = q.experience;
+        isOrder = q.isOrder;
+    }
 }

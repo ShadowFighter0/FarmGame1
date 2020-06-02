@@ -13,6 +13,7 @@ public class MailBoxController : MonoBehaviour
     public int offset = 70;
 
     private Mail[] mails;
+    private QuestTemplate[] quests;
 
     private bool done = true;
 
@@ -20,7 +21,6 @@ public class MailBoxController : MonoBehaviour
     public float time;
 
     private int mailIndex = 0;
-    private int questIndex = 0;
     public GameObject mailImage;
 
     public AudioClip open;
@@ -40,7 +40,7 @@ public class MailBoxController : MonoBehaviour
         mailReceived = DataBase.GetAudioClip("MailNotification");
         mailsPanel = mailFolder.parent.gameObject;
         mails = Resources.LoadAll<Mail>("Data/Mails");
-
+        quests = Resources.LoadAll<QuestTemplate>("Data/Mails");
         if(SaveLoad.SaveExists("Mails"))
         {
             int loadIndex = SaveLoad.Load<int>("Mails");
@@ -53,10 +53,10 @@ public class MailBoxController : MonoBehaviour
         {
             float dt = Time.deltaTime;
             timer += dt;
-            if (timer > time && mailIndex < mails.Length - 1 && done && activeMails < 2)
+            if (timer > time && done && activeMails < 3)
             {
                 timer = 0;
-                AddContent(mails[mailIndex]);
+                AddContent(new QuestInfo(quests[mailIndex]));
             }
 
             if (playerNear)
@@ -66,7 +66,7 @@ public class MailBoxController : MonoBehaviour
                     mailsPanel.SetActive(true);
                     AudioManager.PlaySoundWithVariation(open);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
-                    UpdatePositions();
+                    //UpdatePositions();
                     done = false;
                 }
                 if ((Input.GetKeyDown(KeyCode.F1) || activeMails == 0) && !done)
@@ -96,10 +96,6 @@ public class MailBoxController : MonoBehaviour
         yield return new WaitForSeconds(3);
         mailImage.SetActive(false);
 
-    }
-    public void MoveMails(int direction)
-    {
-        
     }
     public void Close()
     {
@@ -132,7 +128,7 @@ public class MailBoxController : MonoBehaviour
                 StartCoroutine(CloseUIMail());
                 AudioManager.PlaySound(mailReceived);
                 activeMails++;
-                questIndex++;
+                mailIndex++;
                 return;
             }
         }

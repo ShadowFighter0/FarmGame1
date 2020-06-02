@@ -10,18 +10,18 @@ public class MailBoxPanel : MonoBehaviour
 
     public void AddContent()
     {
-        if(quest != null)
+        gameObject.SetActive(false);
+        if (quest != null)
         {
             QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward, quest.experience, quest.isOrder));
         }
-        if(mail != null)
+        if (mail != null)
         {
-            if(mail.rewardItem != null)
+            if (mail.rewardItem != null)
             {
-                InventoryController.Instance.AddItem(mail.rewardItem);
+                //InventoryController.Instance.AddItem(mail.rewardItem);
             }
         }
-        gameObject.SetActive(false);
     }
     public string QuestInfo()
     {
