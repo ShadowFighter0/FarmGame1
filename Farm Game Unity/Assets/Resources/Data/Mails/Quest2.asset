@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 841fb9f3494238b4a8dbdbb6e3c03425, type: 3}
-  m_Name: Quest1
+  m_Name: Quest2
   m_EditorClassIdentifier: 
-  title: Carrot destroyer
-  description: 'Entregale a '
-  NPCName: Maria
+  title: Corn killer
+  description: "Planta y cose\xF1a"
+  NPCName: Pepe
   itemReward: {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
+  experience: 0
   ids:
-  - Carrot
-  amounts: 04000000
+  - Wheat
+  amounts: 06000000
+  isOrder: 0

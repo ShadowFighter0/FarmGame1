@@ -5,7 +5,7 @@ using UnityEngine;
 public class ExperienceBarController : MonoBehaviour
 {
     private CanvasGroup group;
-    private IEnumerator co;
+    private Coroutine co;
     private bool coPlaying = false;
 
     public static ExperienceBarController instace;
@@ -17,7 +17,6 @@ public class ExperienceBarController : MonoBehaviour
     {
         group = GetComponent<CanvasGroup>();
         group.alpha = 0;
-        co = Close();
     }
 
     public void ShowBar()
@@ -27,7 +26,7 @@ public class ExperienceBarController : MonoBehaviour
         {
             StopCoroutine(co);
         }
-        StartCoroutine(co);
+        co = StartCoroutine(Close());
     }
 
     private void CloseBar()

@@ -46,9 +46,6 @@ public class MailBoxController : MonoBehaviour
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
-        AddContent(DataBase.GetQuest(questIndex));
-        AddContent(DataBase.GetQuest(questIndex));
-        AddContent(DataBase.GetQuest(questIndex));
     }
     private void Update()
     {
@@ -56,7 +53,7 @@ public class MailBoxController : MonoBehaviour
         {
             float dt = Time.deltaTime;
             timer += dt;
-            if (timer > time && mailIndex < mails.Length - 1 && done)
+            if (timer > time && mailIndex < mails.Length - 1 && done && activeMails < 2)
             {
                 timer = 0;
                 AddContent(mails[mailIndex]);
@@ -102,11 +99,7 @@ public class MailBoxController : MonoBehaviour
     }
     public void MoveMails(int direction)
     {
-        int newPos = activeMails - 1 + direction;
-        if(newPos < 0 || newPos >= activeMails)
-        {
-            return;
-        }
+        
     }
     public void Close()
     {
@@ -165,9 +158,12 @@ public class MailBoxController : MonoBehaviour
 
     public void TakeMail()
     {
-        int i = activeMails - 1;
-        mailFolder.GetChild(i).GetComponent<MailBoxPanel>().AddContent();
-        activeMails--;
+        if(activeMails > 0)
+        {
+            int i = activeMails - 1;
+            mailFolder.GetChild(i).GetComponent<MailBoxPanel>().AddContent();
+            activeMails--;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
