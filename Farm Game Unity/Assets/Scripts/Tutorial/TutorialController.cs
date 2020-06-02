@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class TutorialController : MonoBehaviour
 {
     private int state = -1;
     public GameObject popUp;
+    public TextMeshProUGUI text;
+    public VideoPlayer player;
     public static TutorialController instance;
     private void Awake()
     {
@@ -18,9 +23,12 @@ public class TutorialController : MonoBehaviour
         UpdateStates();
     }
 
-    public void TutorialPopUp()
+    public void TutorialPopUp(VideoClip video, string description)
     {
         popUp.SetActive(true);
+        text.text = description;
+        player.clip = video;
+        player.Play();
         InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
 
