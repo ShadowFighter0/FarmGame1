@@ -22,10 +22,24 @@ public class TutorialController : MonoBehaviour
         if (SaveLoad.SaveExists("ThingsDone"))
         {
             thingsDone = SaveLoad.Load<bool[]>("ThingsDone");
+            SendEvent();
         }
     }
 
-    public void SetThingDone(int i) { thingsDone[i] = true; }
+    private void SendEvent()
+    {
+        if (TutorialDone())
+        {
+            GameEvents.TutorialDone();
+            Debug.Log("Tutorial done!");
+        }
+    }
+
+    public void SetThingDone(int i) 
+    { 
+        thingsDone[i] = true;
+        SendEvent();
+    }
     public bool GetThingDone(int i) { return thingsDone[i]; }
     public void TutorialPopUp(VideoClip video, string description)
     {
@@ -61,5 +75,17 @@ public class TutorialController : MonoBehaviour
     public void SendShopMessage()
     {
         NpcManager.instance.StartForcedDialogue("Maria", "kghjhjhg!");
+    }
+
+    private bool TutorialDone()
+    {
+        for (int i = 0; i < thingsDone.Length; i++)
+        {
+            if(!thingsDone[i])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

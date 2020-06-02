@@ -30,10 +30,13 @@ public class MailBoxController : MonoBehaviour
 
     public static MailBoxController instance;
 
+    private bool tutorialDone = false;
+
     private void Awake()
     {
         instance = this;
         GameEvents.OnSaveInitiated += SaveMails;
+        GameEvents.OnTutorialDone += TutorialDone;
     }
     private void Start()
     {
@@ -51,12 +54,15 @@ public class MailBoxController : MonoBehaviour
     {
         if(GameManager.instance.gameStarted)
         {
-            float dt = Time.deltaTime;
-            timer += dt;
-            if (timer > time && done && activeMails < 3)
+            if(tutorialDone)
             {
-                timer = 0;
-                AddContent(new QuestInfo(quests[mailIndex]));
+                float dt = Time.deltaTime;
+                timer += dt;
+                if (timer > time && done && activeMails < 3)
+                {
+                    timer = 0;
+                    AddContent(new QuestInfo(quests[mailIndex]));
+                }
             }
 
             if (playerNear)
@@ -66,7 +72,7 @@ public class MailBoxController : MonoBehaviour
                     mailsPanel.SetActive(true);
                     AudioManager.PlaySoundWithVariation(open);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
-                    //UpdatePositions();
+                    UpdatePositions();
                     done = false;
                 }
                 if ((Input.GetKeyDown(KeyCode.F1) || activeMails == 0) && !done)
@@ -82,6 +88,10 @@ public class MailBoxController : MonoBehaviour
                 }
             }
         }
+    }
+    private void TutorialDone()
+    {
+        tutorialDone = true;
     }
     public void SendTutorialMail()
     {

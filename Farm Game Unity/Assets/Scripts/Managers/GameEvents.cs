@@ -22,4 +22,9 @@ public class GameEvents : MonoBehaviour
 	{
 		OnSaveInitiated?.Invoke();
 	}
+	public static event Action OnTutorialDone;
+	public static void TutorialDone()
+	{
+		OnTutorialDone?.Invoke();
+	}
 }
