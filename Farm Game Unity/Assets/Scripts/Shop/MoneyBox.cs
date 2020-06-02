@@ -23,6 +23,7 @@ public class MoneyBox : MonoBehaviour
             if(Input.GetKeyDown(InputManager.instance.Interact))
             {
                 CollectMoney();
+                //Ernesto quiero pizza y resplandor
             }
         }
     }
