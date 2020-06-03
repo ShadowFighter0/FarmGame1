@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MailBoxController : MonoBehaviour
 {
@@ -50,6 +49,10 @@ public class MailBoxController : MonoBehaviour
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
+
+        AddContent(mails[0]);
+        AddContent(mails[0]);
+        AddContent(mails[0]);
     }
     private void Update()
     {
@@ -128,7 +131,7 @@ public class MailBoxController : MonoBehaviour
         }
     }
 
-    public void MovePanels(int dir)
+    public void MoveBetweenPanels(int dir)
     {
         int newIndex = panelIndex + dir;
         if(newIndex >= 0 && newIndex <= activePanels.Count - 1)
@@ -136,6 +139,12 @@ public class MailBoxController : MonoBehaviour
             panelIndex = newIndex;
             activePanels[panelIndex].transform.SetAsLastSibling();
         }
+
+        int offset = 20;
+        // for (int i = 0; i < activePanels.Count; i++)
+        // {
+        //     activePanels[i].GetComponent<RectTransform>().localPosition += Vector3.right * offset * dir * i;
+        // }
     }
 
     public void AddContent(QuestInfo info)
