@@ -18,7 +18,7 @@ public class MailBoxPanel : MonoBehaviour
         {
             if (mail.rewardItem != null)
             {
-                //InventoryController.Instance.AddItem(mail.rewardItem);
+                InventoryController.Instance.AddItem(mail.rewardItem);
             }
         }
     }
