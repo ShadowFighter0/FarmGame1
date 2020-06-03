@@ -181,7 +181,7 @@ public class WorkShopController : MonoBehaviour
             }
         }
     }
-    private void CloseMenu()
+    public void CloseMenu()
     {
         UIMenu.SetActive(false);
         InputManager.instance.ChangeState(InputManager.States.Idle);

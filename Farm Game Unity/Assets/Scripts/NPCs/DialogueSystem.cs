@@ -59,7 +59,13 @@ public class DialogueSystem : MonoBehaviour
 
     public void ShowDialogue(string name, string dialogue, string[] options)
     {
-        pos = rect.localPosition + Vector3.up * 450;
+        Vector3 newPos;
+        newPos.x = rect.localPosition.x;
+        newPos.y = -350;
+        newPos.z = rect.localPosition.z;
+
+        pos = newPos;
+
         firstDialogue = true;
         InputManager.instance.ChangeState(InputManager.States.Dialoguing);
 
@@ -82,7 +88,7 @@ public class DialogueSystem : MonoBehaviour
         {
             options[i].gameObject.SetActive(false);
         }
-        pos = Vector3.up * iniY;
+        pos = rect.localPosition + Vector3.up * iniY;
 
         StartCoroutine(Action());
         SetNPC(null);

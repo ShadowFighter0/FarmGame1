@@ -42,6 +42,12 @@ public class MailBoxPanel : MonoBehaviour
     public void Assign(Mail m)
     {
         mail = m;
+
+        QuestTemplate q = m.quest;
+        if (q != null)
+        {
+            quest = new QuestInfo(q.title, q.description, q.ids, q.amounts, q.NPCName, q.itemReward, q.experience, q.isOrder);
+        }
         transform.GetChild(0).GetComponent<Text>().text = m.message;
         transform.SetSiblingIndex(0);
     }
