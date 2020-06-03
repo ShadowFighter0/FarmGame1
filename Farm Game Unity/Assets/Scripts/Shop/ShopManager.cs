@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class ShopManager : MonoBehaviour
     public bool onShop = false;
     public GameObject shopPanel;
     public Shop[] shops;
-    public Text totalPrice;
+    public TextMeshProUGUI totalPrice;
 
     [HideInInspector] public Shop currentShop;
 
@@ -31,7 +32,7 @@ public class ShopManager : MonoBehaviour
         Instance = this;
         cart = new ShopItem[stockUI.Length];
 
-        totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<Text>();
+        totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
 
         shops = FindObjectsOfType<Shop>();
     }
@@ -89,8 +90,9 @@ public class ShopManager : MonoBehaviour
             {
                 if (cant > 0)
                 {
-                   s.amountSelected += cant;
                    cart[numCart] = s;
+                   cart[numCart].amountSelected += cant;
+                   
                    numCart++;
                 }
             }
@@ -178,10 +180,17 @@ public class ShopManager : MonoBehaviour
         {
             foreach (ShopItem s in cart)
             {
-                if (s != null && s.item.GetType() == typeof(Item))
+                if (s != null)
                 {
-                    numItems++;
-                }
+                    if (s.item.GetType() == typeof(Seed))
+                    {
+
+                    }
+                    else if (s.item.GetType() == typeof(Item))
+                    {
+                        numItems++;
+                    }  
+                } 
             }
 
             if (InventoryController.Instance.itemSpace >= InventoryController.Instance.numItems + numItems)
@@ -196,7 +205,6 @@ public class ShopManager : MonoBehaviour
                         InventoryController.Instance.AddItem(s.item);
                         s.amountSelected = 0;
                     }
-
                 }
                 cart = new ShopItem[stockUI.Length];
                 numCart = 0;
