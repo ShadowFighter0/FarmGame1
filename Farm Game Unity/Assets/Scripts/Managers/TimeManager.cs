@@ -208,7 +208,7 @@ public class TimeManager : MonoBehaviour
         return secondsPerDay;
     }
 
-    public bool ActiveHour() 
+    public bool IsDay() 
     {
         int hour = time.hour;
         return hour <= 22 && hour >= 7; 
