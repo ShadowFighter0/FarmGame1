@@ -10,8 +10,8 @@ public class DialogueSystem : MonoBehaviour
     {
         instance = this;
     }
-    private TextMeshProUGUI nameText;
-    private TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI dialogueText;
 
     private TextMeshProUGUI[] options;
 
@@ -29,11 +29,9 @@ public class DialogueSystem : MonoBehaviour
 
     private void Start()
     {
-        nameText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        dialogueText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        options = new TextMeshProUGUI[transform.GetChild(2).childCount];
+        options = new TextMeshProUGUI[transform.GetChild(1).childCount];
         int i = 0;
-        foreach (Transform child in transform.GetChild(2))
+        foreach (Transform child in transform.GetChild(1))
         {
             options[i] = child.GetComponent<TextMeshProUGUI>();
             options[i].gameObject.SetActive(false);
