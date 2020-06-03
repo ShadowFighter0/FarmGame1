@@ -18,7 +18,6 @@ public class SellItem
 
 public class Sell : MonoBehaviour
 {
-
     // Hacer lo de los hijos pa q se vea chido (GetChild(0).GetChild())
     // Car spawn in GetChild(3)
 

@@ -11,6 +11,7 @@ TagManager:
   - Male
   - Female
   - Water
+  - Road
   layers:
   - Default
   - TransparentFX
