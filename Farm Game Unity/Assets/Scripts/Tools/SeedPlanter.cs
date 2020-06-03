@@ -61,11 +61,11 @@ public class SeedPlanter : MonoBehaviour
             }
             else if (currentSeeds.Contains(s))
             {
+                currentSeeds.Remove(s);
                 if(index == currentSeeds.Count)
                 {
                     index--;
                 }
-                currentSeeds.Remove(s);
                 UpdateIndicator();
             }
         }
