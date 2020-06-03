@@ -10,7 +10,6 @@ public class MailBoxPanel : MonoBehaviour
 
     public void AddContent()
     {
-        gameObject.SetActive(false);
         if (quest != null)
         {
             QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward, quest.experience, quest.isOrder));
@@ -19,7 +18,7 @@ public class MailBoxPanel : MonoBehaviour
         {
             if (mail.rewardItem != null)
             {
-                //InventoryController.Instance.AddItem(mail.rewardItem);
+                InventoryController.Instance.AddItem(mail.rewardItem);
             }
         }
     }

@@ -55,16 +55,18 @@ public class SeedPlanter : MonoBehaviour
             {
                 if(!currentSeeds.Contains(s))
                 {
-                    if(currentSeeds.Count == 0)
-                    {
-                        UpdateIndicator();
-                    }
                     currentSeeds.Add(s);
+                    UpdateIndicator();
                 }
             }
             else if (currentSeeds.Contains(s))
             {
                 currentSeeds.Remove(s);
+                if(index == currentSeeds.Count)
+                {
+                    index--;
+                }
+                UpdateIndicator();
             }
         }
 
