@@ -154,6 +154,7 @@ public class MailBoxController : MonoBehaviour
             if(!child.gameObject.activeSelf)
             {
                 child.gameObject.SetActive(true);
+                child.SetAsLastSibling();
 
                 activePanels.Add(child.gameObject);
 
@@ -174,6 +175,7 @@ public class MailBoxController : MonoBehaviour
             if (!child.gameObject.activeSelf)
             {
                 child.gameObject.SetActive(true);
+                child.SetAsLastSibling();
 
                 activePanels.Add(child.gameObject);
 
@@ -192,8 +194,25 @@ public class MailBoxController : MonoBehaviour
     {
         if(activePanels.Count > 0)
         {
-            mailFolder.GetChild(panelIndex).GetComponent<MailBoxPanel>().AddContent();
+            GameObject go = mailFolder.GetChild(GetLastPanel()).gameObject;
+
+            go.GetComponent<MailBoxPanel>().AddContent();
+            go.SetActive(false);
+            activePanels.Remove(go);
+            panelIndex = GetLastPanel();
         }
+    }
+    private int GetLastPanel()
+    {
+        int count = -1;
+        foreach (Transform child in mailFolder)
+        {
+            if(child.gameObject.activeSelf)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     private void OnTriggerEnter(Collider other)
