@@ -22,10 +22,24 @@ public class TutorialController : MonoBehaviour
         if (SaveLoad.SaveExists("ThingsDone"))
         {
             thingsDone = SaveLoad.Load<bool[]>("ThingsDone");
+            SendEvent();
         }
     }
 
-    public void SetThingDone(int i) { thingsDone[i] = true; }
+    private void SendEvent()
+    {
+        if (TutorialDone())
+        {
+            GameEvents.TutorialDone();
+            Debug.Log("Tutorial done!");
+        }
+    }
+
+    public void SetThingDone(int i) 
+    { 
+        thingsDone[i] = true;
+        SendEvent();
+    }
     public bool GetThingDone(int i) { return thingsDone[i]; }
     public void TutorialPopUp(VideoClip video, string description)
     {
@@ -51,7 +65,6 @@ public class TutorialController : MonoBehaviour
     {
         NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox next to me you will find your first order!\nCome back to me when you're done");
         MailBoxController.instance.SendTutorialMail();
-        PlayerManager.instace.SendCarrots();
     }
 
     public void SendWorkshopMessage()
@@ -61,5 +74,17 @@ public class TutorialController : MonoBehaviour
     public void SendShopMessage()
     {
         NpcManager.instance.StartForcedDialogue("Maria", "kghjhjhg!");
+    }
+
+    private bool TutorialDone()
+    {
+        for (int i = 0; i < thingsDone.Length; i++)
+        {
+            if(!thingsDone[i])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -10,18 +10,18 @@ public class MailBoxPanel : MonoBehaviour
 
     public void AddContent()
     {
-        if(quest != null)
+        gameObject.SetActive(false);
+        if (quest != null)
         {
             QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward, quest.experience, quest.isOrder));
         }
-        if(mail != null)
+        if (mail != null)
         {
-            if(mail.rewardItem != null)
+            if (mail.rewardItem != null)
             {
-                InventoryController.Instance.AddItem(mail.rewardItem);
+                //InventoryController.Instance.AddItem(mail.rewardItem);
             }
         }
-        gameObject.SetActive(false);
     }
     public string QuestInfo()
     {
@@ -42,6 +42,12 @@ public class MailBoxPanel : MonoBehaviour
     public void Assign(Mail m)
     {
         mail = m;
+
+        QuestTemplate q = m.quest;
+        if (q != null)
+        {
+            quest = new QuestInfo(q.title, q.description, q.ids, q.amounts, q.NPCName, q.itemReward, q.experience, q.isOrder);
+        }
         transform.GetChild(0).GetComponent<Text>().text = m.message;
         transform.SetSiblingIndex(0);
     }

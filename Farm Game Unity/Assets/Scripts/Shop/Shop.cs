@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,6 +35,22 @@ public class Shop : MonoBehaviour
         {
             stock[i] = new ShopItem();
         }
+
+        if(SaveLoad.SaveExists("ShopItems"))
+        {
+            List<string> names = SaveLoad.Load<List<string>>("ShopItems");
+
+            foreach (string s in names)
+            {
+                Item item = DataBase.GetItem(s);
+                AddToStock(item);
+            }
+        }
+        else
+        {
+            Item seed = DataBase.GetItem("CarrotSeed");
+            AddToStock(seed);
+        }
     }
 
     private void Update()
@@ -48,10 +65,26 @@ public class Shop : MonoBehaviour
         }
     }
 
+    private void SaveItems()
+    {
+        List<string> names = new List<string>();
+        foreach (ShopItem item in stock)
+        {
+            if(item.item == null)
+            {
+                break;
+            }
+            names.Add(item.item.name);
+        }
+
+        SaveLoad.Save(names, "ShopItems");
+    }
     public void AddToStock (Item seed)
     {
         stock[num].item = seed;
         num++;
+
+        SaveItems();
     }
 
     private void OnTriggerEnter(Collider other)

@@ -13,6 +13,7 @@ public class MailBoxController : MonoBehaviour
     public int offset = 70;
 
     private Mail[] mails;
+    private QuestTemplate[] quests;
 
     private bool done = true;
 
@@ -20,7 +21,6 @@ public class MailBoxController : MonoBehaviour
     public float time;
 
     private int mailIndex = 0;
-    private int questIndex = 0;
     public GameObject mailImage;
 
     public AudioClip open;
@@ -30,36 +30,39 @@ public class MailBoxController : MonoBehaviour
 
     public static MailBoxController instance;
 
+    private bool tutorialDone = false;
+
     private void Awake()
     {
         instance = this;
         GameEvents.OnSaveInitiated += SaveMails;
+        GameEvents.OnTutorialDone += TutorialDone;
     }
     private void Start()
     {
         mailReceived = DataBase.GetAudioClip("MailNotification");
         mailsPanel = mailFolder.parent.gameObject;
         mails = Resources.LoadAll<Mail>("Data/Mails");
-
+        quests = Resources.LoadAll<QuestTemplate>("Data/Mails");
         if(SaveLoad.SaveExists("Mails"))
         {
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
-        AddContent(DataBase.GetQuest(questIndex));
-        AddContent(DataBase.GetQuest(questIndex));
-        AddContent(DataBase.GetQuest(questIndex));
     }
     private void Update()
     {
         if(GameManager.instance.gameStarted)
         {
-            float dt = Time.deltaTime;
-            timer += dt;
-            if (timer > time && mailIndex < mails.Length - 1 && done)
+            if(tutorialDone)
             {
-                timer = 0;
-                AddContent(mails[mailIndex]);
+                float dt = Time.deltaTime;
+                timer += dt;
+                if (timer > time && done && activeMails < 3)
+                {
+                    timer = 0;
+                    AddContent(new QuestInfo(quests[mailIndex]));
+                }
             }
 
             if (playerNear)
@@ -86,6 +89,10 @@ public class MailBoxController : MonoBehaviour
             }
         }
     }
+    private void TutorialDone()
+    {
+        tutorialDone = true;
+    }
     public void SendTutorialMail()
     {
         AddContent(mails[mailIndex]);
@@ -99,14 +106,6 @@ public class MailBoxController : MonoBehaviour
         yield return new WaitForSeconds(3);
         mailImage.SetActive(false);
 
-    }
-    public void MoveMails(int direction)
-    {
-        int newPos = activeMails - 1 + direction;
-        if(newPos < 0 || newPos >= activeMails)
-        {
-            return;
-        }
     }
     public void Close()
     {
@@ -139,7 +138,7 @@ public class MailBoxController : MonoBehaviour
                 StartCoroutine(CloseUIMail());
                 AudioManager.PlaySound(mailReceived);
                 activeMails++;
-                questIndex++;
+                mailIndex++;
                 return;
             }
         }
@@ -165,9 +164,12 @@ public class MailBoxController : MonoBehaviour
 
     public void TakeMail()
     {
-        int i = activeMails - 1;
-        mailFolder.GetChild(i).GetComponent<MailBoxPanel>().AddContent();
-        activeMails--;
+        if(activeMails > 0)
+        {
+            int i = activeMails - 1;
+            mailFolder.GetChild(i).GetComponent<MailBoxPanel>().AddContent();
+            activeMails--;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

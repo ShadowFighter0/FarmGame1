@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be89c09a6c75b254bb85ccb0361e56eb, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
-  message: Welcome to Carrot's Day!\n Take this
+  message: Welcome to Harvest Day! Take this to complete your first order
   rewardItem: {fileID: 11400000, guid: be2956b92aac055419c69979d4dfbd48, type: 2}
   amount: 4
-  quest: {fileID: 0}
+  quest: {fileID: 11400000, guid: 78026025b75f07241aecda289a85c551, type: 2}

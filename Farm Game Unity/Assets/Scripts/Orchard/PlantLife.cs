@@ -49,7 +49,7 @@ public class PlantLife : MonoBehaviour
     {
         if(holeScript != null)
         {
-            if (TimeManager.instance.ActiveHour() && holeScript.GetWet() && !grownUp)
+            if (TimeManager.instance.IsDay() && holeScript.GetWet() && !grownUp)
             {
                 float dt = Time.deltaTime;
                 timer += dt;

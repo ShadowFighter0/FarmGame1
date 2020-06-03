@@ -10,8 +10,8 @@ public class DialogueSystem : MonoBehaviour
     {
         instance = this;
     }
-    private TextMeshProUGUI nameText;
-    private TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI dialogueText;
 
     private TextMeshProUGUI[] options;
 
@@ -29,11 +29,9 @@ public class DialogueSystem : MonoBehaviour
 
     private void Start()
     {
-        nameText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        dialogueText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        options = new TextMeshProUGUI[transform.GetChild(2).childCount];
+        options = new TextMeshProUGUI[transform.GetChild(1).childCount];
         int i = 0;
-        foreach (Transform child in transform.GetChild(2))
+        foreach (Transform child in transform.GetChild(1))
         {
             options[i] = child.GetComponent<TextMeshProUGUI>();
             options[i].gameObject.SetActive(false);
@@ -61,7 +59,13 @@ public class DialogueSystem : MonoBehaviour
 
     public void ShowDialogue(string name, string dialogue, string[] options)
     {
-        pos = rect.localPosition + Vector3.up * 450;
+        Vector3 newPos;
+        newPos.x = rect.localPosition.x;
+        newPos.y = -350;
+        newPos.z = rect.localPosition.z;
+
+        pos = newPos;
+
         firstDialogue = true;
         InputManager.instance.ChangeState(InputManager.States.Dialoguing);
 
@@ -84,7 +88,7 @@ public class DialogueSystem : MonoBehaviour
         {
             options[i].gameObject.SetActive(false);
         }
-        pos = Vector3.up * iniY;
+        pos = rect.localPosition + Vector3.up * iniY;
 
         StartCoroutine(Action());
         SetNPC(null);

@@ -123,12 +123,13 @@ public class GameManager : MonoBehaviour
     {
         MouseSensivility = 300;
         mainMenuMusic = DataBase.GetAudioClip("Theme");
-        if (SaveLoad.HasSaves())
+
+        if (SaveLoad.SaveExists("PlayerInfo"))
         {
             newGame = false;
             continueText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = sentences[0];
             PlayerInfo info = SaveLoad.Load<PlayerInfo>("PlayerInfo");
-            if(info.modelIndex == 1)
+            if (info.modelIndex == 1)
             {
                 player.GetChild(0).gameObject.SetActive(false);
                 maleHats.GetChild(info.hatIndex).gameObject.SetActive(true);
