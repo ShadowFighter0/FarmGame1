@@ -26,11 +26,12 @@ public class MailBoxController : MonoBehaviour
     public AudioClip open;
     private AudioClip mailReceived;
 
-    private int activeMails = 0;
-
     public static MailBoxController instance;
 
     private bool tutorialDone = false;
+
+    private List<GameObject> activePanels = new List<GameObject>();
+    private int panelIndex = 0;
 
     private void Awake()
     {
@@ -54,11 +55,12 @@ public class MailBoxController : MonoBehaviour
     {
         if(GameManager.instance.gameStarted)
         {
-            if(tutorialDone)
+            int currentPanels = activePanels.Count;
+            if (tutorialDone)
             {
                 float dt = Time.deltaTime;
                 timer += dt;
-                if (timer > time && done && activeMails < 3)
+                if (timer > time && done && currentPanels < 3)
                 {
                     timer = 0;
                     AddContent(new QuestInfo(quests[mailIndex]));
@@ -67,15 +69,16 @@ public class MailBoxController : MonoBehaviour
 
             if (playerNear)
             {
-                if (Input.GetKeyDown(InputManager.instance.Interact) && done && activeMails > 0)
+                if (Input.GetKeyDown(InputManager.instance.Interact) && done && currentPanels > 0)
                 {
+                    panelIndex = 0;
                     mailsPanel.SetActive(true);
                     AudioManager.PlaySoundWithVariation(open);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
                     UpdatePositions();
                     done = false;
                 }
-                if ((Input.GetKeyDown(KeyCode.F1) || activeMails == 0) && !done)
+                if ((Input.GetKeyDown(KeyCode.F1) || currentPanels == 0) && !done)
                 {
                     AudioManager.PlaySoundWithVariation(open);
                     Close();
@@ -125,6 +128,16 @@ public class MailBoxController : MonoBehaviour
         }
     }
 
+    public void MovePanels(int dir)
+    {
+        int newIndex = panelIndex + dir;
+        if(newIndex >= 0 && newIndex <= activePanels.Count - 1)
+        {
+            panelIndex = newIndex;
+            activePanels[panelIndex].transform.SetAsLastSibling();
+        }
+    }
+
     public void AddContent(QuestInfo info)
     {
         foreach (Transform child in mailFolder)
@@ -132,12 +145,14 @@ public class MailBoxController : MonoBehaviour
             if(!child.gameObject.activeSelf)
             {
                 child.gameObject.SetActive(true);
+
+                activePanels.Add(child.gameObject);
+
                 child.GetComponent<MailBoxPanel>().Assign(info);
 
                 mailImage.SetActive(true);
                 StartCoroutine(CloseUIMail());
                 AudioManager.PlaySound(mailReceived);
-                activeMails++;
                 mailIndex++;
                 return;
             }
@@ -150,12 +165,14 @@ public class MailBoxController : MonoBehaviour
             if (!child.gameObject.activeSelf)
             {
                 child.gameObject.SetActive(true);
+
+                activePanels.Add(child.gameObject);
+
                 child.GetComponent<MailBoxPanel>().Assign(info);
 
                 mailImage.SetActive(true);
                 StartCoroutine(CloseUIMail());
                 AudioManager.PlaySound(mailReceived);
-                activeMails++;
                 mailIndex++;
                 return;
             }
@@ -164,11 +181,9 @@ public class MailBoxController : MonoBehaviour
 
     public void TakeMail()
     {
-        if(activeMails > 0)
+        if(activePanels.Count > 0)
         {
-            int i = activeMails - 1;
-            mailFolder.GetChild(i).GetComponent<MailBoxPanel>().AddContent();
-            activeMails--;
+            mailFolder.GetChild(panelIndex).GetComponent<MailBoxPanel>().AddContent();
         }
     }
 
