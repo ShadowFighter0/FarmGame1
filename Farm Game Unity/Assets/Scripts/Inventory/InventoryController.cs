@@ -128,6 +128,7 @@ public class InventoryController : MonoBehaviour
         currentState = InputManager.state;
         InputManager.instance.ChangeState(InputManager.States.OnUI);
     }
+
     public void CloseMenu()
     {
         inventoryOpen = false;

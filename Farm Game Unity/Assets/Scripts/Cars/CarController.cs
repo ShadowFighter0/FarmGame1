@@ -28,7 +28,7 @@ public class CarController : MonoBehaviour
         }
     }
 
-    public void TurnOn (bool buy )
+    public void TurnOn (bool buy)
     {
         gonnaBuy = buy;
         currentSpeed = 5;
@@ -51,7 +51,7 @@ public class CarController : MonoBehaviour
             {
                 if (!gonnaBuy)
                 {
-                    index++;
+                    index += 2;
                 }
                 else
                 {
@@ -60,7 +60,4 @@ public class CarController : MonoBehaviour
             }
         }
     }
-
-                
-
 }
