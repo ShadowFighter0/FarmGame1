@@ -229,6 +229,15 @@ public class QuestController : MonoBehaviour
     }
     public void RemoveQuest(Quest q)
     {
+        if(completedQuests.Contains(q))
+        {
+            completedQuests.Remove(q);
+            UpdatePanels();
+        }
+    }
+
+    public void OnRemoveQuestButton(Quest q)
+    {
         if(completedQuests.Contains(q) && q.IsOrder)
         {
             completedQuests.Remove(q);

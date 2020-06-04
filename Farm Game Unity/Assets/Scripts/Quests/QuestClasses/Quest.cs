@@ -39,7 +39,7 @@ public class Quest
                 {
                     InventoryController.Instance.SubstractAmountItem(g.RequiredAmount, g.ItemID);
                 }
-                InventoryController.Instance.AddItem(ItemReward);
+                InventoryController.Instance.AddItem(ItemReward, Amount);
                 QuestController.Instance.RemoveQuest(this);
             }
             if (QuestExp > 0)

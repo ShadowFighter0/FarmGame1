@@ -44,8 +44,8 @@ public class PlayerFollow : MonoBehaviour
             MovementController m = FindObjectOfType<MovementController>();
             player = m.transform;
         }
-        idealPos = player.position;
         cam = transform.GetChild(0);
+        idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
     }
 
     void Update()
@@ -115,7 +115,7 @@ public class PlayerFollow : MonoBehaviour
         {
             idealPos = target;
         }
-        else
+        else if(MovementController.instance.IsMoving())
         {
             idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
         }

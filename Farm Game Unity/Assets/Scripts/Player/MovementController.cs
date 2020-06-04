@@ -79,6 +79,7 @@ public class MovementController : MonoBehaviour
         controller.Move(newPos * dt);
     }
 
+    public bool IsMoving() { return currentSpeed > Mathf.Epsilon;}
     public void SetRotation(Vector3 rot)
     {
         transform.eulerAngles = rot;

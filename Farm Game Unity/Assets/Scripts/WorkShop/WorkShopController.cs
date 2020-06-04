@@ -97,7 +97,6 @@ public class WorkShopController : MonoBehaviour
             {
                 if(UIMenu.activeSelf)
                 {
-                    finished = true;
                     CloseMenu();
                 }
                 else
@@ -183,6 +182,7 @@ public class WorkShopController : MonoBehaviour
     }
     public void CloseMenu()
     {
+        finished = true;
         UIMenu.SetActive(false);
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }

@@ -110,7 +110,7 @@ public class InventoryController : MonoBehaviour
                 items[i] = savedItems[i];
             }
         }
-        AddItem(DataBase.GetItem("Money"));
+        AddItem(DataBase.GetItem("Money"), 1000);
     }
 
     private void Save()

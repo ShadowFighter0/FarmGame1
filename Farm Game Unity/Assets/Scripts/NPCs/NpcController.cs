@@ -231,7 +231,7 @@ public class NpcController : MonoBehaviour
                 q.GiveReward();
                 npc.quest.Remove(q);
 
-                string sentence = "Thank you! Take " + q.ItemReward.amount + " " + q.ItemReward.itemName;
+                string sentence = "Thank you! Take " + q.Amount + " " + q.ItemReward.itemName;
                 DialogueSystem.instance.UpdateDialogue(sentence, QuestToOptions());
                 anim.SetBool("Talk", true);
                 StartCoroutine(ChangeAnimation());
