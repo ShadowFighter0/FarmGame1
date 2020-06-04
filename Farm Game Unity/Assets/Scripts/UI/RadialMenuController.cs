@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,6 +75,7 @@ public class RadialMenuController : MonoBehaviour
     public void FillPages()
     {
         List<Seed> seeds = SeedPlanter.instance.CurrentSeeds();
+
         int numSeeds = 0;
         int seedIndex = 0;
         for (int i = 0; i < 2; i++)
@@ -133,7 +133,7 @@ public class RadialMenuController : MonoBehaviour
     public void SetSeed(Transform t)
     {
         int index = t.GetSiblingIndex();
-        if(index <= SeedPlanter.instance.GetCurrentSeeds())
+        if(index < SeedPlanter.instance.GetCurrentSeeds())
         {
             SeedPlanter.instance.Index = index;
             SeedPlanter.instance.UpdateIndicator();

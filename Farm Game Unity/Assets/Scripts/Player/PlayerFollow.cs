@@ -64,8 +64,6 @@ public class PlayerFollow : MonoBehaviour
             }
             CameraUpdater(dt);
         }
-
-        //inputSensitivity = inputSlider.value;
     }
 
     public void SetMouseSens(float value)
@@ -115,7 +113,7 @@ public class PlayerFollow : MonoBehaviour
         {
             idealPos = target;
         }
-        else if(MovementController.instance.IsMoving())
+        else 
         {
             idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
         }
