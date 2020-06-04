@@ -201,10 +201,10 @@ public class ShopManager : MonoBehaviour
                 {
                     if (s != null)
                     {
-                        s.item.amount = s.amountSelected;
-                        InventoryController.Instance.AddItem(s.item);
+                        InventoryController.Instance.AddItem(s.item, s.amountSelected);
                         s.amountSelected = 0;
                     }
+
                 }
                 cart = new ShopItem[stockUI.Length];
                 numCart = 0;

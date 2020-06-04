@@ -234,11 +234,46 @@ public class InventoryController : MonoBehaviour
                 AddNewItem(newItem);
             }
         }
-
         //item
         GameEvents.ItemCollected(newItem.name, GetAmount(newItem.name));
         QuestController.Instance.UpdatePanels();
         feed.Suscribe(newItem.name, newItem.image, newItem.amount);
+    }
+
+    public void AddItem(Item newItem, int amount)
+    {
+        if (newItem.GetType() == typeof(Seed))
+        {
+            AddNewSeed(newItem, amount);
+            SeedPlanter.instance.UpdateCurrentSeeds();
+        }
+        else
+        {
+            if (newItem.name == "Money")
+            {
+                List<int> positions = SearchItem("Money");
+
+                if (positions != null)
+                {
+                    items[positions[0]].AddAmount(amount);
+                }
+                else if (numItems < items.Length)
+                {
+                    items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
+                    items[numItems].AddAmount(amount);
+                    numItems++;
+                }
+            }
+            else
+            {
+                AddNewItem(newItem, amount);
+            }
+        }
+
+        //item
+        GameEvents.ItemCollected(newItem.name, GetAmount(newItem.name));
+        QuestController.Instance.UpdatePanels();
+        feed.Suscribe(newItem.name, newItem.image, amount);
     }
     private void AddNewItem(Item newItem)
     {
@@ -293,10 +328,73 @@ public class InventoryController : MonoBehaviour
             }
         }
     }
+
+    private void AddNewItem(Item newItem, int amount)
+    {
+        List<int> positions = SearchItem(newItem.itemName);
+        InventoryItem item = null;
+
+        if (positions != null && positions.Count > 0)
+        {
+            Debug.Log("Sumar cant Item");
+            for (int i = 0; i < positions.Count && amount > 0; i++)
+            {
+                item = items[positions[i]];
+                if (item.GetInventoryAmount() + amount <= cantStackMax)
+                {
+                    item.AddAmount(amount);
+                    amount = 0;
+                }
+                else
+                {
+                    int cantAdd = cantStackMax - item.GetInventoryAmount();
+                    amount -= cantAdd;
+                    item.AddAmount(cantAdd);
+                }
+            }
+
+            if (amount != 0)
+            {
+                item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
+                item.AddAmount(amount);
+            }
+        }
+        if (positions == null && numItems < items.Length)
+        {
+            Debug.Log("Nuevo Item");
+            int numEntrys = amount / cantStackMax;
+            Debug.Log(numEntrys);
+            int off = amount % cantStackMax;
+            Debug.Log(off);
+
+            for (int i = 0; i < numEntrys; i++)
+            {
+                item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
+                item.AddAmount(20);
+                numItems++;
+            }
+            if (off > 0)
+            {
+                item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);
+                item.AddAmount(off);
+                numItems++;
+            }
+        }
+    }
     private void AddNewSeed(Item newItem)
     {
         InventoryItem newSeed = seeds[SearchSeed(newItem.itemName)];
         newSeed.AddAmount(newItem.amount);
+
+        if (!newSeed.isActivate)
+        {
+            newSeed.isActivate = true;
+        }
+    }
+    private void AddNewSeed(Item newItem, int amount)
+    {
+        InventoryItem newSeed = seeds[SearchSeed(newItem.itemName)];
+        newSeed.AddAmount(amount);
 
         if (!newSeed.isActivate)
         {
