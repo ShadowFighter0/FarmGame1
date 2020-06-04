@@ -40,7 +40,7 @@ public class DataBase : MonoBehaviour
         QuestTemplate[] questsInfos = Resources.LoadAll<QuestTemplate>("Data/Quests");
         for (int i = 0; i < questsInfos.Length; i++)
         {
-            quests.Add(i,new QuestInfo(questsInfos[i].title, questsInfos[i].description, questsInfos[i].ids, questsInfos[i].amounts, questsInfos[i].NPCName, questsInfos[i].itemReward, questsInfos[i].experience, questsInfos[i].isOrder));
+            quests.Add(i,new QuestInfo(questsInfos[i]));
         }
     }
     public static Item GetItem(string name) { return items[name]; }
@@ -52,28 +52,18 @@ public class DataBase : MonoBehaviour
 
 public class QuestInfo
 {
-    public string title;
+    public string questName;
     public string description;
     public string[] ids;
     public int[] amounts;
     public string npcName;
     public Item itemReward;
+    public int amount;
     public int experience;
     public bool isOrder;
-    public QuestInfo(string s, string d, string[] id, int[] am, string npc, Item item, int exp, bool isOrd)
-    {
-        title = s;
-        description = d;
-        ids = id;
-        amounts = am;
-        npcName = npc;
-        itemReward = item;
-        experience = exp;
-        isOrder = isOrd;
-    }
     public QuestInfo(QuestTemplate q)
     {
-        title = q.title;
+        questName = q.title;
         description = q.description;
         ids = q.ids;
         amounts = q.amounts;
@@ -81,5 +71,6 @@ public class QuestInfo
         itemReward = q.itemReward;
         experience = q.experience;
         isOrder = q.isOrder;
+        amount = q.amount;
     }
 }

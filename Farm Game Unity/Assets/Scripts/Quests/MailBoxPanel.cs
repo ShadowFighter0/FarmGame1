@@ -12,7 +12,7 @@ public class MailBoxPanel : MonoBehaviour
     {
         if (quest != null)
         {
-            QuestController.Instance.AddQuest(new SampleQuest(quest.title, quest.npcName, quest.description, quest.ids, quest.amounts, quest.itemReward, quest.experience, quest.isOrder));
+            QuestController.Instance.AddQuest(new SampleQuest(quest));
         }
         if (mail != null)
         {
@@ -24,7 +24,7 @@ public class MailBoxPanel : MonoBehaviour
     }
     public string QuestInfo()
     {
-        string info = quest.title + "\n" + quest.description + " " + quest.npcName + "\n";
+        string info = quest.questName + "\n" + quest.description + " " + quest.npcName + "\n";
         for (int i = 0; i < quest.ids.Length; i++)
         {
             info += "- " + quest.amounts[i] + " " + quest.ids[i] + "\n";
@@ -45,7 +45,7 @@ public class MailBoxPanel : MonoBehaviour
         QuestTemplate q = m.quest;
         if (q != null)
         {
-            quest = new QuestInfo(q.title, q.description, q.ids, q.amounts, q.NPCName, q.itemReward, q.experience, q.isOrder);
+            quest = new QuestInfo(q);
         }
         transform.GetChild(0).GetComponent<Text>().text = m.message;
         transform.SetSiblingIndex(0);

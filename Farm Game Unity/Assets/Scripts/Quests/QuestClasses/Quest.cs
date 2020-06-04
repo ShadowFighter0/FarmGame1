@@ -10,6 +10,7 @@ public class Quest
     public string QuestName { get; set; }
     public string Description { get; set; }
     public Item ItemReward { get; set; }
+    public int Amount { get; set; }
     public bool Completed { get; set; }
     public string NPCName { get; set; }
     public bool ItemGiven { get; set; }

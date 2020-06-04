@@ -16,6 +16,7 @@ MonoBehaviour:
   description: 'Entregale a '
   NPCName: Maria
   itemReward: {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
+  amount: 100
   experience: 5
   ids:
   - Carrot

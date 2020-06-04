@@ -41,14 +41,16 @@ public class SeedPlanter : MonoBehaviour
     }
     private void Start()
     {
-        UpdateCurrentSeeds();
         indicatorScript = indicator.GetComponent<SeedsIndicator>();
+
+        UpdateCurrentSeeds();
     }
 
     public int GetCurrentSeeds() { return currentSeeds.Count; }
     public List<Seed> CurrentSeeds() { return currentSeeds; }
     public void UpdateCurrentSeeds()
     {
+        List<Seed> seedsToRemove = new List<Seed>();
         foreach (Seed s in seeds)
         {
             if (InventoryController.Instance.GetAmount(s.itemName) > 0)
@@ -61,15 +63,22 @@ public class SeedPlanter : MonoBehaviour
             }
             else if (currentSeeds.Contains(s))
             {
-                currentSeeds.Remove(s);
-                if(index == currentSeeds.Count)
-                {
-                    index--;
-                }
-                UpdateIndicator();
+                seedsToRemove.Add(s);
             }
         }
-
+        foreach (Seed s in seedsToRemove)
+        {
+            currentSeeds.Remove(s);
+            if(Index == currentSeeds.Count && currentSeeds.Count > 0)
+            {
+                Index--;
+            }
+        }
+        if (currentSeeds.Count > 0)
+        {
+            UpdateIndicator();
+        }
+        seedsToRemove.Clear();
     }
 
     void Update()
@@ -85,7 +94,7 @@ public class SeedPlanter : MonoBehaviour
     }
     public void UpdateIndicator()
     {
-        indicatorScript.ActivateChild(currentSeeds[index].food.itemName);
+        indicatorScript.ActivateChild(currentSeeds[Index].food.itemName);
     }
 
     private void CheckTarget()
@@ -106,7 +115,7 @@ public class SeedPlanter : MonoBehaviour
 
                 indicatorScript.ChangePosition(go.transform.position);
 
-                if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
+                if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[Index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
                 {
                     if (go.transform.childCount < 1)
                     {
@@ -129,17 +138,17 @@ public class SeedPlanter : MonoBehaviour
 
     private void Plant(GameObject go)
     {
-        GameObject loadPlant = DataBase.GetPlantPrefab(currentSeeds[index].food.itemName);
+        GameObject loadPlant = DataBase.GetPlantPrefab(currentSeeds[Index].food.itemName);
 
         Vector3 rot = new Vector3(0.0f, Random.Range(1, 360), 0.0f);
         GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.Euler(rot));
 
         plant.transform.SetParent(go.transform);
         
-        plant.GetComponent<PlantLife>().SetSeed(currentSeeds[index]);
+        plant.GetComponent<PlantLife>().SetSeed(currentSeeds[Index]);
         plant.GetComponent<PlantLife>().SetScript(go.GetComponent<HoleController>());
 
-        InventoryController.Instance.SubstractAmountSeed(1, currentSeeds[index].itemName);
+        InventoryController.Instance.SubstractAmountSeed(1, currentSeeds[Index].itemName);
         UpdateCurrentSeeds();
     }
     public Seed GetSeed(string name)

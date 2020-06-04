@@ -66,7 +66,6 @@ public class NpcController : MonoBehaviour
         UpdateCamPositionAndState();
         SetIniDialogues();
     }
-
     private void UpdateCamPositionAndState()
     {
         talkStarted = true;
