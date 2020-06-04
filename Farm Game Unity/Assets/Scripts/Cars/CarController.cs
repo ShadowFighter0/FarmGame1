@@ -47,16 +47,10 @@ public class CarController : MonoBehaviour
         if (other.CompareTag("Road"))
         {
             index++;
-            if (index == 4)
+            if (index == 4 && !gonnaBuy)
             {
-                if (!gonnaBuy)
-                {
-                    index += 2;
-                }
-                else
-                {
-                    
-                }
+
+                index += 2;
             }
         }
     }
