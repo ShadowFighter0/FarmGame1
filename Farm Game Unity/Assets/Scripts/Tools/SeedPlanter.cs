@@ -133,8 +133,11 @@ public class SeedPlanter : MonoBehaviour
 
         Vector3 rot = new Vector3(0.0f, Random.Range(1, 360), 0.0f);
         GameObject plant = Instantiate(loadPlant, go.transform.position, Quaternion.Euler(rot));
+
         plant.transform.SetParent(go.transform);
+        
         plant.GetComponent<PlantLife>().SetSeed(currentSeeds[index]);
+        plant.GetComponent<PlantLife>().SetScript(go.GetComponent<HoleController>());
 
         InventoryController.Instance.SubstractAmountSeed(1, currentSeeds[index].itemName);
         UpdateCurrentSeeds();

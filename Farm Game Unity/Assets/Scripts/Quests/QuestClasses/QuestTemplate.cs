@@ -6,6 +6,7 @@ using UnityEngine;
 public class QuestTemplate : ScriptableObject
 {
     public string title;
+    [TextArea]
     public string description;
     public string NPCName;
     public Item itemReward;
