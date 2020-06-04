@@ -38,11 +38,18 @@ public class QuestController : MonoBehaviour
     public Transform questPanelFolder;
     private GameObject[] questPanels;
 
+    private bool tutorialDone;
+
     private void Awake()
     {
         Instance = this;
+        GameEvents.OnTutorialDone += TutorialDone;
     }
 
+    private void TutorialDone()
+    {
+        tutorialDone = true;
+    } 
     private void Start()
     {
         GameEvents.OnSaveInitiated += SaveQuests;
@@ -233,6 +240,11 @@ public class QuestController : MonoBehaviour
         {
             completedQuests.Remove(q);
             UpdatePanels();
+
+            if (!tutorialDone)
+            {
+                TutorialController.instance.SetThingDone(2);
+            }
         }
     }
 

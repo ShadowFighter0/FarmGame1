@@ -42,6 +42,11 @@ public class WorkShopController : MonoBehaviour
     public GameObject UIMenu;
 
     private bool finished = true;
+    private bool tutorialDone = false;
+    private void Awake() 
+    {
+        GameEvents.OnTutorialDone += TutorialDone;
+    }
 
     private void Start()
     {
@@ -81,7 +86,10 @@ public class WorkShopController : MonoBehaviour
             ChangeItemsState(false);
         }
     }
-
+    private void TutorialDone()
+    {
+        tutorialDone = true;
+    }    
     private void Update()
     {
         if(playerIn)
@@ -254,6 +262,10 @@ public class WorkShopController : MonoBehaviour
             UnlockeableItem script = currentItem.GetComponent<UnlockeableItem>();
             script.SetOriginalMat();
             script.Purchased();
+            if(!tutorialDone)
+            {
+                TutorialController.instance.SetThingDone(1);
+            }
             //Destroy(script);
 
             MonoBehaviour itemController = currentItem.GetComponent<MonoBehaviour>();
