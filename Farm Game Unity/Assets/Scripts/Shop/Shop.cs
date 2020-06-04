@@ -6,7 +6,6 @@ using UnityEngine;
 public class ShopItem
 {
     public Item item;
-
     public int amountSelected = 0;
 
     public ShopItem(Item i)
@@ -31,6 +30,7 @@ public class Shop : MonoBehaviour
 
     private void Start()
     {
+        GameEvents.OnSaveInitiated += SaveItems;
         for (int i = 0; i < stock.Length; i++)
         {
             stock[i] = new ShopItem();
@@ -39,7 +39,6 @@ public class Shop : MonoBehaviour
         if(SaveLoad.SaveExists("ShopItems"))
         {
             List<string> names = SaveLoad.Load<List<string>>("ShopItems");
-
             foreach (string s in names)
             {
                 Item item = DataBase.GetItem(s);
@@ -74,17 +73,17 @@ public class Shop : MonoBehaviour
             {
                 break;
             }
-            names.Add(item.item.name);
+            names.Add(item.item.itemName);
         }
+        Debug.Log("Saving " + names.Count);
 
         SaveLoad.Save(names, "ShopItems");
+        names.Clear();
     }
     public void AddToStock (Item seed)
     {
         stock[num].item = seed;
         num++;
-
-        SaveItems();
     }
 
     private void OnTriggerEnter(Collider other)

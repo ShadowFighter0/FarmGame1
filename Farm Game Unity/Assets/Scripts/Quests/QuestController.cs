@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class SaveQuest
@@ -14,9 +11,10 @@ public class SaveQuest
     public string[] itemId;
     public int[] itemAmount;
     public string reward;
+    public int amount;
     public int experience;
     public bool isOrder;
-    public SaveQuest(string q, string npc, string d, string[] ids, int[] am, string r, int exp, bool isOrd)
+    public SaveQuest(string q, string npc, string d, string[] ids, int[] am, string r, int amo, int exp, bool isOrd)
     {
         questName = q;
         npcName = npc;
@@ -26,6 +24,7 @@ public class SaveQuest
         reward = r;
         experience = exp;
         isOrder = isOrd;
+        amount = amo;
     }
 }
 
@@ -39,11 +38,18 @@ public class QuestController : MonoBehaviour
     public Transform questPanelFolder;
     private GameObject[] questPanels;
 
+    private bool tutorialDone;
+
     private void Awake()
     {
         Instance = this;
+        GameEvents.OnTutorialDone += TutorialDone;
     }
 
+    private void TutorialDone()
+    {
+        tutorialDone = true;
+    } 
     private void Start()
     {
         GameEvents.OnSaveInitiated += SaveQuests;
@@ -54,7 +60,7 @@ public class QuestController : MonoBehaviour
             foreach (SaveQuest q in saved)
             {
                 Item item = DataBase.GetItem(q.reward);
-                AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, item, q.experience, q.isOrder));
+                AddQuest(new SampleQuest(q));
             }
             saved.Clear();
         }
@@ -64,7 +70,7 @@ public class QuestController : MonoBehaviour
             foreach (SaveQuest q in saved)
             {
                 Item item = DataBase.GetItem(q.reward);
-                AddQuest(new SampleQuest(q.questName, q.npcName, q.description, q.itemId, q.itemAmount, item, q.experience, q.isOrder));
+                AddQuest(new SampleQuest(q));
             }
             saved.Clear();
         }
@@ -125,7 +131,7 @@ public class QuestController : MonoBehaviour
                 ids[i] = q.Goals[i].ItemID;
                 amounts[i] = q.Goals[i].RequiredAmount;
             }
-            saveActives.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward.itemName, q.QuestExp, q.IsOrder));
+            saveActives.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward.itemName, q.Amount, q.QuestExp, q.IsOrder));
         }
         List<SaveQuest> saveCompleted = new List<SaveQuest>();
         foreach (Quest q in completedQuests)
@@ -138,7 +144,7 @@ public class QuestController : MonoBehaviour
                 ids[i] = q.Goals[i].ItemID;
                 amounts[i] = q.Goals[i].RequiredAmount;
             }
-            saveCompleted.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward.itemName, q.QuestExp, q.IsOrder));
+            saveCompleted.Add(new SaveQuest(q.QuestName, q.NPCName, q.Description, ids, amounts, q.ItemReward.itemName, q.Amount, q.QuestExp, q.IsOrder));
         }
 
         SaveLoad.Save(saveActives, "ActiveQuests");
@@ -184,6 +190,44 @@ public class QuestController : MonoBehaviour
             index++;
         }
     }
+    private void OnGUI()
+    {
+        int pos = 20;
+        GUI.Label(new Rect(10, pos, 300, 300), "ACTIVE");
+        pos += 20;
+        for (int i = 0; i < activeQuests.Count; i++)
+        {
+            GUI.Label(new Rect(20, pos, 300, 300), activeQuests[i].QuestName + ": " + activeQuests[i].Description + " " + activeQuests[i].NPCName);
+            pos += 15;
+            GUI.Label(new Rect(20, pos, 300, 300), activeQuests[i].ItemReward.itemName);
+            pos += 15;
+            for (int j = 0; j < activeQuests[i].Goals.Count; j++)
+            {
+                Goal g = activeQuests[i].Goals[j];
+                string s = "- " + g.CurrentAmount + " / " + g.Description;
+                GUI.Label(new Rect(20, pos, 300, 300), s);
+                pos += 15;
+            }
+        }
+        pos += 15;
+        GUI.Label(new Rect(10, pos, 300, 300), "COMPLETED");
+        pos += 20;
+        for (int i = 0; i < completedQuests.Count; i++)
+        {
+            GUI.Label(new Rect(20, pos, 300, 300), completedQuests[i].QuestName + " " + completedQuests[i].Description + " " + completedQuests[i].NPCName);
+            pos += 15;
+            GUI.Label(new Rect(20, pos, 300, 300), completedQuests[i].ItemReward.itemName);
+            pos += 15;
+            
+            for (int j = 0; j < completedQuests[i].Goals.Count; j++)
+            {
+                Goal g = completedQuests[i].Goals[j];
+                string s = "- " + g.CurrentAmount + " / " + g.Description;
+                GUI.Label(new Rect(20, pos, 300, 300), s);
+                pos += 15;
+            }
+        }
+    }
 
     public void AddUpdatedQuest(Quest q)
     {
@@ -191,6 +235,20 @@ public class QuestController : MonoBehaviour
         activeQuests.Add(q);
     }
     public void RemoveQuest(Quest q)
+    {
+        if(completedQuests.Contains(q))
+        {
+            completedQuests.Remove(q);
+            UpdatePanels();
+
+            if (!tutorialDone)
+            {
+                TutorialController.instance.SetThingDone(2);
+            }
+        }
+    }
+
+    public void OnRemoveQuestButton(Quest q)
     {
         if(completedQuests.Contains(q) && q.IsOrder)
         {

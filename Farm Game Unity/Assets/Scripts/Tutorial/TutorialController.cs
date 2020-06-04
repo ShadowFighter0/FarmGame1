@@ -19,6 +19,10 @@ public class TutorialController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+    }
+    private void Start() 
+    {
         if (SaveLoad.SaveExists("ThingsDone"))
         {
             thingsDone = SaveLoad.Load<bool[]>("ThingsDone");

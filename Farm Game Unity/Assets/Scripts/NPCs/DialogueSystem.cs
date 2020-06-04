@@ -27,6 +27,8 @@ public class DialogueSystem : MonoBehaviour
 
     private Vector3 pos;
 
+    private bool onDialogue;
+
     private void Start()
     {
         options = new TextMeshProUGUI[transform.GetChild(1).childCount];
@@ -57,8 +59,10 @@ public class DialogueSystem : MonoBehaviour
         rect.localPosition = Vector3.Lerp(rect.localPosition, pos, Time.deltaTime * 10.0f);
     }
 
+    public bool OnDialogue() { return onDialogue; }
     public void ShowDialogue(string name, string dialogue, string[] options)
     {
+        onDialogue = true;
         Vector3 newPos;
         newPos.x = rect.localPosition.x;
         newPos.y = -350;
@@ -93,6 +97,7 @@ public class DialogueSystem : MonoBehaviour
         StartCoroutine(Action());
         SetNPC(null);
         InputManager.instance.ChangeState(InputManager.States.Dialoguing);
+        onDialogue = false;
     }
     public void UpdateDialogue(string sentence, string[] op)
     {

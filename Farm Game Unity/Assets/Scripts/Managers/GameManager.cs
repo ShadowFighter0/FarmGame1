@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadScene()
     {
         yield return new WaitForEndOfFrame();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Application.Quit();
     }
     #endregion
 

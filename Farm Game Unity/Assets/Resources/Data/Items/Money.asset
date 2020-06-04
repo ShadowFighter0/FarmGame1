@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Money
   image: {fileID: 21300000, guid: 4c0ad0a872588614c9c4bec00586d4e3, type: 3}
-  amount: 2147483647
+  amount: 1
   price: 0
+  experience: 0

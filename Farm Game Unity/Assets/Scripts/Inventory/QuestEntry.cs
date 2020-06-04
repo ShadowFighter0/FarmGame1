@@ -26,6 +26,6 @@ public class QuestEntry : MonoBehaviour
     }
     public void Button()
     {
-        QuestController.Instance.RemoveQuest(quest);
+        QuestController.Instance.OnRemoveQuestButton(quest);
     }
 }

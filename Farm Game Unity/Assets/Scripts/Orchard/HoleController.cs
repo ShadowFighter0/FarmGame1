@@ -39,7 +39,7 @@ public class HoleController : MonoBehaviour
     }
     private void UpdateHole()
     {
-        if (!wet)
+        if (!wet && transform.childCount == 0)
         {
             transform.SetParent(FindObjectOfType<ObjectPooler>().transform);
             gameObject.SetActive(false);

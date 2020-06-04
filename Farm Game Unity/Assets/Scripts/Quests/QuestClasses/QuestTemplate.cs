@@ -6,9 +6,11 @@ using UnityEngine;
 public class QuestTemplate : ScriptableObject
 {
     public string title;
+    [TextArea]
     public string description;
     public string NPCName;
     public Item itemReward;
+    public int amount;
     public int experience;
     [Header("Goals")]
     public string[] ids;

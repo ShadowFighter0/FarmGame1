@@ -42,9 +42,12 @@ public class SprinklerController : MonoBehaviour
     }
     private void OnEnable()
     {
-        time = TimeManager.instance.secondsPerDay / 12;
-        rotationTime = 360.0f / anglesPerSecond;
-        StartCoroutine(ActivateWater());
+        if(GetComponent<UnlockeableItem>().purchased)
+        {
+            time = TimeManager.instance.secondsPerDay / 12;
+            rotationTime = 360.0f / anglesPerSecond;
+            StartCoroutine(ActivateWater());
+        }
     }
 
     void Update()

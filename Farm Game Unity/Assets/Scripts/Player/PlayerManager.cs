@@ -11,18 +11,15 @@ public class PlayerManager : MonoBehaviour
     {
         public int level;
         public int experience;
-        public int seedIndex;
         public PlayerLevel()
         {
             level = 0;
             experience = 0;
-            seedIndex = 1;
         }
         public PlayerLevel(PlayerLevel info)
         {
             level = info.level;
             experience = info.experience;
-            seedIndex = info.seedIndex;
         }
     }
     private PlayerLevel playerInfo;
@@ -61,7 +58,6 @@ public class PlayerManager : MonoBehaviour
         {
             PlayerLevel loadInfo = SaveLoad.Load<PlayerLevel>("PlayerLvl");
             playerInfo = new PlayerLevel(loadInfo);
-            StartCoroutine(SendSeeds(playerInfo.seedIndex));
         }
         else
         {
@@ -89,17 +85,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SendSeeds(int mx)
-    {
-        yield return new WaitForEndOfFrame();
-        for (int i = 0; i < mx; i++)
-        {
-            Sprite spr = imagesQueue.Dequeue();
-            images[i].sprite = spr;
-            Item seed = DataBase.GetItem(spr.name);
-            shopScript.AddToStock(seed);
-        }
-    }
     private void SavePlayer()
     {
         SaveLoad.Save(playerInfo, "PlayerLvl");
@@ -183,7 +168,6 @@ public class PlayerManager : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            playerInfo.seedIndex++;
             imageGo[i].SetActive(true);
 
             Sprite spr = imagesQueue.Dequeue();
@@ -195,12 +179,9 @@ public class PlayerManager : MonoBehaviour
     public void CloseUI()
     {
         popUp.SetActive(false);
-        InputManager.instance.ChangeState(InputManager.States.Idle);
-    }
-
-    public void SendCarrots()
-    {
-        Item seed = DataBase.GetItem("CarrotSeed");
-        shopScript.AddToStock(seed);
+        if(!DialogueSystem.instance.OnDialogue())
+        {
+            InputManager.instance.ChangeState(InputManager.States.Idle);
+        }
     }
 }
