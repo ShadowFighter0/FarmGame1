@@ -1,32 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OutlineController : MonoBehaviour
 {
-    private Material mat;
+    private Material[] mats;
     private float maxWidth = 0.06f;
     private Color OutlineColor = new Color(1.0f, 1.0f, 0.0f, 1.0f);
     public Shader shader;
 
-    private void Start()
+    private void Awake()
     {
         MeshRenderer meshRender = GetComponent<MeshRenderer>();
-        mat = new Material(meshRender.material);
-        mat.shader = shader;
-        meshRender.material = mat;
-
+         mats = new Material[meshRender.materials.Length];
+        for(int i = 0; i < mats.Length; i++)
+        {
+            mats[i] = new Material(meshRender.materials[i]);
+            mats[i].shader = shader;
+        }
+        meshRender.materials = mats;
         ShowOutline();
     }
 
     public void ShowOutline()
     {
-        mat.SetFloat("_Outline", maxWidth);
-        mat.SetColor("_OutlineColor", OutlineColor);
+        foreach (Material mat in mats)
+        {
+            mat.SetFloat("_Outline", maxWidth);
+            mat.SetColor("_OutlineColor", OutlineColor);
+        }
     }
 
     public void HideOutline()
     {
-        mat.SetFloat("_Outline", 0f);
+        foreach (Material mat in mats)
+        {
+            mat.SetFloat("_Outline", 0f);
+        }
     }
 }
