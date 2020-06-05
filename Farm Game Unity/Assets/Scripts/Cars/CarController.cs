@@ -4,32 +4,42 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    //Path
     Transform[] path;
     int index = 0;
+    //Driving
+    private bool moving = false;
     public int speed = 5;
-    bool gonnaBuy;
     float currentSpeed;
+    //Shop
+    bool gonnaBuy;
 
     void Update()
     {
-        //mirar hacia donde tiene q mirar progresivamente
-        //acelerar y frenar poco poco 
-
-        transform.LookAt(path[index]);
-        transform.position += Vector3.forward * currentSpeed * Time.deltaTime;
-        
-        
-        if (gonnaBuy)
-            Sell.Instance.SellItem();
-
-        if (index == path.Length-1)
+        if(moving)
         {
-            TurnOff();
+            //mirar hacia donde tiene q mirar progresivamente
+            //acelerar y frenar poco poco 
+
+            transform.LookAt(path[index]);
+            transform.position += Vector3.forward * currentSpeed * Time.deltaTime;
+
+            if (gonnaBuy)
+            {
+                Sell.Instance.SellItem();
+            }
+            if (index == path.Length - 1)
+            {
+                TurnOff();
+            }
         }
+        
     }
 
-    public void TurnOn (bool buy)
+    public void TurnOn (Transform[] path, bool buy)
     {
+        transform.position = path[0].position;
+        transform.forward = path[0].forward;
         gonnaBuy = buy;
         currentSpeed = 5;
     }
