@@ -27,7 +27,7 @@ public class Shop : MonoBehaviour
     int num = 0;
 
     private bool playerNear = false;
-
+    private OutlineController outline;
     private void Start()
     {
         GameEvents.OnSaveInitiated += SaveItems;
@@ -50,6 +50,7 @@ public class Shop : MonoBehaviour
             Item seed = DataBase.GetItem("CarrotSeed");
             AddToStock(seed);
         }
+        outline = GetComponent<OutlineController>();
     }
 
     private void Update()
@@ -89,11 +90,17 @@ public class Shop : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             playerNear = true;
+            outline.ShowOutline();
+        }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             playerNear = false;
+            outline.HideOutline();
+        }
     }
 }

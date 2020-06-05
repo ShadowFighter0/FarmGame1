@@ -43,6 +43,10 @@ public class WorkShopController : MonoBehaviour
 
     private bool finished = true;
     private bool tutorialDone = false;
+
+    private OutlineController outline;
+
+    public GameObject controlsText;
     private void Awake() 
     {
         GameEvents.OnTutorialDone += TutorialDone;
@@ -86,6 +90,7 @@ public class WorkShopController : MonoBehaviour
             ChangeItemsState(false);
         }
         DisableRequirements();
+        outline = GetComponent<OutlineController>();
     }
     private void TutorialDone()
     {
@@ -200,6 +205,7 @@ public class WorkShopController : MonoBehaviour
     {
         UIMenu.SetActive(true);
         menu.SetActive(false);
+        controlsText.SetActive(false);
         workshopCamera.SetActive(false);
         cam.position = oriCamPos;
         cam.rotation = oriCamRot;
@@ -209,7 +215,7 @@ public class WorkShopController : MonoBehaviour
     public void ActivateCamera()
     {
         UIMenu.SetActive(false);
-
+        controlsText.SetActive(true);
         workshopCamera.SetActive(true);
         oriCamPos = cam.position;
         oriCamRot = cam.rotation;
@@ -320,6 +326,7 @@ public class WorkShopController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             playerIn = true;
+            outline.ShowOutline();
         }
     }
     private void OnTriggerExit(Collider other)
@@ -327,6 +334,7 @@ public class WorkShopController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             playerIn = false;
+            outline.HideOutline();
         }
     }
     #endregion

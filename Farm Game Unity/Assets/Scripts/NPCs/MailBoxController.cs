@@ -32,6 +32,7 @@ public class MailBoxController : MonoBehaviour
     private int panelIndex = 0;
 
     public Mail tutorialMail;
+    private OutlineController outline;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class MailBoxController : MonoBehaviour
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
+        outline = GetComponent<OutlineController>();
     }
     private void Update()
     {
@@ -73,7 +75,7 @@ public class MailBoxController : MonoBehaviour
                 {
                     panelIndex = 0;
                     mailsPanel.SetActive(true);
-                    AudioManager.PlaySoundWithVariation(open);
+                    //AudioManager.PlaySoundWithVariation(open);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
                     UpdatePositions();
                     done = false;
@@ -217,6 +219,7 @@ public class MailBoxController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNear = true;
+            outline.ShowOutline();
         }
     }
     private void OnTriggerExit(Collider other)
@@ -224,6 +227,7 @@ public class MailBoxController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNear = false;
+            outline.HideOutline();
         }
     }
 }

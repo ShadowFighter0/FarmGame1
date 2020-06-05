@@ -17,7 +17,7 @@ public class OutlineController : MonoBehaviour
             mats[i].shader = shader;
         }
         meshRender.materials = mats;
-        ShowOutline();
+        //ShowOutline();
     }
 
     public void ShowOutline()
