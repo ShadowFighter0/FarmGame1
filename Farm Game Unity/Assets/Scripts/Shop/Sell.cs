@@ -48,7 +48,7 @@ public class Sell : MonoBehaviour
             if (timeForNextSell < 0)
             {
                 timeForNextSell = Random.Range(60, 500);
-                SellItem();
+                CarManager.Instance.DeployCar(true, true);
             }
             else
             {
@@ -205,7 +205,6 @@ public class Sell : MonoBehaviour
 
     public void SellItem()
     {
-        //Deploy Car
 
         int pos = Random.Range(0, numStock);
         SellItem item = stock[pos];
