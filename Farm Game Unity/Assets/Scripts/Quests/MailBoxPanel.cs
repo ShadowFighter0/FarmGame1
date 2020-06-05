@@ -18,13 +18,16 @@ public class MailBoxPanel : MonoBehaviour
         {
             if (mail.rewardItem != null)
             {
-                InventoryController.Instance.AddItem(mail.rewardItem, mail.amount);
+                for (int i = 0; i < mail.rewardItem.Length; i++)
+                {
+                    InventoryController.Instance.AddItem(mail.rewardItem[i], mail.amount[i]);
+                }
             }
         }
     }
     public string QuestInfo()
     {
-        string info = quest.questName + "\n" + quest.description + " " + quest.npcName + "\n";
+        string info = quest.questName + "\n" + quest.description;
         for (int i = 0; i < quest.ids.Length; i++)
         {
             info += "- " + quest.amounts[i] + " " + quest.ids[i] + "\n";

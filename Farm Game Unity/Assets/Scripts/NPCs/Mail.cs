@@ -7,7 +7,7 @@ public class Mail : ScriptableObject
 {
     [TextArea]
     public string message;
-    public Item rewardItem;
-    public int amount;
+    public Item[] rewardItem;
+    public int[] amount;
     public QuestTemplate quest;
 }

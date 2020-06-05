@@ -254,8 +254,9 @@ public class WorkShopController : MonoBehaviour
             for (int i = 0; i < item.requirements.Length; i++)
             {
                 int amount = InventoryController.Instance.GetAmount(item.requirements[i].itemName);
-                if (amount <= 0)
+                if (amount < item.amounts[i])
                 {
+                    
                     return;
                 }
             }

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: 
   message: Welcome to Harvest Day! Take this to complete your first order
-  rewardItem: {fileID: 11400000, guid: be2956b92aac055419c69979d4dfbd48, type: 2}
-  amount: 4
+  rewardItem:
+  - {fileID: 11400000, guid: be2956b92aac055419c69979d4dfbd48, type: 2}
+  - {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
+  amount: 0400000064000000
   quest: {fileID: 11400000, guid: 78026025b75f07241aecda289a85c551, type: 2}
