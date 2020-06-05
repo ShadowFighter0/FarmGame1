@@ -85,6 +85,7 @@ public class WorkShopController : MonoBehaviour
         {
             ChangeItemsState(false);
         }
+        DisableRequirements();
     }
     private void TutorialDone()
     {
