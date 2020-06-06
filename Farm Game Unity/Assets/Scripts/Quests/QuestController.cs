@@ -80,7 +80,9 @@ public class QuestController : MonoBehaviour
         for (int i = 0; i < max; i++)
         {
             questPanels[i] = questPanelFolder.GetChild(i).gameObject;
+            questPanels[i].SetActive(true);
         }
+        UpdatePanels();
     }
     private void Update()
     {
@@ -101,21 +103,23 @@ public class QuestController : MonoBehaviour
         int index = 0;
         for (int i = 0; i < completedQuests.Count; i++)
         {
-            questPanels[index].SetActive(true);
+            //questPanels[index].SetActive(true);
             questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
             questPanels[index].GetComponent<QuestEntry>().AssignQuest(completedQuests[i]);
             index++;
         }
         for (int i = 0; i < activeQuests.Count; i++)
         {
-            questPanels[index].SetActive(true);
+            //questPanels[index].SetActive(true);
             questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
             questPanels[index].GetComponent<QuestEntry>().AssignQuest(activeQuests[i]);
             index++;
         }
         for (int i = index; i < questPanels.Length; i++)
         {
-            questPanels[index].SetActive(false);
+            //questPanels[index].SetActive(false);
+            questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
+            questPanels[index].GetComponent<QuestEntry>().AssignQuest(null);
         }
     }
     private void SaveQuests()

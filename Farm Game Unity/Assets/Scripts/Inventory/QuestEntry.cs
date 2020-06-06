@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class QuestEntry : MonoBehaviour
 {
@@ -19,6 +18,11 @@ public class QuestEntry : MonoBehaviour
     {
         nameText.text = name;
         descriptionText.text = description;
+    }
+    public void Fill()
+    {
+        nameText.text = "";
+        descriptionText.text = "";
     }
     public void AssignQuest(Quest q)
     {
