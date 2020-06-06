@@ -9,6 +9,7 @@ public class MoneyBox : MonoBehaviour
     int moneyAmount;
     bool inside;
     public Item moneyClass;
+    public GameObject UiIcon;
 
     public static MoneyBox Instance;
 
@@ -41,6 +42,11 @@ public class MoneyBox : MonoBehaviour
     public void AddMoney (int cant)
     {
         moneyAmount += cant;
+        //TODO q salga bonico esto
+
+        UiIcon.SetActive(true);
+        StartCoroutine(ApagoEsto());
+
     }
 
     private void OnTriggerEnter (Collider other)
@@ -56,5 +62,11 @@ public class MoneyBox : MonoBehaviour
         {
             inside = false;
         }
+    }
+
+    IEnumerator ApagoEsto()
+    {
+        yield return new WaitForSeconds(3.1f);
+        UiIcon.SetActive(false);        
     }
 }

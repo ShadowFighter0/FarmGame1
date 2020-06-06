@@ -25,20 +25,17 @@ public class InventoryEntry : MonoBehaviour
 
     public void Fill(InventoryItem it)
     {
+        image.enabled = true;
         Sprite sprite = DataBase.GetItemSprite(it.image);
         image.sprite = sprite;
         nameText.text = it.name;
         amount.text = it.inventoryAmount.ToString();
-
-        if (Sell.Instance.playerNear)
-        {
-            price.text = DataBase.GetItem(it.name).price.ToString();
-            price.gameObject.SetActive(true);
-        }
-        else
-        {
-            price.gameObject.SetActive(false);
-        }
+    }
+    public void Fill()
+    {
+        image.enabled = false;
+        nameText.text = "";
+        amount.text = "";       
     }
 
     public void Button()

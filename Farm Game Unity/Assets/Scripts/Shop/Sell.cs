@@ -205,10 +205,10 @@ public class Sell : MonoBehaviour
 
     public void SellItem()
     {
-
         int pos = Random.Range(0, numStock);
         SellItem item = stock[pos];
-        int cant = Random.Range(0, item.amount);
+        int cant = Random.Range(item.amount/4, item.amount);
+
         MoneyBox.Instance.AddMoney(item.item.price * cant);
 
         if (cant == item.amount)

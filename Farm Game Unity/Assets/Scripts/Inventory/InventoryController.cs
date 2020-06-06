@@ -143,16 +143,15 @@ public class InventoryController : MonoBehaviour
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
-                    it.notActive.SetActive(false);
-
-                    if (items[i] != null)
+                    if(items[i] == null)
                     {
-                        it.gameObject.SetActive(true);
-                        it.Fill(items[i]);
+                        it.notActive.SetActive(true);
+                        it.Fill();
                     }
                     else
                     {
-                        it.gameObject.SetActive(false);
+                        it.notActive.SetActive(false);
+                        it.Fill(items[i]);
                     }
                 }
                 if(questFolder.activeSelf)

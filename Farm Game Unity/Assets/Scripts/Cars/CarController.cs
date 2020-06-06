@@ -21,8 +21,7 @@ public class CarController : MonoBehaviour
             //mirar hacia donde tiene q mirar progresivamente
             //acelerar y frenar poco poco 
 
-            transform.LookAt(path[index]);
-            transform.position += Vector3.forward * currentSpeed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, path[index].position, 5);
 
             if (gonnaBuy)
             {
