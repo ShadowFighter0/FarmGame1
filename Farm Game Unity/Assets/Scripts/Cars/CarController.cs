@@ -55,12 +55,21 @@ public class CarController : MonoBehaviour
     {
         if (other.CompareTag("Road"))
         {
-            index++;
-            if (index == 4 && !gonnaBuy)
+            if (index == path.Length)
             {
-
-                index += 2;
+                CarManager.Instance.EndRoute(this);
             }
+            else
+            {
+                index++;
+
+                if (index == 4 && !gonnaBuy)
+                {
+                    index += 3;
+                }
+            }
+                
+            
         }
     }
 }

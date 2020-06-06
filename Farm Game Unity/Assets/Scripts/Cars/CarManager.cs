@@ -31,9 +31,10 @@ public class CarManager : MonoBehaviour
 
     }
 
-    void Update()
+    public void EndRoute (CarController obj)
     {
-        //trafico normal 
+        carTypes.Add(obj);
+        StartCoroutine(NewCar(Random.Range(10f, 60f)));
     }
 
     public void DeployCar(bool pathDirection, bool gonnaBuy)

@@ -82,7 +82,7 @@ public class QuestController : MonoBehaviour
             questPanels[i] = questPanelFolder.GetChild(i).gameObject;
             questPanels[i].SetActive(true);
         }
-        UpdatePanels();
+        //UpdatePanels();
     }
     private void Update()
     {
