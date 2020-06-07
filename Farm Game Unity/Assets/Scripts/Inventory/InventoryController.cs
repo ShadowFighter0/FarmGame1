@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class InventoryItem
@@ -110,6 +109,8 @@ public class InventoryController : MonoBehaviour
                 items[i] = savedItems[i];
             }
         }
+
+        AddItem(DataBase.GetItem("Carrot"), 20);
     }
 
     private void Save()

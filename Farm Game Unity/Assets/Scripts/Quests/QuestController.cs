@@ -118,7 +118,7 @@ public class QuestController : MonoBehaviour
         for (int i = index; i < questPanels.Length; i++)
         {
             //questPanels[index].SetActive(false);
-            questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
+            questPanels[index].GetComponent<QuestEntry>().Fill();
             questPanels[index].GetComponent<QuestEntry>().AssignQuest(null);
         }
     }

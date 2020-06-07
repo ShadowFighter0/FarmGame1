@@ -9,7 +9,12 @@ public class CarController : MonoBehaviour
     int index = 0;
     //Driving
     private bool moving = false;
-    public int speed = 1;
+    private float accel = 7f; 
+
+    public float desireSpeed;
+    public float maxVel = 5;
+    private float currentSpeed;
+
     //Shop
     bool gonnaBuy;
 
@@ -17,24 +22,22 @@ public class CarController : MonoBehaviour
     {
         if (moving)
         {
+            float dt = Time.deltaTime;
             transform.LookAt(path[index]);
-            transform.position = Vector3.MoveTowards(transform.position, path[index].position, speed);
-
-            if (gonnaBuy)
-            {
-                Sell.Instance.SellItem();
-            }
+            GetOffset(dt, desireSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, path[index].position, currentSpeed*dt);
         }
     }
 
     public void TurnOn (Transform[] path, bool buy)
     {
         this.path = path;
+        index = 0;
         transform.position = path[0].position;
         transform.forward = path[0].forward;
         gonnaBuy = buy;
         moving = true;
-        speed = 1;
+        desireSpeed = maxVel;
     }
 
     private void TurnOff ()
@@ -43,7 +46,23 @@ public class CarController : MonoBehaviour
         gonnaBuy = false;
         index = 0;
         transform.position = path[index].position;
-        speed = 0;
+        desireSpeed = 0f;
+    }
+
+
+    private float GetOffset(float dt,  float desireSpeed)
+    {
+        float targetZSpeed = desireSpeed;
+        float velZOffset = targetZSpeed - currentSpeed;
+        velZOffset = Mathf.Clamp(velZOffset, -accel * dt, accel * dt);
+        currentSpeed += velZOffset;
+        return currentSpeed;
+    }
+
+    IEnumerator Continue()
+    {
+        yield return new WaitForSeconds(5f);
+        desireSpeed = maxVel;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,16 +73,26 @@ public class CarController : MonoBehaviour
             {
                 TurnOff();
                 CarManager.Instance.EndRoute(this);
+                return;
             }
-            else
+            else if (index == 3)
             {
-                index++;
-
-                if (index == 4 && !gonnaBuy)
+                if (gonnaBuy)
+                {
+                    desireSpeed = 3*maxVel / 4;
+                }
+                else
                 {
                     index += 3;
                 }
             }
+            else if (index == 5)
+            {
+                Sell.Instance.SellItem();
+                desireSpeed = 0;
+                StartCoroutine(Continue());
+            }
+                index++;
         }
     }
 }

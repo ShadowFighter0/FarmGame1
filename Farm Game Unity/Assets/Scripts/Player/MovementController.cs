@@ -19,7 +19,7 @@ public class MovementController : MonoBehaviour
     private float maxSpeed;
     private float currentSpeed;
 
-    public float gravityAmount = 9.8f;
+    public float gravityAmount = 7f;
     private float gravity = 0;
     private bool jumping = true;
 

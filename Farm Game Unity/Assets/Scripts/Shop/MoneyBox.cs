@@ -26,7 +26,6 @@ public class MoneyBox : MonoBehaviour
             if(Input.GetKeyDown(InputManager.instance.Interact))
             {
                 CollectMoney();
-                Debug.Log("MoneyCollect");
             }
         }
     }
