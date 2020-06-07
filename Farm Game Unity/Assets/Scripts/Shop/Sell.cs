@@ -18,9 +18,6 @@ public class SellItem
 
 public class Sell : MonoBehaviour
 {
-    // Hacer lo de los hijos pa q se vea chido (GetChild(0).GetChild())
-    // Car spawn in GetChild(3)
-
     SellItem[] stock;
     ShopEntry[] stockUI;
 
@@ -43,18 +40,6 @@ public class Sell : MonoBehaviour
 
     private void Update()
     {
-        if (numStock > 0)
-        {
-            if (timeForNextSell < 0)
-            {
-                timeForNextSell = Random.Range(60, 500);
-                CarManager.Instance.DeployCar(true, true);
-            }
-            else
-            {
-                timeForNextSell -= Time.deltaTime;
-            }
-        }
         if (playerNear && Input.GetKeyDown(InputManager.instance.Interact))
         {
             if (!shopPanel.activeSelf)
@@ -205,22 +190,26 @@ public class Sell : MonoBehaviour
 
     public void SellItem()
     {
-        int pos = Random.Range(0, numStock);
-        SellItem item = stock[pos];
-        int cant = Random.Range(item.amount/4, item.amount);
-
-        MoneyBox.Instance.AddMoney(item.item.price * cant);
-
-        if (cant == item.amount)
+        if (numStock > 0)
         {
-            stock[pos] = null;
-            ReOrder();
-            numStock--;
+            int pos = Random.Range(0, numStock);
+            SellItem item = stock[pos];
+            int cant = Random.Range(item.amount/4, item.amount);
+
+            MoneyBox.Instance.AddMoney(item.item.price * cant);
+
+            if (cant == item.amount)
+            {
+                stock[pos] = null;
+                ReOrder();
+                numStock--;
+            }
+            else
+            {
+                item.amount -= cant;
+            }
         }
-        else
-        {
-            item.amount -= cant;
-        }
+        
     }
 
     private void OnTriggerEnter(Collider other)

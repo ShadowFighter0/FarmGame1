@@ -5,58 +5,54 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     //Path
-    Transform[] path;
+    private Transform[] path;
     int index = 0;
     //Driving
     private bool moving = false;
-    public int speed = 5;
-    float currentSpeed;
+    public int speed = 1;
     //Shop
     bool gonnaBuy;
 
     void Update()
     {
-        if(moving)
+        if (moving)
         {
-            //mirar hacia donde tiene q mirar progresivamente
-            //acelerar y frenar poco poco 
-
-            transform.position = Vector3.MoveTowards(transform.position, path[index].position, 5);
+            transform.LookAt(path[index]);
+            transform.position = Vector3.MoveTowards(transform.position, path[index].position, speed);
 
             if (gonnaBuy)
             {
                 Sell.Instance.SellItem();
             }
-            if (index == path.Length - 1)
-            {
-                TurnOff();
-            }
         }
-        
     }
 
     public void TurnOn (Transform[] path, bool buy)
     {
+        this.path = path;
         transform.position = path[0].position;
         transform.forward = path[0].forward;
         gonnaBuy = buy;
-        currentSpeed = 5;
+        moving = true;
+        speed = 1;
     }
 
     private void TurnOff ()
     {
+        moving = false;
         gonnaBuy = false;
         index = 0;
         transform.position = path[index].position;
-        currentSpeed = 0;
+        speed = 0;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Road"))
         {
-            if (index == path.Length)
+            if (index == path.Length - 1)
             {
+                TurnOff();
                 CarManager.Instance.EndRoute(this);
             }
             else
@@ -68,8 +64,6 @@ public class CarController : MonoBehaviour
                     index += 3;
                 }
             }
-                
-            
         }
     }
 }
