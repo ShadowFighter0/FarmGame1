@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class MailBoxPanel : MonoBehaviour
 {
     private QuestInfo quest;
     private Mail mail;
 
-    public void AddContent()
+    private void AddContent()
     {
         if (quest != null)
         {
@@ -38,7 +38,7 @@ public class MailBoxPanel : MonoBehaviour
     public void Assign(QuestInfo q) 
     { 
         quest = q;
-        transform.GetChild(0).GetComponent<Text>().text = QuestInfo();
+        transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = QuestInfo();
         transform.SetSiblingIndex(0);
     }
     public void Assign(Mail m)
@@ -50,7 +50,12 @@ public class MailBoxPanel : MonoBehaviour
         {
             quest = new QuestInfo(q);
         }
-        transform.GetChild(0).GetComponent<Text>().text = m.message;
+        transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = m.message;
         transform.SetSiblingIndex(0);
+    }
+
+    public void OnTakeButton()
+    {
+        AddContent();
     }
 }
