@@ -7,7 +7,6 @@ public class MailBoxPanel : MonoBehaviour
 {
     private QuestInfo quest;
     private Mail mail;
-
     private void AddContent()
     {
         if (quest != null)
@@ -24,6 +23,7 @@ public class MailBoxPanel : MonoBehaviour
                 }
             }
         }
+        gameObject.SetActive(false);
     }
     public string QuestInfo()
     {

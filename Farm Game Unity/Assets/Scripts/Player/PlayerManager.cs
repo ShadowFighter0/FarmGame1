@@ -142,13 +142,13 @@ public class PlayerManager : MonoBehaviour
                 ActivateImages(2);
                 break;
             case 2:
-                ActivateImages(4);
+                ActivateImages(3);
                 break;
             case 3:
                 ActivateImages(4);
                 break;
             case 4:
-                ActivateImages(5);
+                ActivateImages(4);
                 break;
             default:
                 break;
