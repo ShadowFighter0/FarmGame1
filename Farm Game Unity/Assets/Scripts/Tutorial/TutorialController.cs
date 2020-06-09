@@ -10,7 +10,6 @@ public class TutorialController : MonoBehaviour
     public TextMeshProUGUI text;
     public VideoPlayer player;
     public static TutorialController instance;
-
     private bool[] thingsDone = new bool[3];
     //0 -> first mail
     //1 -> orchard bought
@@ -21,15 +20,13 @@ public class TutorialController : MonoBehaviour
         instance = this;
 
     }
-    private void Start() 
-    {
+    private void Start() {
         if (SaveLoad.SaveExists("ThingsDone"))
         {
             thingsDone = SaveLoad.Load<bool[]>("ThingsDone");
             SendEvent();
         }
     }
-
     private void SendEvent()
     {
         if (TutorialDone())
@@ -67,7 +64,7 @@ public class TutorialController : MonoBehaviour
 
     public void SendFirstMail()
     {
-        NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox next to me you will find your first order!\nCome back to me when you're done");
+        NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox you will find your first order!\nCome back to me when you're done");
         MailBoxController.instance.SendTutorialMail();
     }
 
@@ -77,7 +74,7 @@ public class TutorialController : MonoBehaviour
     }
     public void SendShopMessage()
     {
-        NpcManager.instance.StartForcedDialogue("Maria", "kghjhjhg!");
+        NpcManager.instance.StartForcedDialogue("Maria", "Looks like you dont have seeds, go to the shop and buy some!");
     }
 
     private bool TutorialDone()

@@ -51,8 +51,6 @@ public class MailBoxController : MonoBehaviour
             mailIndex = loadIndex;
         }
         outline = GetComponent<OutlineController>();
-        AddContent(new QuestInfo(quests[0]));
-        AddContent(new QuestInfo(quests[0]));
     }
     private void Update()
     {

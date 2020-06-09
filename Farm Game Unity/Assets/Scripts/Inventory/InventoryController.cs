@@ -110,7 +110,7 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        AddItem(DataBase.GetItem("Carrot"), 20);
+        //AddItem(DataBase.GetItem("Carrot"), 20);
     }
 
     private void Save()

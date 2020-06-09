@@ -7,6 +7,8 @@ public class OutlineController : MonoBehaviour
     private Color OutlineColor = new Color(1.0f, 1.0f, 0.0f, 1.0f);
     public Shader shader;
 
+    public bool isWorldObject;
+
     private void Awake()
     {
         MeshRenderer meshRender = GetComponent<MeshRenderer>();
@@ -17,7 +19,15 @@ public class OutlineController : MonoBehaviour
             mats[i].shader = shader;
         }
         meshRender.materials = mats;
-        //ShowOutline();
+        GameEvents.OnTutorialDone += TutorialDone;
+        ShowOutline();
+    }
+    private void TutorialDone()
+    {
+        if (isWorldObject)
+        {
+            HideOutline();
+        }
     }
 
     public void ShowOutline()
