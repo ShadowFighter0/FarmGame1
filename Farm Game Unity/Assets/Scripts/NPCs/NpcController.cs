@@ -11,7 +11,7 @@ public class NpcController : MonoBehaviour
     public string npcName = "Juana";
     public string type;
 
-    public string[] mercaderSentences;
+    public string mercaderSentence = "Buy";
     private readonly KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     private Animator anim;
@@ -39,7 +39,8 @@ public class NpcController : MonoBehaviour
                 {
                     EndDialogue();
                 }
-                else if (talkStarted)
+
+                if (talkStarted)
                 {
                     Interact();
                 }
@@ -104,14 +105,13 @@ public class NpcController : MonoBehaviour
     /// <returns></returns>
     private string[] SentencesToOptions()
     {
-        int max = mercaderSentences.Length + npc.quest.Count;
+        int max = 1 + npc.quest.Count;
         string[] sentences = new string[max];
         int i = 0;
-        foreach (string sent in mercaderSentences)
-        {
-            sentences[i] = sent;
-            i++;
-        }
+        
+        sentences[i] = mercaderSentence;
+        i++;
+
         foreach (Quest q in npc.quest)
         {
             sentences[i] = q.QuestName;
@@ -162,7 +162,7 @@ public class NpcController : MonoBehaviour
         }
         else if(npc.type.Equals("Mercader"))
         {
-            int max = npc.quest.Count + mercaderSentences.Length;
+            int max = npc.quest.Count + 1;
             if (index == max)
             {
                 EndDialogue();
@@ -184,22 +184,16 @@ public class NpcController : MonoBehaviour
             if(ShopManager.Instance.currentShop != null && ShopManager.Instance.currentShop.owner.npc.name == npc.name)
             {
                 ShopManager.Instance.GiveItems();
-                DialogueSystem.instance.UpdateDialogue("Buying", SentencesToOptions());
+                DialogueSystem.instance.UpdateDialogue("Take this", SentencesToOptions());
             }
             else
             {
                 DialogueSystem.instance.UpdateDialogue("Sorry, those items are not mine.");
             }
         }
-        else if (index == 1)
-        {
-            string sentence = "Selling";
-            DialogueSystem.instance.UpdateDialogue(sentence, SentencesToOptions());
-            //Open Shop sell 
-        }
         else
         {
-            Quest q = npc.quest[index - mercaderSentences.Length];
+            Quest q = npc.quest[index - 1];
             if (q != null)
             {
                 if (q.Completed)

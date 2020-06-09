@@ -138,7 +138,9 @@ public class MailBoxController : MonoBehaviour
         {
             TutorialController.instance.SetThingDone(0);
             TutorialController.instance.SendWorkshopMessage();
-            Close();
+            
+            mailsPanel.SetActive(false);
+            done = true;
         }
     }
     public void AddContent(Mail info)

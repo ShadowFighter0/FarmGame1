@@ -13,6 +13,7 @@ public class ShopManager : MonoBehaviour
     public GameObject shopPanel;
     public Shop[] shops;
     public TextMeshProUGUI totalPrice;
+    public TextMeshProUGUI currentMoney;
 
     [HideInInspector] public Shop currentShop;
 
@@ -35,6 +36,7 @@ public class ShopManager : MonoBehaviour
         totalPrice = shopPanel.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
 
         shops = FindObjectsOfType<Shop>();
+        cartView = true;
     }
 
     /// <summary>
@@ -78,8 +80,7 @@ public class ShopManager : MonoBehaviour
                 }
             }
 
-            cartView = false;
-            CartView();
+            ShowCart();
         }
         else
         {
@@ -100,12 +101,11 @@ public class ShopManager : MonoBehaviour
             {
                 cart[cartPos].amountSelected += cant;
             }        
-            cartView = true;
-            CartView();
+            ShowShop();
         }
 
         AmountPanel.Instance.Off();
-        totalPrice.text = GetCharge().ToString();
+        totalPrice.text = "Cart value: " + GetCharge().ToString();
     }
 
     private int Search(string name)
@@ -133,10 +133,10 @@ public class ShopManager : MonoBehaviour
         }
 
         currentShop = shop;
-        cartView = true;
         shopPanel.SetActive(true);
-        CartView();
+        ShowShop();
         InputManager.instance.ChangeState(InputManager.States.OnUI);
+        currentMoney.text = "Your money: " + InventoryController.Instance.GetAmount("Money");
     }
 
     /// <summary>
@@ -220,13 +220,35 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void CartView()
+    public void ShowShop()
     {
-        cartView = !cartView;
-        shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
-
-        if (cartView)
+        if(cartView)
         {
+            cartView = false;
+            shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
+
+            for (int i = 0; i < currentShop.stock.Length; i++)
+            {
+                if(currentShop.stock[i].item != null)
+                {
+                    ShopEntry t = stockUI[i];
+                    t.gameObject.SetActive(true);
+                    t.Fill(currentShop.stock[i]);
+                }
+                else
+                {
+                    stockUI[i].gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+    public void ShowCart()
+    {
+        if(!cartView)
+        {
+            cartView = true;
+            shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
+
             for (int i = 0; i < cart.Length; i++)
             {
                 if (cart[i] != null && cart[i].item != null)
@@ -240,24 +262,7 @@ public class ShopManager : MonoBehaviour
                     stockUI[i].gameObject.SetActive(false);
                 }
             }
-            totalPrice.text = GetCharge().ToString();
-        }
-        else
-        {
-            int i = 0;
-            for (   ; i < currentShop.stock.Length; i++)
-            {
-                if(currentShop.stock[i].item != null)
-                {
-                    ShopEntry t = stockUI[i];
-                    t.gameObject.SetActive(true);
-                    t.Fill(currentShop.stock[i]);
-                }
-                else
-                {
-                    stockUI[i].gameObject.SetActive(false);
-                }
-            }
+            totalPrice.text = "Cart value: " + GetCharge().ToString();
         }
     }
     #endregion
