@@ -140,10 +140,11 @@ public class InventoryController : MonoBehaviour
     {
         switch (currentPage)
         {
-            case 0:
+            case 0: //Items
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
+                    it.transform.GetChild(3).gameObject.SetActive(true);
                     if(items[i] == null)
                     {
                         it.notActive.SetActive(true);
@@ -161,10 +162,11 @@ public class InventoryController : MonoBehaviour
                 }
                 break;
 
-            case 1:
+            case 1:  //Seeds
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
+                    it.transform.GetChild(3).gameObject.SetActive(false);
                     if (i < seeds.Length)
                     {
                         it.gameObject.SetActive(true);
