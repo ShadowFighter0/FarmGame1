@@ -81,12 +81,6 @@ public class MailBoxController : MonoBehaviour
                 {
                     AudioManager.PlaySoundWithVariation(open);
                     Close();
-
-                    if (!TutorialController.instance.GetThingDone(0))
-                    {
-                        TutorialController.instance.SendWorkshopMessage();
-                        TutorialController.instance.SetThingDone(0);
-                    }
                 }
             }
         }
@@ -135,6 +129,16 @@ public class MailBoxController : MonoBehaviour
                 mailIndex++;
                 return;
             }
+        }
+    }
+    public void RemovePanel(GameObject go)
+    {
+        activePanels.Remove(go);
+        if(!tutorialDone)
+        {
+            TutorialController.instance.SetThingDone(0);
+            TutorialController.instance.SendWorkshopMessage();
+            Close();
         }
     }
     public void AddContent(Mail info)

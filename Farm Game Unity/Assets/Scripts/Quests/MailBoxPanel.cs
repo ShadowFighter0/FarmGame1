@@ -57,5 +57,6 @@ public class MailBoxPanel : MonoBehaviour
     public void OnTakeButton()
     {
         AddContent();
+        MailBoxController.instance.RemovePanel(this.gameObject);
     }
 }
