@@ -5,7 +5,6 @@ using UnityEngine;
 public class MailBoxController : MonoBehaviour
 {
     private bool playerNear;
-
     public Transform mailFolder;
     private GameObject mailsPanel;
     public int offset = 70;
@@ -77,7 +76,7 @@ public class MailBoxController : MonoBehaviour
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
                     done = false;
                 }
-                if ((Input.GetKeyDown(KeyCode.F1)) && !done)
+                if ((Input.GetKeyDown(KeyCode.F1) || activePanels.Count == 0) && !done)
                 {
                     AudioManager.PlaySoundWithVariation(open);
                     Close();
