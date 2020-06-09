@@ -193,6 +193,7 @@ public class InventoryController : MonoBehaviour
                 {
                     questFolder.SetActive(true);
                 }
+                QuestController.Instance.UpdatePanels();
                 break;
         }
     }

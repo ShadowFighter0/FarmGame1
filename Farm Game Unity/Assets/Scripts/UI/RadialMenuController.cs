@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Page
 {
@@ -35,9 +36,6 @@ public class RadialMenuController : MonoBehaviour
 
     public int distance;
     public float time = 0.2f;
-
-    public Text text;
-
     public static RadialMenuController instance;
     private readonly Page[] page= new Page[2];
 
@@ -101,16 +99,9 @@ public class RadialMenuController : MonoBehaviour
     public void ChangePage()
     {
         page[currentPage].CloseChilds();
-        if (currentPage == 0)
-        {
-            currentPage = 1;
-        }
-        else
-        {
-            currentPage = 0;
-        }
-        page[currentPage].OpenChilds();
+        page[currentPage == 0 ? 1 : 0].OpenChilds();
     }
+    
     public void Open()
     {
         FillPages();
@@ -125,11 +116,6 @@ public class RadialMenuController : MonoBehaviour
         page[currentPage].CloseChilds();
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
-    public void ChangeText(string s)
-    {
-        text.text = s;
-    }
-
     public void SetSeed(Transform t)
     {
         int index = t.GetSiblingIndex();

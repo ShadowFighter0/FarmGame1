@@ -18,8 +18,8 @@ public class Date
         day = 1;
         hour = 7;
         minute = 0;
-        hourAngle = -90;
-        minuteAngle = -90;
+        hourAngle = -120;
+        minuteAngle = 90;
     }
     public Date(Date t)
     {
@@ -36,22 +36,15 @@ public class TimeManager : MonoBehaviour
     private float timer;
     public int minuteAmount;
     private float minuteTime;
-
     private bool resting = false;
     private int wakeHour = 0;
     private int wakeMinute = 0;
-
     private int textHour = 1;
-
     public int secondsPerDay = 300;
-    
     private bool playerIn = false;
-
     private const float minutesPerDay = 1440.0f;
-
     public Slider hoursSlider;
     public TextMeshProUGUI hoursText;
-    public Text timeText;
     public TextMeshProUGUI wakeUpText;
 
     public GameObject exitPopUp;
@@ -71,8 +64,8 @@ public class TimeManager : MonoBehaviour
     {
         minuteTime = secondsPerDay * minuteAmount / minutesPerDay;
 
-        minuteHand = clock.transform.GetChild(1).GetComponent<RectTransform>();
-        hourHand = clock.transform.GetChild(0).GetComponent<RectTransform>();
+        minuteHand = clock.transform.GetChild(0).GetComponent<RectTransform>();
+        hourHand = clock.transform.GetChild(1).GetComponent<RectTransform>();
 
         if (SaveLoad.SaveExists("GameTime"))
         {
@@ -85,7 +78,6 @@ public class TimeManager : MonoBehaviour
         minuteHand.localEulerAngles = Vector3.forward * time.minuteAngle;
         hourHand.localEulerAngles = Vector3.forward * time.hourAngle;
 
-        timeText.text = time.hour + ":" + time.minute;
         SetWakeHourText();
         hoursSlider.onValueChanged.AddListener(delegate { SetHoursText(); });
     }
@@ -128,7 +120,6 @@ public class TimeManager : MonoBehaviour
                         //AudioManager.PlaySound(DataBase.SearchClip("Alarm"));
                     }
                 }
-                timeText.text = time.hour + ":" + time.minute;
                 if(exitPopUp.activeSelf)
                 {
                     SetWakeHourText();

@@ -40,13 +40,11 @@ public class CarManager : MonoBehaviour
 
     IEnumerator NewCar(int time)
     {
-        Debug.Log(time);
         yield return new WaitForSeconds(time);
         int direction = Random.Range(0,1);
         int gonnaBuy = Random.Range(0,1);
 
-        CarController script =  carTypes.Dequeue();
-        Debug.Log(script.name);
+        CarController script = carTypes.Dequeue();
         if (direction == 0)
         {
             if (gonnaBuy == 0)

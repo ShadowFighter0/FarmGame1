@@ -33,13 +33,10 @@ public class QuestController : MonoBehaviour
     private List<Quest> activeQuests = new List<Quest>();
     private List<Quest> completedQuests = new List<Quest>();
     public static QuestController Instance;
-
     private bool playerIn = false;
     public Transform questPanelFolder;
     private GameObject[] questPanels;
-
     private bool tutorialDone;
-
     private void Awake()
     {
         Instance = this;
@@ -82,7 +79,6 @@ public class QuestController : MonoBehaviour
             questPanels[i] = questPanelFolder.GetChild(i).gameObject;
             questPanels[i].SetActive(true);
         }
-        //UpdatePanels();
     }
     private void Update()
     {
@@ -103,23 +99,21 @@ public class QuestController : MonoBehaviour
         int index = 0;
         for (int i = 0; i < completedQuests.Count; i++)
         {
-            //questPanels[index].SetActive(true);
             questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
             questPanels[index].GetComponent<QuestEntry>().AssignQuest(completedQuests[i]);
             index++;
         }
         for (int i = 0; i < activeQuests.Count; i++)
         {
-            //questPanels[index].SetActive(true);
             questPanels[index].GetComponent<QuestEntry>().Fill(descriptions[0, index], descriptions[1, index]);
             questPanels[index].GetComponent<QuestEntry>().AssignQuest(activeQuests[i]);
             index++;
         }
         for (int i = index; i < questPanels.Length; i++)
         {
-            //questPanels[index].SetActive(false);
             questPanels[index].GetComponent<QuestEntry>().Fill();
             questPanels[index].GetComponent<QuestEntry>().AssignQuest(null);
+            index++;
         }
     }
     private void SaveQuests()
@@ -194,45 +188,6 @@ public class QuestController : MonoBehaviour
             index++;
         }
     }
-    private void OnGUI()
-    {
-        int pos = 20;
-        GUI.Label(new Rect(10, pos, 300, 300), "ACTIVE");
-        pos += 20;
-        for (int i = 0; i < activeQuests.Count; i++)
-        {
-            GUI.Label(new Rect(20, pos, 300, 300), activeQuests[i].QuestName + ": " + activeQuests[i].Description + " " + activeQuests[i].NPCName);
-            pos += 15;
-            GUI.Label(new Rect(20, pos, 300, 300), activeQuests[i].ItemReward.itemName);
-            pos += 15;
-            for (int j = 0; j < activeQuests[i].Goals.Count; j++)
-            {
-                Goal g = activeQuests[i].Goals[j];
-                string s = "- " + g.CurrentAmount + " / " + g.Description;
-                GUI.Label(new Rect(20, pos, 300, 300), s);
-                pos += 15;
-            }
-        }
-        pos += 15;
-        GUI.Label(new Rect(10, pos, 300, 300), "COMPLETED");
-        pos += 20;
-        for (int i = 0; i < completedQuests.Count; i++)
-        {
-            GUI.Label(new Rect(20, pos, 300, 300), completedQuests[i].QuestName + " " + completedQuests[i].Description + " " + completedQuests[i].NPCName);
-            pos += 15;
-            GUI.Label(new Rect(20, pos, 300, 300), completedQuests[i].ItemReward.itemName);
-            pos += 15;
-            
-            for (int j = 0; j < completedQuests[i].Goals.Count; j++)
-            {
-                Goal g = completedQuests[i].Goals[j];
-                string s = "- " + g.CurrentAmount + " / " + g.Description;
-                GUI.Label(new Rect(20, pos, 300, 300), s);
-                pos += 15;
-            }
-        }
-    }
-
     public void AddUpdatedQuest(Quest q)
     {
         completedQuests.Remove(q);

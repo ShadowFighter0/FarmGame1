@@ -11,7 +11,6 @@ public class QuestEntry : MonoBehaviour
     {
         nameText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         descriptionText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        gameObject.SetActive(false);
     }
 
     public void Fill(string name, string description)
