@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     public Transform mainMenuCameraPivot;
 
     private float currentLerpTime;
-    private float lerpTime = 1;
+    private float lerpTime = 3;
 
     private string[] sentences = {"CONTINUE", "NEW GAME"};
 
@@ -203,17 +203,34 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator WaitStart()
     {
-        yield return new WaitForSeconds(0f);
-        gameLoaded = true;
-        //AudioManager.PlaySound(mainMenuMusic);
-        currentLerpTime = 0;
+        if(Application.isEditor)
+        {
+            yield return new WaitForSeconds(0f);
+            gameLoaded = true;
+            //AudioManager.PlaySound(mainMenuMusic);
+            currentLerpTime = 0;
 
-        yield return new WaitForSeconds(0f);
-        newCamPos = mainMenuCameraPivot.position;
-        currentLerpTime = 0;
+            yield return new WaitForSeconds(0f);
+            newCamPos = mainMenuCameraPivot.position;
+            currentLerpTime = 0;
 
-        yield return new WaitForSeconds(0f);
-        mainMenu.transform.GetChild(0).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0f);
+            mainMenu.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+            gameLoaded = true;
+            //AudioManager.PlaySound(mainMenuMusic);
+            currentLerpTime = 0;
+
+            yield return new WaitForSeconds(3f);
+            newCamPos = mainMenuCameraPivot.position;
+            currentLerpTime = 0;
+
+            yield return new WaitForSeconds(3f);
+            mainMenu.transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -324,7 +341,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            cam.position = player.position;
+            cam.position = player.position + Vector3.up * 1.1f;
             FreeCam();
 
             PlayerFollow.instance.enabled = true;
@@ -374,11 +391,9 @@ public class GameManager : MonoBehaviour
             StartCoroutine(DisableSaveText());
         }
     }
-
     public void DeleteProgress()
     {
         SaveLoad.DeleteAllData();
-        Reload();
     }
     IEnumerator DisableSaveText()
     {
