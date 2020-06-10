@@ -7,12 +7,17 @@ public class WateringCan : MonoBehaviour
 {
     public Transform wateringCan;
     public ParticleSystem waterParticles;
-
+    private Vector3 oriRot;
+    private Vector3 enableRot;
+    private Vector3 newRot;
     private bool mousePressed = false;
 
     private void Start()
     {
         waterParticles.Stop();
+        oriRot = transform.localEulerAngles;
+        enableRot = transform.localEulerAngles + Vector3.forward * 60.0f;
+        newRot = oriRot;
     }
 
     void Update()
@@ -27,6 +32,8 @@ public class WateringCan : MonoBehaviour
             mousePressed = false;
             InputManager.instance.playerAnim.SetTrigger("Watering");
         }
+
+        transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, newRot, 10 * Time.deltaTime);
     }
     IEnumerator MouseHold()
     {
@@ -40,10 +47,12 @@ public class WateringCan : MonoBehaviour
 
     public void Play()
     {
+        newRot = enableRot;
         waterParticles.Play();
     }
     public void Stop()
     {
+        newRot = oriRot;
         waterParticles.Stop();
     }
     private void OnEnable()
