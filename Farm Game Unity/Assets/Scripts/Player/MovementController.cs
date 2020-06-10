@@ -33,7 +33,8 @@ public class MovementController : MonoBehaviour
     {
         maxSpeed = walkSpeed;
         controller = GetComponent<CharacterController>();
-        
+        jumping = false;
+        gravity = 0;
     }
     void Update()
     {
@@ -108,12 +109,7 @@ public class MovementController : MonoBehaviour
     private void Jump(float dt)
     {
         gravity -= gravityAmount * dt;
-        if (Input.GetKey(KeyCode.Space) && !jumping)
-        {
-            jumping = true;
-            gravity = 5f;
-        }
-
+        
         if (controller.isGrounded)
         {
             jumping = false;

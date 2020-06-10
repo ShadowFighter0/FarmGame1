@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
             currentLerpTime = 0;
 
             yield return new WaitForSeconds(0f);
-            mainMenu.transform.GetChild(0).gameObject.SetActive(true);
+            mainMenu.gameObject.SetActive(true);
         }
         else
         {
@@ -233,7 +233,8 @@ public class GameManager : MonoBehaviour
             currentLerpTime = 0;
 
             yield return new WaitForSeconds(3f);
-            mainMenu.transform.GetChild(0).gameObject.SetActive(true);
+            mainMenu.gameObject.SetActive(true);
+            lerpTime = 10;
         }
     }
 
