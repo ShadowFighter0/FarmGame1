@@ -223,6 +223,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            lerpTime = 5;
             yield return new WaitForSeconds(1f);
             gameLoaded = true;
             //AudioManager.PlaySound(mainMenuMusic);
@@ -234,7 +235,7 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(3f);
             mainMenu.gameObject.SetActive(true);
-            lerpTime = 10;
+            lerpTime = 1;
         }
     }
 
@@ -263,14 +264,6 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F5))
             {
                 SaveAll();
-            }
-            if (Input.GetKeyDown(KeyCode.F8))
-            {
-                Reload();
-            }
-            if (Input.GetKeyDown(KeyCode.F12))
-            {
-                DeleteProgress();
             }
 
             if (Input.GetKeyDown(KeyCode.P) && !mainMenu.activeSelf)
