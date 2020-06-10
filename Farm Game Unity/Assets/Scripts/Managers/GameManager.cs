@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
 
     private AudioClip mainMenuMusic;
 
+    public Texture2D cursor;
+
     public float MouseSensivility { get; set; }
     private void Awake()
     {
@@ -121,6 +123,8 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+        
         MouseSensivility = 300;
         mainMenuMusic = DataBase.GetAudioClip("Theme");
 
