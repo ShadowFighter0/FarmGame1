@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    //Path
+    //Path 
     private Transform[] path;
     int index = 0;
-    //Driving
+    //Driving 
     private bool moving = false;
-    private float accel = 7f; 
+    private float accel = 5f;
+    private float rotateSpeed = 5f;
 
-    public float desireSpeed;
-    public float maxVel = 5;
+    private float desireSpeed;
+    public float maxVel = 15;
     private float currentSpeed;
 
-    //Shop
+    //Shop 
     bool gonnaBuy;
 
     void Update()
@@ -23,24 +24,25 @@ public class CarController : MonoBehaviour
         if (moving)
         {
             float dt = Time.deltaTime;
-            transform.LookAt(path[index]);
-            GetOffset(dt, desireSpeed);
-            transform.position = Vector3.MoveTowards(transform.position, path[index].position, currentSpeed*dt);
+
+            AccelRotation(dt);
+            AccelMovement(dt, desireSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, path[index].position, currentSpeed * dt);
         }
     }
 
-    public void TurnOn (Transform[] path, bool buy)
+    public void TurnOn(Transform[] path, bool buy)
     {
         this.path = path;
         index = 0;
         transform.position = path[0].position;
-        transform.forward = path[0].forward;
+        transform.eulerAngles = new Vector3(0f, 90f, 0f);
         gonnaBuy = buy;
         moving = true;
         desireSpeed = maxVel;
     }
 
-    private void TurnOff ()
+    private void TurnOff()
     {
         moving = false;
         gonnaBuy = false;
@@ -49,14 +51,27 @@ public class CarController : MonoBehaviour
         desireSpeed = 0f;
     }
 
-
-    private float GetOffset(float dt,  float desireSpeed)
+    private void AccelMovement(float dt, float desireSpeed)
     {
         float targetZSpeed = desireSpeed;
         float velZOffset = targetZSpeed - currentSpeed;
         velZOffset = Mathf.Clamp(velZOffset, -accel * dt, accel * dt);
         currentSpeed += velZOffset;
-        return currentSpeed;
+    }
+
+    private void AccelRotation(float dt)
+    {
+        Vector3 desireAngle = path[index].position - transform.position;
+
+        float angleOffset = Vector3.Angle(transform.forward, desireAngle);
+        Debug.Log(angleOffset);
+
+        angleOffset = Mathf.Clamp(angleOffset, -rotateSpeed * dt, rotateSpeed * dt);
+
+        if (transform.position.z < path[index].position.z)
+            angleOffset *= -1;
+
+        transform.Rotate(transform.up * angleOffset);
     }
 
     IEnumerator Continue()
@@ -79,7 +94,7 @@ public class CarController : MonoBehaviour
             {
                 if (gonnaBuy)
                 {
-                    desireSpeed = 3*maxVel / 4;
+                    desireSpeed = 3 * maxVel / 4;
                 }
                 else
                 {
@@ -92,7 +107,7 @@ public class CarController : MonoBehaviour
                 desireSpeed = 0;
                 StartCoroutine(Continue());
             }
-                index++;
+            index++;
         }
     }
 }

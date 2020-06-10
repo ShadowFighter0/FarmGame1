@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class DayNightCycle : MonoBehaviour
@@ -64,6 +65,16 @@ public class DayNightCycle : MonoBehaviour
     private float sunIntensity;
     public float sunBaseIntensity = 1.1f;
 
+    [SerializeField]
+    private AnimationCurve timeCurve;
+    private float timeCurveNormalization;
+
+    private List<DNModuleBase> moduleList = new List<DNModuleBase>();
+
+    private void Start()
+    {
+        NormalTimeCurve(); 
+    }
 
     private void Update()
     {
@@ -73,13 +84,31 @@ public class DayNightCycle : MonoBehaviour
             UpdateTime();
             AdjustSunRotation();
             SunIntensity();
+            UpdateModules();
         }
     }
 
     private void UpdateTimeScale()
     {
         _timeScale = 24 / (_targetDayLength / 60);
+        _timeScale *= timeCurve.Evaluate(timeOfDay);
+        _timeScale /= timeCurveNormalization;
     }
+
+    private void NormalTimeCurve()
+    {
+        float stepSize = 0.01f;
+        int numberSteps = Mathf.FloorToInt(1f / stepSize);
+        float curveTotal = 0;
+
+        for (int i = 0; i < numberSteps; i++)
+        {
+            curveTotal += timeCurve.Evaluate(i * stepSize);
+        }
+
+        timeCurveNormalization = curveTotal / numberSteps;
+    }
+
     private void UpdateTime()
     {
         _timeOfDay += Time.deltaTime * _timeScale / 86400;
@@ -101,6 +130,23 @@ public class DayNightCycle : MonoBehaviour
     {
         float sunAngle = timeOfDay * 360f;
         dailyRotation.transform.localRotation = Quaternion.Euler(new Vector3(sunAngle, 0f, 0f));
+    }
+
+    public void AddModule (DNModuleBase module)
+    {
+        moduleList.Add(module);
+    }
+    public void RemoveModule (DNModuleBase module)
+    {
+        moduleList.Remove(module);
+    }
+
+    private  void UpdateModules()
+    {
+        foreach (DNModuleBase module in moduleList)
+        {
+            module.UpdateModule(sunIntensity);
+        }
     }
 
     public void SunIntensity()
