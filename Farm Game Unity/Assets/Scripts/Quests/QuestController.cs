@@ -37,6 +37,7 @@ public class QuestController : MonoBehaviour
     public Transform questPanelFolder;
     private GameObject[] questPanels;
     private bool tutorialDone;
+    private OutlineController outline;
     private void Awake()
     {
         Instance = this;
@@ -79,6 +80,7 @@ public class QuestController : MonoBehaviour
             questPanels[i] = questPanelFolder.GetChild(i).gameObject;
             questPanels[i].SetActive(true);
         }
+        outline = GetComponent<OutlineController>();
     }
     private void Update()
     {
@@ -224,7 +226,6 @@ public class QuestController : MonoBehaviour
     {
         if(q != null && q.Completed && activeQuests.Contains(q))
         {
-            Debug.Log(q.QuestName + " completed!");
             AddCompletedQuest(q);
         }
     }
@@ -234,6 +235,7 @@ public class QuestController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            outline.ShowOutline();
             playerIn = true;
         }
     }
@@ -241,6 +243,7 @@ public class QuestController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            outline.HideOutline();
             playerIn = false;
         }
     }

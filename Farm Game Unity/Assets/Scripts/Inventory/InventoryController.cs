@@ -287,7 +287,6 @@ public class InventoryController : MonoBehaviour
 
         if (positions != null && positions.Count > 0)
         {
-            Debug.Log("Sumar cant Item");
             for (int i = 0; i < positions.Count && amount > 0; i++)
             {
                 item = items[positions[i]];
@@ -312,11 +311,8 @@ public class InventoryController : MonoBehaviour
         }
         if (positions == null && numItems < items.Length)
         {
-            Debug.Log("Nuevo Item");
             int numEntrys = amount / cantStackMax;
-            Debug.Log(numEntrys);
             int off = amount % cantStackMax;
-            Debug.Log(off);
 
             for (int i = 0; i < numEntrys; i++)
             {
@@ -340,7 +336,6 @@ public class InventoryController : MonoBehaviour
 
         if (positions != null && positions.Count > 0)
         {
-            Debug.Log("Sumar cant Item");
             for (int i = 0; i < positions.Count && amount > 0; i++)
             {
                 item = items[positions[i]];
@@ -365,12 +360,8 @@ public class InventoryController : MonoBehaviour
         }
         if (positions == null && numItems < items.Length)
         {
-            Debug.Log("Nuevo Item");
             int numEntrys = amount / cantStackMax;
-            Debug.Log(numEntrys);
             int off = amount % cantStackMax;
-            Debug.Log(off);
-
             for (int i = 0; i < numEntrys; i++)
             {
                 item = items[numItems] = new InventoryItem(newItem.itemName, newItem.image.name);

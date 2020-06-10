@@ -64,7 +64,6 @@ public class CarController : MonoBehaviour
         Vector3 desireAngle = path[index].position - transform.position;
 
         float angleOffset = Vector3.Angle(transform.forward, desireAngle);
-        Debug.Log(angleOffset);
 
         angleOffset = Mathf.Clamp(angleOffset, -rotateSpeed * dt, rotateSpeed * dt);
 
