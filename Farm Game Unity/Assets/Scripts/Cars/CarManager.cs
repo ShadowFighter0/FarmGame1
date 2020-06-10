@@ -35,14 +35,16 @@ public class CarManager : MonoBehaviour
 
     public void EndRoute (CarController obj)
     {
-        StartCoroutine(NewCar(Random.Range(10, 60)));
+        carTypes.Enqueue(obj);
+        StartCoroutine(NewCar(Random.Range(10, 30)));
     }
 
     IEnumerator NewCar(int time)
     {
+        Debug.Log(time);
         yield return new WaitForSeconds(time);
-        int direction = Random.Range(0,1);
-        int gonnaBuy = Random.Range(0,1);
+        int direction = Random.Range(0,2);
+        int gonnaBuy = Random.Range(0,2);
 
         CarController script = carTypes.Dequeue();
         if (direction == 0)

@@ -25,7 +25,8 @@ public class CarController : MonoBehaviour
         {
             float dt = Time.deltaTime;
 
-            AccelRotation(dt);
+            // AccelRotation(dt);
+            transform.LookAt(path[index]);
             AccelMovement(dt, desireSpeed);
             transform.position = Vector3.MoveTowards(transform.position, path[index].position, currentSpeed * dt);
         }
@@ -35,8 +36,9 @@ public class CarController : MonoBehaviour
     {
         this.path = path;
         index = 0;
-        transform.position = path[0].position;
-        transform.eulerAngles = new Vector3(0f, 90f, 0f);
+        transform.position = path[index].position;
+        transform.eulerAngles = path[index].localEulerAngles;
+        index++;
         gonnaBuy = buy;
         moving = true;
         desireSpeed = maxVel;
