@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FeedController : MonoBehaviour
 {
@@ -94,18 +95,18 @@ public class FeedController : MonoBehaviour
         GameObject last = FindWithTag(info.Tag);
         if (last != null)
         {
-            string text = last.transform.GetChild(0).GetComponent<Text>().text;
+            string text = last.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
             text = text.Replace("x", string.Empty);
             int.TryParse(text, out int amount);
             amount += info.Amount;
-            last.transform.GetChild(0).GetComponent<Text>().text = "x" + amount.ToString();
+            last.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "x" + amount.ToString();
         }
         else
         {
             GameObject go = feed.Dequeue();
             activePanels.Add(go);
             go.GetComponent<Image>().sprite = info.Image;
-            go.transform.GetChild(0).GetComponent<Text>().text = "x" + info.Amount.ToString();
+            go.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "x" + info.Amount.ToString();
             go.SetActive(true);
             go.GetComponent<FeedID>().SetID(info.Tag);
 
