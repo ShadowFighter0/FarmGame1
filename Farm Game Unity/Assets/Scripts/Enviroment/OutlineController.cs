@@ -6,13 +6,11 @@ public class OutlineController : MonoBehaviour
     private float maxWidth = 0.06f;
     private Color OutlineColor = new Color(1.0f, 1.0f, 0.0f, 1.0f);
     public Shader shader;
-
     public bool isWorldObject;
-
     private void Awake()
     {
         MeshRenderer meshRender = GetComponent<MeshRenderer>();
-         mats = new Material[meshRender.materials.Length];
+        mats = new Material[meshRender.materials.Length];
         for(int i = 0; i < mats.Length; i++)
         {
             mats[i] = new Material(meshRender.materials[i]);

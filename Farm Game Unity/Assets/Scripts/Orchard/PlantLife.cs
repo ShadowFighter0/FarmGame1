@@ -32,7 +32,6 @@ public class PlantLife : MonoBehaviour
     private bool grownUp = false;
 
     private float timer = 0;
-    private OutlineController outline;
 
     void Start()
     {
@@ -45,7 +44,6 @@ public class PlantLife : MonoBehaviour
         ChangeModel();
 
         GameObject lastChild = transform.GetChild(transform.childCount - 1).gameObject;
-        outline = lastChild.GetComponentInChildren<OutlineController>();
     }
 
     public void SetScript(HoleController script) { holeScript = script; }
@@ -61,18 +59,6 @@ public class PlantLife : MonoBehaviour
                 {
                     timer = 0;
                     UpdateState();
-                }
-            }
-
-            if(grownUp)
-            {
-                if(RayCastController.instance.GetTarget() == transform.parent.gameObject)
-                {
-                    outline.ShowOutline();
-                }
-                else
-                {
-                    outline.HideOutline();
                 }
             }
         }
