@@ -127,6 +127,7 @@ public class InventoryController : MonoBehaviour
         ChangeGui();
         currentState = InputManager.state;
         InputManager.instance.ChangeState(InputManager.States.OnUI);
+        ExperienceBarController.instace.ShowInInventory();
     }
 
     public void CloseMenu()
@@ -134,6 +135,7 @@ public class InventoryController : MonoBehaviour
         inventoryOpen = false;
         book.SetActive(false);
         InputManager.instance.ChangeState(currentState);
+        ExperienceBarController.instace.CloseBar();
     }
 
     void ChangeGui()

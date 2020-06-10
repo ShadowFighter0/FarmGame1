@@ -35,7 +35,7 @@ public class NpcController : MonoBehaviour
                 {
                     StartDialogue();
                 }
-                else if (Input.GetKeyDown(KeyCode.Escape))
+                else if (Input.GetKeyDown(InputManager.instance.Escape))
                 {
                     EndDialogue();
                 }

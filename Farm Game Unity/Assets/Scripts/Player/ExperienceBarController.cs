@@ -28,8 +28,15 @@ public class ExperienceBarController : MonoBehaviour
         }
         co = StartCoroutine(Close());
     }
-
-    private void CloseBar()
+    public void ShowInInventory()
+    {
+        group.alpha = 1;
+        if (coPlaying)
+        {
+            StopCoroutine(co);
+        }
+    }
+    public void CloseBar()
     {
         group.alpha = 0;
     }

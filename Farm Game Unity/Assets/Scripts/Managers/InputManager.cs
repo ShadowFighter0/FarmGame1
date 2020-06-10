@@ -45,6 +45,14 @@ public class InputManager : MonoBehaviour
     }
     private void Start()
     {
+        if(Application.isEditor)
+        {
+            Escape = KeyCode.F1;
+        }
+        else
+        {
+            Escape = KeyCode.Escape;
+        }
         UpdateStates();
         tools = new GameObject[toolsFolder.childCount];
         for (int i = 0; i < toolsFolder.childCount; i++)

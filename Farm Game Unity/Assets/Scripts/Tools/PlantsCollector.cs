@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlantsCollector : MonoBehaviour
 {
     private bool onAnim;
-
     public static PlantsCollector instance;
     private void Awake()
     {

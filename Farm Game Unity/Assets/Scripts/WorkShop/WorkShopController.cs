@@ -107,7 +107,7 @@ public class WorkShopController : MonoBehaviour
                 InputManager.instance.ChangeState(InputManager.States.OnUI);
             }
 
-            if (Input.GetKeyDown(KeyCode.F1) && !finished)
+            if (Input.GetKeyDown(InputManager.instance.Escape) && !finished)
             {
                 if(UIMenu.activeSelf)
                 {
