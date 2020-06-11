@@ -19,6 +19,6 @@ MonoBehaviour:
   experience: 8
   ids:
   - Bean
-  - Carrots
+  - Carrot
   amounts: 0a00000005000000
   isOrder: 0

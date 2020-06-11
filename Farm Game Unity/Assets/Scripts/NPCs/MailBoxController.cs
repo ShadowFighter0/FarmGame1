@@ -18,7 +18,7 @@ public class MailBoxController : MonoBehaviour
     private float timer;
     public float time;
 
-    private int mailIndex = 0;
+    private int mailIndex = -2;
     public GameObject mailImage;
 
     public AudioClip open;

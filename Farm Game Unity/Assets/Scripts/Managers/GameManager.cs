@@ -265,6 +265,13 @@ public class GameManager : MonoBehaviour
             {
                 SaveAll();
             }
+            if(Application.isEditor)
+            {
+                if (Input.GetKeyDown(KeyCode.F12))
+                {
+                    DeleteProgress();
+                }
+            }
 
             if (Input.GetKeyDown(KeyCode.P) && !mainMenu.activeSelf)
             {

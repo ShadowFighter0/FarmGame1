@@ -15,9 +15,7 @@ MonoBehaviour:
   title: Carrots!
   description: You must give me 4 carrots. Lets see what you have.
   NPCName: Maria
-  itemReward: {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
-  amount: 40
-  experience: 5
+  experience: 10
   ids:
   - Carrot
   amounts: 04000000

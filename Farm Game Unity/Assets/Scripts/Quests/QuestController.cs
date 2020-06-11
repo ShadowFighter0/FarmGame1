@@ -165,6 +165,8 @@ public class QuestController : MonoBehaviour
         if(!firstOrder && q.IsOrder)
         {
             TutorialController.instance.SendOrdersTutorial();
+            MailBoxController.instance.Close();
+            InputManager.instance.ChangeState(InputManager.States.OnUI);
         }   
         activeQuests.Add(q);
         q.CheckGoals();

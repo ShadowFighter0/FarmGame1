@@ -76,6 +76,10 @@ public class TutorialController : MonoBehaviour
     {
         NpcManager.instance.StartForcedDialogue("Maria", "That's an order. When you have completed it, go to the car next to me and complete it");
     }
+    public void SendShopMessage()
+    {
+        NpcManager.instance.StartForcedDialogue("Pepe", "In the shop you can buy the seeds that you need. Select the seeds that you want and talk with me to confirm the purchase. You can see the seeds that you have in your cart in the cart button.");
+    }
 
     private bool TutorialDone()
     {
