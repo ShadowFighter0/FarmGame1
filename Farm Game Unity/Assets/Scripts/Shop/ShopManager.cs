@@ -105,7 +105,16 @@ public class ShopManager : MonoBehaviour
         }
 
         AmountPanel.Instance.Off();
+        UpdatePrice();
+    }
+
+    private void UpdatePrice()
+    {
         totalPrice.text = "Cart value: " + GetCharge().ToString();
+    }
+    public void UpdatePriceSlider()
+    {
+        totalPrice.text = "Cart value: " + shops[0].stock[pos].item.price * AmountPanel.Instance.slider.value;
     }
 
     private int Search(string name)
@@ -257,7 +266,7 @@ public class ShopManager : MonoBehaviour
                 stockUI[i].gameObject.SetActive(false);
             }
         }
-        totalPrice.text = "Cart value: " + GetCharge().ToString();
+        UpdatePrice();
     }
     #endregion
 }

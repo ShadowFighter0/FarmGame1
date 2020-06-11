@@ -9,7 +9,7 @@ public class AmountPanel : MonoBehaviour
 
     public bool isOn = false;
 
-    private Slider slider;
+    public Slider slider;
     private InputField input;
 
     int amount;
@@ -37,6 +37,7 @@ public class AmountPanel : MonoBehaviour
 
     public void Off()
     {
+        slider.value = 0;
         gameObject.SetActive(false);
         isOn = false;
     }
