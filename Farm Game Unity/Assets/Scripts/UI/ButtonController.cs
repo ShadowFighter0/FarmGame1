@@ -18,6 +18,7 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerCli
     }
     public void OnPointerEnter(PointerEventData data)
     {
+        Debug.Log("aa");
         img.color = overColor;
         AudioManager.PlaySoundWithVariation(overSound);
     }
