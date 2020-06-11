@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShopTrigger : MonoBehaviour
 {
@@ -8,6 +6,7 @@ public class ShopTrigger : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             TutorialController.instance.SendShopMessage();
+            gameObject.SetActive(false);
         }
     }
 }

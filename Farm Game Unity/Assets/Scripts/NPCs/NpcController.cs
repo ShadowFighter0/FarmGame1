@@ -82,7 +82,14 @@ public class NpcController : MonoBehaviour
     public void ForceDialogue(string s)
     {
         UpdateCamPositionAndState();
-        DialogueSystem.instance.ShowDialogue(npcName, s, QuestToOptions());
+        if (npc.type.Equals("Citizen"))
+        {
+            DialogueSystem.instance.ShowDialogue(npcName, s, QuestToOptions());
+        }
+        else if (npc.type.Equals("Mercader"))
+        {
+            DialogueSystem.instance.ShowDialogue(npcName, s, SentencesToOptions());
+        }
     }
 
     private void SetIniDialogues()

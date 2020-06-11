@@ -189,10 +189,7 @@ public class QuestController : MonoBehaviour
         {
             description[0, index] = list[i].QuestName;
 
-            description[1, index] = "";
-            description[1, index] += list[i].QuestName + " " + list[i].Description + " " + list[i].NPCName;
-            description[1, index] += "\n";
-            description[1, index] += list[i].ItemReward.itemName;
+            description[1, index] = list[i].Description;
 
             for (int j = 0; j < list[i].Goals.Count; j++)
             {
