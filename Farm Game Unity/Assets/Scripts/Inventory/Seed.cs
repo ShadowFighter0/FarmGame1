@@ -8,4 +8,5 @@ public class Seed : Item
 {
     public Item food;
     public int growthTime;
+    public int lvl;
 }

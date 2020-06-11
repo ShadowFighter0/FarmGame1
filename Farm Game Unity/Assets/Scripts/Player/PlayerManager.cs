@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -23,25 +24,18 @@ public class PlayerManager : MonoBehaviour
         }
     }
     private PlayerLevel playerInfo;
-
     public int[] levelExperience;
     private float barwidth;
-
     public TextMeshProUGUI currentLvl;
     public TextMeshProUGUI nextLvl;
     public TextMeshProUGUI experience;
     public RectTransform experienceBar;
-
     public Transform imagesFolder;
     private Image[] images;
     private GameObject[] imageGo;
-    public Sprite[] sprites;
-    private Queue<Sprite> imagesQueue = new Queue<Sprite>();
-
+    private Seed[] seedsToUnlock;
     public GameObject popUp;
-
     private Shop shopScript;
-
     public static PlayerManager instace;
     private void Awake()
     {
@@ -50,10 +44,9 @@ public class PlayerManager : MonoBehaviour
     }
     private void Start()
     {
-        foreach (Sprite s in sprites)
-        {
-            imagesQueue.Enqueue(s);
-        }
+        seedsToUnlock = Resources.LoadAll<Seed>("Data/Items/Seeds");
+        seedsToUnlock.OrderBy(seeds => seeds.lvl).ToArray();
+
         if(SaveLoad.SaveExists("PlayerLvl"))
         {
             PlayerLevel loadInfo = SaveLoad.Load<PlayerLevel>("PlayerLvl");
@@ -84,7 +77,6 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
     private void SavePlayer()
     {
         SaveLoad.Save(playerInfo, "PlayerLvl");
@@ -92,13 +84,6 @@ public class PlayerManager : MonoBehaviour
     public int GetCurrentLevel()
     {
         return playerInfo.level;
-    }
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            AddExp(3);
-        }
     }
     private void ChangeExpBar()
     {
@@ -136,23 +121,7 @@ public class PlayerManager : MonoBehaviour
         UpdateImages();
         popUp.SetActive(true);
         InputManager.instance.ChangeState(InputManager.States.OnUI);
-        switch (playerInfo.level)
-        {
-            case 1:
-                ActivateImages(2);
-                break;
-            case 2:
-                ActivateImages(3);
-                break;
-            case 3:
-                ActivateImages(4);
-                break;
-            case 4:
-                ActivateImages(4);
-                break;
-            default:
-                break;
-        }
+        ActivateImages();
     }
     private void UpdateImages()
     {
@@ -164,16 +133,20 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    private void ActivateImages(int amount)
+    private void ActivateImages()
     {
-        for (int i = 0; i < amount; i++)
+        int imgIndex = 0;
+        for (int i = 0; i < seedsToUnlock.Length; i++)
         {
-            imageGo[i].SetActive(true);
+            if(seedsToUnlock[i].lvl == playerInfo.level)
+            {
+                imageGo[imgIndex].SetActive(true);
+                Sprite spr = DataBase.GetItemSprite(seedsToUnlock[i].itemName);
+                images[imgIndex].sprite = spr;
+                imgIndex++;
 
-            Sprite spr = imagesQueue.Dequeue();
-            images[i].sprite = spr;
-            Item seed = DataBase.GetItem(spr.name);
-            shopScript.AddToStock(seed);
+                shopScript.AddToStock(seedsToUnlock[i]);
+            }
         }
     }
     public void CloseUI()

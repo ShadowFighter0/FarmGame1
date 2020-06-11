@@ -15,5 +15,4 @@ MonoBehaviour:
   itemName: Asparagus
   image: {fileID: 21300000, guid: dee6466d6d813cc4987d3b855348a8e4, type: 3}
   amount: 1
-  price: 10
-  experience: 2
+  price: 27

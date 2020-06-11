@@ -155,7 +155,7 @@ public class InventoryController : MonoBehaviour
                     else
                     {
                         it.notActive.SetActive(false);
-                        it.Fill(items[i]);
+                        it.Fill(items[i], 0);
                     }
                 }
                 if(questFolder.activeSelf)
@@ -174,7 +174,7 @@ public class InventoryController : MonoBehaviour
                         it.gameObject.SetActive(true);
                         InventoryItem seed = seeds[i];
 
-                        it.Fill(seed);
+                        it.Fill(seed, 1);
                         it.notActive.SetActive(!seed.isActivate);
                     }
                     else

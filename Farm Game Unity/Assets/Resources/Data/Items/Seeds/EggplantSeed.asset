@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: EggplantSeed
   image: {fileID: 21300000, guid: 44cf36a205fcf6b42a1dcbce9d744991, type: 3}
   amount: 1
-  price: 12
-  experience: 0
+  price: 40
   food: {fileID: 11400000, guid: 1e299d746d8c5c24abfb30583581f593, type: 2}
-  growthTime: 5
+  growthTime: 13
+  lvl: 4

@@ -15,5 +15,4 @@ MonoBehaviour:
   itemName: Onion
   image: {fileID: 21300000, guid: 96b5507d920a4ec43891bae4f4d213fa, type: 3}
   amount: 1
-  price: 10
-  experience: 2
+  price: 15

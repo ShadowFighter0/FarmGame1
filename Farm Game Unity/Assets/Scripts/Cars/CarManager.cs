@@ -41,7 +41,6 @@ public class CarManager : MonoBehaviour
 
     IEnumerator NewCar(int time)
     {
-        Debug.Log(time);
         yield return new WaitForSeconds(time);
         int direction = Random.Range(0,2);
         int gonnaBuy = Random.Range(0,3);

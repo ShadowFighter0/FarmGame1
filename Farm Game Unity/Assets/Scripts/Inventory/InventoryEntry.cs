@@ -23,14 +23,24 @@ public class InventoryEntry : MonoBehaviour
         price = transform.GetChild(5).GetComponent<TextMeshProUGUI>();
     }
 
-    public void Fill(InventoryItem it)
+    public void Fill(InventoryItem it, int mode)
     {
         image.enabled = true;
         Sprite sprite = DataBase.GetItemSprite(it.image);
         image.sprite = sprite;
-        nameText.text = it.name;
+        if(mode == 0)
+        {
+            nameText.text = it.name;
+        }
+        else
+        {
+            Seed s = SeedPlanter.instance.GetSeed(it.name);
+            nameText.text = s.food.name + " seed";
+        }
         amount.text = it.inventoryAmount.ToString();
     }
+
+    
     public void Fill()
     {
         image.enabled = false;

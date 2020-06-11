@@ -68,9 +68,15 @@ public class QuestInfo
         ids = q.ids;
         amounts = q.amounts;
         npcName = q.NPCName;
-        itemReward = q.itemReward;
+        itemReward = DataBase.GetItem("Money");
         experience = q.experience;
         isOrder = q.isOrder;
-        amount = q.amount;
+
+        amount = 0;
+        for (int i = 0; i < amounts.Length; i++)
+        {
+            amount += DataBase.GetItem(ids[i]).price * amounts[i];
+        }
+        
     }
 }

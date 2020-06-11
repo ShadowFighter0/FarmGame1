@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: AsparagusSeed
   image: {fileID: 21300000, guid: 91fdf2e6f63445a40ac69eb3113d2f94, type: 3}
   amount: 1
-  price: 23
-  experience: 0
+  price: 18
   food: {fileID: 11400000, guid: c3073755a881ac7448da86ea31989e23, type: 2}
   growthTime: 5
+  lvl: 3

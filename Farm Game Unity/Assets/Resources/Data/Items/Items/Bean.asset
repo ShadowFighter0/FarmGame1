@@ -15,5 +15,4 @@ MonoBehaviour:
   itemName: Bean
   image: {fileID: 21300000, guid: 51d9998336ced604ca1708da22c60917, type: 3}
   amount: 1
-  price: 10
-  experience: 2
+  price: 12

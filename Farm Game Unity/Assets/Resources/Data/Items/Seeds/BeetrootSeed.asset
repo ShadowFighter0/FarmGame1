@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: BeetrootSeed
   image: {fileID: 21300000, guid: 138cb86fd2c4b1846b1bce0a06a03f27, type: 3}
   amount: 1
-  price: 12
-  experience: 0
+  price: 24
   food: {fileID: 11400000, guid: 0fc60d0afe9fac64bab18dad22344daa, type: 2}
-  growthTime: 5
+  growthTime: 12
+  lvl: 3

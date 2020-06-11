@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ public class MailBoxController : MonoBehaviour
     private List<GameObject> activePanels = new List<GameObject>();
 
     public Mail tutorialMail;
+    public Mail shopMail;
     private OutlineController outline;
 
     private void Awake()
@@ -60,7 +62,7 @@ public class MailBoxController : MonoBehaviour
             {
                 float dt = Time.deltaTime;
                 timer += dt;
-                if (timer > time && done && currentPanels < 3)
+                if (timer > time && done && mailIndex < quests.Length - 1 && currentPanels < 3)
                 {
                     timer = 0;
                     AddContent(new QuestInfo(quests[mailIndex]));
@@ -91,6 +93,7 @@ public class MailBoxController : MonoBehaviour
     public void SendTutorialMail()
     {
         AddContent(tutorialMail);
+        AddContent(shopMail);
     }
     private void SaveMails()
     {

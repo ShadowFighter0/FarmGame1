@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: PepperSeed
   image: {fileID: 21300000, guid: f31b96469c7a3a54396aee0212a82274, type: 3}
   amount: 1
-  price: 12
-  experience: 0
+  price: 50
   food: {fileID: 11400000, guid: 80c43e915fbe3f5498ee24073d35cb3d, type: 2}
-  growthTime: 5
+  growthTime: 20
+  lvl: 4

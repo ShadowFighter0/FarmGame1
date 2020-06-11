@@ -15,5 +15,4 @@ MonoBehaviour:
   itemName: Potato
   image: {fileID: 21300000, guid: e70003373849ee64696806f743188192, type: 3}
   amount: 1
-  price: 10
-  experience: 2
+  price: 45

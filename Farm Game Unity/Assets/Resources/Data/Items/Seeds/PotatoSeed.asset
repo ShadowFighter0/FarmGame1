@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: PotatoSeed
   image: {fileID: 21300000, guid: 70c5f027ca9be7b48a12ba0922dbef9c, type: 3}
   amount: 1
-  price: 12
-  experience: 0
+  price: 30
   food: {fileID: 11400000, guid: 9f6bdca158fe6c342916ace58c8f28ab, type: 2}
-  growthTime: 5
+  growthTime: 30
+  lvl: 4

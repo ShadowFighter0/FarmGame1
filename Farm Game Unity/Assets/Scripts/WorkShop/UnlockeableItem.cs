@@ -7,6 +7,7 @@ using UnityEngine;
 public class UnlockeableItem : MonoBehaviour
 {
     public string itemName;
+    [TextArea]
     public string description;
     public Item[] requirements;
     public int[] amounts;

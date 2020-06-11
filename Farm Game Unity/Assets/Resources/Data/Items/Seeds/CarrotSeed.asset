@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: CarrotSeed
   image: {fileID: 21300000, guid: 3448bc9c4b6da854bbdc4c820f908b1e, type: 3}
   amount: 1
-  price: 12
-  experience: 0
+  price: 4
   food: {fileID: 11400000, guid: 2d53f6224e768a648a1db02b513c98ee, type: 2}
   growthTime: 5
+  lvl: 0
