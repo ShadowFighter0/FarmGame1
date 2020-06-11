@@ -13,6 +13,7 @@ public class AmountPanel : MonoBehaviour
     private InputField input;
 
     int amount;
+    bool inventory = false;
 
     private void Awake()
     {
@@ -47,15 +48,22 @@ public class AmountPanel : MonoBehaviour
         {
             ShopManager.Instance.ConfirmAmount(amount);
         }
-        else 
+        else if(Sell.Instance.playerNear && Sell.Instance.onShopView)
         {
-            if (Sell.Instance.playerNear && !Sell.Instance.onShopView && InventoryController.Instance.currentPage == 0)
+            if (inventory)
                 Sell.Instance.AddItem(amount);
             else
                 Sell.Instance.ConfirmReturnItems(amount);               
         }
+        inventory = false;
         Off();
     }
+
+    public void IsOnInventory(bool isOnInventory)
+    {
+        inventory = isOnInventory;
+    }
+
     public void SliderValueChange()
     {
         input.text = slider.value.ToString();

@@ -258,6 +258,7 @@ public class Sell : MonoBehaviour
             numStock++;
         }
         InventoryController.Instance.SubstractAmountItem(amount, id);
+        ShowStock();
     }
 
     /// <summary> 
@@ -320,6 +321,5 @@ public class Sell : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             playerNear = false;
-
     }
 }

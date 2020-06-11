@@ -13,9 +13,9 @@ public class ShopEntry : MonoBehaviour
     private TextMeshProUGUI amountSelectedText;
 
     public int position;
+    public bool inventory;
     private void Awake()
     {
-
         image = transform.GetChild(0).GetComponent<Image>();
         nameText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         price = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
@@ -51,11 +51,6 @@ public class ShopEntry : MonoBehaviour
         amountSelectedText.gameObject.SetActive(false);
     }
 
-    public void Price(int price)
-    {
-        nameText.text = price.ToString();
-    }
-
     public void Button()
     {
         if (ShopManager.Instance.onShop)
@@ -64,7 +59,16 @@ public class ShopEntry : MonoBehaviour
         }
         else if (Sell.Instance.onShopView)
         {
-            Sell.Instance.ReturnItems(position);
+            AmountPanel.Instance.IsOnInventory(inventory);
+            if (inventory)
+            {
+                Sell.Instance.Button(position);
+                AmountPanel.Instance.On(int.Parse(stockText.text));
+            }
+            else
+            {
+                Sell.Instance.ReturnItems(position);
+            }
         }
     }
 }
