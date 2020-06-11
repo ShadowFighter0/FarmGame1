@@ -60,7 +60,7 @@ public class ShopManager : MonoBehaviour
         {
             ShopItem c = cart[pos];
 
-            c.amountSelected -= cant;
+            c.amountSelected = cant;
 
             if (c.amountSelected <= 0)
             {
@@ -222,48 +222,42 @@ public class ShopManager : MonoBehaviour
 
     public void ShowShop()
     {
-        if(cartView)
-        {
-            cartView = false;
-            shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
+        cartView = false;
+        shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
 
-            for (int i = 0; i < currentShop.stock.Length; i++)
+        for (int i = 0; i < currentShop.stock.Length; i++)
+        {
+            if (currentShop.stock[i].item != null)
             {
-                if(currentShop.stock[i].item != null)
-                {
-                    ShopEntry t = stockUI[i];
-                    t.gameObject.SetActive(true);
-                    t.Fill(currentShop.stock[i]);
-                }
-                else
-                {
-                    stockUI[i].gameObject.SetActive(false);
-                }
+                ShopEntry t = stockUI[i];
+                t.gameObject.SetActive(true);
+                t.Fill(currentShop.stock[i]);
+            }
+            else
+            {
+                stockUI[i].gameObject.SetActive(false);
             }
         }
     }
     public void ShowCart()
     {
-        if(!cartView)
-        {
-            cartView = true;
-            shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
+        cartView = true;
+        shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
 
-            for (int i = 0; i < cart.Length; i++)
+        for (int i = 0; i < cart.Length; i++)
+        {
+            if (cart[i] != null && cart[i].item != null)
             {
-                if (cart[i] != null && cart[i].item != null)
-                {
-                    ShopEntry t = stockUI[i];
-                    t.Fill(cart[i]);
-                    t.gameObject.SetActive(true);
-                }
-                else
-                {
-                    stockUI[i].gameObject.SetActive(false);
-                }
+                ShopEntry t = stockUI[i];
+                t.Fill(cart[i]);
+                t.gameObject.SetActive(true);
             }
-            totalPrice.text = "Cart value: " + GetCharge().ToString();
+            else
+            {
+                stockUI[i].gameObject.SetActive(false);
+            }
         }
+        totalPrice.text = "Cart value: " + GetCharge().ToString();
     }
     #endregion
 }
