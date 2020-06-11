@@ -64,17 +64,17 @@ public class TutorialController : MonoBehaviour
 
     public void SendFirstMail()
     {
-        NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. In the mailbox you will find your first order!\nCome back to me when you're done");
+        NpcManager.instance.StartForcedDialogue("Maria", "Hi! I'm Maria. Welcome to Harvest Day. In the mailbox you will find your first order!");
         MailBoxController.instance.SendTutorialMail();
     }
 
     public void SendWorkshopMessage()
     {
-        NpcManager.instance.StartForcedDialogue("Maria", "Now you need an orchard. Go to the barn and buy one with the workshop!");
+        NpcManager.instance.StartForcedDialogue("Maria", "Now you need an orchard and seeds. Go to the barn and buy one with the workshop!");
     }
-    public void SendShopMessage()
+    public void SendOrdersTutorial()
     {
-        NpcManager.instance.StartForcedDialogue("Maria", "Looks like you dont have seeds, go to the shop and buy some!");
+        NpcManager.instance.StartForcedDialogue("Maria", "That's an order. When you have completed it, go to the car next to me and complete it");
     }
 
     private bool TutorialDone()

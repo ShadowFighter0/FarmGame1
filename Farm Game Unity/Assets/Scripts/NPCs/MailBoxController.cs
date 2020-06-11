@@ -33,7 +33,7 @@ public class MailBoxController : MonoBehaviour
     public Mail tutorialMail;
     public Mail shopMail;
     private OutlineController outline;
-
+    private bool firstMails;
     private void Awake()
     {
         instance = this;
@@ -89,6 +89,7 @@ public class MailBoxController : MonoBehaviour
     private void TutorialDone()
     {
         tutorialDone = true;
+        firstMails = true;
     }
     public void SendTutorialMail()
     {
@@ -110,6 +111,12 @@ public class MailBoxController : MonoBehaviour
         mailsPanel.SetActive(false);
         done = true;
         InputManager.instance.ChangeState(InputManager.States.Idle);
+        if(!firstMails)
+        {
+            firstMails = true;
+            TutorialController.instance.SetThingDone(0);
+            TutorialController.instance.SendWorkshopMessage();
+        }
     }
 
     public void AddContent(QuestInfo info)
@@ -136,14 +143,6 @@ public class MailBoxController : MonoBehaviour
     public void RemovePanel(GameObject go)
     {
         activePanels.Remove(go);
-        if(!tutorialDone)
-        {
-            TutorialController.instance.SetThingDone(0);
-            TutorialController.instance.SendWorkshopMessage();
-            
-            mailsPanel.SetActive(false);
-            done = true;
-        }
     }
     public void AddContent(Mail info)
     {

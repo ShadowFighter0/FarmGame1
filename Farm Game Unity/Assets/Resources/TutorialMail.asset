@@ -15,5 +15,5 @@ MonoBehaviour:
   message: Welcome to Harvest Day! Take this to complete your first order
   rewardItem:
   - {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
-  amount: 14000000
+  amount: 64000000
   quest: {fileID: 11400000, guid: 4aaa539ee5850c748ab694fb987c0403, type: 2}

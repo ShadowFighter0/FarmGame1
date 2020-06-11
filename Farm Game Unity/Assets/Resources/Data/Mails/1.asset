@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 841fb9f3494238b4a8dbdbb6e3c03425, type: 3}
-  m_Name: 4
+  m_Name: 1
   m_EditorClassIdentifier: 
-  title: Help me!
-  description: 'My kids dont eat vegetables and I dont know what to do...
-
-    Could
-    you give me the best brocoli you have?'
+  title: Ana needs carrots
+  description: Hi, I'm Ana. I've heard that you have carrots for sale. Could you
+    give me 10 carrots?
   NPCName: 
-  experience: 0
+  experience: 5
   ids:
-  - Broccoli
-  amounts: 0c000000
+  - Carrot
+  amounts: 0a000000
   isOrder: 1

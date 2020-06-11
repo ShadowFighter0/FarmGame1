@@ -38,20 +38,24 @@ public class QuestController : MonoBehaviour
     private GameObject[] questPanels;
     private bool tutorialDone;
     private OutlineController outline;
+    private bool firstOrder = false;
     private void Awake()
     {
         Instance = this;
         GameEvents.OnTutorialDone += TutorialDone;
+        GameEvents.OnSaveInitiated += SaveQuests;
     }
-
     private void TutorialDone()
     {
         tutorialDone = true;
     } 
+    
     private void Start()
     {
-        GameEvents.OnSaveInitiated += SaveQuests;
-
+        if(SaveLoad.SaveExists("FirstMail"))
+        {
+            firstOrder = SaveLoad.Load<bool>("FirstMail");
+        }
         if(SaveLoad.SaveExists("ActiveQuests"))
         {
             List<SaveQuest> saved = SaveLoad.Load<List<SaveQuest>>("ActiveQuests");
@@ -94,7 +98,10 @@ public class QuestController : MonoBehaviour
             }
         }
     }
-
+    private void SaveFirstOrder()
+    {
+        SaveLoad.Save(firstOrder, "FirstOrder");
+    }
     public void UpdatePanels()
     {
         string[,] descriptions = GetQuestsDescriptions();
@@ -155,6 +162,10 @@ public class QuestController : MonoBehaviour
     }
     public void AddQuest(Quest q)
     {
+        if(!firstOrder && q.IsOrder)
+        {
+            TutorialController.instance.SendOrdersTutorial();
+        }   
         activeQuests.Add(q);
         q.CheckGoals();
     }
@@ -166,7 +177,7 @@ public class QuestController : MonoBehaviour
         int index = 0;
         BuildDescription(ref description, completedQuests, ref index);
         BuildDescription(ref description, activeQuests, ref index);
-
+        
         return description;
     }
 

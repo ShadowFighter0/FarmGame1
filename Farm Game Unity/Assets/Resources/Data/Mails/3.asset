@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841fb9f3494238b4a8dbdbb6e3c03425, type: 3}
   m_Name: 3
   m_EditorClassIdentifier: 
-  title: Ana needs carrots
-  description: Hi, I'm Ana. I've heard that you have carrots for sale. Could you
-    give me 10 carrots?
-  NPCName: 
-  itemReward: {fileID: 11400000, guid: f4bf22972723ec142b964321a849212e, type: 2}
-  amount: 100
+  title: Some beans
+  description: Hi, I'm Pepe. Looks like your beans are awesome. Could you give me
+    some? Some carrots would be fine to. You know where to find me.
+  NPCName: Pepe
   experience: 8
   ids:
-  - Carrot
-  amounts: 0a000000
-  isOrder: 1
+  - Bean
+  - Carrots
+  amounts: 0a00000005000000
+  isOrder: 0
