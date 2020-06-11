@@ -47,6 +47,7 @@ public class WorkShopController : MonoBehaviour
     private OutlineController outline;
 
     public GameObject controlsText;
+    public GameObject orchard;
     private void Awake() 
     {
         GameEvents.OnTutorialDone += TutorialDone;
@@ -222,7 +223,14 @@ public class WorkShopController : MonoBehaviour
         camActive = true;
         InputManager.instance.ChangeState(InputManager.States.Editing);
 
-        ChangeItemsState(true);
+        if(!tutorialDone)
+        {
+            ActivateTutorialOrchard();
+        }
+        else
+        {
+            ChangeItemsState(true);
+        }
     }
     private void ChangeItemsState(bool b)
     {
@@ -234,6 +242,7 @@ public class WorkShopController : MonoBehaviour
                 {
                     unlockableItems[i].SetMaterial();
                 }
+                
                 unlockableItems[i].gameObject.SetActive(b);
             }
             else
@@ -241,6 +250,12 @@ public class WorkShopController : MonoBehaviour
                 unlockableItems[i].Purchased();
             }
         }
+    }
+
+    private void ActivateTutorialOrchard()
+    {
+        orchard.GetComponent<UnlockeableItem>().SetMaterial();
+        orchard.SetActive(true);
     }
 
     public void BuyItem()

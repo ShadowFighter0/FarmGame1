@@ -59,7 +59,6 @@ public class Hoe : MonoBehaviour
         Vector3 pos = indicator.transform.position;
         GameObject hole = ObjectPooler.Instance.SpawnFromPool("Holes", pos, Quaternion.identity);
         hole.transform.SetParent(holeManager.transform);
-        hole.GetComponent<HoleController>().DoVFX();
     }
     private void SetColor(GameObject go)
     {

@@ -164,6 +164,7 @@ public class QuestController : MonoBehaviour
     {
         if(!firstOrder && q.IsOrder)
         {
+            firstOrder = true;
             TutorialController.instance.SendOrdersTutorial();
             MailBoxController.instance.Close();
             InputManager.instance.ChangeState(InputManager.States.OnUI);
@@ -190,7 +191,7 @@ public class QuestController : MonoBehaviour
             description[0, index] = list[i].QuestName;
 
             description[1, index] = list[i].Description;
-
+            description[1, index] += "\n";
             for (int j = 0; j < list[i].Goals.Count; j++)
             {
                 Goal g = list[i].Goals[j];

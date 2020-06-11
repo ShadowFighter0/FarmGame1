@@ -15,27 +15,26 @@ public class HoleController : MonoBehaviour
     public float time;
 
     private bool soundPlayed = true;
-
     private AudioClip wetSound;
-
     public GameObject vfx;
     private void Awake()
     {
         rend = GetComponent<MeshRenderer>();
         rend.material.color = dryColor;
-        GameEvents.OnNewDay += UpdateHole;
     }
     private void Start()
     {
         wetSound = DataBase.GetAudioClip("Wet");
         time = TimeManager.instance.secondsPerDay;
         soundPlayed = false;
+        time = TimeManager.instance.secondsPerDay;
     }
-
-    public void DoVFX()
-    {
-        GameObject go = Instantiate(vfx, transform.position, Quaternion.identity);
-        Destroy(go, 3.0f);
+    private void Update() {
+        Timer += Time.deltaTime;
+        if(Timer > time)
+        {
+            UpdateHole();
+        }
     }
     private void UpdateHole()
     {
