@@ -13,7 +13,7 @@ public class CarController : MonoBehaviour
     private float rotateSpeed = 5f;
 
     private float desireSpeed;
-    public float maxVel = 15;
+    public float maxVel = 30;
     private float currentSpeed;
 
     //Shop 
@@ -75,12 +75,6 @@ public class CarController : MonoBehaviour
         transform.Rotate(transform.up * angleOffset);
     }
 
-    IEnumerator Continue()
-    {
-        yield return new WaitForSeconds(5f);
-        desireSpeed = maxVel;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Road"))
@@ -95,7 +89,7 @@ public class CarController : MonoBehaviour
             {
                 if (gonnaBuy)
                 {
-                    desireSpeed = 3 * maxVel / 4;
+                    desireSpeed = maxVel / 3;
                 }
                 else
                 {
@@ -110,5 +104,11 @@ public class CarController : MonoBehaviour
             }
             index++;
         }
+    }
+
+    IEnumerator Continue()
+    {
+        yield return new WaitForSeconds(2f);
+        desireSpeed = maxVel;
     }
 }

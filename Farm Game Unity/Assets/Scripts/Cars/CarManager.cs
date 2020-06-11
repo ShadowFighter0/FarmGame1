@@ -36,7 +36,7 @@ public class CarManager : MonoBehaviour
     public void EndRoute (CarController obj)
     {
         carTypes.Enqueue(obj);
-        StartCoroutine(NewCar(Random.Range(10, 30)));
+        StartCoroutine(NewCar(Random.Range(0, 10)));
     }
 
     IEnumerator NewCar(int time)
