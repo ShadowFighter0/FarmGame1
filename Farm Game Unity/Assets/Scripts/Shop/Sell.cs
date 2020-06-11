@@ -23,6 +23,9 @@ public class Sell : MonoBehaviour
 
     int numStock = 0;
     int position = 0;
+    int moneyAmount;
+    public Item moneyClass;
+    public GameObject UiIcon;
 
     public bool onShopView;
     public bool playerNear;
@@ -87,6 +90,31 @@ public class Sell : MonoBehaviour
             shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
             shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
         }
+    }
+
+    /// <summary>
+    /// Añadir dinero a la "caja"
+    /// </summary>
+    /// <param name="cant"></param>
+    public void AddMoney(int cant)
+    {
+        moneyAmount += cant;
+        //TODO q salga bonico esto
+
+        UiIcon.SetActive(true);
+        StartCoroutine(UiIconOff());
+
+    }
+
+    /// <summary>
+    /// Boton de collect Money 
+    /// </summary>
+    private void CollectMoney()
+    {
+        Item aux = moneyClass;
+        aux.amount = moneyAmount;
+        InventoryController.Instance.AddItem(aux);
+        moneyAmount = 0;
     }
 
     /// <summary>
@@ -163,6 +191,7 @@ public class Sell : MonoBehaviour
     {
         position = pos;
     }
+
     /// <summary>
     /// Añades un Item del inventario al array 
     /// </summary>
@@ -212,7 +241,7 @@ public class Sell : MonoBehaviour
             SellItem item = stock[pos];
             int cant = Random.Range(item.amount/4, item.amount);
 
-            MoneyBox.Instance.AddMoney(item.item.price * cant);
+            AddMoney(item.item.price * cant);
 
             if (cant == item.amount)
             {
@@ -226,6 +255,12 @@ public class Sell : MonoBehaviour
             }
         }
         
+    }
+
+    IEnumerator UiIconOff()
+    {
+        yield return new WaitForSeconds(3f);
+        UiIcon.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
