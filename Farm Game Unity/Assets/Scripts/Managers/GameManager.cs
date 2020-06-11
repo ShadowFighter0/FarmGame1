@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+        //Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         
         MouseSensivility = 300;
         mainMenuMusic = DataBase.GetAudioClip("Theme");

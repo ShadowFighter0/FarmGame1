@@ -39,6 +39,7 @@ public class QuestController : MonoBehaviour
     private bool tutorialDone;
     private OutlineController outline;
     private bool firstOrder = false;
+    public QuestIndicator indicator;
     private void Awake()
     {
         Instance = this;
@@ -85,6 +86,10 @@ public class QuestController : MonoBehaviour
             questPanels[i].SetActive(true);
         }
         outline = GetComponent<OutlineController>();
+        if(indicator == null)
+        {
+            indicator = FindObjectOfType<QuestIndicator>();
+        }
     }
     private void Update()
     {
@@ -232,6 +237,7 @@ public class QuestController : MonoBehaviour
     {
         completedQuests.Add(q);
         activeQuests.Remove(q);
+        indicator.Fill(q.QuestName);
     }
     public void CheckQuest(Quest q)
     {
