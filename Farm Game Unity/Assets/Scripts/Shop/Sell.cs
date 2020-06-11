@@ -216,7 +216,7 @@ public class Sell : MonoBehaviour
             {
                 stockUI[i].gameObject.SetActive(false);
             }
-            if (aux[i] != null)
+            if (i != stockUI.Length-1 && aux[i] != null)
             {
                 inventoryUI[i].gameObject.SetActive(true);
                 SellItem shopItem = new SellItem(DataBase.GetItem(aux[i].name), aux[i].inventoryAmount);
@@ -226,7 +226,6 @@ public class Sell : MonoBehaviour
             {
                 inventoryUI[i].gameObject.SetActive(false);
             }
-
         }
     }
 
@@ -247,6 +246,7 @@ public class Sell : MonoBehaviour
     {
         int currentPosition = SearchStock(InventoryController.Instance.GetID(position));
         string id = InventoryController.Instance.GetID(position);
+        
         //Añadir a stock
         if (currentPosition >= 0)
         {
