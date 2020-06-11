@@ -44,7 +44,7 @@ public class CarManager : MonoBehaviour
         Debug.Log(time);
         yield return new WaitForSeconds(time);
         int direction = Random.Range(0,2);
-        int gonnaBuy = Random.Range(0,2);
+        int gonnaBuy = Random.Range(0,3);
 
         CarController script = carTypes.Dequeue();
         if (direction == 0)

@@ -9,7 +9,7 @@ public class CarController : MonoBehaviour
     int index = 0;
     //Driving 
     private bool moving = false;
-    private float accel = 5f;
+    private float accel = 8f;
     private float rotateSpeed = 5f;
 
     private float desireSpeed;
