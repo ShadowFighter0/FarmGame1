@@ -44,11 +44,11 @@ public class Sell : MonoBehaviour
         Instance = this;
         stockUI = ShopManager.Instance.stockUI;
         Transform aux = inventoryPanel.transform.GetChild(1).GetChild(0);
-        for (int i = 0; i<aux.childCount; i++)
+        for (int i = 0; i < aux.childCount; i++)
         {
             inventoryUI[i] = aux.GetChild(i).GetComponent<ShopEntry>();
         }
-        stock = new SellItem [stockUI.Length];
+        stock = new SellItem[stockUI.Length];
     }
 
     private void Update()
@@ -57,13 +57,13 @@ public class Sell : MonoBehaviour
         {
             OpenInicialMenu();
         }
-        if((onInitialMenu || onShopView) && Input.GetKeyDown(InputManager.instance.Escape))
+        if ((onInitialMenu || onShopView) && Input.GetKeyDown(InputManager.instance.Escape))
         {
-            if(onShopView)
+            if (onShopView)
             {
                 CloseSell();
             }
-            else if(onShopView)
+            else if (onShopView)
             {
 
             }
@@ -85,9 +85,9 @@ public class Sell : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
-    /// <summary>
-    /// Abre o cierra la tienda (UI) si usas la E
-    /// </summary>
+    /// <summary> 
+    /// Abre o cierra la tienda (UI) si usas la E 
+    /// </summary> 
     public void OpenSell()
     {
         onInitialMenu = false;
@@ -95,9 +95,9 @@ public class Sell : MonoBehaviour
 
         InputManager.instance.ChangeState(InputManager.States.OnUI);
 
-        //oculta cosas de la store
-        shopPanel.transform.GetChild(0).gameObject.SetActive(false);   
-        shopPanel.transform.GetChild(4).gameObject.SetActive(false);   
+        //oculta cosas de la store 
+        shopPanel.transform.GetChild(0).gameObject.SetActive(false);
+        shopPanel.transform.GetChild(4).gameObject.SetActive(false);
         shopPanel.transform.GetChild(5).gameObject.SetActive(false);
         shopPanel.transform.GetChild(6).gameObject.SetActive(false);
 
@@ -107,9 +107,9 @@ public class Sell : MonoBehaviour
         ShowStock();
     }
 
-    /// <summary>
-    /// Si abres el inventario cuando estas en el Sell se apaga 
-    /// </summary>
+    /// <summary> 
+    /// Si abres el inventario cuando estas en el Sell se apaga  
+    /// </summary> 
     public void CloseSell()
     {
         onShopView = false;
@@ -117,32 +117,32 @@ public class Sell : MonoBehaviour
         shopPanel.SetActive(false);
         inventoryPanel.SetActive(false);
 
-        //desoculta cosas de la store
-        shopPanel.transform.GetChild(0).gameObject.SetActive(true);    
-        shopPanel.transform.GetChild(4).gameObject.SetActive(true);    
+        //desoculta cosas de la store 
+        shopPanel.transform.GetChild(0).gameObject.SetActive(true);
+        shopPanel.transform.GetChild(4).gameObject.SetActive(true);
         shopPanel.transform.GetChild(5).gameObject.SetActive(true);
         shopPanel.transform.GetChild(6).gameObject.SetActive(true);
     }
 
-    
 
-    /// <summary>
-    /// Añadir dinero a la "caja"
-    /// </summary>
-    /// <param name="cant"></param>
+
+    /// <summary> 
+    /// Añadir dinero a la "caja" 
+    /// </summary> 
+    /// <param name="cant"></param> 
     public void AddMoney(int cant)
     {
         moneyAmount += cant;
-        //TODO q salga bonico esto
+        //TODO q salga bonico esto 
 
         UiIcon.SetActive(true);
         StartCoroutine(UiIconOff());
 
     }
 
-    /// <summary>
-    /// Boton de collect Money 
-    /// </summary>
+    /// <summary> 
+    /// Boton de collect Money  
+    /// </summary> 
     public void CollectMoney()
     {
         Item aux = moneyClass;
@@ -151,20 +151,20 @@ public class Sell : MonoBehaviour
         moneyAmount = 0;
     }
 
-    /// <summary>
-    /// Presionas un boton de la tienda para devolverlo al inventario (luego entra a ConfirmReturnItems)
-    /// </summary>
-    /// <param name="pos"></param>
+    /// <summary> 
+    /// Presionas un boton de la tienda para devolverlo al inventario (luego entra a ConfirmReturnItems) 
+    /// </summary> 
+    /// <param name="pos"></param> 
     public void ReturnItems(int pos)
     {
         position = pos;
         AmountPanel.Instance.On(stock[position].amount);
     }
 
-    /// <summary>
-    /// desues de usar "Button" usas esta funcion para añadir cuanta cantidad quieres recuperar del item 
-    /// </summary>
-    /// <param name="cant"></param>
+    /// <summary> 
+    /// desues de usar "Button" usas esta funcion para añadir cuanta cantidad quieres recuperar del item  
+    /// </summary> 
+    /// <param name="cant"></param> 
     public void ConfirmReturnItems(int cant)
     {
         Item i = stock[position].item;
@@ -172,7 +172,7 @@ public class Sell : MonoBehaviour
         InventoryController.Instance.AddItem(i);
 
         stock[position].amount -= cant;
-        if(stock[position].amount == 0)
+        if (stock[position].amount == 0)
         {
             ReOrder();
             numStock--;
@@ -180,14 +180,14 @@ public class Sell : MonoBehaviour
         ShowStock();
     }
 
-    /// <summary>
-    /// si eliminas un item de una posicion x todos los objetos por debajo haran x-1
-    /// </summary>
+    /// <summary> 
+    /// si eliminas un item de una posicion x todos los objetos por debajo haran x-1 
+    /// </summary> 
     private void ReOrder()
     {
-        for(int i = position; i < stock.Length && stock[i] != null; i++)
+        for (int i = position; i < stock.Length && stock[i] != null; i++)
         {
-            if(i != stock.Length - 1 )
+            if (i != stock.Length - 1)
             {
                 stock[i] = stock[i + 1];
             }
@@ -198,9 +198,9 @@ public class Sell : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// actualiza el panel de la tienda para mostrar los items que estan disponibles para vender
-    /// </summary>
+    /// <summary> 
+    /// actualiza el panel de la tienda para mostrar los items que estan disponibles para vender 
+    /// </summary> 
     private void ShowStock()
     {
         InventoryItem[] aux = InventoryController.Instance.AllItems();
@@ -216,7 +216,7 @@ public class Sell : MonoBehaviour
             {
                 stockUI[i].gameObject.SetActive(false);
             }
-            if (aux[i] != null)
+            if (i != stockUI.Length - 1 && aux[i] != null)
             {
                 inventoryUI[i].gameObject.SetActive(true);
                 SellItem shopItem = new SellItem(DataBase.GetItem(aux[i].name), aux[i].inventoryAmount);
@@ -226,28 +226,28 @@ public class Sell : MonoBehaviour
             {
                 inventoryUI[i].gameObject.SetActive(false);
             }
-
         }
     }
 
-    /// <summary>
-    /// Presionas un boton del inventario para meterlo a la tienda
-    /// </summary>
-    /// <param name="pos"></param>
+    /// <summary> 
+    /// Presionas un boton del inventario para meterlo a la tienda 
+    /// </summary> 
+    /// <param name="pos"></param> 
     public void Button(int pos)
     {
         position = pos;
     }
 
-    /// <summary>
-    /// Añades un Item del inventario al array 
-    /// </summary>
-    /// <param name="amount"></param>
+    /// <summary> 
+    /// Añades un Item del inventario al array  
+    /// </summary> 
+    /// <param name="amount"></param> 
     public void AddItem(int amount)
     {
         int currentPosition = SearchStock(InventoryController.Instance.GetID(position));
         string id = InventoryController.Instance.GetID(position);
-        //Añadir a stock
+
+        //Añadir a stock 
         if (currentPosition >= 0)
         {
             stock[currentPosition].amount += amount;
@@ -260,11 +260,11 @@ public class Sell : MonoBehaviour
         InventoryController.Instance.SubstractAmountItem(amount, id);
     }
 
-    /// <summary>
-    /// buscas la posicion de un objeto concreto en el array (devuelve la posicion o -1)
-    /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
+    /// <summary> 
+    /// buscas la posicion de un objeto concreto en el array (devuelve la posicion o -1) 
+    /// </summary> 
+    /// <param name="name"></param> 
+    /// <returns></returns> 
     private int SearchStock(string name)
     {
         for (int i = 0; i < stock.Length; i++)
@@ -277,16 +277,16 @@ public class Sell : MonoBehaviour
         return -1;
     }
 
-    /// <summary>
-    /// El coche viene y se leva un item
-    /// </summary>
+    /// <summary> 
+    /// El coche viene y se leva un item 
+    /// </summary> 
     public void SellItem()
     {
         if (numStock > 0)
         {
             int pos = Random.Range(0, numStock);
             SellItem item = stock[pos];
-            int cant = Random.Range(item.amount/4, item.amount);
+            int cant = Random.Range(item.amount / 4, item.amount);
 
             AddMoney(item.item.price * cant);
 
@@ -301,7 +301,7 @@ public class Sell : MonoBehaviour
                 item.amount -= cant;
             }
         }
-        
+
     }
 
     IEnumerator UiIconOff()

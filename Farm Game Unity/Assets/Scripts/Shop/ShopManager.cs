@@ -8,7 +8,7 @@ public class ShopManager : MonoBehaviour
 {
     public static ShopManager Instance;
 
-    #region Variables
+    #region Variables 
     public bool onShop = false;
     public GameObject shopPanel;
     public Shop[] shops;
@@ -17,16 +17,16 @@ public class ShopManager : MonoBehaviour
 
     [HideInInspector] public Shop currentShop;
 
-    public ShopEntry[] stockUI; // VisualEntrys
+    public ShopEntry[] stockUI; // VisualEntrys 
 
-    private ShopItem[] cart; //Items that will be added to your inventory
+    private ShopItem[] cart; //Items that will be added to your inventory 
     [HideInInspector] public bool cartView;
 
     private int numCart = 0;
     int pos;
     #endregion
 
-    #region Functions
+    #region Functions 
 
     private void Awake()
     {
@@ -39,10 +39,10 @@ public class ShopManager : MonoBehaviour
         cartView = true;
     }
 
-    /// <summary>
-    /// Button click select an item
-    /// </summary>
-    /// <param name="pos" ></param>
+    /// <summary> 
+    /// Button click select an item 
+    /// </summary> 
+    /// <param name="pos" ></param> 
     public void Select(int pos)
     {
         this.pos = pos;
@@ -60,7 +60,7 @@ public class ShopManager : MonoBehaviour
         {
             ShopItem c = cart[pos];
 
-            c.amountSelected -= cant;
+            c.amountSelected = cant;
 
             if (c.amountSelected <= 0)
             {
@@ -87,20 +87,20 @@ public class ShopManager : MonoBehaviour
             ShopItem s = currentShop.stock[pos];
             int cartPos = Search(s.item.name);
 
-            if(cartPos < 0)
+            if (cartPos < 0)
             {
                 if (cant > 0)
                 {
-                   cart[numCart] = s;
-                   cart[numCart].amountSelected += cant;
-                   
-                   numCart++;
+                    cart[numCart] = s;
+                    cart[numCart].amountSelected += cant;
+
+                    numCart++;
                 }
             }
             else
             {
                 cart[cartPos].amountSelected += cant;
-            }        
+            }
             ShowShop();
         }
 
@@ -110,9 +110,9 @@ public class ShopManager : MonoBehaviour
 
     private int Search(string name)
     {
-        for(int i = 0; i < cart.Length; i++ )
+        for (int i = 0; i < cart.Length; i++)
         {
-            if(cart[i]!=null && cart[i].item.name.Equals(name))
+            if (cart[i] != null && cart[i].item.name.Equals(name))
             {
                 return i;
             }
@@ -120,9 +120,9 @@ public class ShopManager : MonoBehaviour
         return -1;
     }
 
-    /// <summary>
-    /// Open the shop's panel
-    /// </summary>
+    /// <summary> 
+    /// Open the shop's panel 
+    /// </summary> 
     public void OpenShop(Shop shop)
     {
         onShop = true;
@@ -139,9 +139,9 @@ public class ShopManager : MonoBehaviour
         currentMoney.text = "Your money: " + InventoryController.Instance.GetAmount("Money");
     }
 
-    /// <summary>
-    /// Close the shop's panel
-    /// </summary>
+    /// <summary> 
+    /// Close the shop's panel 
+    /// </summary> 
     public void CloseShop()
     {
         onShop = false;
@@ -149,10 +149,10 @@ public class ShopManager : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
-    /// <summary>
-    ///Once you have selected all the items you wanna buy get the total price and give the items 
-    /// </summary>
-    private int GetCharge() // Comprobar si funciona q ha saber
+    /// <summary> 
+    ///Once you have selected all the items you wanna buy get the total price and give the items  
+    /// </summary> 
+    private int GetCharge() // Comprobar si funciona q ha saber 
     {
         int price = 0;
         for (int i = 0; i < cart.Length && cart[i] != null; i++)
@@ -162,16 +162,16 @@ public class ShopManager : MonoBehaviour
         return price;
     }
 
-    private void NotEnoughtMoney() //Cambiar por dialogo 
+    private void NotEnoughtMoney() //Cambiar por dialogo  
     {
         DialogueSystem.instance.UpdateDialogue("You don't have enought money to buy all");
     }
-    private void NotEnoughtSpace() //Cambiar por dialogo 
+    private void NotEnoughtSpace() //Cambiar por dialogo  
     {
         DialogueSystem.instance.UpdateDialogue("You don't have enought space to store all");
     }
 
-    public void GiveItems()   // comprobar si funciona q a saber 
+    public void GiveItems()   // comprobar si funciona q a saber  
     {
         int numItems = 0;
         int price = GetCharge();
@@ -189,8 +189,8 @@ public class ShopManager : MonoBehaviour
                     else if (s.item.GetType() == typeof(Item))
                     {
                         numItems++;
-                    }  
-                } 
+                    }
+                }
             }
 
             if (InventoryController.Instance.itemSpace >= InventoryController.Instance.numItems + numItems)
@@ -222,48 +222,42 @@ public class ShopManager : MonoBehaviour
 
     public void ShowShop()
     {
-        if(cartView)
-        {
-            cartView = false;
-            shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
+        cartView = false;
+        shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
 
-            for (int i = 0; i < currentShop.stock.Length; i++)
+        for (int i = 0; i < currentShop.stock.Length; i++)
+        {
+            if (currentShop.stock[i].item != null)
             {
-                if(currentShop.stock[i].item != null)
-                {
-                    ShopEntry t = stockUI[i];
-                    t.gameObject.SetActive(true);
-                    t.Fill(currentShop.stock[i]);
-                }
-                else
-                {
-                    stockUI[i].gameObject.SetActive(false);
-                }
+                ShopEntry t = stockUI[i];
+                t.gameObject.SetActive(true);
+                t.Fill(currentShop.stock[i]);
+            }
+            else
+            {
+                stockUI[i].gameObject.SetActive(false);
             }
         }
     }
     public void ShowCart()
     {
-        if(!cartView)
-        {
-            cartView = true;
-            shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
+        cartView = true;
+        shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
 
-            for (int i = 0; i < cart.Length; i++)
+        for (int i = 0; i < cart.Length; i++)
+        {
+            if (cart[i] != null && cart[i].item != null)
             {
-                if (cart[i] != null && cart[i].item != null)
-                {
-                    ShopEntry t = stockUI[i];
-                    t.Fill(cart[i]);
-                    t.gameObject.SetActive(true);
-                }
-                else
-                {
-                    stockUI[i].gameObject.SetActive(false);
-                }
+                ShopEntry t = stockUI[i];
+                t.Fill(cart[i]);
+                t.gameObject.SetActive(true);
             }
-            totalPrice.text = "Cart value: " + GetCharge().ToString();
+            else
+            {
+                stockUI[i].gameObject.SetActive(false);
+            }
         }
+        totalPrice.text = "Cart value: " + GetCharge().ToString();
     }
     #endregion
 }
