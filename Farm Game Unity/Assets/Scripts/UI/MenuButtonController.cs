@@ -6,8 +6,8 @@ public class MenuButtonController : MonoBehaviour, IPointerEnterHandler, IPointe
     private AudioClip clickSound;
     private AudioClip overSound;
     private void Start() {
-        clickSound = DataBase.GetAudioClip("Pop");
-        overSound = DataBase.GetAudioClip("Button");
+        clickSound = DataBase.GetAudioClip("MouseClick");
+        overSound = DataBase.GetAudioClip("MouseOver");
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
