@@ -49,16 +49,7 @@ public class InventoryEntry : MonoBehaviour
     }
 
     public void Button()
-    {
-        if (Sell.Instance.playerNear)
-        {
-            Sell.Instance.Button(position);
-            AmountPanel.Instance.gameObject.SetActive(true);
-            AmountPanel.Instance.On(int.Parse(amount.text));
-        }
-        else
-        {
-            InventoryController.Instance.DeleteItem(position);
-        }
+    {   
+       InventoryController.Instance.DeleteItem(position);
     }
 }

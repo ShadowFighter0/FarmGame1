@@ -113,6 +113,11 @@ public class InventoryController : MonoBehaviour
         //AddItem(DataBase.GetItem("Carrot"), 20);
     }
 
+    public InventoryItem[] AllItems()
+    {
+        return items;
+    }
+
     private void Save()
     {
         SaveLoad.Save(items, "InventoryItems");

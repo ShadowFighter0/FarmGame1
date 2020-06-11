@@ -20,6 +20,7 @@ public class Sell : MonoBehaviour
 {
     SellItem[] stock;
     ShopEntry[] stockUI;
+    ShopEntry[] inventoryUI = new ShopEntry[21];
 
     int numStock = 0;
     int position = 0;
@@ -27,9 +28,14 @@ public class Sell : MonoBehaviour
     public Item moneyClass;
     public GameObject UiIcon;
 
-    public bool onShopView;
     public bool playerNear;
+    public bool onShopView;
+    public bool onInitialMenu;
+
     public GameObject shopPanel;
+    public GameObject inventoryPanel;
+
+    public GameObject inicialMenu;
 
     public static Sell Instance;
 
@@ -37,6 +43,11 @@ public class Sell : MonoBehaviour
     {
         Instance = this;
         stockUI = ShopManager.Instance.stockUI;
+        Transform aux = inventoryPanel.transform.GetChild(1).GetChild(0);
+        for (int i = 0; i<aux.childCount; i++)
+        {
+            inventoryUI[i] = aux.GetChild(i).GetComponent<ShopEntry>();
+        }
         stock = new SellItem [stockUI.Length];
     }
 
@@ -44,53 +55,76 @@ public class Sell : MonoBehaviour
     {
         if (playerNear && Input.GetKeyDown(InputManager.instance.Interact))
         {
-            OpenShop();
+            OpenInicialMenu();
         }
-        if (onShopView && InventoryController.Instance.inventoryOpen)
+        if((onInitialMenu || onShopView) && Input.GetKeyDown(InputManager.instance.Escape))
         {
-            OpenInventory();
+            if(onShopView)
+            {
+                CloseSell();
+            }
+            else if(onShopView)
+            {
+
+            }
         }
+
     }
 
-    /// <summary>
-    /// Si abres el inventario cuando estas en el Sell se apaga 
-    /// </summary>
-    private void OpenInventory()
+    public void OpenInicialMenu()
     {
+        inicialMenu.SetActive(true);
+        onInitialMenu = true;
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
+    }
+
+    public void CloseInitialMenu()
+    {
+        inicialMenu.SetActive(false);
+        onInitialMenu = false;
         InputManager.instance.ChangeState(InputManager.States.Idle);
-        shopPanel.SetActive(false);
-        onShopView = false;
-        shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
-        shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
     }
 
     /// <summary>
     /// Abre o cierra la tienda (UI) si usas la E
     /// </summary>
-    private void OpenShop()
+    public void OpenSell()
     {
-        if (!shopPanel.activeSelf)
-        {
-            InputManager.instance.ChangeState(InputManager.States.OnUI);
-            if (InventoryController.Instance.inventoryOpen)
-                InventoryController.Instance.CloseMenu();
+        onInitialMenu = false;
+        onShopView = true;
 
-            shopPanel.transform.GetChild(0).gameObject.SetActive(false);    //oculta Money
-            shopPanel.transform.GetChild(4).gameObject.SetActive(false);    //oculta cartButton
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
 
-            shopPanel.SetActive(true);
-            ShowStock();
-            onShopView = true;
-        }
-        else
-        {
-            InputManager.instance.ChangeState(InputManager.States.Idle);
-            shopPanel.SetActive(false);
-            onShopView = false;
-            shopPanel.transform.GetChild(0).gameObject.SetActive(true);    //desoculta Money
-            shopPanel.transform.GetChild(4).gameObject.SetActive(true);    //desoculta cartButton
-        }
+        //oculta cosas de la store
+        shopPanel.transform.GetChild(0).gameObject.SetActive(false);   
+        shopPanel.transform.GetChild(4).gameObject.SetActive(false);   
+        shopPanel.transform.GetChild(5).gameObject.SetActive(false);
+        shopPanel.transform.GetChild(6).gameObject.SetActive(false);
+
+
+        shopPanel.SetActive(true);
+        inventoryPanel.SetActive(true);
+        ShowStock();
     }
+
+    /// <summary>
+    /// Si abres el inventario cuando estas en el Sell se apaga 
+    /// </summary>
+    public void CloseSell()
+    {
+        onShopView = false;
+        InputManager.instance.ChangeState(InputManager.States.Idle);
+        shopPanel.SetActive(false);
+        inventoryPanel.SetActive(false);
+
+        //desoculta cosas de la store
+        shopPanel.transform.GetChild(0).gameObject.SetActive(true);    
+        shopPanel.transform.GetChild(4).gameObject.SetActive(true);    
+        shopPanel.transform.GetChild(5).gameObject.SetActive(true);
+        shopPanel.transform.GetChild(6).gameObject.SetActive(true);
+    }
+
+    
 
     /// <summary>
     /// Añadir dinero a la "caja"
@@ -109,7 +143,7 @@ public class Sell : MonoBehaviour
     /// <summary>
     /// Boton de collect Money 
     /// </summary>
-    private void CollectMoney()
+    public void CollectMoney()
     {
         Item aux = moneyClass;
         aux.amount = moneyAmount;
@@ -169,6 +203,8 @@ public class Sell : MonoBehaviour
     /// </summary>
     private void ShowStock()
     {
+        InventoryItem[] aux = InventoryController.Instance.AllItems();
+
         for (int i = 0; i < stockUI.Length; i++)
         {
             if (stock[i] != null)
@@ -180,6 +216,17 @@ public class Sell : MonoBehaviour
             {
                 stockUI[i].gameObject.SetActive(false);
             }
+            if (aux[i] != null)
+            {
+                inventoryUI[i].gameObject.SetActive(true);
+                SellItem shopItem = new SellItem(DataBase.GetItem(aux[i].name), aux[i].inventoryAmount);
+                inventoryUI[i].Fill(shopItem);
+            }
+            else
+            {
+                inventoryUI[i].gameObject.SetActive(false);
+            }
+
         }
     }
 
