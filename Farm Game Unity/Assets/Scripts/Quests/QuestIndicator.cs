@@ -8,9 +8,9 @@ public class QuestIndicator : MonoBehaviour
     private Coroutine coroutine;
     private CanvasGroup alpha;
     private bool coroutinePlaying = false;
-    private void Awake() 
+    private void Start() 
     {
-        questName = GetComponent<TextMeshProUGUI>();
+        questName = GetComponentInChildren<TextMeshProUGUI>();
         alpha = GetComponent<CanvasGroup>();
         alpha.alpha = 0;
     }

@@ -172,7 +172,7 @@ public class QuestController : MonoBehaviour
             firstOrder = true;
             TutorialController.instance.SendOrdersTutorial();
             MailBoxController.instance.Close();
-            InputManager.instance.ChangeState(InputManager.States.OnUI);
+            InputManager.instance.ChangeState(InputManager.States.Dialoguing);
         }   
         activeQuests.Add(q);
         q.CheckGoals();
