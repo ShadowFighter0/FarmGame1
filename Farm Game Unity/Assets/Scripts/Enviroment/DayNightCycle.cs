@@ -62,7 +62,7 @@ public class DayNightCycle : MonoBehaviour
     {
         if(start)
         {
-            _timeOfDay = (TimeManager.instance.time.hour * 3600 ) / 86400; // seconds in a day
+            _timeOfDay = 0.2916f;
             start = false;
         }
 

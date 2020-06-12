@@ -38,6 +38,7 @@ public class Sell : MonoBehaviour
     public GameObject inicialMenu;
 
     public static Sell Instance;
+    private OutlineController outline;
 
     private void Start()
     {
@@ -49,6 +50,7 @@ public class Sell : MonoBehaviour
             inventoryUI[i] = aux.GetChild(i).GetComponent<ShopEntry>();
         }
         stock = new SellItem[stockUI.Length];
+        outline = GetComponent<OutlineController>();
     }
 
     private void Update()
@@ -345,12 +347,19 @@ public class Sell : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             playerNear = true;
+            outline.ShowOutline();
+        }  
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             playerNear = false;
+            outline.HideOutline();
+        }
+            
     }
 }
