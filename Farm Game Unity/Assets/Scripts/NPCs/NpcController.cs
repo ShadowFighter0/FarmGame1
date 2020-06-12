@@ -42,6 +42,7 @@ public class NpcController : MonoBehaviour
 
                 if (talkStarted)
                 {
+                    //Debug.Log("aaaa");
                     Interact();
                 }
             }
@@ -195,7 +196,7 @@ public class NpcController : MonoBehaviour
             }
             else
             {
-                DialogueSystem.instance.UpdateDialogue("Sorry, those items are not mine.");
+                DialogueSystem.instance.UpdateDialogue("Go to the shop next to me and select the items that you want");
             }
         }
         else

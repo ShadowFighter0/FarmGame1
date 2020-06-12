@@ -20,7 +20,10 @@ public class PlayerInfo
     public float y;
     public float z;
 
-    public PlayerInfo(Vector3 pos, int d, int hat, int model, bool glasses)
+    public float volume;
+    public float sensivility;
+
+    public PlayerInfo(Vector3 pos, int d, int hat, int model, bool glasses, float vol, float sens)
     {
         day = d;
 
@@ -31,6 +34,9 @@ public class PlayerInfo
         hatIndex = hat;
         modelIndex = model;
         hasGlasses = glasses;
+
+        volume = vol;
+        sensivility = sens;
     }
 }
 
@@ -105,6 +111,7 @@ public class GameManager : MonoBehaviour
     public Texture2D cursor;
     private bool eduMode;
     public Slider audioSlider;
+    public Slider mouseSlider;
 
     public float MouseSensivility { get; set; }
     private void Awake()
@@ -177,6 +184,13 @@ public class GameManager : MonoBehaviour
             Destroy(FindObjectOfType<CharacterSelect>());
 
             hudCustom.SetActive(false);
+
+            audioSlider.value = info.volume;
+            mouseSlider.value = info.sensivility;
+            
+            SetSensivility();
+            ChangeAudio();
+
         }
         else
         {
@@ -312,7 +326,7 @@ public class GameManager : MonoBehaviour
     public void FreeCam() { camMovementFinished = true; }
     public void SavePlayer()
     {
-        PlayerInfo info = new PlayerInfo(player.position, day, hatIndex, modelIndex, hasGlasses);
+        PlayerInfo info = new PlayerInfo(player.position, day, hatIndex, modelIndex, hasGlasses, audioSlider.value, mouseSlider.value);
         SaveLoad.Save(info, "PlayerInfo");
     }
 
@@ -339,9 +353,9 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    public void SetSensivility(Slider value)
+    public void SetSensivility()
     {
-        MouseSensivility = value.value;
+        MouseSensivility = mouseSlider.value;
     }
     public void Respawn()
     {
@@ -358,7 +372,6 @@ public class GameManager : MonoBehaviour
     {
         menuOptions.SetActive(!menuOptions.activeSelf);
     }
-
 
     public void ContinueGame()
     {
@@ -379,6 +392,7 @@ public class GameManager : MonoBehaviour
             mainMenu.SetActive(false);
             gameStarted = true;
         }
+        AudioManager.PauseAll();
     }
     public void StartNewGame()
     {

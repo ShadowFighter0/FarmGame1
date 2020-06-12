@@ -74,7 +74,7 @@ public class TutorialController : MonoBehaviour
     }
     public void SendOrdersTutorial()
     {
-        NpcManager.instance.StartForcedDialogue("Maria", "That's an order. When you have completed it, go to the car next to me and complete it");
+        NpcManager.instance.StartForcedDialogue("Maria", "That's an order. When you have completed it, go to the car next to me and deliver it");
     }
     public void SendShopMessage()
     {

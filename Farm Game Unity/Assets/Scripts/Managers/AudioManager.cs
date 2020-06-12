@@ -35,4 +35,9 @@ public class AudioManager : MonoBehaviour
         source.PlayOneShot(clip);
         source.pitch = originalPitch;
     }
+
+    public static void PauseAll()
+    {
+        source.Stop();
+    }
 }
