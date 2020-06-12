@@ -13,8 +13,13 @@ public class CarController : MonoBehaviour
     private float rotateSpeed = 5f;
 
     private float desireSpeed;
-    public float maxVel = 30;
     private float currentSpeed;
+    float turnSmoothVelocity;
+
+
+    public float maxVel = 30;
+    public float wheelSpeed = 5;
+    
 
     //Shop 
     bool gonnaBuy;
@@ -25,8 +30,16 @@ public class CarController : MonoBehaviour
         {
             float dt = Time.deltaTime;
 
-            // AccelRotation(dt);
-            transform.LookAt(path[index]);
+            if(currentSpeed != 0)
+            {
+                for (int i = 2; i < transform.childCount - 1; i++)
+                {
+                    transform.GetChild(i).Rotate(Vector3.right * wheelSpeed);
+                }
+            }
+
+            AccelRotation(dt);
+            //transform.LookAt(path[index]);
             AccelMovement(dt, desireSpeed);
             transform.position = Vector3.MoveTowards(transform.position, path[index].position, currentSpeed * dt);
         }
@@ -63,16 +76,11 @@ public class CarController : MonoBehaviour
 
     private void AccelRotation(float dt)
     {
-        Vector3 desireAngle = path[index].position - transform.position;
-
-        float angleOffset = Vector3.Angle(transform.forward, desireAngle);
-
-        angleOffset = Mathf.Clamp(angleOffset, -rotateSpeed * dt, rotateSpeed * dt);
-
-        if (transform.position.z < path[index].position.z)
-            angleOffset *= -1;
-
-        transform.Rotate(transform.up * angleOffset);
+        Quaternion OriginalRot = transform.rotation;
+        transform.LookAt(path[index]);
+        Quaternion NewRot = transform.rotation;
+        transform.rotation = OriginalRot;
+        transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, rotateSpeed * dt);
     }
 
     private void OnTriggerEnter(Collider other)
