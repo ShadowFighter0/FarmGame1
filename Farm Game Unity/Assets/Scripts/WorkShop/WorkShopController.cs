@@ -49,17 +49,17 @@ public class WorkShopController : MonoBehaviour
     public GameObject controlsText;
     public GameObject orchard;
     private AudioClip itemPurchased;
-    private void Awake() 
-    {
-        GameEvents.OnTutorialDone += TutorialDone;
-    }
-
     private void Start()
     {
         GameEvents.OnSaveInitiated += SaveItems;
         camPivot = freeCam.GetChild(0);
         newPos = freeCam.position;
         newPivotPos = camPivot.localPosition;
+
+        if (SaveLoad.SaveExists("WorkshopDone"))
+        {
+            tutorialDone = SaveLoad.Load<bool>("WorkshopDone");
+        }
 
         foreach (UnlockeableItem script in FindObjectsOfType<UnlockeableItem>())
         {
@@ -98,6 +98,7 @@ public class WorkShopController : MonoBehaviour
     private void TutorialDone()
     {
         tutorialDone = true;
+        SaveLoad.Save(tutorialDone, "WorkshopDone");
     }    
     private void Update()
     {
@@ -227,6 +228,7 @@ public class WorkShopController : MonoBehaviour
 
         if(!tutorialDone)
         {
+            TutorialDone();
             ActivateTutorialOrchard();
         }
         else

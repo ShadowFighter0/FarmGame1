@@ -30,7 +30,7 @@ public class MailBoxPanel : MonoBehaviour
         string info = quest.questName + "\n" + quest.description;
         for (int i = 0; i < quest.ids.Length; i++)
         {
-            info += "- " + quest.amounts[i] + " " + quest.ids[i] + "\n";
+            info += "- " + quest.amounts[i] + " " + quest.ids[i].itemName + "\n";
         }
         return info;
     }

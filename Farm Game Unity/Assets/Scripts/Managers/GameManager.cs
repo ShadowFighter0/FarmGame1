@@ -342,12 +342,12 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             InputManager.instance.ChangeState(InputManager.States.OnUI);
-            options.SetActive(false);
         }
         else
         {
             Time.timeScale = 1;
             InputManager.instance.ChangeState(InputManager.States.Idle);
+            options.SetActive(false);
         }
     }
     
@@ -436,6 +436,15 @@ public class GameManager : MonoBehaviour
     public void DeleteProgress()
     {
         SaveLoad.DeleteAllData();
+    }
+
+    public void DoFade()
+    {
+        fade.color = fadeOut;
+    }
+    public void RemoveFade()
+    {
+        fade.color = fadeIn;
     }
     IEnumerator DisableSaveText()
     {
