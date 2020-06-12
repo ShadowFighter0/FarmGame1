@@ -37,6 +37,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject popUp;
     private Shop shopScript;
     public static PlayerManager instace;
+    private bool maxLvl = false;
     private void Awake()
     {
         instace = this;
@@ -77,6 +78,11 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+
+    public Seed[] GetSeedsOrder()
+    {
+        return seedsToUnlock;
+    }
     private void SavePlayer()
     {
         SaveLoad.Save(playerInfo, "PlayerLvl");
@@ -98,22 +104,33 @@ public class PlayerManager : MonoBehaviour
     }
     public void AddExp(int exp) 
     {
-        int nextExp = playerInfo.experience + exp;
-        if (nextExp >= levelExperience[playerInfo.level])
+        if(!maxLvl)
         {
-            int difference = nextExp - levelExperience[playerInfo.level];
-            playerInfo.level++;
-            UpdateLvlRewards();
-            playerInfo.experience = difference;
-            
-            ChangeLvls();
+            int nextExp = playerInfo.experience + exp;
+            if (nextExp >= levelExperience[playerInfo.level])
+            {
+                if(playerInfo.level + 1 >= levelExperience.Length)
+                {
+                    maxLvl = true;
+                    playerInfo.experience = levelExperience[playerInfo.level];
+                }
+                else
+                {
+                    int difference = nextExp - levelExperience[playerInfo.level];
+                    playerInfo.level++;
+                    playerInfo.experience = difference;
+                }
+
+                UpdateLvlRewards();
+                ChangeLvls();
+            }
+            else
+            {
+                playerInfo.experience += exp;
+            }
+            ChangeExpBar();
+            ExperienceBarController.instace.ShowBar();
         }
-        else
-        {
-            playerInfo.experience += exp;
-        }
-        ChangeExpBar();
-        ExperienceBarController.instace.ShowBar();
     }
 
     private void UpdateLvlRewards()
