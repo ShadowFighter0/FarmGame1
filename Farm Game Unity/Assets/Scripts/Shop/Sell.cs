@@ -174,6 +174,7 @@ public class Sell : MonoBehaviour
         stock[position].amount -= cant;
         if (stock[position].amount == 0)
         {
+            UpdateBoxDisable(i.itemName);
             ReOrder();
             numStock--;
         }
@@ -254,8 +255,7 @@ public class Sell : MonoBehaviour
         }
         else
         {
-            transform.GetChild(0).GetChild(numStock).gameObject.SetActive(true);
-
+            UpdateBoxEnable(id);
             stock[numStock] = new SellItem(DataBase.GetItem(id), amount);
             numStock++;
         }
@@ -278,6 +278,33 @@ public class Sell : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    private void UpdateBoxEnable(string name)
+    {
+        bool end = false;
+        Transform aux = transform.GetChild(0);
+        for (int i = 0; i < aux.childCount && !end; i++)
+        {
+            if (aux.GetChild(i).name == name)
+            {
+                end = true;
+                aux.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+    }
+    private void UpdateBoxDisable(string name)
+    {
+        bool end = false;
+        Transform aux = transform.GetChild(0);
+        for (int i = 0; i < aux.childCount && !end; i++)
+        {
+            if (aux.GetChild(i).name == name)
+            {
+                end = true;
+                aux.GetChild(i).gameObject.SetActive(false);
+            }
+        }
     }
 
     /// <summary> 
