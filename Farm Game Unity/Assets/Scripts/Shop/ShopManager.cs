@@ -51,7 +51,11 @@ public class ShopManager : MonoBehaviour
         if (cartView)
             AmountPanel.Instance.On(cart[pos].amountSelected, "How much amount do you want to recover??");
         else
+        {
             AmountPanel.Instance.On(50, "How much amount do you want to buy?");
+            AmountPanel.Instance.slider.value = 0;
+        }
+            
     }
 
     public void ConfirmAmount(int cant)
