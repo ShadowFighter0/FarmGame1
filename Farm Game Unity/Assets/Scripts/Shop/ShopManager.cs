@@ -49,9 +49,9 @@ public class ShopManager : MonoBehaviour
         AmountPanel.Instance.gameObject.SetActive(true);
 
         if (cartView)
-            AmountPanel.Instance.On(cart[pos].amountSelected);
+            AmountPanel.Instance.On(cart[pos].amountSelected, "How much amount do you want to recover??");
         else
-            AmountPanel.Instance.On(50);
+            AmountPanel.Instance.On(50, "How much amount do you want to buy?");
     }
 
     public void ConfirmAmount(int cant)

@@ -158,7 +158,7 @@ public class Sell : MonoBehaviour
     public void ReturnItems(int pos)
     {
         position = pos;
-        AmountPanel.Instance.On(stock[position].amount);
+        AmountPanel.Instance.On(stock[position].amount, "How much amount do you want to recover?");
     }
 
     /// <summary> 

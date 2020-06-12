@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class AmountPanel : MonoBehaviour
 
     public Slider slider;
     private InputField input;
+    private TextMeshProUGUI title;
 
     int amount;
     bool inventory = false;
@@ -19,14 +21,16 @@ public class AmountPanel : MonoBehaviour
     {
         Instance = this;
 
+        title = transform.GetChild(2).GetChild(1).GetComponent<TextMeshProUGUI>();
         slider = transform.GetChild(0).GetChild(2).GetComponent<Slider>();
         input = transform.GetChild(0).GetChild(3).GetComponent<InputField>();
 
         gameObject.SetActive(false);
     }
 
-    public void On(int maxCant)
+    public void On(int maxCant, string quote)
     {
+        title.text = quote;
         gameObject.SetActive(true);
         slider.maxValue = maxCant;
         slider.value = maxCant;

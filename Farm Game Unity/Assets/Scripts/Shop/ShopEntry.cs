@@ -63,7 +63,7 @@ public class ShopEntry : MonoBehaviour
             if (inventory)
             {
                 Sell.Instance.Button(position);
-                AmountPanel.Instance.On(int.Parse(stockText.text));
+                AmountPanel.Instance.On(int.Parse(stockText.text), "How much amount do you want to sell ?");
             }
             else
             {
