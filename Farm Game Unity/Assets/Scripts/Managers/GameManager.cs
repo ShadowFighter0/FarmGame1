@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     private int day = 1;
 
     public Image fade;
-    public float time = 1;
+    private float time = 1.0f;
 
     private Color fadeIn = new Color32(32, 32, 32, 0);
     private Color fadeOut = new Color32(32, 32, 32, 255);
@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
     private bool eduMode;
     public Slider audioSlider;
     public Slider mouseSlider;
+    private Color newColor;
 
     public float MouseSensivility { get; set; }
     private void Awake()
@@ -226,6 +227,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0f);
             gameLoaded = true;
+            newColor = fadeIn;
             AudioManager.PlaySound(mainMenuMusic);
             currentLerpTime = 0;
 
@@ -241,6 +243,7 @@ public class GameManager : MonoBehaviour
             lerpTime = 5;
             yield return new WaitForSeconds(1f);
             gameLoaded = true;
+            newColor = fadeIn;
             AudioManager.PlaySound(mainMenuMusic);
             currentLerpTime = 0;
 
@@ -266,7 +269,7 @@ public class GameManager : MonoBehaviour
                 currentLerpTime = lerpTime;
             }
 
-            fade.color = Color.Lerp(fade.color, fadeIn, dt * time);
+            fade.color = Color.Lerp(fade.color, newColor, dt * time);
 
             if(!camMovementFinished)
             {
@@ -440,11 +443,11 @@ public class GameManager : MonoBehaviour
 
     public void DoFade()
     {
-        fade.color = fadeOut;
+        newColor = fadeOut;
     }
     public void RemoveFade()
     {
-        fade.color = fadeIn;
+        newColor = fadeIn;
     }
     IEnumerator DisableSaveText()
     {

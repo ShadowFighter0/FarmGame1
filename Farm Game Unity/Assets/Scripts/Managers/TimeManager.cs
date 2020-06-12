@@ -118,12 +118,14 @@ public class TimeManager : MonoBehaviour
                         Time.timeScale = 1;
                         InputManager.instance.ChangeState(InputManager.States.Idle);
                         //AudioManager.PlaySound(DataBase.SearchClip("Alarm"));
+                        GameManager.instance.RemoveFade();
                     }
                 }
-                if(exitPopUp.activeSelf)
-                {
-                    SetWakeHourText();
-                }
+
+            }
+            if(exitPopUp.activeSelf)
+            {
+                SetWakeHourText();
             }
             if (playerIn && InputManager.state == InputManager.States.Idle)
             {
@@ -154,6 +156,7 @@ public class TimeManager : MonoBehaviour
 
             resting = true;
             InputManager.instance.ChangeState(InputManager.States.Sleeping);
+            GameManager.instance.DoFade();
         }
     }
     private void SaveTime()
