@@ -19,7 +19,7 @@ MonoBehaviour:
     you give me the best brocoli you have?'
   NPCName: 
   experience: 5
-  ids:
-  - Broccoli
+  items:
+  - {fileID: 11400000, guid: f27c565f7a022f94bbfe17931cac6c63, type: 2}
   amounts: 0c000000
   isOrder: 1

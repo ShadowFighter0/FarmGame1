@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Harvest day!!!
   description: NEED ALL
-  NPCName: 
+  NPCName: Maria
   experience: 30
-  ids:
-  - Pepper
-  - Cucumber
-  - Watermelon
-  - Tomato
+  items:
+  - {fileID: 11400000, guid: d8484271ff847544c8c33cdea4fdba04, type: 2}
+  - {fileID: 11400000, guid: 7ea54666ea62e4146ae249ccd6ac4572, type: 2}
+  - {fileID: 11400000, guid: 80c43e915fbe3f5498ee24073d35cb3d, type: 2}
+  - {fileID: 11400000, guid: 6831338669b0a1044a6c92a632314cfb, type: 2}
   amounts: 0a0000000b0000000c0000000d000000
-  isOrder: 1
+  isOrder: 0

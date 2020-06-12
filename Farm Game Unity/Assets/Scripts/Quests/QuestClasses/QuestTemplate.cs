@@ -11,7 +11,7 @@ public class QuestTemplate : ScriptableObject
     public string NPCName;
     public int experience;
     [Header("Goals")]
-    public string[] ids;
+    public Item[] items;
     public int[] amounts;
     public bool isOrder;
 }

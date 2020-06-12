@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Your beetrots look delicious. Bring me some please!
   NPCName: Pepe
   experience: 20
-  ids:
-  - Beetrots
+  items:
+  - {fileID: 11400000, guid: 0fc60d0afe9fac64bab18dad22344daa, type: 2}
   amounts: 0c000000
   isOrder: 0

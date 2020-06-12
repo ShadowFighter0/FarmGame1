@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Watermelon
   NPCName: 
   experience: 20
-  ids:
-  - Watermelon
+  items:
+  - {fileID: 11400000, guid: d8484271ff847544c8c33cdea4fdba04, type: 2}
   amounts: 0f000000
   isOrder: 1

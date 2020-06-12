@@ -17,7 +17,7 @@ MonoBehaviour:
     Can you help me?
   NPCName: Maria
   experience: 10
-  ids:
-  - Corn
+  items:
+  - {fileID: 11400000, guid: 4e135c9d2ec1b7e41ad4dc4b7ec0282f, type: 2}
   amounts: 0a000000
   isOrder: 0

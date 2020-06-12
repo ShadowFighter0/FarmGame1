@@ -54,7 +54,7 @@ public class QuestInfo
 {
     public string questName;
     public string description;
-    public string[] ids;
+    public Item[] ids;
     public int[] amounts;
     public string npcName;
     public Item itemReward;
@@ -65,7 +65,7 @@ public class QuestInfo
     {
         questName = q.title;
         description = q.description;
-        ids = q.ids;
+        ids = q.items;
         amounts = q.amounts;
         npcName = q.NPCName;
         itemReward = DataBase.GetItem("Money");
@@ -75,7 +75,7 @@ public class QuestInfo
         amount = 0;
         for (int i = 0; i < amounts.Length; i++)
         {
-            amount += DataBase.GetItem(ids[i]).price * amounts[i];
+            amount += ids[i].price * amounts[i];
         }
         
     }

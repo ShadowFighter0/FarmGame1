@@ -15,7 +15,7 @@ public class SampleQuest : Quest
         Goals = new List<Goal>();
         for (int i = 0; i < q.ids.Length; i++)
         {
-           Goals.Add(new CollectionGoal(this, q.ids[i], false, InventoryController.Instance.GetAmount(q.ids[i]), q.amounts[i]));
+           Goals.Add(new CollectionGoal(this, q.ids[i].itemName, false, InventoryController.Instance.GetAmount(q.ids[i].itemName), q.amounts[i]));
         }
         Completed = false;
         QuestExp = q.experience;

@@ -16,8 +16,8 @@ MonoBehaviour:
   description: Just give me this.
   NPCName: 
   experience: 20
-  ids:
-  - Onion
-  - Potato
+  items:
+  - {fileID: 11400000, guid: 1e299d746d8c5c24abfb30583581f593, type: 2}
+  - {fileID: 11400000, guid: 80c43e915fbe3f5498ee24073d35cb3d, type: 2}
   amounts: 0a0000000f000000
   isOrder: 1

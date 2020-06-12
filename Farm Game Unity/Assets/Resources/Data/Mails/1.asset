@@ -17,7 +17,7 @@ MonoBehaviour:
     give me 10 carrots?
   NPCName: 
   experience: 5
-  ids:
-  - Carrot
+  items:
+  - {fileID: 11400000, guid: 2d53f6224e768a648a1db02b513c98ee, type: 2}
   amounts: 0a000000
   isOrder: 1

@@ -16,9 +16,9 @@ MonoBehaviour:
   description: I was doing a salad, but i forgot some food. Bring me this please
   NPCName: 
   experience: 20
-  ids:
-  - Tomato
-  - Cucumber
-  - Pepper
-  amounts: 030000000300000002000000
+  items:
+  - {fileID: 11400000, guid: 7ea54666ea62e4146ae249ccd6ac4572, type: 2}
+  - {fileID: 11400000, guid: c3073755a881ac7448da86ea31989e23, type: 2}
+  - {fileID: 11400000, guid: 2d53f6224e768a648a1db02b513c98ee, type: 2}
+  amounts: 030000000300000004000000
   isOrder: 1

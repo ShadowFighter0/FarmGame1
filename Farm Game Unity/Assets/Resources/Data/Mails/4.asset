@@ -16,7 +16,7 @@ MonoBehaviour:
   description: I wanna make watermelon juice, could you help me?
   NPCName: 
   experience: 10
-  ids:
-  - Watermelon
+  items:
+  - {fileID: 11400000, guid: d8484271ff847544c8c33cdea4fdba04, type: 2}
   amounts: 05000000
   isOrder: 1

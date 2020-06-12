@@ -16,7 +16,7 @@ MonoBehaviour:
   description: POTATOES, A LOT OF POTATOES. NEED THEM.
   NPCName: 
   experience: 15
-  ids:
-  - Potato
+  items:
+  - {fileID: 11400000, guid: 9f6bdca158fe6c342916ace58c8f28ab, type: 2}
   amounts: 14000000
   isOrder: 1

@@ -17,8 +17,8 @@ MonoBehaviour:
     good. Send me some onions please. Your beans seem healthy too
   NPCName: 
   experience: 15
-  ids:
-  - Bean
-  - Onion
+  items:
+  - {fileID: 11400000, guid: 6831338669b0a1044a6c92a632314cfb, type: 2}
+  - {fileID: 11400000, guid: b85a17f9e95920d46b0e8119dc307e31, type: 2}
   amounts: 0c00000008000000
   isOrder: 1

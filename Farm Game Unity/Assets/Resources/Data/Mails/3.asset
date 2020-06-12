@@ -17,8 +17,8 @@ MonoBehaviour:
     some? Some carrots would be fine to. You know where to find me.
   NPCName: Pepe
   experience: 10
-  ids:
-  - Bean
-  - Carrot
+  items:
+  - {fileID: 11400000, guid: 2d53f6224e768a648a1db02b513c98ee, type: 2}
+  - {fileID: 11400000, guid: b85a17f9e95920d46b0e8119dc307e31, type: 2}
   amounts: 0a00000005000000
   isOrder: 0
