@@ -46,6 +46,7 @@ public class TimeManager : MonoBehaviour
     public Slider hoursSlider;
     public TextMeshProUGUI hoursText;
     public TextMeshProUGUI wakeUpText;
+    public TextMeshProUGUI currentTime;
 
     public GameObject exitPopUp;
 
@@ -122,6 +123,8 @@ public class TimeManager : MonoBehaviour
                     }
                 }
 
+                currentTime.text = time.hour.ToString("00") + ":" + time.minute.ToString("00");
+
             }
             if(exitPopUp.activeSelf)
             {
@@ -194,7 +197,7 @@ public class TimeManager : MonoBehaviour
         {
             wakeTime -= 24;
         }
-        wakeUpText.text = "Wake up hour: " + wakeTime + ":" + time.minute;
+        wakeUpText.text = "Wake up hour: " + wakeTime.ToString("00") + ":" + time.minute.ToString("00");
     }
 
     public int GetSecondsPerDay()
