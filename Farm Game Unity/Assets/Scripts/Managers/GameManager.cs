@@ -286,7 +286,7 @@ public class GameManager : MonoBehaviour
             {
                 if(Input.GetKeyDown(KeyCode.Comma))
                 {
-                    PlayerManager.instace.AddExp(10);
+                    PlayerManager.instance.AddExp(10);
                 }
                 if(Input.GetKeyDown(KeyCode.RightShift))
                 {

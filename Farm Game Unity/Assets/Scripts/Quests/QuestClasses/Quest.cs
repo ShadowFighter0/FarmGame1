@@ -44,7 +44,7 @@ public class Quest
             }
             if (QuestExp > 0)
             {
-                PlayerManager.instace.AddExp(QuestExp);
+                PlayerManager.instance.AddExp(QuestExp);
             }
         }
     }

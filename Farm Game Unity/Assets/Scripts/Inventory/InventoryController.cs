@@ -72,7 +72,12 @@ public class InventoryController : MonoBehaviour
 
     private void Awake()
     {
-        seedsItems = Resources.LoadAll<Seed>("Data/Items");
+        seedsItems = PlayerManager.instance.GetSeedsOrder();
+        foreach (Seed s in seedsItems)
+        {
+            Debug.Log(s.name);
+        }
+        
         Instance = this;    //Singleton
         items = new InventoryItem [itemSpace];
 
