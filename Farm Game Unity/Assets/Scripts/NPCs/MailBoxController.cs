@@ -11,7 +11,7 @@ public class MailBoxController : MonoBehaviour
     public int offset = 70;
 
     private Mail[] mails;
-    private QuestTemplate[] quests;
+    public QuestTemplate[] quests;
 
     private bool done = true;
 
@@ -44,7 +44,6 @@ public class MailBoxController : MonoBehaviour
     {
         mailReceived = DataBase.GetAudioClip("MailNotification");
         mailsPanel = mailFolder.parent.gameObject;
-        quests = Resources.LoadAll<QuestTemplate>("Data/Mails");
         Debug.Log(quests.Length);
         
         if(SaveLoad.SaveExists("Mails"))
@@ -52,7 +51,7 @@ public class MailBoxController : MonoBehaviour
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
-        Debug.Log(mailIndex);
+
         outline = GetComponent<OutlineController>();
     }
     private void Update()

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: 3
   m_EditorClassIdentifier: 
   title: Some beans
-  description: Hi, I'm Pepe. Looks like your beans are awesome. Could you give me
-    some? Some carrots would be fine to. You know where to find me.
-  NPCName: Pepe
+  description: Hi, I'm Daniel. Looks like your beans are awesome. Could you give
+    me some? Some carrots would be fine to. You know where to find me.
+  NPCName: 
   experience: 10
   items:
   - {fileID: 11400000, guid: 2d53f6224e768a648a1db02b513c98ee, type: 2}
   - {fileID: 11400000, guid: b85a17f9e95920d46b0e8119dc307e31, type: 2}
   amounts: 0a00000005000000
-  isOrder: 0
+  isOrder: 1

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841fb9f3494238b4a8dbdbb6e3c03425, type: 3}
   m_Name: 10
   m_EditorClassIdentifier: 
-  title: Pepe wants beetrots
+  title: Maria wants beetrots
   description: Your beetrots look delicious. Bring me some please!
-  NPCName: Pepe
+  NPCName: Maria
   experience: 20
   items:
   - {fileID: 11400000, guid: 0fc60d0afe9fac64bab18dad22344daa, type: 2}
