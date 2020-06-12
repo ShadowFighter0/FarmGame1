@@ -48,20 +48,25 @@ public class DayNightCycle : MonoBehaviour
 
     [SerializeField]
     private AnimationCurve timeCurve;
-    private float timeCurveNormalization;
+    private bool start = true;
 
     private List<DNModuleBase> moduleList = new List<DNModuleBase>();
 
     private void Start()
     {
-        NormalTimeCurve();
-        _targetDayLength = TimeManager.instance.secondsPerDay / 60;
+        _targetDayLength = TimeManager.instance.secondsPerDay /60 ;
+        UpdateTimeScale();
     }
 
     private void Update()
     {
-        UpdateTime();
+        if(start)
+        {
+            _timeOfDay = ((TimeManager.instance.time.hour * 3600) + (TimeManager.instance.time.minute * 60)) / 86400; // seconds in a day
+            start = false;
+        }
 
+        UpdateTime();
         AdjustSunRotation();
         SunIntensity();
         UpdateModule(); //will update modules each frame
@@ -69,12 +74,12 @@ public class DayNightCycle : MonoBehaviour
 
     public void UpdateTime()
     {
-        _timeOfDay = ((TimeManager.instance.time.hour * 3600) + (TimeManager.instance.time.minute * 60) + TimeManager.instance.timer) / 86400; // seconds in a day
+        _timeOfDay += Time.deltaTime * _timeScale / 86400; // seconds in a day
 
         if (_timeOfDay > 1) //new day!!
-            {
-                _timeOfDay -= 1;
-            }
+        {
+            _timeOfDay -= 1;
+        }
     }
 
     public void AddModule (DNModuleBase module)
@@ -105,27 +110,11 @@ public class DayNightCycle : MonoBehaviour
 
     public void AdjustSunRotation()
     {
-        float sunAngle = timeOfDay * 360f;
+        float sunAngle = _timeOfDay * 360f;
         dailyRotation.transform.localRotation = Quaternion.Euler(new Vector3(sunAngle, 0f, 0f));
     }
     private void UpdateTimeScale()
     {
-        _timeScale = 24 / (_targetDayLength / 60);
-        _timeScale *= timeCurve.Evaluate(timeOfDay);
-        _timeScale /= timeCurveNormalization;
-    }
-
-    private void NormalTimeCurve()
-    {
-        float stepSize = 0.01f;
-        int numberSteps = Mathf.FloorToInt(1f / stepSize);
-        float curveTotal = 0;
-
-        for (int i = 0; i < numberSteps; i++)
-        {
-            curveTotal += timeCurve.Evaluate(i * stepSize);
-        }
-
-        timeCurveNormalization = curveTotal / numberSteps;
+        _timeScale = 24 / (_targetDayLength/60);
     }
 }
