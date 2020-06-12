@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
     private AudioClip mainMenuMusic;
 
     public Texture2D cursor;
+    private bool eduMode;
 
     public float MouseSensivility { get; set; }
     private void Awake()
@@ -270,6 +271,26 @@ public class GameManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.F12))
                 {
                     DeleteProgress();
+                }
+            }
+
+            if(!eduMode)
+            {
+                if(Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.E))
+                {
+                    eduMode = true;
+                }
+            }
+
+            if(eduMode)
+            {
+                if(Input.GetKeyDown(KeyCode.Comma))
+                {
+                    PlayerManager.instace.AddExp(10);
+                }
+                if(Input.GetKeyDown(KeyCode.RightShift))
+                {
+                    InventoryController.Instance.AddItem(DataBase.GetItem("Money"), 100);
                 }
             }
 

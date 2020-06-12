@@ -32,7 +32,7 @@ public class TutorialController : MonoBehaviour
         if (TutorialDone())
         {
             GameEvents.TutorialDone();
-            Debug.Log("Tutorial done!");
+            GameEvents.SaveInitiated();
         }
     }
 
