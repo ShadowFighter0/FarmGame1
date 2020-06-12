@@ -85,7 +85,6 @@ public class Shop : MonoBehaviour
     {
         stock[num].item = seed;
         UpdateBox(seed.itemName);
-        Debug.Log(seed.itemName);
         num++;
     }
     private void UpdateBox(string name)
