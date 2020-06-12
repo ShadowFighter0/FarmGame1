@@ -84,6 +84,7 @@ public class Shop : MonoBehaviour
     public void AddToStock (Item seed)
     {
         stock[num].item = seed;
+        transform.GetChild(num).gameObject.SetActive(true);
         num++;
     }
 

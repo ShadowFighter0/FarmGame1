@@ -80,8 +80,7 @@ public class PlayerManager : MonoBehaviour
 
     public Seed[] GetSeedsOrder()
     {
-        Seed[] seeds = seedsToUnlock;
-        return seeds.OrderBy(seeds => seeds.lvl).ToArray();;
+        return seedsToUnlock.OrderBy(seeds => seeds.lvl).ToArray();
     }
     private void SavePlayer()
     {

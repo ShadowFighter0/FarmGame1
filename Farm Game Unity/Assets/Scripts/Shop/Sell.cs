@@ -244,8 +244,8 @@ public class Sell : MonoBehaviour
     /// <param name="amount"></param> 
     public void AddItem(int amount)
     {
-        int currentPosition = SearchStock(InventoryController.Instance.GetID(position));
         string id = InventoryController.Instance.GetID(position);
+        int currentPosition = SearchStock(id);
 
         //Añadir a stock 
         if (currentPosition >= 0)
@@ -254,6 +254,8 @@ public class Sell : MonoBehaviour
         }
         else
         {
+            transform.GetChild(0).GetChild(numStock).gameObject.SetActive(true);
+
             stock[numStock] = new SellItem(DataBase.GetItem(id), amount);
             numStock++;
         }
@@ -296,6 +298,8 @@ public class Sell : MonoBehaviour
                 stock[pos] = null;
                 ReOrder();
                 numStock--;
+
+                transform.GetChild(0).GetChild(numStock).gameObject.SetActive(false);
             }
             else
             {
