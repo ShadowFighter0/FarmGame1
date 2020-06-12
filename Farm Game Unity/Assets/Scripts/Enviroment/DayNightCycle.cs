@@ -73,7 +73,8 @@ public class DayNightCycle : MonoBehaviour
 
     private void Start()
     {
-        NormalTimeCurve(); 
+        NormalTimeCurve();
+        _targetDayLength = TimeManager.instance.secondsPerDay / 60;
     }
 
     private void Update()
@@ -81,13 +82,24 @@ public class DayNightCycle : MonoBehaviour
         if (!pause)
         {
             UpdateTimeScale();
-            UpdateTime();
             AdjustSunRotation();
             SunIntensity();
-            UpdateModules();
         }
     }
 
+    public void SunIntensity()
+    {
+        sunIntensity = Vector3.Dot(sun.transform.forward, Vector3.down);
+        sunIntensity = Mathf.Clamp01(sunIntensity);
+
+        sun.intensity = sunIntensity * sunBaseIntensity ;
+    }
+
+    public void AdjustSunRotation()
+    {
+        float sunAngle = timeOfDay * 360f;
+        dailyRotation.transform.localRotation = Quaternion.Euler(new Vector3(sunAngle, 0f, 0f));
+    }
     private void UpdateTimeScale()
     {
         _timeScale = 24 / (_targetDayLength / 60);
@@ -107,53 +119,5 @@ public class DayNightCycle : MonoBehaviour
         }
 
         timeCurveNormalization = curveTotal / numberSteps;
-    }
-
-    private void UpdateTime()
-    {
-        _timeOfDay += Time.deltaTime * _timeScale / 86400;
-
-        if (_timeOfDay > 1)
-        {
-            _dayNumber++;
-            _timeOfDay -= 1;
-
-            if(_dayNumber > _yearLength)
-            {
-                _yearNumber++;
-                _dayNumber = 0;
-            }
-        }
-    }
-
-    public void AdjustSunRotation ()
-    {
-        float sunAngle = timeOfDay * 360f;
-        dailyRotation.transform.localRotation = Quaternion.Euler(new Vector3(sunAngle, 0f, 0f));
-    }
-
-    public void AddModule (DNModuleBase module)
-    {
-        moduleList.Add(module);
-    }
-    public void RemoveModule (DNModuleBase module)
-    {
-        moduleList.Remove(module);
-    }
-
-    private  void UpdateModules()
-    {
-        foreach (DNModuleBase module in moduleList)
-        {
-            module.UpdateModule(sunIntensity);
-        }
-    }
-
-    public void SunIntensity()
-    {
-        sunIntensity = Vector3.Dot(sun.transform.forward, Vector3.down);
-        sunIntensity = Mathf.Clamp01(sunIntensity);
-
-        sun.intensity = sunIntensity * sunBaseIntensity ;
     }
 }
