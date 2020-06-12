@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0f);
             gameLoaded = true;
-            //AudioManager.PlaySound(mainMenuMusic);
+            AudioManager.PlaySound(mainMenuMusic);
             currentLerpTime = 0;
 
             yield return new WaitForSeconds(0f);
@@ -230,7 +230,7 @@ public class GameManager : MonoBehaviour
             lerpTime = 5;
             yield return new WaitForSeconds(1f);
             gameLoaded = true;
-            //AudioManager.PlaySound(mainMenuMusic);
+            AudioManager.PlaySound(mainMenuMusic);
             currentLerpTime = 0;
 
             yield return new WaitForSeconds(3f);
@@ -391,7 +391,7 @@ public class GameManager : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
-    private void ChangeAudio()
+    public void ChangeAudio()
     {
         AudioListener.volume = audioSlider.value;
     }
