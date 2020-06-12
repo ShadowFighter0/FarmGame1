@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
     private PlayerLevel playerInfo;
-    public int[] levelExperience;
+    private int[] levelExperience = {10, 20, 35, 60, 100};
     private float barwidth;
     public TextMeshProUGUI currentLvl;
     public TextMeshProUGUI nextLvl;
@@ -80,7 +80,8 @@ public class PlayerManager : MonoBehaviour
 
     public Seed[] GetSeedsOrder()
     {
-        return seedsToUnlock;
+        Seed[] seeds = seedsToUnlock;
+        return seeds.OrderBy(seeds => seeds.lvl).ToArray();;
     }
     private void SavePlayer()
     {
