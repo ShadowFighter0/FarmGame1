@@ -572,7 +572,7 @@ public class InventoryController : MonoBehaviour
         }
         ReOrderItem();
         ChangeGui();
-
+        QuestController.Instance.UpdatePanels();
     }
 
     /// <summary>

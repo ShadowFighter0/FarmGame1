@@ -44,13 +44,15 @@ public class MailBoxController : MonoBehaviour
     {
         mailReceived = DataBase.GetAudioClip("MailNotification");
         mailsPanel = mailFolder.parent.gameObject;
-        mails = Resources.LoadAll<Mail>("Data/Mails");
         quests = Resources.LoadAll<QuestTemplate>("Data/Mails");
+        Debug.Log(quests.Length);
+        
         if(SaveLoad.SaveExists("Mails"))
         {
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
+        Debug.Log(mailIndex);
         outline = GetComponent<OutlineController>();
     }
     private void Update()
