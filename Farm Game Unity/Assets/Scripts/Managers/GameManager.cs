@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
 
     public Texture2D cursor;
     private bool eduMode;
+    public Slider audioSlider;
 
     public float MouseSensivility { get; set; }
     private void Awake()
@@ -195,6 +196,8 @@ public class GameManager : MonoBehaviour
 
         newCamPos = cam.position;
         newCamRot = cam.rotation;
+
+        audioSlider.onValueChanged.AddListener(delegate {ChangeAudio();});
     }
     private void OnEnable()
     {
@@ -386,6 +389,11 @@ public class GameManager : MonoBehaviour
         }
         
         InputManager.instance.ChangeState(InputManager.States.Idle);
+    }
+
+    private void ChangeAudio()
+    {
+        AudioListener.volume = audioSlider.value;
     }
     public void ExitGame()
     {

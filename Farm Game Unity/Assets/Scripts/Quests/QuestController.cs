@@ -77,7 +77,6 @@ public class QuestController : MonoBehaviour
             }
             saved.Clear();
         }
-        UpdatePanels();
 
         int max = questPanelFolder.childCount;
         questPanels = new GameObject[max];
@@ -91,6 +90,7 @@ public class QuestController : MonoBehaviour
         {
             indicator = FindObjectOfType<QuestIndicator>();
         }
+        UpdatePanels();
     }
     private void Update()
     {
@@ -198,7 +198,15 @@ public class QuestController : MonoBehaviour
             description[0, index] = list[i].QuestName;
 
             description[1, index] = list[i].Description;
-            description[1, index] += "\n";
+            if(list[i].IsOrder)
+            {
+                description[1, index] += "\nDeliver to car";
+            }
+            else
+            {
+                description[1, index] += "\nDeliver to " + list[i].NPCName;
+            }
+            
             for (int j = 0; j < list[i].Goals.Count; j++)
             {
                 Goal g = list[i].Goals[j];

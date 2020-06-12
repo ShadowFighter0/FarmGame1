@@ -48,6 +48,7 @@ public class WorkShopController : MonoBehaviour
 
     public GameObject controlsText;
     public GameObject orchard;
+    private AudioClip itemPurchased;
     private void Awake() 
     {
         GameEvents.OnTutorialDone += TutorialDone;
@@ -92,6 +93,7 @@ public class WorkShopController : MonoBehaviour
         }
         DisableRequirements();
         outline = GetComponent<OutlineController>();
+        itemPurchased = DataBase.GetAudioClip("ItemPurchased");
     }
     private void TutorialDone()
     {
@@ -281,7 +283,7 @@ public class WorkShopController : MonoBehaviour
                 InventoryController.Instance.SubstractAmountItem(item.amounts[i], item.requirements[i].itemName);
             }
             menu.SetActive(false);
-
+            AudioManager.PlaySound(itemPurchased);
             UnlockeableItem script = currentItem.GetComponent<UnlockeableItem>();
             script.SetOriginalMat();
             script.Purchased();

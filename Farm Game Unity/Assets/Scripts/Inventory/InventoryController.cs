@@ -252,7 +252,6 @@ public class InventoryController : MonoBehaviour
         }
         //item
         GameEvents.ItemCollected(newItem.name, GetAmount(newItem.name));
-        QuestController.Instance.UpdatePanels();
         feed.Suscribe(newItem.name, newItem.image, newItem.amount);
     }
 
@@ -288,7 +287,6 @@ public class InventoryController : MonoBehaviour
 
         //item
         GameEvents.ItemCollected(newItem.name, GetAmount(newItem.name));
-        QuestController.Instance.UpdatePanels();
         feed.Suscribe(newItem.name, newItem.image, amount);
     }
     private void AddNewItem(Item newItem)
