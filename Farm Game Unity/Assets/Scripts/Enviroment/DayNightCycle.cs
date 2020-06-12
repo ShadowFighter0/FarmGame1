@@ -69,7 +69,7 @@ public class DayNightCycle : MonoBehaviour
 
     public void UpdateTime()
     {
-        _timeOfDay = ((TimeManager.instance.time.minute * 60) + TimeManager.instance.timer) / 86400; // seconds in a day
+        _timeOfDay = ((TimeManager.instance.time.hour * 3600) + (TimeManager.instance.time.minute * 60) + TimeManager.instance.timer) / 86400; // seconds in a day
 
         if (_timeOfDay > 1) //new day!!
             {
