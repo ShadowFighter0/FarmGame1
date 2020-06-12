@@ -36,11 +36,11 @@ public class PlayerManager : MonoBehaviour
     private Seed[] seedsToUnlock;
     public GameObject popUp;
     private Shop shopScript;
-    public static PlayerManager instace;
+    public static PlayerManager instance;
     private bool maxLvl = false;
     private void Awake()
     {
-        instace = this;
+        instance = this;
         GameEvents.OnSaveInitiated += SavePlayer;
         seedsToUnlock = Resources.LoadAll<Seed>("Data/Items/Seeds");
         seedsToUnlock.OrderBy(seeds => seeds.lvl).ToArray();

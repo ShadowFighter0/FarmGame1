@@ -160,7 +160,7 @@ public class WorkShopController : MonoBehaviour
                         }
 
                         int lvl = item.level;
-                        if (PlayerManager.instace.GetCurrentLevel() < lvl)
+                        if (PlayerManager.instance.GetCurrentLevel() < lvl)
                         {
                             acceptText.text = "Need level " + lvl;
                         }
@@ -262,7 +262,7 @@ public class WorkShopController : MonoBehaviour
     {
         if (item != null)
         {
-            if (PlayerManager.instace.GetCurrentLevel() < item.level)
+            if (PlayerManager.instance.GetCurrentLevel() < item.level)
             {
                 return;
             }
