@@ -148,6 +148,7 @@ public class ShopManager : MonoBehaviour
         currentShop = shop;
         shopPanel.SetActive(true);
         ShowShop();
+        UpdatePrice();
         InputManager.instance.ChangeState(InputManager.States.OnUI);
         currentMoney.text = "Your money: " + InventoryController.Instance.GetAmount("Money");
     }
@@ -251,6 +252,7 @@ public class ShopManager : MonoBehaviour
                 stockUI[i].gameObject.SetActive(false);
             }
         }
+        UpdatePrice();
     }
     public void ShowCart()
     {
