@@ -289,10 +289,8 @@ public class WorkShopController : MonoBehaviour
             UnlockeableItem script = currentItem.GetComponent<UnlockeableItem>();
             script.SetOriginalMat();
             script.Purchased();
-            if(!tutorialDone)
-            {
-                TutorialController.instance.SetThingDone(1);
-            }
+
+            TutorialController.instance.SetThingDone(1);
             //Destroy(script);
 
             MonoBehaviour itemController = currentItem.GetComponent<MonoBehaviour>();
