@@ -50,7 +50,7 @@ public class Sell : MonoBehaviour
             inventoryUI[i] = aux.GetChild(i).GetComponent<ShopEntry>();
         }
         stock = new SellItem[stockUI.Length];
-        outline = GetComponent<OutlineController>();
+        outline = GetComponentInChildren<OutlineController>();
     }
 
     private void Update()
