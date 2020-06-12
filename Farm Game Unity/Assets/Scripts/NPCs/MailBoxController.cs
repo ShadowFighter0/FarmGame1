@@ -51,7 +51,6 @@ public class MailBoxController : MonoBehaviour
             int loadIndex = SaveLoad.Load<int>("Mails");
             mailIndex = loadIndex;
         }
-        AddContent(new QuestInfo(quests[0]));
         outline = GetComponent<OutlineController>();
     }
     private void Update()

@@ -99,7 +99,17 @@ public class RadialMenuController : MonoBehaviour
     public void ChangePage()
     {
         page[currentPage].CloseChilds();
-        page[currentPage == 0 ? 1 : 0].OpenChilds();
+
+        if(currentPage == 0)
+        {
+            currentPage = 1;
+        }
+        else
+        {
+            currentPage = 0;
+        }
+        
+        page[currentPage].OpenChilds();
     }
     
     public void Open()

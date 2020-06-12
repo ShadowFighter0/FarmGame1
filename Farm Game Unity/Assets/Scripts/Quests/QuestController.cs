@@ -211,8 +211,7 @@ public class QuestController : MonoBehaviour
             for (int j = 0; j < list[i].Goals.Count; j++)
             {
                 Goal g = list[i].Goals[j];
-                description[1, index] += "\n";
-                description[1, index] += "- " + g.CurrentAmount + " / " + g.Description;
+                description[1, index] += "\n- " + g.CurrentAmount + " / " + g.Description;
             }
             index++;
         }
@@ -241,6 +240,7 @@ public class QuestController : MonoBehaviour
         if(completedQuests.Contains(q) && q.IsOrder)
         {
             completedQuests.Remove(q);
+            q.GiveReward();
             UpdatePanels();
         }
     }

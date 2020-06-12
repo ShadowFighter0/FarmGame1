@@ -60,7 +60,6 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject continueText;
     public GameObject options;
-    public GameObject menuOptions;
     public static GameManager instance;
 
     public Transform player;
@@ -132,8 +131,6 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        //Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
-        
         MouseSensivility = 300;
         mainMenuMusic = DataBase.GetAudioClip("Theme");
 
@@ -345,6 +342,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             InputManager.instance.ChangeState(InputManager.States.OnUI);
+            options.SetActive(false);
         }
         else
         {
@@ -367,10 +365,6 @@ public class GameManager : MonoBehaviour
     public void ActiveOptions()
     {
         options.SetActive(!options.activeSelf);
-    }
-    public void ActiveMenuOptions()
-    {
-        menuOptions.SetActive(!menuOptions.activeSelf);
     }
 
     public void ContinueGame()
