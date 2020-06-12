@@ -42,12 +42,11 @@ public class PlayerManager : MonoBehaviour
     {
         instace = this;
         GameEvents.OnSaveInitiated += SavePlayer;
+        seedsToUnlock = Resources.LoadAll<Seed>("Data/Items/Seeds");
+        seedsToUnlock.OrderBy(seeds => seeds.lvl).ToArray();
     }
     private void Start()
     {
-        seedsToUnlock = Resources.LoadAll<Seed>("Data/Items/Seeds");
-        seedsToUnlock.OrderBy(seeds => seeds.lvl).ToArray();
-
         if(SaveLoad.SaveExists("PlayerLvl"))
         {
             PlayerLevel loadInfo = SaveLoad.Load<PlayerLevel>("PlayerLvl");
