@@ -53,7 +53,7 @@ public class Sell : MonoBehaviour
 
     private void Update()
     {
-        if (playerNear && Input.GetKeyDown(InputManager.instance.Interact))
+        if (playerNear && Input.GetKeyDown(InputManager.instance.Interact) && !onShopView && !onInitialMenu)
         {
             OpenInicialMenu();
         }
@@ -63,9 +63,9 @@ public class Sell : MonoBehaviour
             {
                 CloseSell();
             }
-            else if (onShopView)
+            else if (onInitialMenu)
             {
-
+                CloseInitialMenu();
             }
         }
 
