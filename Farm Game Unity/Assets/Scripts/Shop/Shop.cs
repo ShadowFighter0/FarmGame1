@@ -84,8 +84,21 @@ public class Shop : MonoBehaviour
     public void AddToStock (Item seed)
     {
         stock[num].item = seed;
-        transform.GetChild(num).gameObject.SetActive(true);
+        UpdateBox(seed.itemName);
+        Debug.Log(seed.itemName);
         num++;
+    }
+    private void UpdateBox(string name)
+    {
+        bool end = false;
+        for (int i = 0; i < transform.childCount && !end; i++)
+        {
+            if (transform.GetChild(i).name == name)
+            {
+                end = true;
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)

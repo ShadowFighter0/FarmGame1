@@ -97,7 +97,7 @@ public class InputManager : MonoBehaviour
                     
                 break;
             case States.OnUI:
-                if (Input.GetKeyDown(Inventory))
+                if (Input.GetKeyDown(Inventory) && InventoryController.Instance.inventoryOpen)
                 {
                     InventoryController.Instance.CloseMenu();
                 }
