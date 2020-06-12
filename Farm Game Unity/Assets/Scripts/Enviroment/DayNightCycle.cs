@@ -86,6 +86,24 @@ public class DayNightCycle : MonoBehaviour
             SunIntensity();
         }
     }
+    
+    public void AddModule (DNModuleBase module)
+    {
+        moduleList.Add(module);
+    }
+
+    public void RemoveModule(DNModuleBase module)
+    {
+        moduleList.Remove(module);
+    }
+
+    public void UpdateModule()
+    {
+        foreach (DNModuleBase module in moduleList)
+        {
+            module.UpdateModule(sunIntensity);
+        }
+    }
 
     public void SunIntensity()
     {
