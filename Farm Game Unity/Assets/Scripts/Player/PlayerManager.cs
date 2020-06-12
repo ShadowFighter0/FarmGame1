@@ -112,16 +112,16 @@ public class PlayerManager : MonoBehaviour
                 {
                     maxLvl = true;
                     playerInfo.experience = levelExperience[playerInfo.level];
+                    SendChili();
                 }
                 else
                 {
                     int difference = nextExp - levelExperience[playerInfo.level];
                     playerInfo.level++;
                     playerInfo.experience = difference;
+                    UpdateLvlRewards();
+                    ChangeLvls();
                 }
-
-                UpdateLvlRewards();
-                ChangeLvls();
             }
             else
             {
@@ -164,6 +164,18 @@ public class PlayerManager : MonoBehaviour
                 shopScript.AddToStock(seedsToUnlock[i]);
             }
         }
+    }
+
+    private void SendChili()
+    {
+        UpdateImages();
+        popUp.SetActive(true);
+        InputManager.instance.ChangeState(InputManager.States.OnUI);
+
+        imageGo[0].SetActive(true);
+        Sprite spr = DataBase.GetItemSprite("ChiliSeed");
+        images[0].sprite = spr;
+        shopScript.AddToStock(DataBase.GetItem("ChiliSeed"));
     }
     public void CloseUI()
     {
