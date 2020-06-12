@@ -45,6 +45,10 @@ public class QuestController : MonoBehaviour
         Instance = this;
         GameEvents.OnTutorialDone += TutorialDone;
         GameEvents.OnSaveInitiated += SaveQuests;
+        if(SaveLoad.SaveExists("FirstOrder"))
+        {
+            firstOrder = true;
+        }
     }
     private void TutorialDone()
     {
@@ -53,10 +57,6 @@ public class QuestController : MonoBehaviour
     
     private void Start()
     {
-        if(SaveLoad.SaveExists("FirstMail"))
-        {
-            firstOrder = SaveLoad.Load<bool>("FirstMail");
-        }
         if(SaveLoad.SaveExists("ActiveQuests"))
         {
             List<SaveQuest> saved = SaveLoad.Load<List<SaveQuest>>("ActiveQuests");
@@ -168,10 +168,11 @@ public class QuestController : MonoBehaviour
     }
     public void AddQuest(Quest q)
     {
+        SaveFirstOrder();
         if(!firstOrder && q.IsOrder)
         {
+            Debug.Log("aaa");
             firstOrder = true;
-            SaveFirstOrder();
             TutorialController.instance.SendOrdersTutorial();
             MailBoxController.instance.Close();
             InputManager.instance.ChangeState(InputManager.States.Dialoguing);
