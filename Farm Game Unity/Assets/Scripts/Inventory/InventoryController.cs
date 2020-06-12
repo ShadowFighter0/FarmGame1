@@ -151,7 +151,9 @@ public class InventoryController : MonoBehaviour
                 for (int i = 0; i < inventoryEntry.Length; i++)
                 {
                     InventoryEntry it = inventoryEntry[i];
+                    it.gameObject.SetActive(true);
                     it.transform.GetChild(3).gameObject.SetActive(true);
+                    
                     if(items[i] == null)
                     {
                         it.notActive.SetActive(true);
@@ -333,7 +335,6 @@ public class InventoryController : MonoBehaviour
             }
         }
     }
-
     private void AddNewItem(Item newItem, int amount)
     {
         List<int> positions = SearchItem(newItem.itemName);
