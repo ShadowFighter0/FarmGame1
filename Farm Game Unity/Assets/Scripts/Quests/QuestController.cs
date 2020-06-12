@@ -77,6 +77,7 @@ public class QuestController : MonoBehaviour
             }
             saved.Clear();
         }
+        UpdatePanels();
 
         int max = questPanelFolder.childCount;
         questPanels = new GameObject[max];
@@ -170,6 +171,7 @@ public class QuestController : MonoBehaviour
         if(!firstOrder && q.IsOrder)
         {
             firstOrder = true;
+            SaveFirstOrder();
             TutorialController.instance.SendOrdersTutorial();
             MailBoxController.instance.Close();
             InputManager.instance.ChangeState(InputManager.States.Dialoguing);

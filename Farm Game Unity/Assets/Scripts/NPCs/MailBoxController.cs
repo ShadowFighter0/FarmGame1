@@ -126,7 +126,6 @@ public class MailBoxController : MonoBehaviour
             if(!child.gameObject.activeSelf)
             {
                 child.gameObject.SetActive(true);
-                child.SetAsFirstSibling();
 
                 activePanels.Add(child.gameObject);
 
@@ -151,7 +150,6 @@ public class MailBoxController : MonoBehaviour
             if (!child.gameObject.activeSelf)
             {
                 child.gameObject.SetActive(true);
-                child.SetAsFirstSibling();
 
                 activePanels.Add(child.gameObject);
 
