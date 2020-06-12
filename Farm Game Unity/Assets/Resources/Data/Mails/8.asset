@@ -12,14 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841fb9f3494238b4a8dbdbb6e3c03425, type: 3}
   m_Name: 8
   m_EditorClassIdentifier: 
-  title: Help me!
-  description: 'My kids dont eat vegetables and I dont know what to do...
-
-    Could
-    you give me the best brocoli you have?'
+  title: Be healthy
+  description: I need to start eating good food. Could you help me?
   NPCName: 
-  experience: 0
+  experience: 15
   ids:
-  - Broccoli
-  amounts: 0c000000
+  - Asparagus
+  - Cucumber
+  amounts: 0800000008000000
   isOrder: 1

@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841fb9f3494238b4a8dbdbb6e3c03425, type: 3}
   m_Name: 10
   m_EditorClassIdentifier: 
-  title: Help me!
-  description: 'My kids dont eat vegetables and I dont know what to do...
-
-    Could
-    you give me the best brocoli you have?'
-  NPCName: 
-  experience: 0
+  title: Pepe wants beetrots
+  description: Your beetrots look delicious. Bring me some please!
+  NPCName: Pepe
+  experience: 20
   ids:
-  - Broccoli
+  - Beetrots
   amounts: 0c000000
-  isOrder: 1
+  isOrder: 0

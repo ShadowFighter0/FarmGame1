@@ -65,6 +65,7 @@ public class MailBoxController : MonoBehaviour
                 if (timer > time && done && mailIndex < quests.Length - 1 && currentPanels < 3)
                 {
                     timer = 0;
+                    time = Random.Range(20.0f, 40.0f);
                     AddContent(new QuestInfo(quests[mailIndex]));
                 }
             }
@@ -74,11 +75,10 @@ public class MailBoxController : MonoBehaviour
                 if (Input.GetKeyDown(InputManager.instance.Interact) && done)
                 {
                     mailsPanel.SetActive(true);
-                    //AudioManager.PlaySoundWithVariation(open);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
                     done = false;
                 }
-                if ((Input.GetKeyDown(KeyCode.F1) || activePanels.Count == 0) && !done)
+                if ((Input.GetKeyDown(InputManager.instance.Escape) || activePanels.Count == 0) && !done)
                 {
                     AudioManager.PlaySoundWithVariation(open);
                     Close();

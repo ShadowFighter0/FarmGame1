@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Hi, I'm Pepe. Looks like your beans are awesome. Could you give me
     some? Some carrots would be fine to. You know where to find me.
   NPCName: Pepe
-  experience: 8
+  experience: 10
   ids:
   - Bean
   - Carrot
