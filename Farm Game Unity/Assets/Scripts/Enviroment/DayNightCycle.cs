@@ -6,7 +6,7 @@ using UnityEngine;
 public class DayNightCycle : MonoBehaviour
 {
     [SerializeField]
-    private float _targetDayLength = 0.5f;
+    private float _targetDayLength = 0.5f; //minutos q dura el dia 
     public float targetDayLength
     {
         get
@@ -62,7 +62,7 @@ public class DayNightCycle : MonoBehaviour
     {
         if(start)
         {
-            _timeOfDay = ((TimeManager.instance.time.hour * 3600) + (TimeManager.instance.time.minute * 60)) / 86400; // seconds in a day
+            _timeOfDay = (TimeManager.instance.time.hour * 3600 ) / 86400; // seconds in a day
             start = false;
         }
 
