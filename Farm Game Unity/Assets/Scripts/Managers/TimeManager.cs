@@ -32,8 +32,8 @@ public class Date
 }
 public class TimeManager : MonoBehaviour
 {
-    private Date time;
-    private float timer;
+    public Date time;
+    public float timer;
     public int minuteAmount;
     private float minuteTime;
     private bool resting = false;

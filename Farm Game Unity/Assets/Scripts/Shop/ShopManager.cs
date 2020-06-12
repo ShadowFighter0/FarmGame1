@@ -116,6 +116,7 @@ public class ShopManager : MonoBehaviour
     {
         totalPrice.text = "Cart value: " + GetCharge().ToString();
     }
+
     public void UpdatePriceSlider()
     {
         totalPrice.text = "Cart value: " + shops[0].stock[pos].item.price * AmountPanel.Instance.slider.value;

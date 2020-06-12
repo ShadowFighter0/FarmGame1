@@ -14,6 +14,7 @@ public class DayNightCycle : MonoBehaviour
             return _targetDayLength;
         }
     }
+
     [SerializeField]
     [Range(0f, 1f)]
     private float _timeOfDay;
@@ -22,26 +23,6 @@ public class DayNightCycle : MonoBehaviour
         get
         {
             return _timeOfDay;
-        }
-    }
-
-    [SerializeField]
-    private int _dayNumber = 0;
-    public int dayNumber
-    {
-        get
-        {
-            return _dayNumber;
-        }
-    }
-
-    [SerializeField]
-    private int _yearNumber = 0;
-    public int yearNumber
-    {
-        get
-        {
-            return _yearNumber;
         }
     }
 
@@ -79,14 +60,23 @@ public class DayNightCycle : MonoBehaviour
 
     private void Update()
     {
-        if (!pause)
-        {
-            UpdateTimeScale();
-            AdjustSunRotation();
-            SunIntensity();
-        }
+        UpdateTime();
+
+        AdjustSunRotation();
+        SunIntensity();
+        UpdateModule(); //will update modules each frame
     }
-    
+
+    public void UpdateTime()
+    {
+        _timeOfDay = ((TimeManager.instance.time.minute * 60) + TimeManager.instance.timer) / 86400; // seconds in a day
+
+        if (_timeOfDay > 1) //new day!!
+            {
+                _timeOfDay -= 1;
+            }
+    }
+
     public void AddModule (DNModuleBase module)
     {
         moduleList.Add(module);
