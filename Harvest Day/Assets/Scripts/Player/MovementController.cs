@@ -123,7 +123,7 @@ public class MovementController : MonoBehaviour
         {
             maxSpeed = runSpeed;
         }
-        if (Input.GetKeyUp(InputManager.instance.Run) || Input.GetKeyDown(InputManager.instance.RunControl))
+        if (Input.GetKeyUp(InputManager.instance.Run) || Input.GetKeyUp(InputManager.instance.RunControl))
         {
             maxSpeed = walkSpeed;
         }
