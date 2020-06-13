@@ -55,7 +55,7 @@ public class Shop : MonoBehaviour
 
     private void Update()
     {
-        if (playerNear && (Input.GetKey(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl)))
+        if (!ShopManager.Instance.shopPanel.activeSelf && playerNear && (Input.GetKey(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl)))
         {
             ShopManager.Instance.OpenShop(this);
         }

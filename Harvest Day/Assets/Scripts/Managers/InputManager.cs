@@ -7,7 +7,7 @@ public class InputManager : MonoBehaviour
     private readonly KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     public KeyCode Interact;
-    public KeyCode Work;    //nose si no hay  o q 
+    public KeyCode Work;   
     public KeyCode RadialMenu;
     public KeyCode Inventory;
     public KeyCode Run;
@@ -83,6 +83,7 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         int scroll = (int)Input.mouseScrollDelta.y;
+
         switch (state)
         {
             case States.Idle:
@@ -199,16 +200,35 @@ public class InputManager : MonoBehaviour
 
     private void ChangeTool(int scroll)
     {
-        if(canChangeTool)
+        if (canChangeTool)
         {
             oldActive = activeTool;
             int numTools = toolsFolder.transform.childCount;
+
+            if (Input.GetKeyDown(KeyCode.JoystickButton4))
+            {
+                activeTool = 0;
+                if (oldActive == activeTool)
+                {
+                    //unequip aniamtion
+                    playerAnim.SetTrigger("Unnequip");
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.JoystickButton5))
+            {
+                activeTool = 1;
+                if (oldActive == activeTool)
+                {
+                    //unequip aniamtion
+                    playerAnim.SetTrigger("Unnequip");
+                }
+            }
+
             for (int i = 0; i < numTools; i++)
             {
                 if (Input.GetKeyDown(keyCodes[i]))
                 {
                     activeTool = i;
-
                     if (oldActive == activeTool)
                     {
                         //unequip aniamtion

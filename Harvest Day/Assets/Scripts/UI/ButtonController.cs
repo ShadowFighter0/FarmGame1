@@ -32,15 +32,18 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerCli
     }
     public void OnSelect(BaseEventData eventData)
     {
-        if(img != null)
-            img.color = overColor;
+        if(gameObject.GetComponent<Image>() != null)
+            gameObject.GetComponent<Image>().color = overColor;
 
-        AudioManager.PlaySoundWithVariation(overSound);
+        if (overSound != null)
+            AudioManager.PlaySoundWithVariation(overSound);
+
+        Debug.Log(gameObject.name);
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        if (img != null)
-            img.color = defaultColor;
+        if (gameObject.GetComponent<Image>() != null)
+            gameObject.GetComponent<Image>().color = defaultColor;
     }
 }

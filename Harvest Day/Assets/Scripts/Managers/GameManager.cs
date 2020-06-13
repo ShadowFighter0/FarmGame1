@@ -311,7 +311,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.P) && !mainMenu.activeSelf)
+            if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton9)) && !mainMenu.activeSelf)
             {
                 PauseGame();
             }

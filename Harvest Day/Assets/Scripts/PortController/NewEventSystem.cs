@@ -10,6 +10,11 @@ public class NewEventSystem : MonoBehaviour
 
     private void OnEnable()
     {
+        if (button.GetComponent<MenuButtonController>() != null)
+            button.GetComponent<MenuButtonController>().SaveData();
+        else if (button.GetComponent<DialogueButtonController>() != null)
+            button.GetComponent<DialogueButtonController>().Select();
+
         EventSystem.current.SetSelectedGameObject(button);
     }
 

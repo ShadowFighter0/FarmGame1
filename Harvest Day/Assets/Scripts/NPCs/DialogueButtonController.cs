@@ -16,6 +16,7 @@ public class DialogueButtonController : MonoBehaviour, IPointerEnterHandler, IPo
         index = transform.GetSiblingIndex();
     }
 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.color = Color.yellow;
@@ -36,9 +37,14 @@ public class DialogueButtonController : MonoBehaviour, IPointerEnterHandler, IPo
         DialogueSystem.instance.SendButton(index);
     }
 
+    public void Select()
+    {
+        text.color = Color.yellow;
+    }
+
     private void OnEnable()
     {
-        text.color = Color.white;
+        //text.color = Color.white;
     }
 
     public void OnSelect(BaseEventData eventData)

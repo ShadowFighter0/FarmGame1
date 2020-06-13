@@ -318,7 +318,7 @@ public class Sell : MonoBehaviour
         {
             int pos = Random.Range(0, numStock);
             SellItem item = stock[pos];
-            int cant = Random.Range(item.amount / 4, item.amount);
+            int cant = Random.Range(item.amount / 4, item.amount+1);
 
             AddMoney(item.item.price * cant);
 

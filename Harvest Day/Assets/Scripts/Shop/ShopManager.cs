@@ -237,6 +237,7 @@ public class ShopManager : MonoBehaviour
 
     public void ShowShop()
     {
+        Debug.Log("T imaginas");
         cartView = false;
         shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
 
@@ -257,6 +258,8 @@ public class ShopManager : MonoBehaviour
     }
     public void ShowCart()
     {
+        Debug.Log("Por favor funciona");
+
         cartView = true;
         shopPanel.transform.GetChild(3).GetComponent<Scrollbar>().value = 1;
 
