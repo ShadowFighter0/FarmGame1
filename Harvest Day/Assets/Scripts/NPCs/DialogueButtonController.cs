@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class DialogueButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class DialogueButtonController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectHandler, IDeselectHandler
 {
     private int index;
     private TextMeshProUGUI text;
@@ -28,10 +28,25 @@ public class DialogueButtonController : MonoBehaviour, IPointerEnterHandler, IPo
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Click();
+    }
+
+    public void Click()
+    {
         DialogueSystem.instance.SendButton(index);
     }
 
     private void OnEnable()
+    {
+        text.color = Color.white;
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        text.color = Color.yellow;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
     {
         text.color = Color.white;
     }

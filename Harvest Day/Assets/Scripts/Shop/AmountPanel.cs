@@ -49,12 +49,15 @@ public class AmountPanel : MonoBehaviour
     public void ConfirmAmount()
     {
         amount = (int)slider.value;
+
         if (ShopManager.Instance.onShop)
         {
             ShopManager.Instance.ConfirmAmount(amount);
+            gameObject.GetComponent<NewEventSystem>().AssignNewSelected(ShopManager.Instance.shopPanel.GetComponent<NewEventSystem>().button);
         }
         else if(Sell.Instance.playerNear && Sell.Instance.onShopView)
         {
+            gameObject.GetComponent<NewEventSystem>().AssignNewSelected(Sell.Instance.inventoryPanel.GetComponent<NewEventSystem>().button);
             if (inventory)
                 Sell.Instance.AddItem(amount);
             else

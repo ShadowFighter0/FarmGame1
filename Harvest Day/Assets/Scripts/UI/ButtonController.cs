@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     private Image img;
     private Color32 overColor;
@@ -29,5 +29,18 @@ public class ButtonController : MonoBehaviour, IPointerEnterHandler, IPointerCli
     public void OnPointerClick(PointerEventData data)
     {
         AudioManager.PlaySoundWithVariation(clickSound);
+    }
+    public void OnSelect(BaseEventData eventData)
+    {
+        if(img != null)
+            img.color = overColor;
+
+        AudioManager.PlaySoundWithVariation(overSound);
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        if (img != null)
+            img.color = defaultColor;
     }
 }

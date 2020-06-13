@@ -128,13 +128,20 @@ public class WorkShopController : MonoBehaviour
             {
                 float dt = Time.deltaTime;
 
-                Movement(dt);
                 if (!menu.activeSelf)
                 {
+                    Movement(dt);
                     CheckTarget();
                 }
             }
         }
+    }
+
+    public void Off()
+    {
+        menu.SetActive(false);
+        currentItem = null;
+        item = null;
     }
 
     private void CheckTarget()
@@ -316,13 +323,6 @@ public class WorkShopController : MonoBehaviour
         if (input.sqrMagnitude > Mathf.Epsilon)
         {
             newPos += input * speed * dt;
-
-            if(menu.activeSelf)
-            {
-                menu.SetActive(false);
-                currentItem = null;
-                item = null;
-            }
         }
 
         if (scroll != 0)
