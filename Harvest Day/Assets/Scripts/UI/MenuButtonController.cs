@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class MenuButtonController : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+public class MenuButtonController : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, ISelectHandler, IDeselectHandler
 {
     private AudioClip clickSound;
     private AudioClip overSound;
+    private Color main;
     private void Start() {
         clickSound = DataBase.GetAudioClip("MouseClick");
         overSound = DataBase.GetAudioClip("MouseOver");
+        if(gameObject.GetComponent<Image>() != null)
+         main = gameObject.GetComponent<Image>().color;
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -16,5 +20,19 @@ public class MenuButtonController : MonoBehaviour, IPointerEnterHandler, IPointe
     public void OnPointerClick(PointerEventData eventData)
     {
         AudioManager.PlaySoundWithVariation(clickSound);
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        AudioManager.PlaySoundWithVariation(overSound);
+        if (gameObject.GetComponent<Image>() != null)
+            gameObject.GetComponent<Image>().color = new Color32(255, 204, 0, 255);
+        Debug.Log(this.gameObject.name + " was selected");
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        if (gameObject.GetComponent<Image>() != null)
+            gameObject.GetComponent<Image>().color = main;
     }
 }
