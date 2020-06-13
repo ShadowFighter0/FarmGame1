@@ -22,12 +22,12 @@ public class WateringCan : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(InputManager.instance.Click) && InputManager.state == InputManager.States.Idle)
+        if ((Input.GetKeyDown(InputManager.instance.Click) || Input.GetKeyDown(InputManager.instance.ClickControl)) && InputManager.state == InputManager.States.Idle)
         {
             mousePressed = true;
             StartCoroutine(MouseHold());
         }
-        if(Input.GetKeyUp(InputManager.instance.Click) && mousePressed)
+        if ((Input.GetKeyUp(InputManager.instance.Click) || Input.GetKeyDown(InputManager.instance.ClickControl)) && mousePressed)
         {
             mousePressed = false;
             InputManager.instance.playerAnim.SetTrigger("Watering");

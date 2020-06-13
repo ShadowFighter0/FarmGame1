@@ -104,14 +104,14 @@ public class WorkShopController : MonoBehaviour
     {
         if(playerIn)
         {
-            if (Input.GetKeyDown(InputManager.instance.Interact) && !camActive && finished)
+            if ((Input.GetKeyDown(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl)) && !camActive && finished)
             {
                 finished = false;
                 UIMenu.SetActive(true);
                 InputManager.instance.ChangeState(InputManager.States.OnUI);
             }
 
-            if (Input.GetKeyDown(InputManager.instance.Escape) && !finished)
+            if ((Input.GetKeyDown(InputManager.instance.Escape) || Input.GetKeyDown(InputManager.instance.EscapeControl)) && !finished)
             {
                 if(UIMenu.activeSelf)
                 {
@@ -139,7 +139,7 @@ public class WorkShopController : MonoBehaviour
 
     private void CheckTarget()
     {
-        if (Input.GetKeyDown(InputManager.instance.Click))
+        if (Input.GetKeyDown(InputManager.instance.Click) || Input.GetKeyDown(InputManager.instance.ClickControl))
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))

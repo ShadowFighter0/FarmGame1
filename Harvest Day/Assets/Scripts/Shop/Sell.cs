@@ -55,11 +55,11 @@ public class Sell : MonoBehaviour
 
     private void Update()
     {
-        if (playerNear && Input.GetKeyDown(InputManager.instance.Interact) && !onShopView && !onInitialMenu)
+        if (playerNear && (Input.GetKeyDown(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl)) && !onShopView && !onInitialMenu)
         {
             OpenInicialMenu();
         }
-        if ((onInitialMenu || onShopView) && Input.GetKeyDown(InputManager.instance.Escape))
+        if ((onInitialMenu || onShopView) && (Input.GetKeyDown(InputManager.instance.Escape) || Input.GetKeyDown(InputManager.instance.EscapeControl)))
         {
             if (onShopView)
             {

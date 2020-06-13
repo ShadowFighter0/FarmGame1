@@ -7,12 +7,20 @@ public class InputManager : MonoBehaviour
     private readonly KeyCode[] keyCodes = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
     public KeyCode Interact;
-    public KeyCode Work;
+    public KeyCode Work;    //nose si no hay  o q 
     public KeyCode RadialMenu;
     public KeyCode Inventory;
     public KeyCode Run;
     public KeyCode Click;
     public KeyCode Escape;
+
+    public KeyCode InteractControl;
+    public KeyCode WorkControl;
+    public KeyCode RadialMenuControl;
+    public KeyCode InventoryControl;
+    public KeyCode RunControl;
+    public KeyCode ClickControl;
+    public KeyCode EscapeControl;
 
     private int activeTool = 0;
     private int oldActive = 0;
@@ -45,7 +53,16 @@ public class InputManager : MonoBehaviour
     }
     private void Start()
     {
-        if(Application.isEditor)
+        InteractControl = KeyCode.JoystickButton1;
+        WorkControl = KeyCode.JoystickButton7;
+        RadialMenuControl = KeyCode.JoystickButton6;
+        InventoryControl = KeyCode.JoystickButton3;
+        RunControl = KeyCode.JoystickButton10;
+        ClickControl = KeyCode.JoystickButton7;
+        EscapeControl = KeyCode.JoystickButton2;
+
+
+        if (Application.isEditor)
         {
             Escape = KeyCode.F1;
         }
@@ -53,6 +70,7 @@ public class InputManager : MonoBehaviour
         {
             Escape = KeyCode.Escape;
         }
+        
         UpdateStates();
         tools = new GameObject[toolsFolder.childCount];
         for (int i = 0; i < toolsFolder.childCount; i++)
@@ -70,12 +88,12 @@ public class InputManager : MonoBehaviour
             case States.Idle:
                 if (Input.anyKeyDown || scroll != 0)
                 {
-                    if (Input.GetKeyDown(RadialMenu))
+                    if (Input.GetKeyDown(RadialMenu) || Input.GetKeyDown(RadialMenuControl))
                     {
                         ChangeState(States.SelectingSeed);
                         RadialMenuController.instance.Open();
                     }
-                    if (Input.GetKeyDown(Inventory))
+                    if (Input.GetKeyDown(Inventory) || Input.GetKeyDown(InventoryControl))
                     {
                         InventoryController.Instance.OpenMenu();
                     }
@@ -87,7 +105,7 @@ public class InputManager : MonoBehaviour
             case States.SelectingSeed:
                 if ((Input.anyKeyDown || scroll != 0))
                 {
-                    if (Input.GetKeyDown(RadialMenu))
+                    if (Input.GetKeyDown(RadialMenu) || Input.GetKeyDown(RadialMenuControl))
                     {
                         ChangeState(States.Idle);
                         RadialMenuController.instance.Close();
@@ -97,7 +115,7 @@ public class InputManager : MonoBehaviour
                     
                 break;
             case States.OnUI:
-                if (Input.GetKeyDown(Inventory) && InventoryController.Instance.inventoryOpen)
+                if ((Input.GetKeyDown(Inventory) || Input.GetKeyDown(InventoryControl)) && InventoryController.Instance.inventoryOpen)
                 {
                     InventoryController.Instance.CloseMenu();
                 }

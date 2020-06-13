@@ -96,7 +96,7 @@ public class QuestController : MonoBehaviour
     {
         if (playerIn)
         {
-            if (Input.GetKeyDown(InputManager.instance.Interact))
+            if (Input.GetKeyDown(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl))
             {
                 UpdatePanels();
                 InventoryController.Instance.OpenMenu();

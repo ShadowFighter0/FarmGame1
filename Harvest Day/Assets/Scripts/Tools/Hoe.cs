@@ -30,7 +30,7 @@ public class Hoe : MonoBehaviour
         }
         if (InputManager.instance.playerAnim != null)
         {
-            if (Input.GetKeyDown(InputManager.instance.Click))
+            if (Input.GetKeyDown(InputManager.instance.Click) || Input.GetKeyDown(InputManager.instance.ClickControl))
             {
                 if (InputManager.state == InputManager.States.Idle && go.CompareTag("Ground"))
                 {

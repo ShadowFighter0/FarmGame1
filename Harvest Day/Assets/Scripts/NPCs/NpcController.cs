@@ -31,11 +31,11 @@ public class NpcController : MonoBehaviour
 
             if (playerNear && can)
             {
-                if (Input.GetKeyDown(InputManager.instance.Interact) && !talkStarted)
+                if ( (Input.GetKeyDown(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl)) && !talkStarted)
                 {
                     StartDialogue();
                 }
-                else if (Input.GetKeyDown(InputManager.instance.Escape))
+                else if (Input.GetKeyDown(InputManager.instance.Escape) || Input.GetKeyDown(InputManager.instance.RunControl) || Input.GetKeyDown(InputManager.instance.EscapeControl))
                 {
                     EndDialogue();
                 }
@@ -54,6 +54,7 @@ public class NpcController : MonoBehaviour
     /// </summary>
     private void Interact()
     {
+        //TODO a saber
         for (int i = 0; i < keyCodes.Length; i++)
         {
             if (Input.GetKeyDown(keyCodes[i]))

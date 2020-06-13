@@ -115,7 +115,7 @@ public class SeedPlanter : MonoBehaviour
 
                 indicatorScript.ChangePosition(go.transform.position);
 
-                if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[Index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
+                if ((Input.GetKeyDown(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl)) && InventoryController.Instance.GetAmount(currentSeeds[Index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
                 {
                     if (go.transform.childCount < 1)
                     {

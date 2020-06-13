@@ -119,11 +119,11 @@ public class MovementController : MonoBehaviour
 
     private void ChangeSpeed()
     {
-        if (Input.GetKeyDown(InputManager.instance.Run))
+        if (Input.GetKeyDown(InputManager.instance.Run) || Input.GetKeyDown(InputManager.instance.RunControl))
         {
             maxSpeed = runSpeed;
         }
-        if (Input.GetKeyUp(InputManager.instance.Run))
+        if (Input.GetKeyUp(InputManager.instance.Run) || Input.GetKeyDown(InputManager.instance.RunControl))
         {
             maxSpeed = walkSpeed;
         }

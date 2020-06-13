@@ -73,13 +73,13 @@ public class MailBoxController : MonoBehaviour
 
             if (playerNear)
             {
-                if (Input.GetKeyDown(InputManager.instance.Interact) && done)
+                if ((Input.GetKeyDown(InputManager.instance.Interact) || Input.GetKeyDown(InputManager.instance.InteractControl)) && done)
                 {
                     mailsPanel.SetActive(true);
                     InputManager.instance.ChangeState(InputManager.States.OnUI);
                     done = false;
                 }
-                if ((Input.GetKeyDown(InputManager.instance.Escape) || activePanels.Count == 0) && !done)
+                if ((Input.GetKeyDown(InputManager.instance.Escape) || Input.GetKeyDown(InputManager.instance.EscapeControl) || activePanels.Count == 0) && !done)
                 {
                     AudioManager.PlaySoundWithVariation(open);
                     Close();
