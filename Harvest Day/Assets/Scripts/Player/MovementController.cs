@@ -26,12 +26,12 @@ public class MovementController : MonoBehaviour
     public bool canMove = true;
     public Transform cam;
 
-    public float turnSmoothTime = 0.2f;
+    public float turnSmoothTime = 0.5f;
     private float turnSmoothVelocity;
 
     private void Start()
     {
-        maxSpeed = walkSpeed;
+        maxSpeed = runSpeed;
         controller = GetComponent<CharacterController>();
         jumping = false;
         gravity = 0;
