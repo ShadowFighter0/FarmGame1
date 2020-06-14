@@ -46,6 +46,13 @@ public class PlayerFollow : MonoBehaviour
         }
         cam = transform.GetChild(0);
         idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
+        
+    }
+
+    public void ResetPosition()
+    {
+        transform.localPosition = new Vector3(0.3f, 1.1f, 0);
+        transform.localEulerAngles = new Vector3(20f, 0, 0);
     }
 
     void Update()
@@ -60,7 +67,7 @@ public class PlayerFollow : MonoBehaviour
             }
             else if (canMove)
             {
-                Rotation(dt);
+                
             }
             CameraUpdater(dt);
         }
@@ -79,23 +86,13 @@ public class PlayerFollow : MonoBehaviour
 
     private void Rotation(float dt)
     {
-        Quaternion localRotation;
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-
-        float sensivility = GameManager.instance.MouseSensivility;
-        rotation.y += mouseX * sensivility * dt;
-        rotation.x -= mouseY * sensivility * dt;
-
-        rotation.x = Mathf.Clamp(rotation.x, -clampAngle, clampAngle);
-        localRotation = Quaternion.Euler(rotation);
-        transform.rotation = localRotation;
+        
     }
 
     void CameraUpdater(float dt)
     {
         Vector3 pos = SmoothFollow(dt);
-        transform.position = pos;
+        //transform.position = pos;
     }
 
     public void SetRotation(Vector3 v)
@@ -115,7 +112,7 @@ public class PlayerFollow : MonoBehaviour
         }
         else 
         {
-            idealPos = player.position + cam.right * 0.3f + player.up * 1.1f;
+            ResetPosition();
         }
 
         Vector3 offset = idealPos - pos;
