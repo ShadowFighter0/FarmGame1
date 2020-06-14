@@ -118,8 +118,6 @@ public class InputManager : MonoBehaviour
         switch (state)
         {
             case States.Idle:
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
                 MovementController.instance.SetMovement(true);
                 PlayerFollow.instance.SetMovement(true);
                 break;
@@ -127,8 +125,6 @@ public class InputManager : MonoBehaviour
                 MovementController.instance.SetMovement(false);
                 break;
             case States.SelectingSeed:
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
                 PlayerFollow.instance.SetMovement(false);
                 break;
             case States.OnUI:
@@ -149,8 +145,6 @@ public class InputManager : MonoBehaviour
 
     private static void ShowCursorBlockMovement()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         MovementController.instance.SetMovement(false);
         PlayerFollow.instance.SetMovement(false);
     }
