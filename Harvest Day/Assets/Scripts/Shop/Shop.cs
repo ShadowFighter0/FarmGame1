@@ -106,14 +106,21 @@ public class Shop : MonoBehaviour
         {
             playerNear = true;
             outline.ShowOutline();
+
+            InteractButton.Instance.gameObject.SetActive(true);
+            InteractButton.Instance.Shop(this);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerNear = false;
             outline.HideOutline();
+
+            InteractButton.Instance.Shop(this);
+            InteractButton.Instance.gameObject.SetActive(false);
         }
     }
 }

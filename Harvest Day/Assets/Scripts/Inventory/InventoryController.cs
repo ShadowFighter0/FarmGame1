@@ -575,6 +575,18 @@ public class InventoryController : MonoBehaviour
         QuestController.Instance.UpdatePanels();
     }
 
+    public void OpenCloseMenu()
+    {
+        if (!book.activeInHierarchy)
+        {
+            OpenMenu();
+        }
+        else
+        {
+            CloseMenu();
+        }
+    }
+
     /// <summary>
     /// Please Check first the amount
     /// </summary>

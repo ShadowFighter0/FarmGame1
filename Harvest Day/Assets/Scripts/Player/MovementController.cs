@@ -70,10 +70,9 @@ public class MovementController : MonoBehaviour
             }
         }
 
-        ChangeSpeed();
         Jump(dt);
 
-        currentSpeed += GetOffset(dt, moveInputs.magnitude, maxSpeed, currentSpeed, accel);
+        currentSpeed += GetOffset(dt, moveInputs.y, maxSpeed, currentSpeed, accel);
         InputManager.instance.playerAnim.SetFloat("Vel", currentSpeed);
 
         Vector3 newPos = (transform.forward * currentSpeed + transform.up * gravity);
@@ -131,8 +130,7 @@ public class MovementController : MonoBehaviour
 
     private void Rotation(Vector2 moveInputs)
     {
-        float targetRotation = Mathf.Atan2(moveInputs.x, moveInputs.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
-        transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, turnSmoothTime);
+        transform.Rotate(Vector3.up * moveInputs.x * turnSmoothTime * Time.deltaTime);
     }
 
     private float GetOffset(float dt, float input, float max, float currentSpeed, float accel)

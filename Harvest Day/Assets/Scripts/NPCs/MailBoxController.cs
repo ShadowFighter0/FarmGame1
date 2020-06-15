@@ -7,13 +7,13 @@ public class MailBoxController : MonoBehaviour
 {
     private bool playerNear;
     public Transform mailFolder;
-    private GameObject mailsPanel;
+    public GameObject mailsPanel;
     public int offset = 70;
 
     private Mail[] mails;
     public QuestTemplate[] quests;
 
-    private bool done = true;
+    public bool done = true;
 
     private float timer;
     public float time;
@@ -170,6 +170,9 @@ public class MailBoxController : MonoBehaviour
         {
             playerNear = true;
             outline.ShowOutline();
+
+            InteractButton.Instance.mail = true;
+            InteractButton.Instance.gameObject.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -178,6 +181,9 @@ public class MailBoxController : MonoBehaviour
         {
             playerNear = false;
             outline.HideOutline();
+
+            InteractButton.Instance.mail = false;
+            InteractButton.Instance.gameObject.SetActive(false);
         }
     }
 }

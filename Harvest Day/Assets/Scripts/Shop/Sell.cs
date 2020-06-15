@@ -350,6 +350,8 @@ public class Sell : MonoBehaviour
         {
             playerNear = true;
             outline.ShowOutline();
+            InteractButton.Instance.sell = true;
+            InteractButton.Instance.gameObject.SetActive(true);
         }  
     }
 
@@ -359,6 +361,9 @@ public class Sell : MonoBehaviour
         {
             playerNear = false;
             outline.HideOutline();
+
+            InteractButton.Instance.sell = false;
+            InteractButton.Instance.gameObject.SetActive(false);
         }
             
     }

@@ -265,6 +265,8 @@ public class QuestController : MonoBehaviour
         {
             outline.ShowOutline();
             playerIn = true;
+            InteractButton.Instance.questController = true;
+            InteractButton.Instance.gameObject.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -273,6 +275,8 @@ public class QuestController : MonoBehaviour
         {
             outline.HideOutline();
             playerIn = false;
+            InteractButton.Instance.questController = false;
+            InteractButton.Instance.gameObject.SetActive(false);
         }
     }
     #endregion

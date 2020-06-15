@@ -41,7 +41,7 @@ public class WorkShopController : MonoBehaviour
 
     public GameObject UIMenu;
 
-    private bool finished = true;
+    public bool finished = true;
     private bool tutorialDone = false;
 
     private OutlineController outline;
@@ -49,6 +49,7 @@ public class WorkShopController : MonoBehaviour
     public GameObject controlsText;
     public GameObject orchard;
     private AudioClip itemPurchased;
+
     private void Start()
     {
         GameEvents.OnSaveInitiated += SaveItems;
@@ -205,7 +206,7 @@ public class WorkShopController : MonoBehaviour
         InputManager.instance.ChangeState(InputManager.States.Idle);
     }
 
-    private void DisableCamera()
+    public void DisableCamera()
     {
         UIMenu.SetActive(true);
         menu.SetActive(false);
@@ -236,7 +237,7 @@ public class WorkShopController : MonoBehaviour
             ChangeItemsState(true);
         }
     }
-    private void ChangeItemsState(bool b)
+    public void ChangeItemsState(bool b)
     {
         for (int i = 0; i < unlockableItems.Count; i++)
         {
@@ -345,6 +346,8 @@ public class WorkShopController : MonoBehaviour
         {
             playerIn = true;
             outline.ShowOutline();
+            InteractButton.Instance.Workshop(this);
+            InteractButton.Instance.gameObject.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -353,6 +356,9 @@ public class WorkShopController : MonoBehaviour
         {
             playerIn = false;
             outline.HideOutline();
+
+            InteractButton.Instance.Workshop(this);
+            InteractButton.Instance.gameObject.SetActive(false);
         }
     }
     #endregion

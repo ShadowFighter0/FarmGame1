@@ -63,7 +63,7 @@ public class NpcController : MonoBehaviour
         }
     }
 
-    private void StartDialogue()
+    public void StartDialogue()
     {
         UpdateCamPositionAndState();
         SetIniDialogues();
@@ -252,6 +252,8 @@ public class NpcController : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             playerNear = true;
+            InteractButton.Instance.Npc(this);
+            InteractButton.Instance.gameObject.SetActive(true);
         }
     }
 
@@ -260,6 +262,8 @@ public class NpcController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNear = false;
+            InteractButton.Instance.Npc(this);
+            InteractButton.Instance.gameObject.SetActive(false);
         }
     }
 }
