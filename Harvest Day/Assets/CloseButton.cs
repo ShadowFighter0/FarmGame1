@@ -9,6 +9,9 @@ public class CloseButton : MonoBehaviour
         if (ShopManager.Instance.onShop)
         {
             ShopManager.Instance.CloseShop();
+            InteractButton.Instance.pauseButton.SetActive(true);
+            InteractButton.Instance.waterButton.SetActive(true);
+            InteractButton.Instance.digButton.SetActive(true);
         }
         else if (Sell.Instance.playerNear && Sell.Instance.onShopView)
         {

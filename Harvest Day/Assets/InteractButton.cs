@@ -19,6 +19,15 @@ public class InteractButton : MonoBehaviour
 
     public bool mail;
 
+    public GameObject pauseButton;
+    public GameObject waterButton;
+    public GameObject digButton;
+
+    public bool hoe;
+    Hoe hoeController;
+    public bool water;
+    WateringCan waterController;
+
     public static InteractButton Instance;
 
     private void Awake()
@@ -32,7 +41,10 @@ public class InteractButton : MonoBehaviour
         if(shop)
         {
             ShopManager.Instance.OpenShop(currentShop);
-            
+            pauseButton.SetActive(false);
+            waterButton.SetActive(false);
+            digButton.SetActive(false);
+
         }
         else if (sell)
         {
@@ -59,6 +71,14 @@ public class InteractButton : MonoBehaviour
             MailBoxController.instance.mailsPanel.SetActive(true);
             InputManager.instance.ChangeState(InputManager.States.OnUI);
             MailBoxController.instance.done = false;
+        }
+        else if (hoe)
+        {
+            hoeController.Function();
+        }
+        else if (water)
+        {
+            InputManager.instance.playerAnim.SetTrigger("MultiWatering");
         }
 
         gameObject.SetActive(false);
@@ -100,6 +120,32 @@ public class InteractButton : MonoBehaviour
         else
         {
             workshop = true;
+        }
+    }
+
+    public void Hoe (Hoe h)
+    {
+        hoeController = h;
+        if (hoe)
+        {
+            hoe = false;
+        }
+        else
+        {
+            hoe = true;
+        }
+    }
+
+    public void Water(WateringCan w)
+    {
+        waterController = w;
+        if (water)
+        {
+            water = false;
+        }
+        else
+        {
+            water = true;
         }
     }
 }

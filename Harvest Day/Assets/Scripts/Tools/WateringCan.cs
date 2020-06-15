@@ -58,5 +58,12 @@ public class WateringCan : MonoBehaviour
     private void OnEnable()
     {
         waterParticles.Stop();
+        InteractButton.Instance.gameObject.SetActive(true);
+        InteractButton.Instance.Water(this);
+    }
+    private void OnDisable()
+    {
+        InteractButton.Instance.Water(this);
+        InteractButton.Instance.gameObject.SetActive(false);
     }
 }

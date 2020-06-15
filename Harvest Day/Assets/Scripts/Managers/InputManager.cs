@@ -213,4 +213,24 @@ public class InputManager : MonoBehaviour
             }
         }
     }
+    public void ChangeToTool(int opt)
+    {
+        if (canChangeTool)
+        {
+            oldActive = activeTool;
+            activeTool = opt;
+
+            if (oldActive == activeTool)
+            {
+                //unequip aniamtion
+                playerAnim.SetTrigger("Unnequip");
+            }
+
+            if (oldActive != activeTool)
+            {
+                //equip animation
+                playerAnim.SetTrigger("ChangeTool");
+            }
+        }
+    }
 }

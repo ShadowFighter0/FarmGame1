@@ -15,17 +15,27 @@ public class Hoe : MonoBehaviour
     }
     void Update()
     {
+        Function();
+    }
+
+    public void Function()
+    {
         GameObject go = RayCastController.instance.GetTarget();
-        if(go != null)
+        if (go != null)
         {
-            if(go.CompareTag("Ground") || go.CompareTag("Hole"))
+            if (go.CompareTag("Ground") || go.CompareTag("Hole"))
             {
                 SetColor(go);
                 indicator.SetActive(true);
+                InteractButton.Instance.gameObject.SetActive(true);
+
+                InteractButton.Instance.Hoe(this);
             }
-            else if(indicator.activeSelf)
+            else if (indicator.activeSelf)
             {
                 indicator.SetActive(false);
+                InteractButton.Instance.Hoe(this);
+                InteractButton.Instance.gameObject.SetActive(false);
             }
         }
         if (InputManager.instance.playerAnim != null)
