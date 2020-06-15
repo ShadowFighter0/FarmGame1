@@ -80,8 +80,12 @@ public class InteractButton : MonoBehaviour
         {
             InputManager.instance.playerAnim.SetTrigger("MultiWatering");
         }
-
-        gameObject.SetActive(false);
+        
+        if(!water)
+        {
+            gameObject.SetActive(false);
+        }
+        
     }
 
     public void Shop(Shop s)
@@ -126,6 +130,7 @@ public class InteractButton : MonoBehaviour
     public void Hoe (Hoe h)
     {
         hoeController = h;
+
         if (hoe)
         {
             hoe = false;
@@ -136,9 +141,10 @@ public class InteractButton : MonoBehaviour
         }
     }
 
-    public void Water(WateringCan w)
+    public void Water (WateringCan w)
     {
         waterController = w;
+
         if (water)
         {
             water = false;

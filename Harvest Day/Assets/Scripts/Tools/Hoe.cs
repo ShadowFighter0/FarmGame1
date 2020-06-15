@@ -13,6 +13,7 @@ public class Hoe : MonoBehaviour
         indicator = Instantiate(indicatorPrefab);
         holeManager = FindObjectOfType<HoleManager>().gameObject;
     }
+
     void Update()
     {
         Function();
@@ -27,13 +28,14 @@ public class Hoe : MonoBehaviour
             {
                 SetColor(go);
                 indicator.SetActive(true);
-                InteractButton.Instance.gameObject.SetActive(true);
 
+                InteractButton.Instance.gameObject.SetActive(true);
                 InteractButton.Instance.Hoe(this);
             }
             else if (indicator.activeSelf)
             {
                 indicator.SetActive(false);
+
                 InteractButton.Instance.Hoe(this);
                 InteractButton.Instance.gameObject.SetActive(false);
             }
@@ -57,6 +59,7 @@ public class Hoe : MonoBehaviour
             indicator.SetActive(true);
         }
     }
+
     private void OnDisable()
     {
         if (indicator != null)
@@ -64,12 +67,14 @@ public class Hoe : MonoBehaviour
             indicator.SetActive(false);
         }
     }
+
     public void CreateHole()
     {
         Vector3 pos = indicator.transform.position;
         GameObject hole = ObjectPooler.Instance.SpawnFromPool("Holes", pos, Quaternion.identity);
         hole.transform.SetParent(holeManager.transform);
     }
+
     private void SetColor(GameObject go)
     {
         MeshRenderer m = indicator.GetComponentInChildren<MeshRenderer>();

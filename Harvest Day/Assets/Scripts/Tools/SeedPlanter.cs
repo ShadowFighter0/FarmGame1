@@ -10,6 +10,8 @@ public class SeedPlanter : MonoBehaviour
     public GameObject indicator;
     private SeedsIndicator indicatorScript;
 
+    public bool actionByButton = false;
+
     private int index = 0;
 
     public int Index
@@ -107,15 +109,19 @@ public class SeedPlanter : MonoBehaviour
                 if (!go.GetComponent<HoleController>().HasPlant())
                 {
                     indicator.gameObject.SetActive(true);
+                    PlantButton.Instance.gameObject.SetActive(true);
+                    PlantButton.Instance.plant = true;
                 }
                 else if (indicator.activeSelf)
                 {
                     indicator.gameObject.SetActive(false);
+                    PlantButton.Instance.gameObject.SetActive(false);
+                    PlantButton.Instance.plant = false;
                 }
 
                 indicatorScript.ChangePosition(go.transform.position);
 
-                if (Input.GetKeyDown(InputManager.instance.Interact) && InventoryController.Instance.GetAmount(currentSeeds[Index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
+                if ((Input.GetKeyDown(InputManager.instance.Interact) || actionByButton) && InventoryController.Instance.GetAmount(currentSeeds[Index].itemName) > 0 && InputManager.state == InputManager.States.Idle)
                 {
                     if (go.transform.childCount < 1)
                     {
@@ -123,6 +129,7 @@ public class SeedPlanter : MonoBehaviour
                         StartCoroutine(AnimDelay(go));
                     }
                 }
+                actionByButton = false;
             }
             else if (indicator.activeSelf)
             {
@@ -130,6 +137,8 @@ public class SeedPlanter : MonoBehaviour
             }
         }
     }
+
+
     IEnumerator AnimDelay(GameObject go)
     {
         yield return new WaitForSeconds(0.3f);

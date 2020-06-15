@@ -44,7 +44,6 @@ public class MailBoxController : MonoBehaviour
     {
         mailReceived = DataBase.GetAudioClip("MailNotification");
         mailsPanel = mailFolder.parent.gameObject;
-        Debug.Log(quests.Length);
         
         if(SaveLoad.SaveExists("Mails"))
         {
