@@ -308,8 +308,8 @@ public class WorkShopController : MonoBehaviour
     private void Movement(float dt)
     {
         Vector3 input;
-        input.x = -Input.GetAxis("Horizontal");
-        input.z = -Input.GetAxis("Vertical");
+        input.x = -SimpleInput.GetAxis("Horizontal");
+        input.z = -SimpleInput.GetAxis("Vertical");
         input.y = 0;
 
         int scroll = (int)Input.mouseScrollDelta.y;
